@@ -16,6 +16,8 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @FxmlView("/createAccount.fxml")
 public class CreateAccountController {
@@ -87,7 +89,7 @@ public class CreateAccountController {
     }
 
     /**
-     * saves new user. YOU FORGOT THE IDs DUMMYYYYYYYY FIXITFIXITFIXIT
+     * saves new user.
      */
     public void createUser(){
 

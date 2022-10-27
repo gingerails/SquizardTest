@@ -64,10 +64,7 @@ public class LoginController{
     @FXML
     public void initialize () {
         this.createAccountLink.setOnAction(actionEvent -> {
-
-            System.out.print("Create Account Link clicked");
-
-            // takes the current stage, sets the scene w the create account control/view (fxweaver), then shows stage
+            // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
             Stage currentStage = getCurrentStage();
             FxControllerAndView<CreateAccountController, VBox> createAccountControllerAndView =
                     fxWeaver.load(CreateAccountController.class);
@@ -82,13 +79,13 @@ public class LoginController{
 
     /**
      * duplicated in all controllers (so lets make an interface or controllerfactory or something idk)
-     * @return
      */
     public Stage getCurrentStage() {
         Node node = button.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
+
 
     public void show(Stage thisStage) {
         this.stage = thisStage;
@@ -112,9 +109,9 @@ public class LoginController{
         {
             System.out.println("Found User!");
             Stage currentStage = getCurrentStage();
-            FxControllerAndView<CreateAccountController, VBox> createAccountControllerAndView =
-                    fxWeaver.load(CreateAccountController.class);
-            createAccountControllerAndView.getController().show(currentStage);
+            FxControllerAndView<SimpleController, VBox> mainMenuControllerAndView =
+                    fxWeaver.load(SimpleController.class);
+            mainMenuControllerAndView.getController().show(currentStage);
         }
         else{
             System.out.println("Error: UserName/Password is incorrect! Try Again!");

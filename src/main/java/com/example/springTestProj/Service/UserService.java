@@ -22,12 +22,6 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
-//    public UserRepository userRepository;
-
-//    public UserService(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
-
 
     public void saveUserToRepository(User user){
         userRepository.save(user);
@@ -36,7 +30,7 @@ public class UserService {
     }
 
     public User createUser(String username, String password){
-        String userID = String.valueOf(UUID.randomUUID());
+        String userID = String.valueOf(UUID.randomUUID());  // probably dont do this maybe
         User newUser = new User(userID, username, password);
 
         return newUser;
@@ -73,23 +67,5 @@ public class UserService {
             return "User does not exist";
         }
     }
-
-    //    @Transactional
-//    public String createUser(User user){
-//        try {
-//            if (!userRepository.existsByUserID(user.getUserID())){
-//                user.setUserID(user.getUserID());
-//                user.setUsername(user.getUsername());
-//                user.setPassword(user.getPassword());
-//                userRepository.save(user);
-//                return "User record created successfully.";
-//            }else {
-//                return "User ID taken";
-//            }
-//        }catch (Exception e){
-//            throw e;
-//        }
-//    }
-
 
 }

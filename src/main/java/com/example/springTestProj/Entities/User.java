@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "UserID", updatable = false, nullable = false)
+   // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
+    @Column(name = "UserID")
     private String userID;
     @Column(name = "Username")
     private String username;
