@@ -3,9 +3,7 @@ package com.example.springTestProj.Controller;
 import com.example.springTestProj.Entities.User;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -14,27 +12,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 @Component
 @FxmlView("/createAccount.fxml")
 public class CreateAccountController {
-
-//    @Autowired
-//    UserService userService;
-//    public UserService userService;
-  //  public UserService userService = new UserService();
-
     private final UserService userService;
+    private final FxWeaver fxWeaver;
+
     private Stage stage;
-
-    private Scene scene;
-
-    private final FxControllerAndView<LoginController, VBox> loginControllerAndView;
 
     @FXML
     public Label label;
@@ -55,62 +43,35 @@ public class CreateAccountController {
     public Hyperlink existingAccountLink;
 
     @FXML
-    VBox test;
+    VBox createAccountVbox;  // fx:id !!!!!
 
-//    public CreateAccountController(UserService userService) {
-//        this.userService = userService;
-//    }
 
-    public CreateAccountController(UserService userService,  FxControllerAndView<LoginController, VBox> loginControllerAndView) {
-        System.out.println("**********");
+    public CreateAccountController(UserService userService, FxWeaver fxWeaver) {
         System.out.println("Create Account Controller");
+        this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.loginControllerAndView = loginControllerAndView;
     }
 
     @FXML
     public void initialize () {
-
-        //button.getScene().getWindow();
-        System.out.println("Initialized Create Account Controller");
         this.existingAccountLink.setOnAction(actionEvent -> {
             System.out.print("Link clicked");
-//            try {
-//                changeScene("/login.fxml");
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-            //    verify();
+            Stage currentStage = getCurrentStage();
+            FxControllerAndView<LoginController, VBox> loginControllerAndView =
+                    fxWeaver.load(LoginController.class);
+            loginControllerAndView.getController().show(getCurrentStage());
         });
+
         this.button.setOnAction(actionEvent -> {
             System.out.println("CReating User");
             createUser();
-         //   verify();
         });
     }
 
     public void show(Stage thisStage) {
-       // Parent root = FXMLLoader.load(getClass().getResource(fxml));
         this.stage = thisStage;
-        stage.setScene(new Scene(test));
-        //  System.out.println();
+        stage.setScene(new Scene(createAccountVbox));
         System.out.println("SHOW Create Account Controller");
-      //  this.stage = (Stage) node.getScene().getWindow();
-
-      //  this.scene = new Scene(node);
-
-        stage.show();
-    }
-
-
-    public void changeScene(Node node) {
-        //  System.out.println();
-        System.out.println("SHOW Create Account Controller");
-        this.stage = (Stage) node.getScene().getWindow();  // current stage
-
-
-       //   this.scene = new Scene(node);
-
         stage.show();
     }
 

@@ -26,6 +26,7 @@ import java.io.IOException;
 public class LoginController{
     private final UserService userService;
     private final FxWeaver fxWeaver;
+    private Stage stage;
 
     @FXML
     public Label label;
@@ -44,8 +45,9 @@ public class LoginController{
 
     @FXML
     public Hyperlink createAccountLink;
-    private Stage stage;
 
+    @FXML
+    VBox loginVbox;  // fx:id !!!!!
 
     public LoginController(UserService userService,
                            FxWeaver fxWeaver) {//
@@ -61,8 +63,6 @@ public class LoginController{
      */
     @FXML
     public void initialize () {
-        System.out.println("Initialized Login Controller");
-
         this.createAccountLink.setOnAction(actionEvent -> {
 
             System.out.print("Create Account Link clicked");
@@ -89,6 +89,14 @@ public class LoginController{
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
+
+    public void show(Stage thisStage) {
+        this.stage = thisStage;
+        stage.setScene(new Scene(loginVbox));
+        System.out.println("Showing login screen");
+        stage.show();
+    }
+
 
     /**
      *
