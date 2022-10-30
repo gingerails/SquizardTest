@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<!--<?import javafx.scene.web.HTMLEditor?>-->
+
+<AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
+   <children>
+      <SplitPane dividerPositions="0.49394184168012917" layoutX="112.0" layoutY="284.0" prefHeight="727.0" prefWidth="992.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="726.0" prefWidth="403.0">
+               <children>
+                  <Button fx:id="add" layoutX="460.0" layoutY="32.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="3.199999999999978">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <ComboBox fx:id="questionType" layoutX="302.0" layoutY="31.0" prefWidth="150.0" promptText="Question Type" visibleRowCount="4" AnchorPane.rightAnchor="33.99999999999997" />  
+                  <TextArea editable="false" layoutX="-6.0" layoutY="55.0" prefHeight="674.0" prefWidth="498.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="55.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="314.0">
+<!--               <children>-->
+<!--                  <HTMLEditor htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" layoutX="217.0" layoutY="27.0" prefHeight="699.0" prefWidth="476.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0" />-->
+<!--               </children>-->
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="986.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>

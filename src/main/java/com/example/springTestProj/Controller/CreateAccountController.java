@@ -58,10 +58,12 @@ public class CreateAccountController {
     public void initialize () {
         this.existingAccountLink.setOnAction(actionEvent -> {
             System.out.print("Link clicked");
+
             Stage currentStage = getCurrentStage();
             FxControllerAndView<LoginController, VBox> loginControllerAndView =
                     fxWeaver.load(LoginController.class);
             loginControllerAndView.getController().show(getCurrentStage());
+
         });
 
         this.button.setOnAction(actionEvent -> {
