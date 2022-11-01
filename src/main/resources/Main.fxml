@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox  fx:id="mainVbox" prefHeight="736.0" prefWidth="1548.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.MainController">
+<VBox  fx:id="mainVbox" prefHeight="736.0" prefWidth="1548.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.SimpleController">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="710.0" prefWidth="1226.0" VBox.vgrow="ALWAYS">
             <children>
@@ -24,7 +24,7 @@
                 <Label layoutX="1363.0" layoutY="10.0" text="Class:" AnchorPane.rightAnchor="155.4" />
                 <ComboBox layoutX="1399.0" layoutY="36.0" prefHeight="26.0" prefWidth="96.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="36.0" />
                 <Label layoutX="1351.0" layoutY="40.0" text="Section:" AnchorPane.rightAnchor="155.4" />
-                <Button layoutX="1502.0" layoutY="5.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="21.200000000000045" />
+                <Button fx:id="button" layoutX="1502.0" layoutY="5.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="21.200000000000045" />
                 <Button layoutX="1502.0" layoutY="36.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="21.200000000000045" />
                 <Button layoutX="177.0" layoutY="26.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
                     <font>
