@@ -9,9 +9,12 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
 <!--<?import javafx.scene.web.HTMLEditor?>-->
 
-<AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
+<VBox fx:id="mainVbox" prefHeight="307.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
+    <children>
+<AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.49394184168012917" layoutX="112.0" layoutY="284.0" prefHeight="727.0" prefWidth="992.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -54,3 +57,5 @@
       </MenuBar>
    </children>
 </AnchorPane>
+</children>
+</VBox>

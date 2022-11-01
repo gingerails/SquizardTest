@@ -5,30 +5,34 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.McQuestionController">
+<?import javafx.scene.layout.VBox?>
+<VBox fx:id="fillInBlankBox" prefHeight="307.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
    <children>
-      <Label layoutX="258.0" layoutY="5.0" text="Fill in Blank">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Button fx:id="add" layoutX="555.0" layoutY="453.0" mnemonicParsing="false" text="Add" />
-      <TextField layoutX="66.0" layoutY="30.0" prefHeight="26.0" prefWidth="529.0" />
-      <Label layoutX="7.0" layoutY="34.0" text="Question:" AnchorPane.leftAnchor="7.0" />
-      <Button layoutX="66.0" layoutY="56.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
-      <Label layoutX="174.0" layoutY="61.0" prefHeight="18.0" prefWidth="142.0" />
-      <Label layoutX="15.0" layoutY="240.0" text="Answer:" AnchorPane.leftAnchor="7.0" />
-      <TextField layoutX="66.0" layoutY="236.0" prefHeight="26.0" prefWidth="529.0" />
-      <Button layoutX="66.0" layoutY="262.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
-      <Label layoutX="9.0" layoutY="299.0" text="Sections:" AnchorPane.leftAnchor="7.0" />
-      <TextField layoutX="64.0" layoutY="294.0" prefHeight="26.0" prefWidth="529.0" />
-      <Label layoutX="11.0" layoutY="337.0" text="Material:" AnchorPane.leftAnchor="7.0" />
-      <TextField layoutX="64.0" layoutY="333.0" prefHeight="26.0" prefWidth="529.0" />
-      <Label layoutX="5.0" layoutY="374.0" text="Comment:" AnchorPane.leftAnchor="7.0" />
-      <TextField layoutX="64.0" layoutY="370.0" prefHeight="26.0" prefWidth="529.0" />
-      <Label layoutX="4.0" layoutY="409.0" prefHeight="26.0" prefWidth="114.0" text="Grading Instructions:" AnchorPane.leftAnchor="7.0" />
-      <TextField layoutX="120.0" layoutY="409.0" prefHeight="26.0" prefWidth="474.0" />
-      <Label layoutX="174.0" layoutY="117.0" prefHeight="18.0" prefWidth="142.0" />
+   <AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateQuestionWindows.McQuestionController">
+      <children>
+         <Label layoutX="258.0" layoutY="5.0" text="Fill in Blank">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font>
+         </Label>
+         <Button fx:id="add" layoutX="555.0" layoutY="453.0" mnemonicParsing="false" text="Add" />
+         <TextField layoutX="66.0" layoutY="30.0" prefHeight="26.0" prefWidth="529.0" />
+         <Label layoutX="7.0" layoutY="34.0" text="Question:" AnchorPane.leftAnchor="7.0" />
+         <Button layoutX="66.0" layoutY="56.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
+         <Label layoutX="174.0" layoutY="61.0" prefHeight="18.0" prefWidth="142.0" />
+         <Label layoutX="15.0" layoutY="240.0" text="Answer:" AnchorPane.leftAnchor="7.0" />
+         <TextField layoutX="66.0" layoutY="236.0" prefHeight="26.0" prefWidth="529.0" />
+         <Button layoutX="66.0" layoutY="262.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
+         <Label layoutX="9.0" layoutY="299.0" text="Sections:" AnchorPane.leftAnchor="7.0" />
+         <TextField layoutX="64.0" layoutY="294.0" prefHeight="26.0" prefWidth="529.0" />
+         <Label layoutX="11.0" layoutY="337.0" text="Material:" AnchorPane.leftAnchor="7.0" />
+         <TextField layoutX="64.0" layoutY="333.0" prefHeight="26.0" prefWidth="529.0" />
+         <Label layoutX="5.0" layoutY="374.0" text="Comment:" AnchorPane.leftAnchor="7.0" />
+         <TextField layoutX="64.0" layoutY="370.0" prefHeight="26.0" prefWidth="529.0" />
+         <Label layoutX="4.0" layoutY="409.0" prefHeight="26.0" prefWidth="114.0" text="Grading Instructions:" AnchorPane.leftAnchor="7.0" />
+         <TextField layoutX="120.0" layoutY="409.0" prefHeight="26.0" prefWidth="474.0" />
+         <Label layoutX="174.0" layoutY="117.0" prefHeight="18.0" prefWidth="142.0" />
+      </children>
+   </AnchorPane>
    </children>
-</AnchorPane>
+</VBox>

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.springTestProj.Controller;
+package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -12,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
@@ -23,52 +23,52 @@ import org.springframework.stereotype.Component;
  * @author Orames
  */
 @Component
-@FxmlView("/createTest.fxml")
-public class CreateTestController implements ControlSwitchScreen {
+@FxmlView("/essayQuestion.fxml")
+public class EssayQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
     @FXML
-    private VBox mainVbox;
+    private VBox essayQuestionBox;
     @FXML
-    private Button createTest;
+    private Button add;
     
    
-    public CreateTestController(UserService userService, FxWeaver fxWeaver) {
-        System.out.println("Create Test Controller");
+    public EssayQuestionController(UserService userService, FxWeaver fxWeaver) {
+        System.out.println("essay Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
     
     public void initialize () {
-
-        this.createTest.setOnAction(actionEvent -> {
-            System.out.print("create button pressed");
-            loadTestMaker();
+        this.stage = new Stage();
+        stage.setTitle("Add Essay Question");
+        stage.setScene(new Scene(essayQuestionBox));
+        this.add.setOnAction(actionEvent -> {
+            System.out.print("Add question button pressed");
+            add();
         });
     }
 
     @Override
     public Stage getCurrentStage() {
-        Node node = createTest.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
+        Node node = add.getParent();
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
 
     @Override
     public void show(Stage thisStage) {
-        this.stage = thisStage;
-        stage.setScene(new Scene(mainVbox));
-        System.out.println("Showing create test screen");
+//        this.stage = thisStage;
+//        stage.setScene(new Scene(mainVbox));
+//        System.out.println("Showing essay question screen");
         stage.show();
         this.stage.centerOnScreen();
     }
 
-    public void loadTestMaker() {
-        Stage currentStage = getCurrentStage();
-        FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView
-                = fxWeaver.load(TestMakerController.class);
-        testMakerControllerAndView.getController().show(getCurrentStage());
+    public void add() {
+     // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
+            
     }
 }

@@ -16,11 +16,9 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 @FxmlView("/createAccount.fxml")
-public class CreateAccountController {
+public class CreateAccountController implements ControlSwitchScreen {
     private final UserService userService;
     private final FxWeaver fxWeaver;
 
@@ -58,12 +56,7 @@ public class CreateAccountController {
     public void initialize () {
         this.existingAccountLink.setOnAction(actionEvent -> {
             System.out.print("Link clicked");
-
-            Stage currentStage = getCurrentStage();
-            FxControllerAndView<LoginController, VBox> loginControllerAndView =
-                    fxWeaver.load(LoginController.class);
-            loginControllerAndView.getController().show(getCurrentStage());
-
+            loadLoginScreen();
         });
 
         this.button.setOnAction(actionEvent -> {
@@ -72,6 +65,8 @@ public class CreateAccountController {
         });
     }
 
+
+    @Override
     public void show(Stage thisStage) {
         this.stage = thisStage;
         stage.setScene(new Scene(createAccountVbox));
@@ -79,15 +74,18 @@ public class CreateAccountController {
         stage.show();
     }
 
-
-    /**
-     * duplicated in all controllers (so lets make an interface or controllerfactory or something idk)
-     * @return
-     */
+    @Override
     public Stage getCurrentStage() {
         Node node = button.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
+    }
+
+    public void loadLoginScreen() {
+        Stage currentStage = getCurrentStage();
+        FxControllerAndView<LoginController, VBox> loginControllerAndView =
+                fxWeaver.load(LoginController.class);
+        loginControllerAndView.getController().show(getCurrentStage());
     }
 
     /**

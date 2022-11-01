@@ -2,11 +2,8 @@ package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Service.UserService;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -16,14 +13,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import net.rgielen.fxweaver.core.FxmlView;
-import java.io.IOException;
 
 @Component
 @FxmlView("/login.fxml")
-public class LoginController{
+public class LoginController implements ControlSwitchScreen {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -77,16 +72,14 @@ public class LoginController{
         });
     }
 
-    /**
-     * duplicated in all controllers (so lets make an interface or controllerfactory or something idk)
-     */
+    @Override
     public Stage getCurrentStage() {
         Node node = button.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
 
-
+    @Override
     public void show(Stage thisStage) {
         this.stage = thisStage;
         stage.setScene(new Scene(loginVbox));
@@ -100,7 +93,6 @@ public class LoginController{
      * verify user exists. if so, switch scene to main menu.
      * probably need to put the scene switching stuff in its own method for the sake of SRP?
      */
-    // obviously not going to store sensitive info like this
     public void verify() {
         System.out.println("Verifying User...");
         String Username = usrField.getText();
@@ -109,8 +101,8 @@ public class LoginController{
         {
             System.out.println("Found User!");
             Stage currentStage = getCurrentStage();
-            FxControllerAndView<SimpleController, VBox> mainMenuControllerAndView =
-                    fxWeaver.load(SimpleController.class);
+            FxControllerAndView<MainController, VBox> mainMenuControllerAndView =
+                  fxWeaver.load(MainController.class);
             mainMenuControllerAndView.getController().show(currentStage);
         }
         else{
