@@ -5,10 +5,8 @@
  */
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -30,9 +28,9 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private VBox essayQuestionBox;
-    @FXML
     private Button add;
+    @FXML
+    private VBox essayQuestionBox;
     
    
     public EssayQuestionController(UserService userService, FxWeaver fxWeaver) {
@@ -40,23 +38,18 @@ public class EssayQuestionController implements ControlDialogBoxes {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
-    
+
+    @FXML
     public void initialize () {
         this.stage = new Stage();
         stage.setTitle("Add Essay Question");
         stage.setScene(new Scene(essayQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
-            add();
+        //    add();
         });
     }
 
-    @Override
-    public Stage getCurrentStage() {
-        Node node = add.getParent();
-        Stage currentStage = (Stage) node.getScene().getWindow();
-        return currentStage;
-    }
 
     @Override
     public void show(Stage thisStage) {
@@ -67,8 +60,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
-    public void add() {
-     // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
-            
-    }
+//    public void add() {
+//     // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
+//
+//    }
 }

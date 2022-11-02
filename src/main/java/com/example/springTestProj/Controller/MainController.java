@@ -40,7 +40,8 @@ public class MainController implements ControlSwitchScreen {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
-    
+
+    @FXML
     public void initialize () {
 
         this.addTest.setOnAction(actionEvent -> {

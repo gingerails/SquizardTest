@@ -6,10 +6,10 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.FibQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.McQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.TfQuestionController;
 import com.example.springTestProj.Service.UserService;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -21,6 +21,10 @@ import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FXML Controller class
@@ -46,7 +50,8 @@ public class TestMakerController implements ControlSwitchScreen {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
-    
+
+    @FXML
     public void initialize () {
 
          questionType.getItems().addAll(
@@ -85,9 +90,9 @@ public class TestMakerController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
+
     public void pickQuestion() throws IOException
     {
-        
         String qType = (String)questionType.getValue();
         System.out.println(qType);
         
@@ -95,8 +100,7 @@ public class TestMakerController implements ControlSwitchScreen {
         {
             System.out.println("essay");
             //changeScene("/essayQuestion.fxml");
-           
-            
+
             FxControllerAndView<EssayQuestionController, VBox> essayQuestionControllerAndView =
                     fxWeaver.load(EssayQuestionController.class);
             essayQuestionControllerAndView.getController().show(getCurrentStage());
@@ -104,22 +108,30 @@ public class TestMakerController implements ControlSwitchScreen {
          if("Multiple Choice".equals(qType)==true)
         {
             System.out.println("Multiple Choice");
-            //changeScene("/mcQuestion.fxml");
+            FxControllerAndView<McQuestionController, VBox> McQuestionControllerAndView =
+                    fxWeaver.load(McQuestionController.class);
+            McQuestionControllerAndView.getController().show(getCurrentStage());
         }
          if("Matching".equals(qType)==true)
         {
             System.out.println("Matching");
-            //changeScene("/mQuestion.fxml");
+            FxControllerAndView<McQuestionController, VBox> mQuestionControllerAndView =
+                    fxWeaver.load(McQuestionController.class);
+            mQuestionControllerAndView.getController().show(getCurrentStage());
         }
           if("Fill in Blank".equals(qType)==true)
         {
             System.out.println("FIB");
-            //changeScene("/fibQuestion.fxml");
+            FxControllerAndView<FibQuestionController, VBox> fibQuestionControllerAndView =
+                    fxWeaver.load(FibQuestionController.class);
+            fibQuestionControllerAndView.getController().show(getCurrentStage());
         }
           if("True/False".equals(qType)==true)
         {
             System.out.println("FIB");
-            //changeScene("/tfQuestion.fxml");
+            FxControllerAndView<TfQuestionController, VBox> tfQuestionControllerAndView =
+                    fxWeaver.load(TfQuestionController.class);
+            tfQuestionControllerAndView.getController().show(getCurrentStage());
         }
     }
 }

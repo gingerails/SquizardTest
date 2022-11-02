@@ -1,7 +1,6 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Service.UserService;
-
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,8 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
-import org.springframework.stereotype.Component;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.stereotype.Component;
 
 @Component
 @FxmlView("/login.fxml")

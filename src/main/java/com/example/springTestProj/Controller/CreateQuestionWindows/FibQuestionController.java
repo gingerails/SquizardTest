@@ -1,18 +1,17 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
-import com.example.springTestProj.Controller.LoginController;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
+import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.stereotype.Component;
 
-
+@Component
+@FxmlView("/fibQuestion.fxml")
 public class FibQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
@@ -31,6 +30,7 @@ public class FibQuestionController implements ControlDialogBoxes {
     @FXML
     public void initialize() {
         this.stage = new Stage();
+        stage.setTitle("Add Fill-in-Blank Question");
         stage.setScene(new Scene(fillInBlankBox));
     }
 
@@ -43,17 +43,4 @@ public class FibQuestionController implements ControlDialogBoxes {
     }
 
 
-    @Override
-    public Stage getCurrentStage() {
-        Node node = add.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
-        Stage currentStage = (Stage) node.getScene().getWindow();
-        return currentStage;
-    }
-
-    public void exitScreen() {
-        Stage currentStage = getCurrentStage();
-        FxControllerAndView<LoginController, VBox> loginControllerAndView =
-                fxWeaver.load(LoginController.class);
-        loginControllerAndView.getController().show(getCurrentStage());
-    }
 }
