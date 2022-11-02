@@ -11,7 +11,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 @Component
-@FxmlView("/fibQuestion.fxml")
+@FxmlView("/addCourse.fxml")
 public class FibQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
@@ -36,10 +36,8 @@ public class FibQuestionController implements ControlDialogBoxes {
 
     @Override
     public void show(Stage thisStage) {
-        this.stage = thisStage;
-        stage.setScene(new Scene(fillInBlankBox));
-        System.out.println("SHOW Create Account Controller");
         stage.show();
+        this.stage.centerOnScreen();
     }
 
 //    @Override

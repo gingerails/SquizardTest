@@ -33,6 +33,8 @@ public class MainController implements ControlSwitchScreen {
     private VBox mainVbox;
     @FXML
     private Button addTest;
+    @FXML
+    private Button addCourseButton;
     
    
     public MainController(UserService userService, FxWeaver fxWeaver) {
@@ -47,6 +49,10 @@ public class MainController implements ControlSwitchScreen {
         this.addTest.setOnAction(actionEvent -> {
             System.out.print("Add test button pressed");
             loadAddTestScreen();
+        });
+        this.addCourseButton.setOnAction(actionEvent -> {
+            System.out.print("Add course button pressed");
+            loadAddCourseScreen();
         });
     }
 
@@ -75,5 +81,11 @@ public class MainController implements ControlSwitchScreen {
         FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
                 fxWeaver.load(CreateTestController.class);
         createTestControllerAndView.getController().show(getCurrentStage());
+    }
+    public void loadAddCourseScreen() {
+        
+        FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
+                fxWeaver.load(AddCourseController.class);
+        addCourseControllerAndView.getController().show(getCurrentStage());
     }
 }
