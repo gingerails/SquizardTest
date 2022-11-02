@@ -11,7 +11,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 @Component
-@FxmlView("/fibQuestion.fxml")
+@FxmlView("/addCourse.fxml")
 public class FibQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;

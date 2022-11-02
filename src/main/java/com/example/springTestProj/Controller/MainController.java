@@ -94,4 +94,10 @@ public class MainController implements ControlSwitchScreen {
                 fxWeaver.load(AddCourseController.class);
         addCourseControllerAndView.getController().show(getCurrentStage());
     }
+    public void loadAddCourseScreen() {
+        
+        FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
+                fxWeaver.load(AddCourseController.class);
+        addCourseControllerAndView.getController().show(getCurrentStage());
+    }
 }
