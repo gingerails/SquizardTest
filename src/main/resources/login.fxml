@@ -11,7 +11,7 @@
 
 <!--  ADD LATER      stylesheets="@Style.css"-->
 
-<VBox fx:id="loginVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="276.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.LoginController">
+<VBox fx:id="loginVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="209.0" prefWidth="276.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.LoginController">
    <VBox>
       <children>
          <Label alignment="TOP_CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="86.0" prefWidth="622.0" snapToPixel="false" text="Login" textAlignment="CENTER">
@@ -33,5 +33,5 @@
       </children>
    </HBox>
 <!--&lt;!&ndash;&ndash;&gt; onAction="#verify" -->
-   <Label fx:id="confirm" accessibleText="confirm" prefHeight="18.0" prefWidth="314.0" translateY="10.0" />
+   <Label fx:id="confirm" accessibleText="confirm" prefHeight="5.0" prefWidth="276.0" translateY="10.0" />
 </VBox>

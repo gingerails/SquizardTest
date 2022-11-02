@@ -7,6 +7,7 @@ package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.FibQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.MQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.McQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.TfQuestionController;
 import com.example.springTestProj.Service.UserService;
@@ -115,8 +116,8 @@ public class TestMakerController implements ControlSwitchScreen {
          if("Matching".equals(qType)==true)
         {
             System.out.println("Matching");
-            FxControllerAndView<McQuestionController, VBox> mQuestionControllerAndView =
-                    fxWeaver.load(McQuestionController.class);
+            FxControllerAndView<MQuestionController, VBox> mQuestionControllerAndView =
+                    fxWeaver.load(MQuestionController.class);
             mQuestionControllerAndView.getController().show(getCurrentStage());
         }
           if("Fill in Blank".equals(qType)==true)
