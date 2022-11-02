@@ -36,10 +36,8 @@ public class FibQuestionController implements ControlDialogBoxes {
 
     @Override
     public void show(Stage thisStage) {
-        this.stage = thisStage;
-        stage.setScene(new Scene(fillInBlankBox));
-        System.out.println("SHOW Create Account Controller");
         stage.show();
+        this.stage.centerOnScreen();
     }
 
 //    @Override

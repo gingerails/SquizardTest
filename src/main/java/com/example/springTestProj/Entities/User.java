@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
     @Id
-   // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
     @Column(name = "UserID")
     private String userID;
     @Column(name = "Username")
