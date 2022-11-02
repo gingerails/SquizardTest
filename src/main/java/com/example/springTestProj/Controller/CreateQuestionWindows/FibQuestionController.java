@@ -42,5 +42,10 @@ public class FibQuestionController implements ControlDialogBoxes {
         stage.show();
     }
 
+    @Override
+    public <T> void add(T t) {
+
+    }
+
 
 }

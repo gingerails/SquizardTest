@@ -47,6 +47,11 @@ public class TfQuestionController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
+    @Override
+    public <T> void add(T t) {
+
+    }
+
     public void add() {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
 
