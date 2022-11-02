@@ -27,6 +27,10 @@ public class Section {
 
     }
 
+    public Section(String sectionID, String courseUUID, String sectionNum) {
+    }
+
+
     @Override
     public String toString() {
         return "Section [SectionUUID=" + sectionUUID + "]";
