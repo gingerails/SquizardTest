@@ -44,9 +44,9 @@ public class MQuestionController implements ControlDialogBoxes {
         stage.show();
         this.stage.centerOnScreen();
     }
-
-    @Override
-    public <T> void add(T t) {
-
-    }
+//
+//    @Override
+//    public <T> void add(T t) {
+//
+//    }
 }

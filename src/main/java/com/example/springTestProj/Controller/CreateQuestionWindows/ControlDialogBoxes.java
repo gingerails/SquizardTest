@@ -9,5 +9,5 @@ public interface ControlDialogBoxes {
 
     void show(Stage thisStage);
 
-    <T> void add(T t);
+//    <T> void add(T t);
 }

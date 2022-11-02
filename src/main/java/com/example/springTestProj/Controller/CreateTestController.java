@@ -66,6 +66,11 @@ public class CreateTestController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
+//    @Override
+//    public <T> void add(T t) {
+//
+//    }
+
     public void loadTestMaker() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView
