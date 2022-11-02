@@ -129,7 +129,7 @@ public class TestMakerController implements ControlSwitchScreen {
         }
           if("True/False".equals(qType)==true)
         {
-            System.out.println("FIB");
+            System.out.println("T/F");
             FxControllerAndView<TfQuestionController, VBox> tfQuestionControllerAndView =
                     fxWeaver.load(TfQuestionController.class);
             tfQuestionControllerAndView.getController().show(getCurrentStage());

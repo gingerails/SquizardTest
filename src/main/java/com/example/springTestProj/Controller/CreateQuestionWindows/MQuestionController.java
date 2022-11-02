@@ -31,7 +31,7 @@ public class MQuestionController implements ControlDialogBoxes {
     @FXML
     public void initialize () {
         this.stage = new Stage();
-        stage.setTitle("Add Essay Question");
+        stage.setTitle("Add Matching Question");
         stage.setScene(new Scene(mQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");

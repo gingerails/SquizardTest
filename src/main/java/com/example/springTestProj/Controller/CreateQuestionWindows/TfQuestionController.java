@@ -7,7 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
+import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.stereotype.Component;
 
+@Component
+@FxmlView("/tfQuestion.fxml")
 public class TfQuestionController implements ControlDialogBoxes {
 
     private final UserService userService;
@@ -17,11 +21,11 @@ public class TfQuestionController implements ControlDialogBoxes {
     @FXML
     private Button add;
     @FXML
-    private VBox mQuestionBox;
+    private VBox tfQuestionBox;
 
 
     public TfQuestionController(UserService userService, FxWeaver fxWeaver) {
-        System.out.println("essay Controller");
+        //System.out.println("essay Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
@@ -29,8 +33,8 @@ public class TfQuestionController implements ControlDialogBoxes {
     @FXML
     public void initialize () {
         this.stage = new Stage();
-        stage.setTitle("Add Multiple Choice Question");
-        stage.setScene(new Scene(mQuestionBox));
+        stage.setTitle("Add T/F Question");
+        stage.setScene(new Scene(tfQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             add();
