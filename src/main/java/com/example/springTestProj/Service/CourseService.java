@@ -10,7 +10,7 @@ public class CourseService {
     @Autowired
     CourseRepository courseRepository;
 
-    public void saveUserToRepository(Courses courses){
+    public void saveCourseToRepository(Courses courses){
         courseRepository.save(courses);
         System.out.println("Course saved?");
 
