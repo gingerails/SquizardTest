@@ -6,10 +6,13 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Service.UserService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
@@ -35,25 +38,33 @@ public class MainController implements ControlSwitchScreen {
     private Button addTest;
     @FXML
     private Button addCourseButton;
+    @FXML 
+    private ComboBox displayClass;
     
    
     public MainController(UserService userService, FxWeaver fxWeaver) {
-        System.out.println("Main Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
 
+    
+    String test="cs101,cs202,cs303";
+    
     @FXML
     public void initialize () {
-
+        //display all current classes on opening
+        String[] arrStr = test.split(",");
+        displayClass.getItems().addAll(arrStr);
+        
+        //program button actions
         this.addTest.setOnAction(actionEvent -> {
-            System.out.print("Add test button pressed");
             loadAddTestScreen();
         });
         this.addCourseButton.setOnAction(actionEvent -> {
-            System.out.print("Add course button pressed");
             loadAddCourseScreen();
         });
+        
+        
     }
 
     @Override
@@ -76,6 +87,9 @@ public class MainController implements ControlSwitchScreen {
     /**
      *  gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
      */
+    
+   
+   
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView =
@@ -87,17 +101,7 @@ public class MainController implements ControlSwitchScreen {
         FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
                 fxWeaver.load(AddCourseController.class);
         addCourseControllerAndView.getController().show(getCurrentStage());
+        
+        
     }
-//    public void loadAddCourseScreen() {
-//
-//        FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
-//                fxWeaver.load(AddCourseController.class);
-//        addCourseControllerAndView.getController().show(getCurrentStage());
-//    }
-//    public void loadAddCourseScreen() {
-//
-//        FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
-//                fxWeaver.load(AddCourseController.class);
-//        addCourseControllerAndView.getController().show(getCurrentStage());
-//    }
 }

@@ -43,7 +43,7 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <ComboBox layoutX="1399.0" layoutY="33.0" prefHeight="26.0" prefWidth="96.0" AnchorPane.rightAnchor="53.0" />
+                <ComboBox fx:id="displayClass" layoutX="1399.0" layoutY="33.0" prefHeight="26.0" prefWidth="96.0" AnchorPane.rightAnchor="53.0" />
               <MenuBar layoutY="-2.0" prefHeight="26.0" prefWidth="1548.0">
                   <menus>
                       <Menu mnemonicParsing="false" text="File">
