@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainVbox" prefHeight="736.0" prefWidth="1548.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.MainController">
+<VBox fx:id="mainVbox" prefHeight="736.0" prefWidth="1548.0" styleClass="bodybg" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.MainController">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="710.0" prefWidth="1226.0" VBox.vgrow="ALWAYS">
             <children>
