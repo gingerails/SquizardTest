@@ -23,8 +23,8 @@ public class SectionService {
 
         return newSection;
     }
-    public boolean existsByCourseSection(String courseUUID, String section){
-        return sectionRepository.existsByCourseUUIDAndSectionNum(courseUUID, section);
+    public boolean existsByCourseSection(String section, String courseUUID){
+        return sectionRepository.existsByCourseUUIDAndSectionPrimaryKey_SectionNum(section, courseUUID);
     }
    // public bool checkExistingSections(String )
     public List<Section> readSections(){

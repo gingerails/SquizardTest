@@ -28,12 +28,10 @@ public class Courses {
 
     }
 
-
-    public Courses(CoursesPrimaryKey coursesPrimaryKey, String sections) {
-    }
-
     public Courses(CoursesPrimaryKey coursesPrimaryKey) {
+        this.coursesPrimaryKey = coursesPrimaryKey;
     }
+
 
 //    @Override
 //    public String toString() {

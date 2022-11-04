@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.example.springTestProj.Entities;
+import com.example.springTestProj.Entities.CompositeKeys.SectionPrimaryKey;
 import lombok.*;
 import javax.persistence.*;
 
@@ -12,14 +13,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Section")
 public class Section {
-    @Id
-   // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
-    @Column(name = "SectionUUID")
-    private String sectionUUID;
+    @EmbeddedId
+    SectionPrimaryKey sectionPrimaryKey;
+
     @Column(name = "CourseUUID")
     private String courseUUID;
-    @Column(name = "SectionNum")
-    private String sectionNum;
+
     @Column(name = "Tests")
     private String test;
 
@@ -31,9 +30,9 @@ public class Section {
     }
 
 
-    @Override
-    public String toString() {
-        return "Section [SectionUUID=" + sectionUUID + "]";
-    }
+//    @Override
+//    public String toString() {
+//        return "Section [SectionUUID=" + sectionUUID + "]";
+//    }
 
 }

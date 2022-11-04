@@ -55,8 +55,8 @@ public class AddCourseController implements ControlSwitchScreen {
             if(courseNum.getText().isBlank()){
                 System.out.println("Error: Course left blank");
             } else if (courseSection.getText().isBlank()){
-
-                createCourse();
+                String courseNumText = courseNum.getText();
+                createCourse(courseNumText);
 
             } else {
 
@@ -78,14 +78,16 @@ public class AddCourseController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
-    public void createCourse(){
-        if(!courseService.existsByCourseNum(String.valueOf(courseNum))) // there mustn't be an existing same course
-        {
-            Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
-        }
-        else{
-            System.out.println("Error: Course already exists");
-        }
+    public void createCourse(String courseNum){
+        Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
+        courseService.saveCourseToRepository(newCourse);
+//        if(!courseService.existsByCourseNum(String.valueOf(courseNum))) // there mustn't be an existing same course
+//        {
+//            Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
+//        }
+//        else{
+//            System.out.println("Error: Course already exists");
+//        }
     }
 
     public void createCourseAndSection(){
@@ -95,7 +97,7 @@ public class AddCourseController implements ControlSwitchScreen {
         if(courseService.existsByCourseNum(String.valueOf(courseNum))) // check if updating existing course
         {
             Courses existingCourse = courseService.returnCourseByCourseNum(course);
-            String courseUUID = existingCourse.getCoursesUUID();                // get existing course's id
+            String courseUUID = existingCourse.getCoursesPrimaryKey().getCoursesUUID();                // get existing course's id
             for (String s:sectionsList) {
                 if(sectionService.existsByCourseSection(courseUUID,s)){         // for each section in list, check if that course id + section exists
                     System.out.println("Error: Section already exists. Did not add duplicate section.");
@@ -108,10 +110,10 @@ public class AddCourseController implements ControlSwitchScreen {
         else{       // otherwise, we are creating an entirely new course with sections
             Courses newCourse = courseService.createCourse(course); // returns course w rand uuid
             for (String s:sectionsList) {
-                if(sectionService.existsByCourseSection(newCourse.getCoursesUUID(), s)){         // checks for sections here just incase user adds a duplicate entry
+                if(sectionService.existsByCourseSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(), s)){         // checks for sections here just incase user adds a duplicate entry
                     System.out.println("Error: Section already exists. Did not add duplicate section.");
                 }else{
-                    Section newSection = sectionService.createNewSection(newCourse.getCoursesUUID(),s);
+                    Section newSection = sectionService.createNewSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(),s);
                     sectionService.saveSectionToRepository(newSection);
                 }
             }
