@@ -1,17 +1,24 @@
 package com.example.springTestProj.Repository;
 
-import com.example.springTestProj.Entities.Course;
+import com.example.springTestProj.Entities.CompositeKeys.CoursesPrimaryKey;
+import com.example.springTestProj.Entities.Courses;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Long> {
+public interface CourseRepository extends JpaRepository<Courses, CoursesPrimaryKey> {
 
-    boolean existsByCourseID(String CourseID);
+//    boolean existsByCoursesUUID(String courseID);
+    boolean existsByCoursesPrimaryKey_CoursesUUID(String courseID);
+    boolean existsByCoursesPrimaryKey_CourseNum(String courseNum);
+   // boolean existsByCoursesNum(String courseNum);
+//    boolean existsByCoursesNumAndSections(String courseNum, String sections);
 
-    Course findByCourseID(String CourseID);
+  //  boolean existsByCoursesPrimaryKey
+//    Courses findByCoursesUUID(String coursesUUID);
 
-    Course findCoursesByCoursenameAndSection(String Coursename, String password);
+//    Courses findCoursesByCoursesNumAndSections(String courseNum, String sections);
 
-    Course findCoursesByCoursename(String Coursename);
+    Courses findCoursesByCoursesPrimaryKey_CourseNum(String courseNum);
+
 }

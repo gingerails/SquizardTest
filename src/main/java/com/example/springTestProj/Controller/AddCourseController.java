@@ -1,7 +1,9 @@
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Entities.Course;
+import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Service.CourseService;
+import com.example.springTestProj.Service.SectionService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 @FxmlView("/addCourse.fxml")
 public class AddCourseController implements ControlSwitchScreen {
     private final CourseService courseService;
+    private final SectionService sectionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -31,8 +34,9 @@ public class AddCourseController implements ControlSwitchScreen {
     @FXML
     VBox addCourseVbox;  // fx:id !!!!!
 
-    public AddCourseController(CourseService courseService, FxWeaver fxWeaver) {
+    public AddCourseController(CourseService courseService, SectionService sectionService, FxWeaver fxWeaver) {
         this.courseService = courseService;//
+        this.sectionService = sectionService;
         this.fxWeaver = fxWeaver;
     }
 
@@ -45,6 +49,20 @@ public class AddCourseController implements ControlSwitchScreen {
         this.stage = new Stage();
         stage.setTitle("Add Course/Section");
         stage.setScene(new Scene(addCourseVbox));
+
+        this.add.setOnAction(actionEvent -> {
+            System.out.println("Course add button pressed");
+            if(courseNum.getText().isBlank()){
+                System.out.println("Error: Course left blank");
+            } else if (courseSection.getText().isBlank()){
+
+                createCourse();
+
+            } else {
+
+                createCourseAndSection();
+            }
+        });
     }
 
     @Override
@@ -60,24 +78,45 @@ public class AddCourseController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
-
-    /**
-     * saves new user.
-     */
-    public void createCourseAndSection(){
-
-        String course = courseNum.getText();
-        String section = courseSection.getText();
-       // System.out.println(userService.returnUserByUsername(username));
-        if(courseService.returnCourseByCourseName(course) == null) // there mustn't be a duplicate course name and section
+    public void createCourse(){
+        if(!courseService.existsByCourseNum(String.valueOf(courseNum))) // there mustn't be an existing same course
         {
-            // create course object in courseService. save to repo.
-            Course newCourseAndSection = courseService.createCourse(course, section);
-            courseService.saveCourseToRepository(newCourseAndSection);
+            Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
         }
         else{
-            System.out.println("Error: Username taken");
+            System.out.println("Error: Course already exists");
         }
+    }
+
+    public void createCourseAndSection(){
+         String course = courseNum.getText();
+         String section = courseSection.getText();
+         String[] sectionsList = section.split(",");
+        if(courseService.existsByCourseNum(String.valueOf(courseNum))) // check if updating existing course
+        {
+            Courses existingCourse = courseService.returnCourseByCourseNum(course);
+            String courseUUID = existingCourse.getCoursesUUID();                // get existing course's id
+            for (String s:sectionsList) {
+                if(sectionService.existsByCourseSection(courseUUID,s)){         // for each section in list, check if that course id + section exists
+                    System.out.println("Error: Section already exists. Did not add duplicate section.");
+                }else{
+                    Section newSection = sectionService.createNewSection(courseUUID,s);     // if that courseID + section combo doesnt exits, make it
+                    sectionService.saveSectionToRepository(newSection);
+                }
+            }
+        }
+        else{       // otherwise, we are creating an entirely new course with sections
+            Courses newCourse = courseService.createCourse(course); // returns course w rand uuid
+            for (String s:sectionsList) {
+                if(sectionService.existsByCourseSection(newCourse.getCoursesUUID(), s)){         // checks for sections here just incase user adds a duplicate entry
+                    System.out.println("Error: Section already exists. Did not add duplicate section.");
+                }else{
+                    Section newSection = sectionService.createNewSection(newCourse.getCoursesUUID(),s);
+                    sectionService.saveSectionToRepository(newSection);
+                }
+            }
+        }
+
     }
 
     public void addSection(){

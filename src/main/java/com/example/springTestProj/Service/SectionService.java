@@ -3,10 +3,11 @@ package com.example.springTestProj.Service;
 import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
+@Service
 public class SectionService {
 
     @Autowired
@@ -16,13 +17,16 @@ public class SectionService {
         sectionRepository.save(section);
     }
 
-    public Section createNewSection(String courseUUID, String courseID, String sectionNum){
+    public Section createNewSection(String courseUUID, String sectionNum){
         String sectionID = String.valueOf(UUID.randomUUID());
         Section newSection = new Section(sectionID, courseUUID, sectionNum);
 
         return newSection;
     }
-
+    public boolean existsByCourseSection(String courseUUID, String section){
+        return sectionRepository.existsByCourseUUIDAndSectionNum(courseUUID, section);
+    }
+   // public bool checkExistingSections(String )
     public List<Section> readSections(){
         return sectionRepository.findAll();
     }
