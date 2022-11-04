@@ -1,42 +1,45 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Course;
 import com.example.springTestProj.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class CourseService {
     @Autowired
     CourseRepository courseRepository;
 
-    public void saveCourseToRepository(Courses courses){
-        courseRepository.save(courses);
+    public void saveCourseToRepository(Course course){
+        courseRepository.save(course);
         System.out.println("Course saved?");
 
     }
 
-    public Courses createCourse(String courseNumber, String courseSection){
+    public Course createCourse(String courseNumber, String section){
         String courseID = String.valueOf(UUID.randomUUID());
-        Courses newCourse = new Courses(courseID, courseNumber, courseSection);
+        Course newCourse = new Course(courseID, courseNumber);
 
         return newCourse;
     }
 
 
-    public List<Courses> readCourses(){
+    public List<Course> readCourses(){
         return courseRepository.findAll();
     }
 
 
-//    public User returnUser(String username, String password){
-//        return courseRepository.findUsersByUsernameAndPassword(username, password);
-//    }
+    public Course returnCourse(String course, String section){
+        return courseRepository.findCoursesByCoursenameAndSection(course, section);
+    }
 
 
-//    public User returnUserByUsername(String username){
-//        return courseRepository.findUsersByUsername(username);
-//    }
+    public Course returnCourseByCourseName(String course){
+        return courseRepository.findCoursesByCoursename(course);
+    }
 
 
 //    @Transactional

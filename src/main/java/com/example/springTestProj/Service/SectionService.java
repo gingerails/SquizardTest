@@ -1,6 +1,5 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,16 +1,14 @@
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Service.UserService;
+import com.example.springTestProj.Entities.Course;
+import com.example.springTestProj.Service.CourseService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
@@ -18,10 +16,14 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/addCourse.fxml")
 public class AddCourseController implements ControlSwitchScreen {
-    private final UserService userService;
+    private final CourseService courseService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
+    @FXML
+    TextField courseNum;
+    @FXML
+    TextField courseSection;
  
     @FXML
     Button add;
@@ -29,11 +31,9 @@ public class AddCourseController implements ControlSwitchScreen {
     @FXML
     VBox addCourseVbox;  // fx:id !!!!!
 
-    public AddCourseController(UserService userService,
-                           FxWeaver fxWeaver) {//
-        this.userService = userService;
+    public AddCourseController(CourseService courseService, FxWeaver fxWeaver) {
+        this.courseService = courseService;//
         this.fxWeaver = fxWeaver;
-        
     }
 
     /**
@@ -60,6 +60,30 @@ public class AddCourseController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
+
+    /**
+     * saves new user.
+     */
+    public void createCourseAndSection(){
+
+        String course = courseNum.getText();
+        String section = courseSection.getText();
+       // System.out.println(userService.returnUserByUsername(username));
+        if(courseService.returnCourseByCourseName(course) == null) // there mustn't be a duplicate course name and section
+        {
+            // create course object in courseService. save to repo.
+            Course newCourseAndSection = courseService.createCourse(course, section);
+            courseService.saveCourseToRepository(newCourseAndSection);
+        }
+        else{
+            System.out.println("Error: Username taken");
+        }
+    }
+
+    public void addSection(){
+        String course = courseNum.getText();
+        String section = courseSection.getText();
+    }
 
    
 
