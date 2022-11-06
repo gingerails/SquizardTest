@@ -20,8 +20,9 @@ public class FeedbackService {
     }
 
     public Feedback createFeedback(){
-        String feedBack = String.valueOf(UUID.randomUUID());  // probably dont do this maybe
-        Feedback feedback = new Feedback(feedBack, 20.3, "yah", 40.2);
+        // set rand in constructor :)
+       // String feedBack = String.valueOf(UUID.randomUUID());  // probably dont do this maybe
+        Feedback feedback = new Feedback();
 
         return feedback;
     }

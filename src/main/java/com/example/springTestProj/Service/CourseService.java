@@ -14,11 +14,6 @@ public class CourseService {
     @Autowired
     CourseRepository courseRepository;
 
-//    private final SectionService sectionService;
-//
-//    public CourseService(SectionService sectionService) {
-//        this.sectionService = sectionService;
-//    }
 
     public void saveCourseToRepository(Courses courses){
         courseRepository.save(courses);
@@ -41,12 +36,12 @@ public class CourseService {
         return newCourse;
     }
 
-    public void updateCourse(String courseNumber, String sections){
-        String[] sectionsList = sections.split(",");
-        for (String section:sectionsList) {
-
-        }
-    }
+//    public void updateCourse(String courseNumber, String sections){
+//        String[] sectionsList = sections.split(",");
+//        for (String section:sectionsList) {
+//
+//        }
+//    }
 
 
     public List<Courses> readCourses(){

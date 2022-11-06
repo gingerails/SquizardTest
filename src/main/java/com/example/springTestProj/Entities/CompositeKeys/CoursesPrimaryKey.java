@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class CoursesPrimaryKey implements Serializable {
     @Column(name = "CoursesUUID")
     private String coursesUUID;
-    @Column(name = "CourseNum")
+    @Column(name = "course_num")
     private String courseNum;
 
     public CoursesPrimaryKey(String coursesUUID, String courseNum){

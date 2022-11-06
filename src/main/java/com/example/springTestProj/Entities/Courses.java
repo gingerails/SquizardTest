@@ -11,17 +11,17 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "Courses")
+@Table(name = "Course")
 public class Courses {
 //    @Id
-//   // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
+   // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
 //    @Column(name = "CoursesUUID")
 //    private String coursesUUID;
-//    @Column(name = "CourseNum")
+//    @Column(name = "course_num")
 //    private String coursesNum;
     @EmbeddedId
     CoursesPrimaryKey coursesPrimaryKey;
-    @Column(name = "Sections")
+    @Column(name = "sections")
     private String sections;
 
     public Courses() {

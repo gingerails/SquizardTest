@@ -1,8 +1,10 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Feedback;
 import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Service.CourseService;
+import com.example.springTestProj.Service.FeedbackService;
 import com.example.springTestProj.Service.SectionService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -20,6 +22,9 @@ import org.springframework.stereotype.Component;
 public class AddCourseController implements ControlSwitchScreen {
     private final CourseService courseService;
     private final SectionService sectionService;
+
+    // for testing. delete later
+    private final FeedbackService feedbackService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -34,9 +39,10 @@ public class AddCourseController implements ControlSwitchScreen {
     @FXML
     VBox addCourseVbox;  // fx:id !!!!!
 
-    public AddCourseController(CourseService courseService, SectionService sectionService, FxWeaver fxWeaver) {
+    public AddCourseController(CourseService courseService, SectionService sectionService, FeedbackService feedbackService, FxWeaver fxWeaver) {
         this.courseService = courseService;//
         this.sectionService = sectionService;
+        this.feedbackService = feedbackService;
         this.fxWeaver = fxWeaver;
     }
 
@@ -56,10 +62,14 @@ public class AddCourseController implements ControlSwitchScreen {
                 System.out.println("Error: Course left blank");
             } else if (courseSection.getText().isBlank()){
                 String courseNumText = courseNum.getText();
-                createCourse(courseNumText);
+              //  Feedback savedBack = feedbackService.createFeedback();
+                //feedbackService.saveFeedbackToRepo(savedBack);
+
+
+                  createCourse(courseNumText);
 
             } else {
-
+                //feedbackService.createFeedback();
                 createCourseAndSection();
             }
         });

@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,22 +15,27 @@ import javax.persistence.Table;
 public class Feedback {
     @Id
     @Column(name = "TestUUID")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private String testUUID;
-    @Column(name = "ClassAverage")
-    private double classAverage;
+    @Column(name = "class_average")
+    private Double class_average;
     @Column(name = "Class")
     private String className;
-    @Column(name = "TestLength")
-    private double testLength;
+    @Column(name = "test_length")
+    private Double testLength;
 
 
     public Feedback() {
 
     }
 
-//    @Override
-//    public String toString() {
-//        return "User [UserID=" + userID + ", Username =" + username + "]";
+//    public Feedback(String feedBack) {
+//        this.testUUID = String.valueOf(UUID.randomUUID());  // probably dont do this maybe
 //    }
+
+    @Override
+    public String toString() {
+        return "Feedback [TestUUID=" + testUUID + ", class_average =" +  + class_average + ", Class =" + className + ", TestLength =" + testLength + "]";
+    }
 
 }
