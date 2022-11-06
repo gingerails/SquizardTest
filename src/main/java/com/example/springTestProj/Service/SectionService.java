@@ -1,5 +1,6 @@
 package com.example.springTestProj.Service;
 
+import com.example.springTestProj.Entities.CompositeKeys.SectionPrimaryKey;
 import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public class SectionService {
 
     public Section createNewSection(String courseUUID, String sectionNum){
         String sectionID = String.valueOf(UUID.randomUUID());
-        Section newSection = new Section(sectionID, courseUUID, sectionNum);
+        SectionPrimaryKey newSectionPrimaryKey = new SectionPrimaryKey(sectionID, sectionNum);
+        Section newSection = new Section(newSectionPrimaryKey, courseUUID);
 
         return newSection;
     }

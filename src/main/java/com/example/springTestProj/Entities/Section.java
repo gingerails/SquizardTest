@@ -25,8 +25,14 @@ public class Section {
     public Section() {
 
     }
+//
+//    public Section(String sectionID, String courseUUID, String sectionNum) {
+//        this.section
+//    }
 
-    public Section(String sectionID, String courseUUID, String sectionNum) {
+    public Section(SectionPrimaryKey sectionPrimaryKey, String courseUUID) {
+        this.sectionPrimaryKey = sectionPrimaryKey;
+        this.courseUUID = courseUUID;
     }
 
 

@@ -11,12 +11,18 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Embeddable
 public class SectionPrimaryKey implements Serializable {
+
     @Column(name = "SectionUUID")
     private String sectionUUID;
     @Column(name = "section_num")
     private String sectionNum;
+
+    public SectionPrimaryKey(String sectionUUID, String sectionNum) {
+        this.sectionUUID = sectionUUID;
+        this.sectionNum = sectionNum;
+    }
+
 }

@@ -5,6 +5,7 @@ import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +27,19 @@ public class CourseService {
 
         return newCourse;
     }
+
+    @Transactional
+    public void addSectionsToExistingCourseAndSave(Courses updatedCourse){
+        String courseUUID = updatedCourse.getCoursesPrimaryKey().getCoursesUUID();
+        String courseNum = updatedCourse.getCoursesPrimaryKey().getCourseNum();
+        String sections = updatedCourse.getSections();
+      //  CoursesPrimaryKey updatedCoursesKey = new CoursesPrimaryKey(courseUUID, courseNum);
+        courseRepository.deleteCoursesByCoursesPrimaryKey_CoursesUUID(courseUUID);  // delete existing vers of this course, preserving the uuid
+      //  Courses updatedCourse = new Courses(updatedCoursesKey, sections);
+
+        saveCourseToRepository(updatedCourse);
+    }
+
 
 
     public Courses createCourseWithSection(String courseNumber, String section){

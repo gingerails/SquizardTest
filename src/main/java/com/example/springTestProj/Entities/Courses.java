@@ -33,6 +33,9 @@ public class Courses {
     }
 
 
+    public void addSection(String section){
+
+    }
 //    @Override
 //    public String toString() {
 //        return "Courses [CoursesUUID=" + coursesUUID + "]";

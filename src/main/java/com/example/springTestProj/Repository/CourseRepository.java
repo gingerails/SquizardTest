@@ -13,6 +13,8 @@ public interface CourseRepository extends JpaRepository<Courses, CoursesPrimaryK
     //    boolean existsByCoursesUUID(String courseID);
     boolean existsByCoursesPrimaryKey_CoursesUUID(String courseID);
     boolean existsByCoursesPrimaryKey_CourseNum(String courseNum);
+
+    void deleteCoursesByCoursesPrimaryKey_CoursesUUID(String courseID); // delete coursenum is used to update a course and add new sections
    // boolean existsByCoursesNum(String courseNum);
 //    boolean existsByCoursesNumAndSections(String courseNum, String sections);
 
