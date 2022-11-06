@@ -12,11 +12,11 @@
       <AnchorPane id="AnchorPane" prefHeight="173.0" prefWidth="595.0">
          <children>
             <Button fx:id="add" layoutX="554.0" layoutY="132.0" mnemonicParsing="false" text="Add" />
-            <TextField fx:id="courseField" layoutX="65.0" layoutY="32.0" prefHeight="26.0" prefWidth="529.0" />
+            <TextField fx:id="courseNum" layoutX="65.0" layoutY="32.0" prefHeight="26.0" prefWidth="529.0" />
             <Label layoutX="20.0" layoutY="36.0" text="Course:" />
             <Label layoutX="173.0" layoutY="63.0" prefHeight="18.0" prefWidth="142.0" />
             <Label layoutX="65.0" layoutY="72.0" text="*Optional" />
-            <TextField fx:id="sectionField" layoutX="65.0" layoutY="89.0" prefHeight="26.0" prefWidth="529.0" />
+            <TextField fx:id="courseSection" layoutX="65.0" layoutY="89.0" prefHeight="26.0" prefWidth="529.0" />
             <Label layoutX="241.0" layoutY="5.0" text="Add Course/Section">
                <font>
                   <Font name="System Bold" size="12.0" />
