@@ -4,10 +4,16 @@
  * and open the template in the editor.
  */
 package com.example.springTestProj.Controller;
-
+import com.example.springTestProj.Service.CourseService;
+import com.example.springTestProj.Repository.CourseRepository;
+import com.example.springTestProj.Repository.CourseRepository;
+import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,6 +24,7 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,6 +35,10 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/Main.fxml")
 public class MainController implements ControlSwitchScreen {
+    
+    CourseRepository courseRepository;
+    
+    private final CourseService courseService;
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -42,16 +53,46 @@ public class MainController implements ControlSwitchScreen {
     private ComboBox displayClass;
     
    
-    public MainController(UserService userService, FxWeaver fxWeaver) {
+   
+    public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
+        this.courseService=courseService;
     }
 
-    
-    String test="cs101,cs202,cs303";
+    public void getDatabaseCourses()
+    {
+      List<Courses> dropdownCourseList = courseService.readCourses();
+        for (Courses course : dropdownCourseList) {
+            String sectionsAsString = course.getSections();
+            String[] sectionsList = sectionsAsString.split(",");
+            ArrayList<String> displayList = new ArrayList<>();
+            for (String currentSection: sectionsList) {
+                if(currentSection!=null)
+                {
+                String statementString = course.getCoursesPrimaryKey().getCourseNum() + " " + currentSection;
+                System.out.println(statementString);
+                displayClass.getItems().addAll(statementString);
+                }
+                else
+                {
+                String statementString = course.getCoursesPrimaryKey().getCourseNum();
+                System.out.println(statementString);
+                displayClass.getItems().addAll(statementString);
+                }
+            }
+        }
+            
+        
+        
+    }
+   
+   String test="cs101,cs202,cs303";
     
     @FXML
     public void initialize () {
+        
+    //System.out.println(dropdownCourseList); 
         //display all current classes on opening
         String[] arrStr = test.split(",");
         displayClass.getItems().addAll(arrStr);
@@ -60,8 +101,9 @@ public class MainController implements ControlSwitchScreen {
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
-        this.addCourseButton.setOnAction(actionEvent -> {
+        this.addCourseButton.setOnAction((ActionEvent actionEvent) -> {
             loadAddCourseScreen();
+            getDatabaseCourses();
         });
         
         
@@ -101,6 +143,7 @@ public class MainController implements ControlSwitchScreen {
         FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
                 fxWeaver.load(AddCourseController.class);
         addCourseControllerAndView.getController().show(getCurrentStage());
+        
         
         
     }

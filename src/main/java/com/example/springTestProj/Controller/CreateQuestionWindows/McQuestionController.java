@@ -37,6 +37,7 @@ public class McQuestionController implements ControlDialogBoxes {
         stage.setScene(new Scene(mcQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
+            stage.close();
             add();
         });
     }

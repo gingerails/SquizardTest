@@ -11,10 +11,10 @@
 
 <!--  ADD LATER      stylesheets="@Style.css"-->
 
-<VBox fx:id="loginVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="209.0" prefWidth="276.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.LoginController">
-   <VBox>
+<VBox fx:id="loginVbox" cacheShape="false" centerShape="false" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="219.0" prefWidth="313.0" snapToPixel="false" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.LoginController">
+   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
       <children>
-         <Label alignment="TOP_CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="86.0" prefWidth="622.0" snapToPixel="false" text="Login" textAlignment="CENTER">
+         <Label alignment="TOP_CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="86.0" prefWidth="314.0" snapToPixel="false" text="Login" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="59.0" />
             </font>
@@ -22,16 +22,15 @@
          <Label text="Username:" />
       </children>
    </VBox>
-   <TextField fx:id="usrField" accessibleText="usrField" prefHeight="15.0" prefWidth="238.0" />
+   <TextField fx:id="usrField" accessibleText="usrField" prefHeight="25.0" prefWidth="316.0" />
    <Label text="Password:" />
-   <TextField fx:id="passField" accessibleText="passField" />
-   <HBox prefHeight="28.0" prefWidth="276.0">
+   <TextField fx:id="passField" accessibleText="passField" prefHeight="25.0" prefWidth="316.0" />
+   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="316.0">
       <children>
             <Button fx:id="button" graphicTextGap="0.0" prefHeight="25.0" prefWidth="122.0" text="Login" />
-         <Separator prefWidth="200.0" />
-         <Hyperlink fx:id="createAccountLink" prefHeight="23.0" prefWidth="165.0" text="Create Account" />
+         <Separator prefHeight="27.0" prefWidth="143.0" />
+         <Hyperlink fx:id="createAccountLink" prefHeight="24.0" prefWidth="117.0" text="Create Account" />
       </children>
    </HBox>
-<!--&lt;!&ndash;&ndash;&gt; onAction="#verify" -->
-   <Label fx:id="confirm" accessibleText="confirm" prefHeight="5.0" prefWidth="276.0" translateY="10.0" />
+   <Label fx:id="error" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="314.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" />
 </VBox>

@@ -38,6 +38,7 @@ public class TfQuestionController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             add();
+            stage.close();
         });
     }
 

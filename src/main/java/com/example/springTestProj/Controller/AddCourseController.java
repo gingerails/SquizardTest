@@ -10,9 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import javafx.scene.control.Label;
+import javafx.stage.Modality;
+
 
 @Component
 @FxmlView("/addCourse.fxml")
@@ -33,11 +45,15 @@ public class AddCourseController implements ControlSwitchScreen {
     private final FxWeaver fxWeaver;
     private Stage stage;
 
+
+
     @FXML
     TextField courseNum;
     @FXML
     TextField courseSection;
- 
+    @FXML
+    Label error;
+
     @FXML
     Button add;
     
@@ -49,6 +65,7 @@ public class AddCourseController implements ControlSwitchScreen {
         this.sectionService = sectionService;
         this.feedbackService = feedbackService;
         this.fxWeaver = fxWeaver;
+        
     }
 
     /**
@@ -65,13 +82,18 @@ public class AddCourseController implements ControlSwitchScreen {
             System.out.println("Course add button pressed");
             if(courseNum.getText().isBlank()){
                 System.out.println("Error: Course left blank");
+                error.setText("Error: Course left blank");
             } else if (courseSection.getText().isBlank()){
                 String courseNumText = courseNum.getText();
                 createCourse(courseNumText);
+                stage.close();
             } else {
                 createCourseAndSection();
+                stage.close();
             }
+
         });
+
     }
 
     @Override
