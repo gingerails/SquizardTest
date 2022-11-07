@@ -38,6 +38,11 @@ public class FibQuestionController implements ControlDialogBoxes {
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
+        this.add.setOnAction(actionEvent -> {
+            //System.out.print("Add question button pressed");
+            stage.close();
+        //    add();
+        });
     }
 
 //    @Override

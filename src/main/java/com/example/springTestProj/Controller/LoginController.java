@@ -1,6 +1,8 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Service.UserService;
+import java.awt.Color;
+import static java.awt.Color.RED;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -22,6 +24,9 @@ public class LoginController implements ControlSwitchScreen {
     private final FxWeaver fxWeaver;
     private Stage stage;
 
+    @FXML
+    public Label error;
+   
     @FXML
     public Label label;
 
@@ -106,8 +111,11 @@ public class LoginController implements ControlSwitchScreen {
         }
         else{
             System.out.println("Error: UserName/Password is incorrect! Try Again!");
-        }
+            
+            error.setText("Error: UserName/Password is incorrect! Try Again!");
+       
 
+    }
     }
 
 }

@@ -15,6 +15,15 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import javafx.scene.control.Label;
+import javafx.stage.Modality;
+
+
 @Component
 @FxmlView("/addCourse.fxml")
 public class AddCourseController implements ControlSwitchScreen {
@@ -23,6 +32,14 @@ public class AddCourseController implements ControlSwitchScreen {
     private Stage stage;
 
  
+
+    @FXML
+    TextField courseNum;
+    @FXML
+    TextField courseSection;
+    @FXML
+    Label error;
+
     @FXML
     Button add;
     
@@ -45,6 +62,24 @@ public class AddCourseController implements ControlSwitchScreen {
         this.stage = new Stage();
         stage.setTitle("Add Course/Section");
         stage.setScene(new Scene(addCourseVbox));
+
+
+        this.add.setOnAction(actionEvent -> {
+            System.out.println("Course add button pressed");
+            if(courseNum.getText().isBlank()){
+                System.out.println("Error: Course left blank");
+                error.setText("Error: Course left blank");
+            } else if (courseSection.getText().isBlank()){
+                String courseNumText = courseNum.getText();
+                createCourse(courseNumText);
+                stage.close();
+            } else {
+                createCourseAndSection();
+                stage.close();
+            }
+            
+        });
+
     }
 
     @Override

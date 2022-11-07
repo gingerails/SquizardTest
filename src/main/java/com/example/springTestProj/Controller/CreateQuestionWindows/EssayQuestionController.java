@@ -46,6 +46,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
         stage.setScene(new Scene(essayQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
+            stage.close();
         //    add();
         });
     }
