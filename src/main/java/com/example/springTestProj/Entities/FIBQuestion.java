@@ -39,6 +39,10 @@ public class FIBQuestion {
     public FIBQuestion() {
     }
 
+    public FIBQuestion(String questionID) {
+        this.questionID = questionID;
+    }
+
     @Override
     public String toString() {
         return "FIBQuestion [QuestionID=" + questionID + "]";

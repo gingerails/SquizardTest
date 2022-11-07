@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CourseRepository extends JpaRepository<Courses, CoursesPrimaryKey> {
    // @Override
@@ -21,6 +23,7 @@ public interface CourseRepository extends JpaRepository<Courses, CoursesPrimaryK
   //  boolean existsByCoursesPrimaryKey
 //    Courses findByCoursesUUID(String coursesUUID);
 
+   // List<Courses> readCoursesBy
    // Courses findCoursesByCoursesNumAndSections(String courseNum, String sections);
 
     Courses findCoursesByCoursesPrimaryKey_CourseNum(String courseNum);
