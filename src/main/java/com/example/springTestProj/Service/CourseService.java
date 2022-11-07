@@ -30,25 +30,21 @@ public class CourseService {
 
     @Transactional
     public void addSectionsToExistingCourseAndSave(Courses updatedCourse){
+        // the updatedCourse already has all the new attributes added to it via addCourseController
         String courseUUID = updatedCourse.getCoursesPrimaryKey().getCoursesUUID();
-        String courseNum = updatedCourse.getCoursesPrimaryKey().getCourseNum();
-        String sections = updatedCourse.getSections();
-      //  CoursesPrimaryKey updatedCoursesKey = new CoursesPrimaryKey(courseUUID, courseNum);
         courseRepository.deleteCoursesByCoursesPrimaryKey_CoursesUUID(courseUUID);  // delete existing vers of this course, preserving the uuid
-      //  Courses updatedCourse = new Courses(updatedCoursesKey, sections);
-
         saveCourseToRepository(updatedCourse);
     }
 
 
 
-    public Courses createCourseWithSection(String courseNumber, String section){
-        String courseID = String.valueOf(UUID.randomUUID());
-        CoursesPrimaryKey coursesPrimaryKey = new CoursesPrimaryKey(courseID, courseNumber);
-        Courses newCourse = new Courses(coursesPrimaryKey, section);
-
-        return newCourse;
-    }
+//    public Courses createCourseWithSection(String courseNumber, String section){
+//        String courseID = String.valueOf(UUID.randomUUID());
+//        CoursesPrimaryKey coursesPrimaryKey = new CoursesPrimaryKey(courseID, courseNumber);
+//        Courses newCourse = new Courses(coursesPrimaryKey, section);
+//
+//        return newCourse;
+//    }
 
 //    public void updateCourse(String courseNumber, String sections){
 //        String[] sectionsList = sections.split(",");

@@ -18,6 +18,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Component
@@ -65,14 +66,8 @@ public class AddCourseController implements ControlSwitchScreen {
                 System.out.println("Error: Course left blank");
             } else if (courseSection.getText().isBlank()){
                 String courseNumText = courseNum.getText();
-              //  Feedback savedBack = feedbackService.createFeedback();
-                //feedbackService.saveFeedbackToRepo(savedBack);
-
-
-                  createCourse(courseNumText);
-
+                createCourse(courseNumText);
             } else {
-                //feedbackService.createFeedback();
                 createCourseAndSection();
             }
         });
@@ -94,59 +89,56 @@ public class AddCourseController implements ControlSwitchScreen {
     public void createCourse(String courseNum){
         Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
         courseService.saveCourseToRepository(newCourse);
-//        if(!courseService.existsByCourseNum(String.valueOf(courseNum))) // there mustn't be an existing same course
-//        {
-//            Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
-//        }
-//        else{
-//            System.out.println("Error: Course already exists");
-//        }
     }
+
+
 
     public void createCourseAndSection(){
          String course = courseNum.getText();
          String section = courseSection.getText();
          String[] sectionsList = section.split(",");
+        ArrayList<String> sectionsArrayList = new ArrayList<>(
+                Arrays.asList(sectionsList));
         if(courseService.existsByCourseNum(String.valueOf(course))) // check if updating existing course
         {
-            Courses existingCourse = courseService.returnCourseByCourseNum(course);
-            String courseUUID = existingCourse.getCoursesPrimaryKey().getCoursesUUID();                // get existing course's id
-            ArrayList<String> addedSectionsList = new ArrayList<String>(); // after each section is added to the repo, save it here. This will be added to the 'sections' column of the course table entry
-            for (String s:sectionsList) {
-                if(sectionService.existsByCourseSection(courseUUID,s)){         // for each section in list, check if that course id + section exists
-                    System.out.println("Error: Section already exists. Did not add duplicate section.");
-                }else{
-                    Section newSection = sectionService.createNewSection(courseUUID,s);     // if that courseID + section combo doesnt exits, make it
-                    sectionService.saveSectionToRepository(newSection);
-                    addedSectionsList.add(s);
-                }
-            }
-
-            // now sections repo has all the new sections, we just need to update the stored course repo.
-            String commaSeparatedUsingCollect = addedSectionsList.stream().collect(Collectors.joining(","));
-            existingCourse.setSections(commaSeparatedUsingCollect);
-            courseService.addSectionsToExistingCourseAndSave(existingCourse);
-
+          updateExistingCourse(course, sectionsArrayList);
         } // ********** Course does not exist in repository ******************
         else{       // otherwise, we are creating an entirely new course with sections
-            Courses newCourse = courseService.createCourse(course); // returns course w rand uuid
-            ArrayList<String> addedSectionsList = new ArrayList<String>(); // after each section is added to the repo, save it here. This will be added to the 'sections' column of the course table entry
+            Courses newCourse = courseService.createCourse(course); // returns new course w rand uuid
             for (String s:sectionsList) {
                 if(sectionService.existsByCourseSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(), s)){         // checks for sections here just incase user adds a duplicate entry
                     System.out.println("Error: Section already exists. Did not add duplicate section.");
-                    addedSectionsList.add(s);
                 }else{
                     Section newSection = sectionService.createNewSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(),s);
                     sectionService.saveSectionToRepository(newSection);
-                    addedSectionsList.add(s);
                 }
             }
             // now sections repo has all the new sections, we just need to update the stored course repo.
-            String commaSeparatedUsingCollect = addedSectionsList.stream().collect(Collectors.joining(","));
+            String commaSeparatedUsingCollect = sectionsArrayList.stream().collect(Collectors.joining(","));
             newCourse.setSections(commaSeparatedUsingCollect);
             courseService.saveCourseToRepository(newCourse);
         }
 
+    }
+
+    public void updateExistingCourse(String course, ArrayList<String> sectionsList){
+        Courses existingCourse = courseService.returnCourseByCourseNum(course);
+        String courseUUID = existingCourse.getCoursesPrimaryKey().getCoursesUUID();                // get existing course's id
+      //  ArrayList<String> addedSectionsList = new ArrayList<String>(); // after each section is added to the repo, save it here. This will be added to the 'sections' column of the course table entry
+        for (String s:sectionsList) {
+            if(sectionService.existsByCourseSection(courseUUID,s)){         // for each section in list, check if that course id + section exists
+                System.out.println("Error: Section already exists. Did not add duplicate section.");
+             //   addedSectionsList.add(s);
+            }else{
+                Section newSection = sectionService.createNewSection(courseUUID,s);     // if that courseID + section combo doesnt exits, make it
+                sectionService.saveSectionToRepository(newSection);
+              //  addedSectionsList.add(s);
+            }
+        }
+        // now sections repo has all the new sections, we just need to update the stored course repo.
+        String commaSeparatedUsingCollect = sectionsList.stream().collect(Collectors.joining(","));
+        existingCourse.setSections(commaSeparatedUsingCollect);
+        courseService.addSectionsToExistingCourseAndSave(existingCourse);
     }
 
     public void addSection(){
