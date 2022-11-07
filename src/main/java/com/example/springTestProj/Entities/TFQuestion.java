@@ -39,6 +39,10 @@ public class TFQuestion {
     public TFQuestion() {
     }
 
+    public TFQuestion(String questionID) {
+        this.questionID = questionID;
+    }
+
     @Override
     public String toString() {
         return "TFQuestion [QuestionID=" + questionID + "]";

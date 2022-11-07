@@ -8,7 +8,9 @@ import com.example.springTestProj.Repository.TestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.UUID;
+import java.util.concurrent.Callable;
 
 @Service
 public class TestService {
@@ -30,9 +32,16 @@ public class TestService {
 
     // updating existing tests
 
-    public void addQuestionToTest(Test test){
+    // this prolly wont work. need to have a way to dynamically add
+
+    public void updateQuestionSection(){
+
+    }
+
+    public void addQuestionToSection(Test test, Callable function){
         String testUUID = test.getTestUUID();
         Test copyOfTest = test;
+        //function.
 
     }
 

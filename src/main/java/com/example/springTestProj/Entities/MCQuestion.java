@@ -41,6 +41,10 @@ public class MCQuestion {
     public MCQuestion() {
     }
 
+    public MCQuestion(String questionID) {
+        this.questionID = questionID;
+    }
+
     @Override
     public String toString() {
         return "MCQuestion [QuestionID=" + questionID + "]";
