@@ -14,25 +14,25 @@ import javax.persistence.*;
 public class FIBQuestion {
     @Id
    // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
-    @Column(name = "QuestionID")
+    @Column(name = "question_id")
     private String questionID;
-    @Column(name = "QContent")
+    @Column(name = "question_content")
     private String qContent;
-    @Column(name = "QGraphic")
+    @Column(name = "question_graphic")
     private String qGraphic;
-    @Column(name = "CorrectAnswer")
+    @Column(name = "correct_answer")
     private String correctAnswer;
-    @Column(name = "AnswerGraphic")
+    @Column(name = "answer_graphic")
     private String answerGraphic;
-    @Column(name = "TextReferenceSection")
+    @Column(name = "text_ref_section")
     private String textReferenceSection;
-    @Column(name = "ReferenceMaterial")
+    @Column(name = "reference_material")
     private String referenceMaterial;
-    @Column(name = "InstructorComment")
+    @Column(name = "instructor_comment")
     private String instructorComment;
-    @Column(name = "GradingInstruction")
+    @Column(name = "grading_instruction")
     private String gradingInstruction;
-    @Column(name = "ClassAverage")
+    @Column(name = "class_average")
     private Double classAverage;
     
 
@@ -45,7 +45,7 @@ public class FIBQuestion {
 
     @Override
     public String toString() {
-        return "FIBQuestion [QuestionID=" + questionID + "]";
+        return "FIBQuestion [question_id=" + questionID + "]";
     }
 
 }

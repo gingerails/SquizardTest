@@ -16,10 +16,10 @@ public class Section {
     @EmbeddedId
     SectionPrimaryKey sectionPrimaryKey;
 
-    @Column(name = "CourseUUID")
+    @Column(name = "course_uuid")
     private String courseUUID;
 
-    @Column(name = "Tests")
+    @Column(name = "tests")
     private String test;
 
     public Section() {

@@ -13,11 +13,11 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
     @Id
-    @Column(name = "UserID")
+    @Column(name = "user_id")
     private String userID;
-    @Column(name = "Username")
+    @Column(name = "username")
     private String username;
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
 
     public User() {
@@ -26,7 +26,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [UserID=" + userID + ", Username =" + username + "]";
+        return "User [user_id=" + userID + ", username =" + username + "]";
     }
 
 }

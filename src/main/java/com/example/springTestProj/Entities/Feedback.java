@@ -14,12 +14,12 @@ import java.util.UUID;
 @Table(name = "Feedback")
 public class Feedback {
     @Id
-    @Column(name = "TestUUID")
+    @Column(name = "test_uuid")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private String testUUID;
     @Column(name = "class_average")
     private Double class_average;
-    @Column(name = "Class")
+    @Column(name = "class")
     private String className;
     @Column(name = "test_length")
     private Double testLength;
@@ -35,7 +35,7 @@ public class Feedback {
 
     @Override
     public String toString() {
-        return "Feedback [TestUUID=" + testUUID + ", class_average =" +  + class_average + ", Class =" + className + ", TestLength =" + testLength + "]";
+        return "Feedback [test_uuid=" + testUUID + ", class_average =" +  + class_average + ", class =" + className + ", test_length =" + testLength + "]";
     }
 
 }

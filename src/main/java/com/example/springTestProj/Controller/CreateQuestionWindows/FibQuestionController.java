@@ -18,6 +18,9 @@ public class FibQuestionController implements ControlDialogBoxes {
     private Stage stage;
     @FXML
     private Button add;
+
+    @FXML
+    private Button addGraphicButton;
     @FXML
     private VBox fillInBlankBox;
 
@@ -32,6 +35,12 @@ public class FibQuestionController implements ControlDialogBoxes {
         this.stage = new Stage();
         stage.setTitle("Add Fill-in-Blank Question");
         stage.setScene(new Scene(fillInBlankBox));
+
+        this.add.setOnAction(actionEvent -> {
+
+
+
+        });
     }
 
     @Override
