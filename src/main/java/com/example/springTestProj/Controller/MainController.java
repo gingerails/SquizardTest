@@ -131,9 +131,9 @@ public class MainController implements ControlSwitchScreen {
    
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
-        FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView =
-                fxWeaver.load(TestMakerController.class);
-        testMakerControllerAndView.getController().show(getCurrentStage());
+        FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
+                fxWeaver.load(CreateTestController.class);
+        createTestControllerAndView.getController().show(getCurrentStage());
     }
     public void loadAddCourseScreen() {
         

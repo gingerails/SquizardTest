@@ -11,13 +11,13 @@
 
 <!--  ADD LATER      stylesheets="@Style.css"-->
 
-<VBox fx:id="createAccountVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="276.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateAccountController">
+<VBox fx:id="createAccountVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="276.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateAccountController">
    <Separator orientation="VERTICAL" prefHeight="200.0" />
    <VBox>
       <children>
          <Label alignment="TOP_CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="86.0" prefWidth="622.0" snapToPixel="false" text="Create Account" textAlignment="CENTER">
             <font>
-               <Font name="System Bold" size="23.0" />
+               <Font name="System Bold" size="34.0" />
             </font>
          </Label>
          <Label text="Username:" />

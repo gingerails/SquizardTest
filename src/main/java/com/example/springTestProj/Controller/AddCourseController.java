@@ -96,9 +96,7 @@ public class AddCourseController implements ControlSwitchScreen {
                 //  if(courseService.existsByCourseNum(courseNumText)
                 if (courseService.existsByCourseNum(String.valueOf(course))) // check if updating existing course
                 {
-                    error.setText("Error: Duplicated Course!");
-                    // just in cSSE
-                   
+                    error.setText("Error: Duplicated Course!");  
                 } else {
                     createCourse(courseNumText);
                     mainController.initialize();

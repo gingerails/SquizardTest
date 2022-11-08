@@ -28,9 +28,9 @@
                </font></Label>
                 <Label layoutX="1319.0" layoutY="38.0" text="Class/Section:" AnchorPane.rightAnchor="155.4000000000001" />
                 <Button fx:id="addCourseButton" layoutX="1502.0" layoutY="33.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="21.200000000000045" />
-                <Button layoutX="177.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
+                <Button layoutX="177.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" text="MC&#10;TF&#10;Essay&#10;Short&#10;Match&#10;">
                     <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Button>
                 <Button layoutX="341.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
