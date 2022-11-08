@@ -62,24 +62,25 @@ public class MainController implements ControlSwitchScreen {
 
     public void getDatabaseCourses()
     {
+        displayClass.getItems().clear();
       List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
+            if(course.getSections()==null)
+            {
+                sectionsAsString="";
+            }
             String[] sectionsList = sectionsAsString.split(",");
             ArrayList<String> displayList = new ArrayList<>();
             for (String currentSection: sectionsList) {
-                if(currentSection!=null)
-                {
+                
+               
                 String statementString = course.getCoursesPrimaryKey().getCourseNum() + " " + currentSection;
+                System.out.println(currentSection);
                 System.out.println(statementString);
+                
                 displayClass.getItems().addAll(statementString);
-                }
-                else
-                {
-                String statementString = course.getCoursesPrimaryKey().getCourseNum();
-                System.out.println(statementString);
-                displayClass.getItems().addAll(statementString);
-                }
+ 
             }
         }
             
@@ -87,23 +88,19 @@ public class MainController implements ControlSwitchScreen {
         
     }
    
-   String test="cs101,cs202,cs303";
+   //String test="cs101,cs202,cs303";
     
     @FXML
     public void initialize () {
-        
-    //System.out.println(dropdownCourseList); 
-        //display all current classes on opening
-        String[] arrStr = test.split(",");
-        displayClass.getItems().addAll(arrStr);
-        
-        //program button actions
+    
+    getDatabaseCourses();
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
         this.addCourseButton.setOnAction((ActionEvent actionEvent) -> {
             loadAddCourseScreen();
-            getDatabaseCourses();
+            //getDatabaseCourses();
+            initialize();
         });
         
         
