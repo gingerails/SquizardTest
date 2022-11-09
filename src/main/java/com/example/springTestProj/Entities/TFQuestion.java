@@ -17,9 +17,9 @@ public class TFQuestion {
     @Column(name = "question_id")
     private String questionID;
     @Column(name = "question_content")
-    private String qContent;
+    private String questionContent;
     @Column(name = "question_graphic")
-    private String qGraphic;
+    private String questionGraphic;
     @Column(name = "correct_answer")
     private String correctAnswer;
     @Column(name = "answer_graphic")
@@ -41,6 +41,12 @@ public class TFQuestion {
 
     public TFQuestion(String questionID) {
         this.questionID = questionID;
+    }
+
+    public TFQuestion(String questionID, String questionContent, String correctAnswer) {
+        this.questionID = questionID;
+        this.questionContent = questionContent;
+        this.correctAnswer = correctAnswer;
     }
 
     @Override
