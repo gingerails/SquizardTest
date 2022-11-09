@@ -8,8 +8,10 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
 <!--<?import javafx.scene.web.HTMLEditor?>-->
 
 <VBox fx:id="mainVbox" prefHeight="307.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
@@ -30,10 +32,9 @@
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="314.0">
-<!--               <children>-->
-<!--                  <HTMLEditor htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" layoutX="217.0" layoutY="27.0" prefHeight="699.0" prefWidth="476.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0" />-->
-<!--               </children>-->
-            </AnchorPane>
+                     <children>
+                        <WebView fx:id="viewer" layoutY="26.0" prefHeight="282.0" prefWidth="200.0" AnchorPane.bottomAnchor="-1.9999938964843977" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.599999999999994" AnchorPane.topAnchor="25.999993896484398" />
+                     </children></AnchorPane>
         </items>
       </SplitPane>
       <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="986.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

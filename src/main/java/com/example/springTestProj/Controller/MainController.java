@@ -9,6 +9,7 @@ import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Service.UserService;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -19,7 +20,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -48,6 +52,8 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Button addTest;
     @FXML
+    private Button preview1;
+    @FXML
     private Button addCourseButton;
     @FXML 
     private ComboBox displayClass;
@@ -62,24 +68,25 @@ public class MainController implements ControlSwitchScreen {
 
     public void getDatabaseCourses()
     {
+        displayClass.getItems().clear();
       List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
+            if(course.getSections()==null)
+            {
+                sectionsAsString="";
+            }
             String[] sectionsList = sectionsAsString.split(",");
             ArrayList<String> displayList = new ArrayList<>();
             for (String currentSection: sectionsList) {
-                if(currentSection!=null)
-                {
+                
+               
                 String statementString = course.getCoursesPrimaryKey().getCourseNum() + " " + currentSection;
+                System.out.println(currentSection);
                 System.out.println(statementString);
+                
                 displayClass.getItems().addAll(statementString);
-                }
-                else
-                {
-                String statementString = course.getCoursesPrimaryKey().getCourseNum();
-                System.out.println(statementString);
-                displayClass.getItems().addAll(statementString);
-                }
+ 
             }
         }
             
@@ -87,23 +94,22 @@ public class MainController implements ControlSwitchScreen {
         
     }
    
-   String test="cs101,cs202,cs303";
+   //String test="cs101,cs202,cs303";
     
     @FXML
     public void initialize () {
         
-    //System.out.println(dropdownCourseList); 
-        //display all current classes on opening
-        String[] arrStr = test.split(",");
-        displayClass.getItems().addAll(arrStr);
-        
-        //program button actions
+    getDatabaseCourses();
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
         this.addCourseButton.setOnAction((ActionEvent actionEvent) -> {
             loadAddCourseScreen();
-            getDatabaseCourses();
+            //getDatabaseCourses();
+            initialize();
+        });
+        this.preview1.setOnAction(actionEvent -> {
+            loadpreview("/website.html");
         });
         
         
@@ -134,9 +140,26 @@ public class MainController implements ControlSwitchScreen {
    
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
-        FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView =
-                fxWeaver.load(TestMakerController.class);
-        testMakerControllerAndView.getController().show(getCurrentStage());
+        FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
+                fxWeaver.load(CreateTestController.class);
+        createTestControllerAndView.getController().show(getCurrentStage());
+    }
+     public void loadpreview(String name) {
+         Stage nstage= new Stage();
+         
+         WebView browser = new WebView();
+         WebEngine engine = browser.getEngine();
+         URL url = this.getClass().getResource(name);
+         engine.load(url.toString());  
+         
+
+         StackPane sp = new StackPane();
+         sp.getChildren().add(browser);
+
+         Scene root = new Scene(sp);
+
+         nstage.setScene(root);
+         nstage.show();
     }
     public void loadAddCourseScreen() {
         

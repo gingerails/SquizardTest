@@ -11,6 +11,7 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.MQuestionCont
 import com.example.springTestProj.Controller.CreateQuestionWindows.McQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.TfQuestionController;
 import com.example.springTestProj.Service.UserService;
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,8 +25,11 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 /**
  * FXML Controller class
@@ -39,6 +43,9 @@ public class TestMakerController implements ControlSwitchScreen {
     private final FxWeaver fxWeaver;
     private Stage stage;
 
+    @FXML 
+    private WebView viewer;
+    private WebEngine engine;
     @FXML
     private VBox mainVbox;
     @FXML
@@ -54,7 +61,11 @@ public class TestMakerController implements ControlSwitchScreen {
 
     @FXML
     public void initialize () {
-
+        //webviewer
+    engine=viewer.getEngine();
+    URL url = this.getClass().getResource("/website.html");
+    engine.load(url.toString());  
+        
          questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
@@ -66,6 +77,7 @@ public class TestMakerController implements ControlSwitchScreen {
              try {
                  //System.out.print("essay Question");
                  pickQuestion();
+                 
              } catch (IOException ex) {
                  Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
              }

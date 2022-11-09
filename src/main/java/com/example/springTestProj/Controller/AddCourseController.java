@@ -6,6 +6,7 @@ import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Service.FeedbackService;
 import com.example.springTestProj.Service.SectionService;
+import com.example.springTestProj.Controller.MainController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 
@@ -39,6 +41,8 @@ import javafx.stage.Modality;
 public class AddCourseController implements ControlSwitchScreen {
     private final CourseService courseService;
     private final SectionService sectionService;
+    
+    private final MainController mainController;
 
     // for testing. delete later
     private final FeedbackService feedbackService;
@@ -60,11 +64,14 @@ public class AddCourseController implements ControlSwitchScreen {
     @FXML
     VBox addCourseVbox;  // fx:id !!!!!
 
-    public AddCourseController(CourseService courseService, SectionService sectionService, FeedbackService feedbackService, FxWeaver fxWeaver) {
+    public AddCourseController(CourseService courseService, SectionService sectionService, FeedbackService feedbackService, MainController mainController, FxWeaver fxWeaver)
+    {
         this.courseService = courseService;//
         this.sectionService = sectionService;
         this.feedbackService = feedbackService;
+        this.mainController = mainController;
         this.fxWeaver = fxWeaver;
+        
         
     }
 
@@ -83,12 +90,21 @@ public class AddCourseController implements ControlSwitchScreen {
             if(courseNum.getText().isBlank()){
                 System.out.println("Error: Course left blank");
                 error.setText("Error: Course left blank");
-            } else if (courseSection.getText().isBlank()){
+            } else if (courseSection.getText().isBlank()) {
                 String courseNumText = courseNum.getText();
-                createCourse(courseNumText);
-                stage.close();
+                String course = courseNum.getText();
+                //  if(courseService.existsByCourseNum(courseNumText)
+                if (courseService.existsByCourseNum(String.valueOf(course))) // check if updating existing course
+                {
+                    error.setText("Error: Duplicated Course!");  
+                } else {
+                    createCourse(courseNumText);
+                    mainController.initialize();
+                    stage.close();
+                }
             } else {
                 createCourseAndSection();
+                mainController.initialize();
                 stage.close();
             }
 
@@ -114,9 +130,7 @@ public class AddCourseController implements ControlSwitchScreen {
         courseService.saveCourseToRepository(newCourse);
 
     }
-
-
-
+   
     public void createCourseAndSection(){
          String course = courseNum.getText();
          String section = courseSection.getText();
