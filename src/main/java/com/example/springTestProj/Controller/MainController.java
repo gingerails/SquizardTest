@@ -9,6 +9,7 @@ import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Service.UserService;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -19,7 +20,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -47,6 +51,8 @@ public class MainController implements ControlSwitchScreen {
     private VBox mainVbox;
     @FXML
     private Button addTest;
+    @FXML
+    private Button preview1;
     @FXML
     private Button addCourseButton;
     @FXML 
@@ -92,7 +98,7 @@ public class MainController implements ControlSwitchScreen {
     
     @FXML
     public void initialize () {
-    
+        
     getDatabaseCourses();
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
@@ -101,6 +107,9 @@ public class MainController implements ControlSwitchScreen {
             loadAddCourseScreen();
             //getDatabaseCourses();
             initialize();
+        });
+        this.preview1.setOnAction(actionEvent -> {
+            loadpreview("/website.html");
         });
         
         
@@ -134,6 +143,23 @@ public class MainController implements ControlSwitchScreen {
         FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
                 fxWeaver.load(CreateTestController.class);
         createTestControllerAndView.getController().show(getCurrentStage());
+    }
+     public void loadpreview(String name) {
+         Stage nstage= new Stage();
+         
+         WebView browser = new WebView();
+         WebEngine engine = browser.getEngine();
+         URL url = this.getClass().getResource(name);
+         engine.load(url.toString());  
+         
+
+         StackPane sp = new StackPane();
+         sp.getChildren().add(browser);
+
+         Scene root = new Scene(sp);
+
+         nstage.setScene(root);
+         nstage.show();
     }
     public void loadAddCourseScreen() {
         
