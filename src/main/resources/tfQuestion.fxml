@@ -38,5 +38,5 @@
          </children>
       </AnchorPane>
    </children>
-<!--   <Label fx:id="error" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="314.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" />-->
+   <Label fx:id="error" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="314.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" />
 </VBox>
