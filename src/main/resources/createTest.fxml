@@ -22,8 +22,8 @@
                 </Label>
                 <Label layoutX="61.0" layoutY="93.0" text="Test Name:" AnchorPane.rightAnchor="291.4" />
                 <TextField layoutX="130.0" layoutY="89.0" prefHeight="26.0" prefWidth="214.0" />
-                <ComboBox layoutX="130.0" layoutY="133.0" prefHeight="26.0" prefWidth="109.0" />
-                <ComboBox layoutX="130.0" layoutY="174.0" prefHeight="26.0" prefWidth="110.0" />
+                <ComboBox fx:id="classes" layoutX="130.0" layoutY="133.0" prefHeight="26.0" prefWidth="109.0" />
+                <ComboBox fx:id="section" layoutX="130.0" layoutY="174.0" prefHeight="26.0" prefWidth="110.0" />
                 <Label layoutX="91.0" layoutY="137.0" text="Class:" AnchorPane.rightAnchor="291.4" />
                 <Label layoutX="79.0" layoutY="178.0" text="Section:" AnchorPane.rightAnchor="291.4" />
             </children>
