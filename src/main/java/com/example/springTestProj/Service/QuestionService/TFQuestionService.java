@@ -16,7 +16,7 @@ public class TFQuestionService {
 
     public TFQuestion createTFQuestion(String questionContent, String questionAnswer){
         String questionID = String.valueOf(UUID.randomUUID());
-        TFQuestion newTFQuestion = new TFQuestion(questionID, questionAnswer, questionContent);
+        TFQuestion newTFQuestion = new TFQuestion(questionID, questionContent, questionAnswer);
 
         return newTFQuestion;
     }

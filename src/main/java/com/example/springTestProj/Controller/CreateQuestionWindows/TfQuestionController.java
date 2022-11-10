@@ -69,8 +69,6 @@ public class TfQuestionController implements ControlDialogBoxes {
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
-           // add();
-           // stage.close();
         });
 
     }
@@ -78,17 +76,10 @@ public class TfQuestionController implements ControlDialogBoxes {
 
     @Override
     public void show(Stage thisStage) {
-//        this.stage = thisStage;
-//        stage.setScene(new Scene(mainVbox));
-//        System.out.println("Showing essay question screen");
         stage.show();
         this.stage.centerOnScreen();
     }
 
-//    @Override
-//    public <T> void add(T t) {
-//
-//    }
 
     public void add() {
 
@@ -97,13 +88,13 @@ public class TfQuestionController implements ControlDialogBoxes {
            String question = questionContent.getText();
            String correctAnswer = "False";
            TFQuestion tfQuestion = tfQuestionService.createTFQuestion(question, correctAnswer);
-           checkAndAddFields(tfQuestion);
+           checkFieldsAndAddQuestion(tfQuestion);
            stage.close();
        } else if (isTrueCheckBox.isSelected()&& !questionContent.getText().isBlank()) {
            String question = questionContent.getText();
            String correctAnswer = "True";
            TFQuestion tfQuestion = tfQuestionService.createTFQuestion(question, correctAnswer);
-           checkAndAddFields(tfQuestion);
+           checkFieldsAndAddQuestion(tfQuestion);
            stage.close();
        }
        else{
@@ -112,24 +103,23 @@ public class TfQuestionController implements ControlDialogBoxes {
        }
     }
 
-    public void checkAndAddFields(TFQuestion tfQuestion){
+    public void checkFieldsAndAddQuestion(TFQuestion tfQuestion){
 
         if(!referenceMaterial.getText().isBlank()){
             String refMaterial =  referenceMaterial.getText();
             tfQuestion.setReferenceMaterial(refMaterial);
-            //tfQuestionService.addReference();
         }
         if(!referenceSection.getText().isBlank()){
             String refSection =  referenceSection.getText();
-            tfQuestion.setReferenceMaterial(refSection);
+            tfQuestion.setTextReferenceSection(refSection);
         }
         if(!instructorComment.getText().isBlank()){
             String comment =  instructorComment.getText();
-            tfQuestion.setReferenceMaterial(comment);
+            tfQuestion.setInstructorComment(comment);
         }
         if(!gradingInstructions.getText().isBlank()){
             String instructions =  gradingInstructions.getText();
-            tfQuestion.setReferenceMaterial(instructions);
+            tfQuestion.setGradingInstruction(instructions);
         }
         tfQuestionService.saveQuestionToRepository(tfQuestion);
 
