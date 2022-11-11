@@ -54,10 +54,13 @@ public class CreateTestController implements ControlSwitchScreen {
     @FXML
     public void initialize () {
         getCoursesInfo();
-        getSectionInfo();
+        
         this.createTest.setOnAction(actionEvent -> {
             System.out.print("create button pressed");
             loadTestMaker();
+        });
+        this.classes.setOnAction(actionEvent -> {
+           getSectionInfo();
         });
     }
 
@@ -99,10 +102,34 @@ public class CreateTestController implements ControlSwitchScreen {
      //needs to be completed needs to take data of what is in the class combobox and look for any section numbers
        public void getSectionInfo()
     {
-       
+        section.getItems().clear();
+        section.getItems().addAll("ALL");
+
+        List<Courses> dropdownCourseList = courseService.readCourses();
+        for (Courses course : dropdownCourseList) {
+            String sectionsAsString = course.getSections();
+            if (course.getSections() == null) {
+                sectionsAsString = "";
+            }
+            String[] sectionsList = sectionsAsString.split(",");
+            ArrayList<String> displayList = new ArrayList<>();
+            for (String currentSection : sectionsList) {
+
+                System.out.println("1."+course.getCoursesPrimaryKey().getCourseNum());
+                System.out.println("2."+classes.getValue());
+                if(course.getCoursesPrimaryKey().getCourseNum().equals(classes.getValue()))
+                {
+                String statementString = currentSection;
+                System.out.println(currentSection);
+                System.out.println(statementString);
+                section.getItems().addAll(statementString);
+                System.out.println(course.getCoursesPrimaryKey().getCourseNum());
+                }
                 
-                section.getItems().addAll("ALL");
+            }
+        
     }
+}
 }
 
 
