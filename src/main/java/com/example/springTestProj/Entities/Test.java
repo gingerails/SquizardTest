@@ -37,9 +37,11 @@ public class Test {
     @Column(name = "test_key_html")
     private String testKeyHTML;
 
-    public Test(String testUUID) {
+    public Test(String testUUID, String sectionUUID) {
         this.testUUID = testUUID;
+        this.sectionUUID = sectionUUID;
     }
+
 
     public Test() {
 

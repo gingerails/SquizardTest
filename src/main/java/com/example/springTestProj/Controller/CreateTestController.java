@@ -7,6 +7,7 @@ package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Service.CourseService;
+import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,7 +20,7 @@ import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-import com.example.springTestProj.Service.CourseService;
+
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.CheckBox;
@@ -35,8 +36,8 @@ public class CreateTestController implements ControlSwitchScreen {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final CourseService courseService;
+    private final TestService testService;
     private Stage stage;
-
     @FXML
     private VBox mainVbox;
     @FXML
@@ -50,11 +51,12 @@ public class CreateTestController implements ControlSwitchScreen {
     @FXML
     private CheckBox analytic;
    
-    public CreateTestController(UserService userService, FxWeaver fxWeaver,CourseService courseService) {
+    public CreateTestController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService) {
         //System.out.println("Create Test Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.courseService=courseService;
+        this.testService = testService;
     }
 
     @FXML
@@ -63,14 +65,13 @@ public class CreateTestController implements ControlSwitchScreen {
         
         this.createTest.setOnAction(actionEvent -> {
             //System.out.print("create button pressed");
+            saveTest();
             loadTestMaker();
         });
         this.classes.setOnAction(actionEvent -> {
            getSectionInfo();
         });
-        this.createTest.setOnAction(actionEvent -> {
-           saveTest();
-        });
+//
     }
 
     @Override
@@ -99,7 +100,7 @@ public class CreateTestController implements ControlSwitchScreen {
      public void getCoursesInfo()
     {
        classes.getItems().clear();
-      List<Courses> dropdownCourseList = courseService.readCourses();
+       List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
 
                 String statementString = course.getCoursesPrimaryKey().getCourseNum();
@@ -113,6 +114,9 @@ public class CreateTestController implements ControlSwitchScreen {
         String fileName=name.getText()+".html";
         String className=(String) classes.getValue();
         String sectionName=(String) section.getValue();
+
+        testService.createTest(fileName, sectionName);
+
         //analytic.get
         
         System.out.println(fileName+" "+className+" "+sectionName);

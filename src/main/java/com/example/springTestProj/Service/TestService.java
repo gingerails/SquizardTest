@@ -18,9 +18,10 @@ public class TestService {
     @Autowired
     TestsRepository testsRepository;
 
-    public void createTest(Test test){
-        String testUUID = String.valueOf(UUID.randomUUID());
-        Test newTest = new Test(testUUID);
+    public void createTest(String testName, String section){
+//        String testUUID = String.valueOf(UUID.randomUUID());
+        Test newTest = new Test(testName, section);
+       // Test newTest = new Test(testUUID);
     }
     // functions needed:
 
