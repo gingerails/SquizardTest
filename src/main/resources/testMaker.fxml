@@ -19,61 +19,61 @@
 
 <VBox fx:id="mainVbox" prefHeight="307.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
     <children>
-        <AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-            <children>
-                <SplitPane dividerPositions="0.49394184168012917" layoutX="112.0" layoutY="284.0" prefHeight="727.0" prefWidth="992.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="726.0" prefWidth="403.0">
-                            <children>
-                                <Button fx:id="add" layoutX="460.0" layoutY="32.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="3.199999999999978">
-                                    <font>
-                                        <Font name="Arial Bold" size="12.0" />
-                                    </font>
-                                </Button>
-                                <ComboBox fx:id="questionType" layoutX="302.0" layoutY="31.0" prefWidth="150.0" promptText="Question Type" visibleRowCount="4" AnchorPane.rightAnchor="33.99999999999997" />
-                                <TextArea editable="false" layoutX="-6.0" layoutY="55.0" prefHeight="674.0" prefWidth="498.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="55.0" />
-                                <Pane fx:id="Qpane" layoutY="57.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                    <children>
-                                        <CheckBox layoutX="22.0" layoutY="12.0" mnemonicParsing="false" />
-                                        <Label layoutX="45.0" layoutY="12.0" text="Type:" />
-                                        <Label layoutX="45.0" layoutY="33.0" text="Question:" />
-                                        <Label layoutX="45.0" layoutY="54.0" text="Answer:" />
-                                        <Label layoutX="45.0" layoutY="74.0" text="Sections:" />
-                                        <Label layoutX="45.0" layoutY="93.0" text="Materials:" />
-                                        <Label layoutX="45.0" layoutY="112.0" text="Comments:" />
-                                        <Label layoutX="45.0" layoutY="132.0" text="Grading Instructions:" />
-                                    </children>
-                                </Pane>
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="314.0">
-                            <children>
-                                <WebView fx:id="viewer" layoutY="26.0" prefHeight="282.0" prefWidth="200.0" AnchorPane.bottomAnchor="-1.9999938964843977" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.599999999999994" AnchorPane.topAnchor="25.999993896484398" />
-                            </children></AnchorPane>
-                    </items>
-                </SplitPane>
-                <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="986.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Import" />
-                                <MenuItem mnemonicParsing="false" text="Export" />
-                                <MenuItem fx:id="print" mnemonicParsing="false" text="Print" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Delete" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                            </items>
-                        </Menu>
-                    </menus>
-                </MenuBar>
-            </children>
-        </AnchorPane>
-    </children>
+<AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.49394184168012917" layoutX="112.0" layoutY="284.0" prefHeight="727.0" prefWidth="992.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="726.0" prefWidth="403.0">
+               <children>
+                  <Button fx:id="add" layoutX="460.0" layoutY="32.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="3.199999999999978">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <ComboBox fx:id="questionType" layoutX="302.0" layoutY="31.0" prefWidth="150.0" promptText="Question Type" visibleRowCount="4" AnchorPane.rightAnchor="33.99999999999997" />  
+                  <TextArea editable="false" layoutX="-6.0" layoutY="55.0" prefHeight="674.0" prefWidth="498.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="55.0" />
+                        <Pane fx:id="Qpane" layoutY="57.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <CheckBox layoutX="22.0" layoutY="12.0" mnemonicParsing="false" />
+                              <Label layoutX="45.0" layoutY="12.0" text="Type:" />
+                              <Label layoutX="45.0" layoutY="33.0" text="Question:" />
+                              <Label layoutX="45.0" layoutY="54.0" text="Answer:" />
+                              <Label layoutX="45.0" layoutY="74.0" text="Sections:" />
+                              <Label layoutX="45.0" layoutY="93.0" text="Materials:" />
+                              <Label layoutX="45.0" layoutY="112.0" text="Comments:" />
+                              <Label layoutX="45.0" layoutY="132.0" text="Grading Instructions:" />
+                           </children>
+                        </Pane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="314.0">
+                     <children>
+                        <WebView fx:id="viewer" layoutY="26.0" prefHeight="282.0" prefWidth="200.0" AnchorPane.bottomAnchor="-1.9999938964843977" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.599999999999994" AnchorPane.topAnchor="25.999993896484398" />
+                     </children></AnchorPane>
+        </items>
+      </SplitPane>
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="986.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Import" />
+                        <MenuItem mnemonicParsing="false" text="Export" />
+                        <MenuItem fx:id="print" mnemonicParsing="false" text="Print" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
+</children>
 </VBox>
