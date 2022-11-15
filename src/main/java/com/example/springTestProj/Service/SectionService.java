@@ -39,4 +39,8 @@ public class SectionService {
     public List<Section> readSections(){
         return sectionRepository.findAll();
     }
+    public List<Section> findCourseSections(String courseID){
+        return sectionRepository.findSectionsByCourseUUID(courseID);
+    }
+
 }

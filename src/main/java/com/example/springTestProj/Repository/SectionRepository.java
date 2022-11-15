@@ -22,7 +22,7 @@ public interface SectionRepository extends JpaRepository<Section, SectionPrimary
     Section findSectionByCourseUUIDAndSectionPrimaryKey_SectionNum(String courseID, String sectionNum);
 
     Section findSectionBySectionPrimaryKeySectionNumAndAndCourseUUID(String sectionNum, String courseID);
-    //  List<Section> findSectionsByCourseUUID(String courseUUID);
+    List<Section> findSectionsByCourseUUID(String courseUUID);
 //    List<Section> findSectionsByCourseUUID(String courseUUID);
 
 

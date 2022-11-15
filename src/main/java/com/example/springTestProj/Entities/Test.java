@@ -20,6 +20,8 @@ public class Test {
     // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
     @Column(name = "test_uuid")
     private String testUUID;
+    @Column(name = "test_name")
+    private String testName;
     @Column(name = "section_uuid")
     private String sectionUUID;
     @Column(name = "true_false_q_ids")
@@ -47,4 +49,10 @@ public class Test {
 
     }
 
+
+    public Test(String testUUID, String testName, String sectionUUID) {
+        this.testUUID = testUUID;
+        this.testName = testName;
+        this.sectionUUID = sectionUUID;
+    }
 }

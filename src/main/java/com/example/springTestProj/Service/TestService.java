@@ -15,16 +15,18 @@ public class TestService {
     @Autowired
     TestsRepository testsRepository;
 
-    @Autowired
-    SectionService sectionService;
 
-    public Test createTest(String testName, String section, String courseID){
-        Section testSection = sectionService.returnSectionBySectionAndCourseID(section, courseID);
-        String sectionUUID = testSection.getSectionPrimaryKey().getSectionUUID();
-        Test newTest = new Test(testName, sectionUUID);
+    public Test createTest(String testName, String sectionUUID){
+        String testUUID = String.valueOf(UUID.randomUUID());
+        Test newTest = new Test(testUUID, testName, sectionUUID);
 
         return newTest;
     }
+
+    public void saveTestToRepository(Test test){
+        testsRepository.save(test);
+    }
+
     // functions needed:
 
     // creating a test

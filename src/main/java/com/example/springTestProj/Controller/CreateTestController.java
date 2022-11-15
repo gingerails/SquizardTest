@@ -6,7 +6,10 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Section;
+import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.CourseService;
+import com.example.springTestProj.Service.SectionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
@@ -37,6 +40,7 @@ public class CreateTestController implements ControlSwitchScreen {
     private final FxWeaver fxWeaver;
     private final CourseService courseService;
     private final TestService testService;
+    private final SectionService sectionService;
     private Stage stage;
     @FXML
     private VBox mainVbox;
@@ -51,12 +55,13 @@ public class CreateTestController implements ControlSwitchScreen {
     @FXML
     private CheckBox analytic;
    
-    public CreateTestController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService) {
+    public CreateTestController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, SectionService sectionService) {
         //System.out.println("Create Test Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.courseService=courseService;
         this.testService = testService;
+        this.sectionService = sectionService;
     }
 
     @FXML
@@ -117,7 +122,16 @@ public class CreateTestController implements ControlSwitchScreen {
 
         Courses selectedCourse = courseService.returnCourseByCourseNum(className);
         String courseID = selectedCourse.getCoursesPrimaryKey().getCoursesUUID();
-        testService.createTest(fileName, sectionName, courseID);
+
+        if(sectionName == "ALL"){
+            List<Section> allSections = sectionService.findCourseSections(courseID);
+        } else{
+            Section testSection = sectionService.returnSectionBySectionAndCourseID(sectionName, courseID);
+            String sectionUUID = testSection.getSectionPrimaryKey().getSectionUUID();
+            Test newTest = testService.createTest(fileName, sectionUUID);
+            testService.saveTestToRepository(newTest);
+
+        }
 
         //analytic.get
         
