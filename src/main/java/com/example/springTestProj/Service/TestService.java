@@ -1,6 +1,9 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.*;
+import com.example.springTestProj.Entities.FIBQuestion;
+import com.example.springTestProj.Entities.MCQuestion;
+import com.example.springTestProj.Entities.TFQuestion;
+import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Repository.TestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,12 @@ public class TestService {
 
     public void saveTestToRepository(Test test){
         testsRepository.save(test);
+        System.out.println("Test saved?");
+    }
+
+
+    public Test returnTestByTestID(String testID){
+        return testsRepository.findByTestUUID(testID);
     }
 
     // functions needed:
