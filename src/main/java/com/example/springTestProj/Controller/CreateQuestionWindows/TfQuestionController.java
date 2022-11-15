@@ -1,7 +1,9 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Entities.TFQuestion;
+import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.TFQuestionService;
+import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -15,6 +17,8 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.Callable;
+
 @Component
 @FxmlView("/tfQuestion.fxml")
 public class TfQuestionController implements ControlDialogBoxes {
@@ -22,6 +26,7 @@ public class TfQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final TFQuestionService tfQuestionService;
+    private final TestService testService;
     private Stage stage;
 
     @FXML
@@ -50,11 +55,11 @@ public class TfQuestionController implements ControlDialogBoxes {
     private Label error;
 
 
-    public TfQuestionController(UserService userService, FxWeaver fxWeaver, TFQuestionService tfQuestionService) {
-        //System.out.println("essay Controller");
+    public TfQuestionController(UserService userService, FxWeaver fxWeaver, TFQuestionService tfQuestionService, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.tfQuestionService = tfQuestionService;
+        this.testService = testService;
     }
 
     @FXML
@@ -123,6 +128,22 @@ public class TfQuestionController implements ControlDialogBoxes {
         }
         tfQuestionService.saveQuestionToRepository(tfQuestion);
 
+        Test currentTest = getCurrentTestSectionInfo();
+       testService.addTFQuestion(currentTest, tfQuestion);// also save to test using test service
+
+       // testService.addQuestionToExistingTestAndSave(currentTest, (Callable) testService.addTFQuestion(currentTest,tfQuestion));// also save to test using test service
+
+       // testService.addTFQuestion();
+
+    }
+
+    // maybe figure out a way to get the current section id. so we can add it to the question
+    public Test getCurrentTestSectionInfo(){
+        Test currentTest = testService.returnThisTest();
+        System.out.println(currentTest.getTestUUID());
+        //Test currentTest = new Test();
+
+        return currentTest;
     }
 
 //    public void createTFQuestion(String questionContent, String questionAnswer){

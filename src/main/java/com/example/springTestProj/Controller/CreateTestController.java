@@ -130,7 +130,6 @@ public class CreateTestController implements ControlSwitchScreen {
             String sectionUUID = testSection.getSectionPrimaryKey().getSectionUUID();
             Test newTest = testService.createTest(fileName, sectionUUID);
             testService.saveTestToRepository(newTest);
-
         }
 
         //analytic.get
