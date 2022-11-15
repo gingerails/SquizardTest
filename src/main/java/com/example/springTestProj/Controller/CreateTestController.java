@@ -115,7 +115,9 @@ public class CreateTestController implements ControlSwitchScreen {
         String className=(String) classes.getValue();
         String sectionName=(String) section.getValue();
 
-        testService.createTest(fileName, sectionName);
+        Courses selectedCourse = courseService.returnCourseByCourseNum(className);
+        String courseID = selectedCourse.getCoursesPrimaryKey().getCoursesUUID();
+        testService.createTest(fileName, sectionName, courseID);
 
         //analytic.get
         

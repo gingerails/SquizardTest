@@ -18,7 +18,11 @@ public interface SectionRepository extends JpaRepository<Section, SectionPrimary
     boolean existsByCourseUUIDAndSectionPrimaryKey_SectionNum(String courseID, String sectionNum);
   //  Section findBySectionNumAndCourseUUID(String sectionNum, String courseUUID);
 
-  //  List<Section> findSectionsByCourseUUID(String courseUUID);
+    Section findBySectionPrimaryKey_SectionNum(String sectionNum);
+    Section findSectionByCourseUUIDAndSectionPrimaryKey_SectionNum(String courseID, String sectionNum);
+
+    Section findSectionBySectionPrimaryKeySectionNumAndAndCourseUUID(String sectionNum, String courseID);
+    //  List<Section> findSectionsByCourseUUID(String courseUUID);
 //    List<Section> findSectionsByCourseUUID(String courseUUID);
 
 

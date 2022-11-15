@@ -25,6 +25,13 @@ public class SectionService {
 
         return newSection;
     }
+
+//    public Section returnSectionBySectionNum(String sectionNum){
+//        return sectionRepository.findBySectionPrimaryKey_SectionNum(sectionNum);
+//    }
+    public Section returnSectionBySectionAndCourseID(String sectionNum, String courseID){
+        return sectionRepository.findSectionBySectionPrimaryKeySectionNumAndAndCourseUUID(sectionNum, courseID);
+    }
     public boolean existsByCourseSection(String section, String courseUUID){
         return sectionRepository.existsByCourseUUIDAndSectionPrimaryKey_SectionNum(section, courseUUID);
     }

@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Embeddable
 public class SectionPrimaryKey implements Serializable {
 
-    @Column(name = "SectionUUID")
+    @Column(name = "section_uuid")
     private String sectionUUID;
     @Column(name = "section_num")
     private String sectionNum;

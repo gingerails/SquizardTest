@@ -1,9 +1,6 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.FIBQuestion;
-import com.example.springTestProj.Entities.MCQuestion;
-import com.example.springTestProj.Entities.TFQuestion;
-import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Entities.*;
 import com.example.springTestProj.Repository.TestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +15,15 @@ public class TestService {
     @Autowired
     TestsRepository testsRepository;
 
-    public void createTest(String testName, String section){
-//        String testUUID = String.valueOf(UUID.randomUUID());
-        Test newTest = new Test(testName, section);
-       // Test newTest = new Test(testUUID);
+    @Autowired
+    SectionService sectionService;
+
+    public Test createTest(String testName, String section, String courseID){
+        Section testSection = sectionService.returnSectionBySectionAndCourseID(section, courseID);
+        String sectionUUID = testSection.getSectionPrimaryKey().getSectionUUID();
+        Test newTest = new Test(testName, sectionUUID);
+
+        return newTest;
     }
     // functions needed:
 
@@ -39,14 +41,20 @@ public class TestService {
 
     }
 
-    public void addQuestionToSection(Test test, Callable function){
-        String testUUID = test.getTestUUID();
-        Test copyOfTest = test;
-        //function.
 
-    }
+    /**
+     * update test object by adding tf question
+     * @param test
+     * @param tfQuestion
+     * @return
+     */
+    public Test addTFQuestion(Test test, TFQuestion tfQuestion){
+        String tfQuestionID = tfQuestion.getQuestionID();
+        String tfSection = test.getTrueFalseQ();
+        tfSection = tfSection + "," + tfQuestionID;
+        test.setTrueFalseQ(tfSection);
 
-    public void addTFQuestion(TFQuestion tfQuestion){
+        return test;
 
     }
     public void addFIBQuestion(FIBQuestion fibQuestion){
