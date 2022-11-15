@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TestsRepository extends JpaRepository<Test, String> {
-    boolean existsByTestID(String testID);
+    boolean existsByTestUUID(String testID);
 //
 //    @Query("SELECT COUNT(u) FROM User u")
 //    Long getTotalUsers();
