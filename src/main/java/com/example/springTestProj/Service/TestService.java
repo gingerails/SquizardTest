@@ -101,7 +101,7 @@ public class TestService {
         String testUUID = test.getTestUUID();
         testsRepository.deleteById(testUUID); // delete existing vers of this course, preserving the uuid
         saveTestToRepository(test);
-
+        currentTest = test; // update current test
        // saveCourseToRepository(updatedCourse);
     }
     public void addFIBQuestion(FIBQuestion fibQuestion){
