@@ -1,9 +1,14 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -21,9 +26,19 @@ public class McQuestionController implements ControlDialogBoxes {
     @FXML
     private Button add;
     @FXML
+    private TextField questionField;
+    @FXML
+    private TextField choice1Field;
+    @FXML
+    private TextField choice2Field;
+    @FXML
+    private TextField choice3Field;
+    @FXML
+    private TextField choice4Field;
+    @FXML
     private VBox mcQuestionBox;
 
-
+    public String path="src\\main\\resources\\";
     public McQuestionController(UserService userService, FxWeaver fxWeaver) {
         System.out.println("essay Controller");
         this.fxWeaver = fxWeaver;
@@ -38,7 +53,7 @@ public class McQuestionController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             stage.close();
-            add();
+            add(path+"test.html");
         });
     }
 
@@ -57,8 +72,25 @@ public class McQuestionController implements ControlDialogBoxes {
 //
 //    }
 
-    public void add() {
+    public void add(String file) {
+        
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
+        
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
 
+            p.println("<hr />" + "\n"
+                    + "<p><span style='font-size:16px'><strong>" + questionField.getText() + "</strong></span></p>" + "\n"
+                    + "<p><span style='font-size:16px'>a. " + choice1Field.getText() + "</span></p>" + "\n"
+                    + "<p><span style='font-size:16px'>b. " + choice1Field.getText() + "</span></p>" + "\n"
+                    + "<p><span style='font-size:16px'>c. " + choice1Field.getText() + "</span></p>" + "\n"
+                    + "<p><span style='font-size:16px'>d. " + choice1Field.getText() + "</span></p>" + "\n");
+            b.close();
+            p.close();
+            f.close();
+            //engine.reload();  
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    
     }
 }

@@ -13,7 +13,7 @@
     <children>
         <AnchorPane id="AnchorPane" prefHeight="307.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
             <children>
-                <Button fx:id="createTest" layoutX="164.0" layoutY="258.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="82.0" text="Create" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="165.99999999999997" />
+                <Button fx:id="createTest" layoutX="164.0" layoutY="281.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="82.0" text="Create" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="165.99999999999997" />
                 <CheckBox fx:id="analytic" layoutX="62.0" layoutY="218.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="350.0" text="Enable Analytics " AnchorPane.leftAnchor="62.0" />
                 <Label layoutX="98.0" layoutY="14.0" prefHeight="58.0" prefWidth="214.0" text="Create Test">
                     <font>
@@ -26,6 +26,7 @@
                 <ComboBox fx:id="section" layoutX="130.0" layoutY="174.0" prefHeight="26.0" prefWidth="110.0" />
                 <Label layoutX="91.0" layoutY="137.0" text="Class:" AnchorPane.rightAnchor="291.4" />
                 <Label layoutX="79.0" layoutY="178.0" text="Section:" AnchorPane.rightAnchor="291.4" />
+            <Label fx:id="error" layoutX="62.0" layoutY="248.0" prefHeight="18.0" prefWidth="296.0" style="-fx-text-fill: #FF0000;" />
             </children>
         </AnchorPane>
     </children>

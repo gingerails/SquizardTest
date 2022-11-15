@@ -5,13 +5,18 @@
  */
 package com.example.springTestProj.Controller;
 
+import com.aspose.cells.Workbook;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.FibQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.MQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.McQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.ShortQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.TfQuestionController;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -25,6 +30,8 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,27 +58,42 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private Button add;
     @FXML
+    private Button publish;
+    @FXML
     private ComboBox questionType;
    
+    public String path="src\\main\\resources\\";
+    
+    File f = new File(path+"test.html");
+    
+    
     public TestMakerController(UserService userService, FxWeaver fxWeaver) {
-        System.out.println("Test maker Controller");
+        //System.out.println("Test maker Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
 
     @FXML
-    public void initialize () {
-        //webviewer
+    public void initialize () throws IOException{
+     
+        
+    createTest(path+"test.html","Test Name");
+    //webviewer
     engine=viewer.getEngine();
-    URL url = this.getClass().getResource("/website.html");
-    engine.load(url.toString());  
+    //File f = new File("src\\main\\resources\\test.html");
+    //URL url = this.getClass().getResource("src\\main\\resources\\test.html");
+    engine.load(f.toURI().toString());  
+    
+    //test creation html
+    //createTest("test.html","Test Name");
         
          questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
                 "Matching",
                 "Fill in Blank",
-                "True/False"
+                "True/False",
+                "Short Answer"
         );
         this.add.setOnAction(actionEvent -> {
              try {
@@ -81,6 +103,13 @@ public class TestMakerController implements ControlSwitchScreen {
              } catch (IOException ex) {
                  Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
              }
+        });
+        this.publish.setOnAction(actionEvent -> {
+           
+            
+            
+            publish(path+"test.html");
+           
         });
       
     }
@@ -96,14 +125,101 @@ public class TestMakerController implements ControlSwitchScreen {
     public void show(Stage thisStage) {
         this.stage = thisStage;
         stage.setScene(new Scene(mainVbox));
-        System.out.println("Showing test creation screen");
+        
         this.stage.setMaximized(false);
         stage.show();
         this.stage.setMaximized(true);
         this.stage.centerOnScreen();
     }
 
+    public void createTest(String file, String testName) throws IOException {
+        String setup = "<!DOCTYPE html>" + "\n"
+                + "<html>" + "\n"
+                + "<p style='text-align:center'><span style='font-size:36px'><strong>" + testName + "</strong></span></p>" + "\n";
+        String Title = "";
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(setup);
 
+        writer.close();
+
+    
+        
+
+    }
+
+    
+
+    public void appendS(String file, String Question) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+
+            p.println("<hr />" + "\n"
+                    + "<p><strong>Short Answer: " + Question + "</strong></p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n");
+            b.close();
+            p.close();
+            f.close();
+            engine.reload(); 
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public void appendE(String file, String Question) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+
+            p.println("<hr />" + "\n"
+                    + "<p><strong>Essay: " + Question + "</strong></p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n");
+            b.close();
+            p.close();
+            f.close();
+            engine.reload(); 
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public void publish(String file) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+
+            p.println("</html>");
+            b.close();
+            p.close();
+            f.close();
+            engine.reload(); 
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+
+    }
+
+     
     public void pickQuestion() throws IOException
     {
         String qType = (String)questionType.getValue();
@@ -117,6 +233,7 @@ public class TestMakerController implements ControlSwitchScreen {
             FxControllerAndView<EssayQuestionController, VBox> essayQuestionControllerAndView =
                     fxWeaver.load(EssayQuestionController.class);
             essayQuestionControllerAndView.getController().show(getCurrentStage());
+       
         }
          if("Multiple Choice".equals(qType)==true)
         {
@@ -124,6 +241,7 @@ public class TestMakerController implements ControlSwitchScreen {
             FxControllerAndView<McQuestionController, VBox> McQuestionControllerAndView =
                     fxWeaver.load(McQuestionController.class);
             McQuestionControllerAndView.getController().show(getCurrentStage());
+            
         }
          if("Matching".equals(qType)==true)
         {
@@ -145,6 +263,13 @@ public class TestMakerController implements ControlSwitchScreen {
             FxControllerAndView<TfQuestionController, VBox> tfQuestionControllerAndView =
                     fxWeaver.load(TfQuestionController.class);
             tfQuestionControllerAndView.getController().show(getCurrentStage());
+        }
+          if("Short Answer".equals(qType)==true)
+        {
+            System.out.println("Short");
+            FxControllerAndView<ShortQuestionController, VBox> shortQuestionControllerAndView =
+                    fxWeaver.load(ShortQuestionController.class);
+            shortQuestionControllerAndView.getController().show(getCurrentStage());
         }
     }
 }

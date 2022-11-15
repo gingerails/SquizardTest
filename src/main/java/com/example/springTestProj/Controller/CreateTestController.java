@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 /**
  * FXML Controller class
@@ -50,6 +51,10 @@ public class CreateTestController implements ControlSwitchScreen {
     private TextField name;
     @FXML
     private CheckBox analytic;
+    @FXML
+    private Label error;
+   
+
    
     public CreateTestController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService) {
         //System.out.println("Create Test Controller");
@@ -58,6 +63,7 @@ public class CreateTestController implements ControlSwitchScreen {
         this.courseService=courseService;
         this.testService = testService;
     }
+    
 
     @FXML
     public void initialize () {
@@ -66,7 +72,15 @@ public class CreateTestController implements ControlSwitchScreen {
         this.createTest.setOnAction(actionEvent -> {
             //System.out.print("create button pressed");
             saveTest();
+            //if(name.getText()!=".html"&&classes.getValue()!=null&&section.getValue()!=null)
+               // {
+            
             loadTestMaker();
+              //  }
+           // else
+              //  {
+               //     error.setText("ERROR: One or more items not selected.");
+              //  }
         });
         this.classes.setOnAction(actionEvent -> {
            getSectionInfo();
@@ -117,9 +131,6 @@ public class CreateTestController implements ControlSwitchScreen {
 
         testService.createTest(fileName, sectionName);
 
-        //analytic.get
-        
-        System.out.println(fileName+" "+className+" "+sectionName);
     }
     public void getSectionInfo()
     {
