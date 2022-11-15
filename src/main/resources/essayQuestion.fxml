@@ -4,15 +4,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox fx:id="essayQuestionBox" prefHeight="307.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController">
     <children>
    <AnchorPane id="AnchorPane" prefHeight="338.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
       <children>
          <Button fx:id="add" layoutX="554.0" layoutY="302.0" mnemonicParsing="false" text="Add" />
-         <TextField layoutX="65.0" layoutY="32.0" prefHeight="26.0" prefWidth="529.0" />
+         <TextField fx:id="questionField" layoutX="65.0" layoutY="32.0" prefHeight="26.0" prefWidth="529.0" />
          <Label layoutX="6.0" layoutY="36.0" text="Question:" />
          <Button layoutX="65.0" layoutY="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
          <Label layoutX="173.0" layoutY="63.0" prefHeight="18.0" prefWidth="142.0" />
@@ -37,4 +37,3 @@
    </AnchorPane>
 </children>
 </VBox>
-

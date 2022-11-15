@@ -6,9 +6,14 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -31,7 +36,9 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private Button add;
     @FXML
     private VBox essayQuestionBox;
-    
+    @FXML
+    private TextField questionField;
+    public String path="src\\main\\resources\\";
    
     public EssayQuestionController(UserService userService, FxWeaver fxWeaver) {
         System.out.println("essay Controller");
@@ -47,7 +54,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             stage.close();
-        //    add();
+            add(path+"test.html");
         });
     }
 
@@ -66,8 +73,41 @@ public class EssayQuestionController implements ControlDialogBoxes {
 //
 //    }
 
-//    public void add() {
-//     // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
-//
-//    }
+  public void add(String file) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+
+            p.println("<hr />" + "\n"
+                    + "<p><strong>Essay: " + questionField.getText() + "</strong></p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n");
+            b.close();
+            p.close();
+            f.close();
+            //engine.reload(); 
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
 }

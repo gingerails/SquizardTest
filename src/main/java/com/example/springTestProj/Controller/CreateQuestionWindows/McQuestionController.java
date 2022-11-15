@@ -1,10 +1,13 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -54,6 +57,7 @@ public class McQuestionController implements ControlDialogBoxes {
             System.out.print("Add question button pressed");
             stage.close();
             add(path+"test.html");
+           
         });
     }
 

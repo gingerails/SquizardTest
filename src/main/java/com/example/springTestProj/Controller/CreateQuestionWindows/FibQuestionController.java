@@ -1,9 +1,14 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -23,8 +28,10 @@ public class FibQuestionController implements ControlDialogBoxes {
     private Button addGraphicButton;
     @FXML
     private VBox fillInBlankBox;
+    @FXML
+    private TextField questionField;
 
-
+    public String path="src\\main\\resources\\";
     public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
@@ -50,7 +57,7 @@ public class FibQuestionController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             //System.out.print("Add question button pressed");
             stage.close();
-        //    add();
+            add(path+"test.html");
         });
     }
 
@@ -58,6 +65,25 @@ public class FibQuestionController implements ControlDialogBoxes {
 //    public <T> void add(T t) {
 //
 //    }
+    public void add(String file) {
+        
+        // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
+        
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
 
+            p.println("<hr />" + "\n"
+                   +"<p><strong>Fill in the Blanks</strong></p>"+"\n"
+
+                   +"<p>"+questionField.getText()+"</p>"+"\n"
+            );
+            b.close();
+            p.close();
+            f.close();
+            //engine.reload();  
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    
+    }
 
 }
