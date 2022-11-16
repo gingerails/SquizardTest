@@ -17,7 +17,7 @@
 
 <!--<?import javafx.scene.web.HTMLEditor?>-->
 
-<VBox fx:id="mainVbox" prefHeight="307.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
+<VBox fx:id="mainVbox" prefHeight="823.0" prefWidth="1235.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
     <children>
 <AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -48,7 +48,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="314.0">
                      <children>
-                        <WebView fx:id="viewer" layoutY="26.0" prefHeight="282.0" prefWidth="200.0" AnchorPane.bottomAnchor="-1.9999938964843977" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.599999999999994" AnchorPane.topAnchor="25.999993896484398" />
+                        <WebView fx:id="viewer" layoutY="54.0" prefHeight="254.0" prefWidth="200.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="54.0" />
                      </children></AnchorPane>
         </items>
       </SplitPane>
@@ -75,5 +75,6 @@
       </MenuBar>
    </children>
 </AnchorPane>
+      <Button fx:id="publish" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" text="Publish" />
 </children>
 </VBox>

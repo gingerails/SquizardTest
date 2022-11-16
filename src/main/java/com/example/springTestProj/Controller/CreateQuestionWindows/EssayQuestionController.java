@@ -9,11 +9,19 @@ import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -29,12 +37,14 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/essayQuestion.fxml")
 public class EssayQuestionController implements ControlDialogBoxes {
+    private Parent root;
     private final UserService userService;
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
 
     private final FxWeaver fxWeaver;
     private Stage stage;
+
     @FXML
     private Button add;
     @FXML
@@ -57,8 +67,11 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private TextField instructionTextField;
     @FXML
     private Label error;
-    
-   
+
+    @FXML
+    private TextField questionField;
+    public String path="src\\main\\resources\\";
+
     public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, FxWeaver fxWeaver) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
@@ -91,6 +104,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
             EssayQuestion essayQuestion = essayQuestionService.createEssayQuestion(question, answer);
             checkFieldsAndAddQuestion(essayQuestion);
             stage.close();
+            add(path+"test.html");
+        });
         }else{
             error.setText("Error: Must have question and answer!");
         }
@@ -146,4 +161,52 @@ public class EssayQuestionController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
+//    @Override
+//    public <T> void add(T t) {
+//
+//    }
+
+  public void add(String file) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+
+            p.println("<hr />" + "\n"
+                    + "<p><strong>Essay: " + questionField.getText() + "</strong></p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n");
+            b.close();
+            p.close();
+            f.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
+            root=loader.load();
+
+            TestMakerController TestMakeController = loader.getController();
+            TestMakeController.initialize();
+            //engine.reload();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
 }
