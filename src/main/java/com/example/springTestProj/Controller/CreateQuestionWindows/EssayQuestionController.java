@@ -5,12 +5,15 @@
  */
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -28,6 +31,7 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/essayQuestion.fxml")
 public class EssayQuestionController implements ControlDialogBoxes {
+    private Parent root;
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -105,6 +109,12 @@ public class EssayQuestionController implements ControlDialogBoxes {
             b.close();
             p.close();
             f.close();
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
+            root=loader.load();
+            
+            TestMakerController TestMakeController = loader.getController();
+            TestMakeController.initialize();
             //engine.reload(); 
         } catch (IOException i) {
             i.printStackTrace();

@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,7 +27,19 @@ public class MQuestionController implements ControlDialogBoxes {
     private Button add;
     @FXML
     private VBox mQuestionBox;
+    
     public String path="src\\main\\resources\\";
+    
+    
+    private SimpleStringProperty term;
+    private SimpleStringProperty answer;
+    
+    public MQuestion(String term, String answer)
+    {
+        this.term= new SimpleStringProperty(term);
+        this.term= new SimpleStringProperty(answer);
+    }
+    
     public MQuestionController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;

@@ -97,6 +97,7 @@ public class TestMakerController implements ControlSwitchScreen {
             publish(path + "test.html");
 
         });
+        
 
     }
 
@@ -142,6 +143,10 @@ public class TestMakerController implements ControlSwitchScreen {
             i.printStackTrace();
         }
 
+    }
+    public void refresh()
+    {
+        engine.reload();
     }
 
     public void pickQuestion() throws IOException {

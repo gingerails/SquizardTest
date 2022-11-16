@@ -66,7 +66,8 @@ public class FibQuestionController implements ControlDialogBoxes {
 //
 //    }
     public void add(String file) {
-        
+        String question=questionField.getText();
+        String rs=question.replace("/?/"," __________________ ");
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         
         try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
@@ -74,7 +75,7 @@ public class FibQuestionController implements ControlDialogBoxes {
             p.println("<hr />" + "\n"
                    +"<p><strong>Fill in the Blanks</strong></p>"+"\n"
 
-                   +"<p>"+questionField.getText()+"</p>"+"\n"
+                   +"<p>"+rs+"</p>"+"\n"
             );
             b.close();
             p.close();

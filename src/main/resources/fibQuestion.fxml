@@ -33,7 +33,7 @@
          <Label layoutX="4.0" layoutY="325.0" prefHeight="26.0" prefWidth="114.0" text="Grading Instructions:" AnchorPane.leftAnchor="4.0" />
          <TextField layoutX="117.0" layoutY="325.0" prefHeight="26.0" prefWidth="474.0" />
          <Label layoutX="174.0" layoutY="117.0" prefHeight="18.0" prefWidth="142.0" />
-            <Label layoutX="62.0" layoutY="44.0" prefHeight="18.0" prefWidth="530.0" text="Important! To denote blanks type \?\ with spaces on both sides " />
+            <Label layoutX="62.0" layoutY="44.0" prefHeight="18.0" prefWidth="530.0" text="Important! To denote blanks type /?/ with spaces on both sides " />
             <Label layoutX="62.0" layoutY="126.0" prefHeight="18.0" prefWidth="530.0" text="Important! Use comas to seperate answers" />
       </children>
    </AnchorPane>
