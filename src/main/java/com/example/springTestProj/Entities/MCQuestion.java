@@ -45,8 +45,12 @@ public class MCQuestion {
         this.questionID = questionID;
     }
 
-    public MCQuestion(String questionID, String questionContent, String questionAnswer) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public MCQuestion(String questionID, String questionContent, String correctAnswer, String falseAnswer) {
+        this.questionID = questionID;
+        this.questionContent = questionContent;
+        this.correctAnswer = correctAnswer;
+        this.falseAnswer = falseAnswer;
+
     }
 
     @Override

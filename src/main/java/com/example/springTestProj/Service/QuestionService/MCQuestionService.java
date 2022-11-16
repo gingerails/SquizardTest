@@ -14,9 +14,9 @@ public class MCQuestionService {
     @Autowired
     MCQuestionRepository mcQuestionRepository;
 
-    public MCQuestion createMCQuestion(String questionContent, String questionAnswer){
+    public MCQuestion createMCQuestion(String questionContent, String questionAnswer, String falseAnswer){
         String questionID = String.valueOf(UUID.randomUUID());
-        MCQuestion newMCQuestion = new MCQuestion(questionID, questionContent, questionAnswer);
+        MCQuestion newMCQuestion = new MCQuestion(questionID, questionContent, questionAnswer, falseAnswer);
 
         return newMCQuestion;
     }

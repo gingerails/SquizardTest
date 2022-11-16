@@ -14,6 +14,8 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 @FxmlView("/mcQuestion.fxml")
 public class McQuestionController implements ControlDialogBoxes {
@@ -30,6 +32,8 @@ public class McQuestionController implements ControlDialogBoxes {
     @FXML
     private Button addAnswerGraphic;
     @FXML
+    private Button addQuestionGraphicButton;
+    @FXML
     private TextField referenceSection;
     @FXML
     private TextField questionContent;
@@ -40,15 +44,15 @@ public class McQuestionController implements ControlDialogBoxes {
     @FXML
     private TextField gradingInstructions;
     @FXML
-    private TextField choice1;
+    private TextField choice1Field;
     @FXML
-    private TextField choice2;
+    private TextField choice2Field;
     @FXML
-    private TextField choice3;
+    private TextField choice3Field;
     @FXML
-    private TextField choice4;
+    private TextField choice4Field;
     @FXML
-    private TextField answer;
+    private TextField answerTextField;
     @FXML
     private Label error;
 
@@ -79,39 +83,36 @@ public class McQuestionController implements ControlDialogBoxes {
 
     @Override
     public void show(Stage thisStage) {
-//        this.stage = thisStage;
-//        stage.setScene(new Scene(mainVbox));
-//        System.out.println("Showing essay question screen");
         stage.show();
         this.stage.centerOnScreen();
     }
 
-//    @Override
-//    public <T> void add(T t) {
-//
-//    }
+
 
     public void add() {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
-       if (choice1.getText().isBlank() || 
-            choice2.getText().isBlank() ||
-            choice3.getText().isBlank() ||
-            choice4.getText().isBlank() || 
-            answer.getText().isBlank() ||
-            questionContent.getText().isBlank()){
+       if (choice1Field.getText().isBlank() ||
+               choice2Field.getText().isBlank() ||
+               choice3Field.getText().isBlank() ||
+               choice4Field.getText().isBlank() ||
+               answerTextField.getText().isBlank() ||
+               questionContent.getText().isBlank()){
            System.out.println("SOMETHING WAS LEFT BLANK");
            error.setText("Error: Must fill out each choice, question and answer!");
        } else{
            String question = questionContent.getText();
-           String correctAnswer = answer.getText();
-           MCQuestion mcQuestion = mcQuestionService.createMCQuestion(question, correctAnswer);
+           String correctAnswer = answerTextField.getText();
+           String[] falseAnswers = {choice1Field.getText(),choice2Field.getText(),choice3Field.getText(),choice4Field.getText()};
+           String falseAnswer = Arrays.toString(falseAnswers);
+
+           MCQuestion mcQuestion = mcQuestionService.createMCQuestion(question, correctAnswer, falseAnswer);
            checkFieldsAndAddQuestion(mcQuestion);
            stage.close();
        }
     }
     
-        public void checkFieldsAndAddQuestion(MCQuestion mcQuestion){
+    public void checkFieldsAndAddQuestion(MCQuestion mcQuestion){
 
         if(!referenceMaterial.getText().isBlank()){
             String refMaterial =  referenceMaterial.getText();
