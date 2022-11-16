@@ -78,7 +78,6 @@ public class TfQuestionController implements ControlDialogBoxes {
 
     }
 
-
     @Override
     public void show(Stage thisStage) {
         stage.show();
@@ -126,31 +125,21 @@ public class TfQuestionController implements ControlDialogBoxes {
             String instructions =  gradingInstructions.getText();
             tfQuestion.setGradingInstruction(instructions);
         }
+
         tfQuestionService.saveQuestionToRepository(tfQuestion);
-
         Test currentTest = getCurrentTestSectionInfo();
-       testService.addTFQuestion(currentTest, tfQuestion);// also save to test using test service
-
-       // testService.addQuestionToExistingTestAndSave(currentTest, (Callable) testService.addTFQuestion(currentTest,tfQuestion));// also save to test using test service
-
-       // testService.addTFQuestion();
-
+        testService.addTFQuestion(currentTest, tfQuestion);// also save to test using test service
     }
 
-    // maybe figure out a way to get the current section id. so we can add it to the question
+    /**
+     * Get currentTest obj from TestService, which contains a copy of the test being edited
+     * @return
+     */
     public Test getCurrentTestSectionInfo(){
         Test currentTest = testService.returnThisTest();
         System.out.println(currentTest.getTestUUID());
-        //Test currentTest = new Test();
 
         return currentTest;
     }
-
-//    public void createTFQuestion(String questionContent, String questionAnswer){
-//        TFQuestion tfQuestion = tfQuestionService.createTFQuestion(questionContent, questionAnswer);
-//        tfQuestionService.saveQuestionToRepository(tfQuestion);
-//    }
-
-
 
 }
