@@ -85,15 +85,16 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
     public void add(){
-        if(!questionTextField.getText().isBlank() || !answerTextField.getText().isBlank()){
+        if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
             String question = questionTextField.getText();
             String answer = answerTextField.getText();
             EQuestion eQuestion = essayQuestionService.createEssayQuestion(question, answer);
             checkFieldsAndAddQuestion(eQuestion);
             stage.close();
+        }else{
+            error.setText("Error: Must have question and answer!");
         }
-        System.out.println("No button sELKECTEDDDD");
-        error.setText("Error: Must select true or false!");
+
     }
 
     /**
@@ -145,13 +146,4 @@ public class EssayQuestionController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
-//    @Override
-//    public <T> void add(T t) {
-//
-//    }
-
-//    public void add() {
-//     // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
-//
-//    }
 }
