@@ -11,35 +11,31 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 @Component
-@FxmlView("/fibQuestion.fxml")
-public class FibQuestionController implements ControlDialogBoxes {
+@FxmlView("/matchingQ.fxml")
+public class MatchingQController implements ControlDialogBoxes {
+
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private Stage stage;
+
     @FXML
     private Button add;
-
     @FXML
-    private Button addGraphicButton;
-    @FXML
-    private VBox fillInBlankBox;
+    private VBox mQuestionBox;
 
-
-    public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
+    public MatchingQController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
     }
 
     @FXML
-    public void initialize() {
+    public void initialize () {
         this.stage = new Stage();
-        stage.setTitle("Add Fill-in-Blank Question");
-        stage.setScene(new Scene(fillInBlankBox));
-
+        stage.setTitle("Add Matching Question");
+        stage.setScene(new Scene(mQuestionBox));
         this.add.setOnAction(actionEvent -> {
-
-
-
+            System.out.print("Add question button pressed");
+            stage.close();
         });
     }
 
@@ -47,17 +43,10 @@ public class FibQuestionController implements ControlDialogBoxes {
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
-        this.add.setOnAction(actionEvent -> {
-            //System.out.print("Add question button pressed");
-            stage.close();
-        //    add();
-        });
     }
-
+//
 //    @Override
 //    public <T> void add(T t) {
 //
 //    }
-
-
 }

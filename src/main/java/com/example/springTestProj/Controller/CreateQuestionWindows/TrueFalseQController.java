@@ -1,8 +1,8 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.TFQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Entities.Test;
-import com.example.springTestProj.Service.QuestionService.TFQuestionService;
+import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
@@ -17,15 +17,13 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Callable;
-
 @Component
-@FxmlView("/tfQuestion.fxml")
-public class TfQuestionController implements ControlDialogBoxes {
+@FxmlView("/trueFalseQ.fxml")
+public class TrueFalseQController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
-    private final TFQuestionService tfQuestionService;
+    private final TrueFalseQService trueFalseQService;
     private final TestService testService;
     private Stage stage;
 
@@ -55,10 +53,10 @@ public class TfQuestionController implements ControlDialogBoxes {
     private Label error;
 
 
-    public TfQuestionController(UserService userService, FxWeaver fxWeaver, TFQuestionService tfQuestionService, TestService testService) {
+    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.tfQuestionService = tfQuestionService;
+        this.trueFalseQService = trueFalseQService;
         this.testService = testService;
     }
 
@@ -91,14 +89,14 @@ public class TfQuestionController implements ControlDialogBoxes {
        if (isFalseCheckBox.isSelected() && !questionContent.getText().isBlank()){
            String question = questionContent.getText();
            String correctAnswer = "False";
-           TFQuestion tfQuestion = tfQuestionService.createTFQuestion(question, correctAnswer);
-           checkFieldsAndAddQuestion(tfQuestion);
+           TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
+           checkFieldsAndAddQuestion(trueFalseQuestion);
            stage.close();
        } else if (isTrueCheckBox.isSelected()&& !questionContent.getText().isBlank()) {
            String question = questionContent.getText();
            String correctAnswer = "True";
-           TFQuestion tfQuestion = tfQuestionService.createTFQuestion(question, correctAnswer);
-           checkFieldsAndAddQuestion(tfQuestion);
+           TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
+           checkFieldsAndAddQuestion(trueFalseQuestion);
            stage.close();
        }
        else{
@@ -107,28 +105,28 @@ public class TfQuestionController implements ControlDialogBoxes {
        }
     }
 
-    public void checkFieldsAndAddQuestion(TFQuestion tfQuestion){
+    public void checkFieldsAndAddQuestion(TrueFalseQuestion trueFalseQuestion){
 
         if(!referenceMaterial.getText().isBlank()){
             String refMaterial =  referenceMaterial.getText();
-            tfQuestion.setReferenceMaterial(refMaterial);
+            trueFalseQuestion.setReferenceMaterial(refMaterial);
         }
         if(!referenceSection.getText().isBlank()){
             String refSection =  referenceSection.getText();
-            tfQuestion.setTextReferenceSection(refSection);
+            trueFalseQuestion.setTextReferenceSection(refSection);
         }
         if(!instructorComment.getText().isBlank()){
             String comment =  instructorComment.getText();
-            tfQuestion.setInstructorComment(comment);
+            trueFalseQuestion.setInstructorComment(comment);
         }
         if(!gradingInstructions.getText().isBlank()){
             String instructions =  gradingInstructions.getText();
-            tfQuestion.setGradingInstruction(instructions);
+            trueFalseQuestion.setGradingInstruction(instructions);
         }
 
-        tfQuestionService.saveQuestionToRepository(tfQuestion);
+        trueFalseQService.saveQuestionToRepository(trueFalseQuestion);
         Test currentTest = getCurrentTestSectionInfo();
-        testService.addTFQuestion(currentTest, tfQuestion);// also save to test using test service
+        testService.addTFQuestion(currentTest, trueFalseQuestion);// also save to test using test service
     }
 
     /**

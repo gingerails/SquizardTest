@@ -5,7 +5,7 @@
  */
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.EQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
@@ -88,8 +88,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
         if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
             String question = questionTextField.getText();
             String answer = answerTextField.getText();
-            EQuestion eQuestion = essayQuestionService.createEssayQuestion(question, answer);
-            checkFieldsAndAddQuestion(eQuestion);
+            EssayQuestion essayQuestion = essayQuestionService.createEssayQuestion(question, answer);
+            checkFieldsAndAddQuestion(essayQuestion);
             stage.close();
         }else{
             error.setText("Error: Must have question and answer!");
@@ -99,30 +99,30 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     /**
      *
-     * @param eQuestion
+     * @param essayQuestion
      */
-    public void checkFieldsAndAddQuestion(EQuestion eQuestion){
+    public void checkFieldsAndAddQuestion(EssayQuestion essayQuestion){
 
         if(!MaterialTextField.getText().isBlank()){
             String refMaterial =  MaterialTextField.getText();
-            eQuestion.setReferenceMaterial(refMaterial);
+            essayQuestion.setReferenceMaterial(refMaterial);
         }
         if(!sectionsTextField.getText().isBlank()){
             String refSection =  sectionsTextField.getText();
-            eQuestion.setTextReferenceSection(refSection);
+            essayQuestion.setTextReferenceSection(refSection);
         }
         if(!commentTextField.getText().isBlank()){
             String comment =  commentTextField.getText();
-            eQuestion.setInstructorComment(comment);
+            essayQuestion.setInstructorComment(comment);
         }
         if(!instructionTextField.getText().isBlank()){
             String instructions =  instructionTextField.getText();
-            eQuestion.setGradingInstruction(instructions);
+            essayQuestion.setGradingInstruction(instructions);
         }
 
-        essayQuestionService.saveQuestionToRepository(eQuestion);
+        essayQuestionService.saveQuestionToRepository(essayQuestion);
         Test currentTest = getCurrentTestSectionInfo();
-        testService.addEQuestion(currentTest, eQuestion);// also save to test using test service
+        testService.addEQuestion(currentTest, essayQuestion);// also save to test using test service
     }
 
     /**

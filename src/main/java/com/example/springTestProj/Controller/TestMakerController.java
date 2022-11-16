@@ -6,12 +6,11 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.FibQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.MQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.McQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.TfQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.FillinBlankQController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.MultiChoiceQController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.TrueFalseQController;
 import com.example.springTestProj.Service.UserService;
-import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -121,29 +120,29 @@ public class TestMakerController implements ControlSwitchScreen {
          if("Multiple Choice".equals(qType)==true)
         {
             System.out.println("Multiple Choice");
-            FxControllerAndView<McQuestionController, VBox> McQuestionControllerAndView =
-                    fxWeaver.load(McQuestionController.class);
+            FxControllerAndView<MultiChoiceQController, VBox> McQuestionControllerAndView =
+                    fxWeaver.load(MultiChoiceQController.class);
             McQuestionControllerAndView.getController().show(getCurrentStage());
         }
          if("Matching".equals(qType)==true)
         {
             System.out.println("Matching");
-            FxControllerAndView<MQuestionController, VBox> mQuestionControllerAndView =
-                    fxWeaver.load(MQuestionController.class);
+            FxControllerAndView<MatchingQController, VBox> mQuestionControllerAndView =
+                    fxWeaver.load(MatchingQController.class);
             mQuestionControllerAndView.getController().show(getCurrentStage());
         }
           if("Fill in Blank".equals(qType)==true)
         {
             System.out.println("FIB");
-            FxControllerAndView<FibQuestionController, VBox> fibQuestionControllerAndView =
-                    fxWeaver.load(FibQuestionController.class);
+            FxControllerAndView<FillinBlankQController, VBox> fibQuestionControllerAndView =
+                    fxWeaver.load(FillinBlankQController.class);
             fibQuestionControllerAndView.getController().show(getCurrentStage());
         }
           if("True/False".equals(qType)==true)
         {
             System.out.println("T/F");
-            FxControllerAndView<TfQuestionController, VBox> tfQuestionControllerAndView =
-                    fxWeaver.load(TfQuestionController.class);
+            FxControllerAndView<TrueFalseQController, VBox> tfQuestionControllerAndView =
+                    fxWeaver.load(TrueFalseQController.class);
             tfQuestionControllerAndView.getController().show(getCurrentStage());
         }
     }

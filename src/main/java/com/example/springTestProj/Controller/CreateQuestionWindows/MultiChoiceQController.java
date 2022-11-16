@@ -1,7 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.MCQuestion;
-import com.example.springTestProj.Service.QuestionService.MCQuestionService;
+import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
+import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-@FxmlView("/mcQuestion.fxml")
-public class McQuestionController implements ControlDialogBoxes {
+@FxmlView("/multiChoiceQ.fxml")
+public class MultiChoiceQController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
-    private final MCQuestionService mcQuestionService;
+    private final MultiChoiceQService multiChoiceQService;
     private Stage stage;
 
     @FXML
@@ -56,11 +56,11 @@ public class McQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public McQuestionController(UserService userService, FxWeaver fxWeaver, MCQuestionService mcQuestionService) {
+    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService) {
         System.out.println("multChoice Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.mcQuestionService = mcQuestionService;
+        this.multiChoiceQService = multiChoiceQService;
     }
 
     @FXML
@@ -106,31 +106,31 @@ public class McQuestionController implements ControlDialogBoxes {
            String[] falseAnswers = {choice1Field.getText(),choice2Field.getText(),choice3Field.getText(),choice4Field.getText()};
            String falseAnswer = Arrays.toString(falseAnswers);
 
-           MCQuestion mcQuestion = mcQuestionService.createMCQuestion(question, correctAnswer, falseAnswer);
-           checkFieldsAndAddQuestion(mcQuestion);
+           MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.createMCQuestion(question, correctAnswer, falseAnswer);
+           checkFieldsAndAddQuestion(multiChoiceQuestion);
            stage.close();
        }
     }
     
-    public void checkFieldsAndAddQuestion(MCQuestion mcQuestion){
+    public void checkFieldsAndAddQuestion(MultiChoiceQuestion multiChoiceQuestion){
 
         if(!referenceMaterial.getText().isBlank()){
             String refMaterial =  referenceMaterial.getText();
-            mcQuestion.setReferenceMaterial(refMaterial);
+            multiChoiceQuestion.setReferenceMaterial(refMaterial);
         }
         if(!referenceSection.getText().isBlank()){
             String refSection =  referenceSection.getText();
-            mcQuestion.setTextReferenceSection(refSection);
+            multiChoiceQuestion.setTextReferenceSection(refSection);
         }
         if(!instructorComment.getText().isBlank()){
             String comment =  instructorComment.getText();
-            mcQuestion.setInstructorComment(comment);
+            multiChoiceQuestion.setInstructorComment(comment);
         }
         if(!gradingInstructions.getText().isBlank()){
             String instructions =  gradingInstructions.getText();
-            mcQuestion.setGradingInstruction(instructions);
+            multiChoiceQuestion.setGradingInstruction(instructions);
         }
-        mcQuestionService.saveQuestionToRepository(mcQuestion);
+        multiChoiceQService.saveQuestionToRepository(multiChoiceQuestion);
 
     }
 }

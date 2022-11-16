@@ -1,8 +1,8 @@
 package com.example.springTestProj.Service.QuestionService;
 
-import com.example.springTestProj.Entities.EQuestion;
-import com.example.springTestProj.Entities.TFQuestion;
-import com.example.springTestProj.Repository.EssayQuestionRepository;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Repository.QuestionRepositories.EssayQRepository;
+import com.example.springTestProj.Repository.QuestionRepositories.ShortAnswerQRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +12,22 @@ import java.util.UUID;
 @Service
 public class EssayQuestionService {
     @Autowired
-    EssayQuestionRepository essayQuestionRepository;
+    EssayQRepository essayQRepository;
 
-    public EQuestion createEssayQuestion(String questionContent, String questionAnswer){
+    public EssayQuestion createEssayQuestion(String questionContent, String questionAnswer){
         String questionID = String.valueOf(UUID.randomUUID());
-        EQuestion newEQuestion = new EQuestion(questionID, questionContent, questionAnswer);
+        EssayQuestion newEssayQuestion = new EssayQuestion(questionID, questionContent, questionAnswer);
 
-        return newEQuestion;
+        return newEssayQuestion;
     }
 
-    public void saveQuestionToRepository(EQuestion eQuestion){
-        essayQuestionRepository.save(eQuestion);
+    public void saveQuestionToRepository(EssayQuestion essayQuestion){
+        essayQRepository.save(essayQuestion);
         System.out.println("Question saved?");
     }
 
-    public List<EQuestion> readQuestions(){
-        return essayQuestionRepository.findAll();
+    public List<EssayQuestion> readQuestions(){
+        return essayQRepository.findAll();
     }
 
 }

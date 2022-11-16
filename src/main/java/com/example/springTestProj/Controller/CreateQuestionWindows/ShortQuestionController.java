@@ -1,7 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.SQuestion;
-import com.example.springTestProj.Service.QuestionService.SQuestionService;
+import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
+import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -15,12 +15,12 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 @Component
-@FxmlView("/sQuestion.fxml")
+@FxmlView("/shortAnswerQ.fxml")
 public class ShortQuestionController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
-    private final SQuestionService sQuestionService;
+    private final ShortAnswerQService shortAnswerQService;
     private Stage stage;
 
     @FXML
@@ -44,11 +44,11 @@ public class ShortQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, SQuestionService sQuestionService) {
+    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService) {
         System.out.println("Short Answer Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.sQuestionService = sQuestionService;
+        this.shortAnswerQService = shortAnswerQService;
     }
 
     @FXML
@@ -92,31 +92,31 @@ public class ShortQuestionController implements ControlDialogBoxes {
        } else{
            String question = questionContent.getText();
            String correctAnswer = answer.getText();
-           SQuestion sQuestion = sQuestionService.createSQuestion(question, correctAnswer);
-           checkFieldsAndAddQuestion(sQuestion);
+           ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.createSQuestion(question, correctAnswer);
+           checkFieldsAndAddQuestion(shortAnswerQuestion);
            stage.close();
        }
     }
     
-        public void checkFieldsAndAddQuestion(SQuestion sQuestion){
+        public void checkFieldsAndAddQuestion(ShortAnswerQuestion shortAnswerQuestion){
 
         if(!referenceMaterial.getText().isBlank()){
             String refMaterial =  referenceMaterial.getText();
-            sQuestion.setReferenceMaterial(refMaterial);
+            shortAnswerQuestion.setReferenceMaterial(refMaterial);
         }
         if(!referenceSection.getText().isBlank()){
             String refSection =  referenceSection.getText();
-            sQuestion.setTextReferenceSection(refSection);
+            shortAnswerQuestion.setTextReferenceSection(refSection);
         }
         if(!instructorComment.getText().isBlank()){
             String comment =  instructorComment.getText();
-            sQuestion.setInstructorComment(comment);
+            shortAnswerQuestion.setInstructorComment(comment);
         }
         if(!gradingInstructions.getText().isBlank()){
             String instructions =  gradingInstructions.getText();
-            sQuestion.setGradingInstruction(instructions);
+            shortAnswerQuestion.setGradingInstruction(instructions);
         }
-        sQuestionService.saveQuestionToRepository(sQuestion);
+        shortAnswerQService.saveQuestionToRepository(shortAnswerQuestion);
 
     }
 }

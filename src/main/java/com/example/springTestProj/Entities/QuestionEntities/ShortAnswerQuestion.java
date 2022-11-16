@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.springTestProj.Entities;
+package com.example.springTestProj.Entities.QuestionEntities;
 import lombok.*;
 import javax.persistence.*;
 
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "SQuestion")
-public class SQuestion {
+@Table(name = "short_answer_q")
+public class ShortAnswerQuestion {
     @Id
    // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
     @Column(name = "question_id")
@@ -36,14 +36,14 @@ public class SQuestion {
     private Double classAverage;
     
 
-    public SQuestion() {
+    public ShortAnswerQuestion() {
     }
 
-    public SQuestion(String questionID) {
+    public ShortAnswerQuestion(String questionID) {
         this.questionID = questionID;
     }
 
-    public SQuestion(String questionID, String questionContent, String questionAnswer) {
+    public ShortAnswerQuestion(String questionID, String questionContent, String questionAnswer) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

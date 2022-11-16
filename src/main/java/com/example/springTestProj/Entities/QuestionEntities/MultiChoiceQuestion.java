@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.springTestProj.Entities;
+package com.example.springTestProj.Entities.QuestionEntities;
 import lombok.*;
 import javax.persistence.*;
 
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "MCQuestion")
-public class MCQuestion {
+@Table(name = "multi_choice_q")
+public class MultiChoiceQuestion {
     @Id
    // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
     @Column(name = "question_id")
@@ -38,14 +38,14 @@ public class MCQuestion {
     private Double classAverage;
     
 
-    public MCQuestion() {
+    public MultiChoiceQuestion() {
     }
 
-    public MCQuestion(String questionID) {
+    public MultiChoiceQuestion(String questionID) {
         this.questionID = questionID;
     }
 
-    public MCQuestion(String questionID, String questionContent, String correctAnswer, String falseAnswer) {
+    public MultiChoiceQuestion(String questionID, String questionContent, String correctAnswer, String falseAnswer) {
         this.questionID = questionID;
         this.questionContent = questionContent;
         this.correctAnswer = correctAnswer;

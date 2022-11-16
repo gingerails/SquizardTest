@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.springTestProj.Entities;
+package com.example.springTestProj.Entities.QuestionEntities;
 import lombok.*;
 import javax.persistence.*;
 
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "EQuestion")
-public class EQuestion {
+@Table(name = "essay_q")
+public class EssayQuestion {
     @Id
    // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
     @Column(name = "question_id")
@@ -24,31 +24,31 @@ public class EQuestion {
     private String correctAnswer;
     @Column(name = "answer_graphic")
     private String answerGraphic;
-    @Column(name = "text_reference")
+    @Column(name = "text_ref_section")
     private String textReferenceSection;
     @Column(name = "reference_material")
     private String referenceMaterial;
-    @Column(name = "instructor_comments")
+    @Column(name = "instructor_comment")
     private String instructorComment;
-    @Column(name = "grading_instructions")
+    @Column(name = "grading_instruction")
     private String gradingInstruction;
     @Column(name = "class_average")
     private Double classAverage;
     
 
-    public EQuestion() {
+    public EssayQuestion() {
     }
 
-    public EQuestion(String questionID) {
+    public EssayQuestion(String questionID) {
         this.questionID = questionID;
     }
 
-    public EQuestion(String questionID, String questionContent) {
+    public EssayQuestion(String questionID, String questionContent) {
         this.questionID = questionID;
         this.questionContent = questionContent;
     }
 
-    public EQuestion(String questionID, String questionContent, String correctAnswer) {
+    public EssayQuestion(String questionID, String questionContent, String correctAnswer) {
         this.questionID = questionID;
         this.questionContent = questionContent;
         this.correctAnswer = correctAnswer;

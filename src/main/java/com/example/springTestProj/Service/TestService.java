@@ -1,15 +1,16 @@
 package com.example.springTestProj.Service;
 
 import com.example.springTestProj.Entities.*;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.FillinBlankQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Repository.TestsRepository;
-import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 @Service
 public class TestService {
@@ -51,11 +52,11 @@ public class TestService {
     /**
      * update test object by adding tf question
      * @param test
-     * @param tfQuestion
+     * @param trueFalseQuestion
      * @return
      */
-    public Test addTFQuestion(Test test, TFQuestion tfQuestion){
-        String tfQuestionID = tfQuestion.getQuestionID();
+    public Test addTFQuestion(Test test, TrueFalseQuestion trueFalseQuestion){
+        String tfQuestionID = trueFalseQuestion.getQuestionID();
         String tfSection = test.getTrueFalseQ();
         tfSection = tfSection + "," + tfQuestionID;
         test.setTrueFalseQ(tfSection);
@@ -68,11 +69,11 @@ public class TestService {
     /**
      * Updates test by adding Essay Question
      * @param test
-     * @param eQuestion
+     * @param essayQuestion
      * @return
      */
-    public Test addEQuestion(Test test, EQuestion eQuestion){
-        String eQuestionID = eQuestion.getQuestionID();
+    public Test addEQuestion(Test test, EssayQuestion essayQuestion){
+        String eQuestionID = essayQuestion.getQuestionID();
         String essaySection = test.getEssayQ();
         essaySection = essaySection + "," + eQuestionID;
         test.setEssayQ(essaySection);
@@ -90,10 +91,10 @@ public class TestService {
         saveTestToRepository(test);
         currentTest = test; // update current test
     }
-    public void addFIBQuestion(FIBQuestion fibQuestion){
+    public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion){
 
     }
-    public void addMCQuestion(MCQuestion mcQuestion){
+    public void addMCQuestion(MultiChoiceQuestion multiChoiceQuestion){
 
     }
 //    public void addTFQuestion(TFQuestion tfQuestion){
