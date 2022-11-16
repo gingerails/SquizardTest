@@ -1,12 +1,11 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.FIBQuestion;
-import com.example.springTestProj.Entities.MCQuestion;
-import com.example.springTestProj.Entities.TFQuestion;
-import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Entities.*;
 import com.example.springTestProj.Repository.TestsRepository;
+import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -18,10 +17,18 @@ public class TestService {
     @Autowired
     TestsRepository testsRepository;
 
+    Test currentTest;
+
+    // functions needed:
+
+    // creating html of test
+
+    // creating test key
 
     public Test createTest(String testName, String sectionUUID){
         String testUUID = String.valueOf(UUID.randomUUID());
         Test newTest = new Test(testUUID, testName, sectionUUID);
+        currentTest = newTest;
 
         return newTest;
     }
@@ -36,22 +43,10 @@ public class TestService {
         return testsRepository.findByTestUUID(testID);
     }
 
-    // functions needed:
 
-    // creating a test
-    // adding questions to test
-    // creating html of test
-
-    // creating test key
-
-    // updating existing tests
-
-    // this prolly wont work. need to have a way to dynamically add
-
-    public void updateQuestionSection(){
-
+    public Test returnThisTest(){
+        return currentTest;
     }
-
 
     /**
      * update test object by adding tf question
@@ -65,8 +60,35 @@ public class TestService {
         tfSection = tfSection + "," + tfQuestionID;
         test.setTrueFalseQ(tfSection);
 
-        return test;
+        addQuestionToExistingTestAndSave(test);     // call this un every addQuestion method
 
+        return test;
+    }
+
+    /**
+     * Updates test by adding Essay Question
+     * @param test
+     * @param eQuestion
+     * @return
+     */
+    public Test addEQuestion(Test test, EQuestion eQuestion){
+        String eQuestionID = eQuestion.getQuestionID();
+        String essaySection = test.getEssayQ();
+        essaySection = essaySection + "," + eQuestionID;
+        test.setEssayQ(essaySection);
+
+        addQuestionToExistingTestAndSave(test);     // call this un every addQuestion method
+
+        return test;
+    }
+
+    @Transactional
+    public void addQuestionToExistingTestAndSave(Test test){
+       // // the updatedCourse already has all the new attributes added to it via addCourseController
+        String testUUID = test.getTestUUID();
+        testsRepository.deleteById(testUUID); // delete existing vers of this course, preserving the uuid
+        saveTestToRepository(test);
+        currentTest = test; // update current test
     }
     public void addFIBQuestion(FIBQuestion fibQuestion){
 
