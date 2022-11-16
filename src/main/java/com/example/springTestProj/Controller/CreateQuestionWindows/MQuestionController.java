@@ -31,15 +31,6 @@ public class MQuestionController implements ControlDialogBoxes {
     public String path="src\\main\\resources\\";
     
     
-    private SimpleStringProperty term;
-    private SimpleStringProperty answer;
-    
-    public MQuestion(String term, String answer)
-    {
-        this.term= new SimpleStringProperty(term);
-        this.term= new SimpleStringProperty(answer);
-    }
-    
     public MQuestionController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
