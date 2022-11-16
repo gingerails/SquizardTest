@@ -25,19 +25,6 @@ public class TFQuestionService {
         System.out.println("Question saved?");
     }
 
-    public void addReference(TFQuestion tfQuestion, String refMaterial){
-
-    }
-    public void addRefSection(TFQuestion tfQuestion, String refSection){
-
-    }
-    public void addComment(TFQuestion tfQuestion, String comment){
-
-    }
-    public void addInstructions(TFQuestion tfQuestion, String instructions){
-
-    }
-
     public List<TFQuestion> readQuestions(){
         return tfQuestionRepository.findAll();
     }

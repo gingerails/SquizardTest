@@ -25,19 +25,6 @@ public class MCQuestionService {
         System.out.println("Question saved?");
     }
 
-    public void addReference(MCQuestion mcQuestion, String refMaterial){
-
-    }
-    public void addRefSection(MCQuestion mcQuestion, String refSection){
-
-    }
-    public void addComment(MCQuestion mcQuestion, String comment){
-
-    }
-    public void addInstructions(MCQuestion mcQuestion, String instructions){
-
-    }
-
     public List<MCQuestion> readQuestions(){
         return mcQuestionRepository.findAll();
     }

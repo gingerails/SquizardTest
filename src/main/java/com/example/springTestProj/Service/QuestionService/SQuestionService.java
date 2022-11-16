@@ -24,20 +24,7 @@ public class SQuestionService {
         sQuestionRepository.save(sQuestion);
         System.out.println("Question saved?");
     }
-
-    public void addReference(SQuestion mcQuestion, String refMaterial){
-
-    }
-    public void addRefSection(SQuestion mcQuestion, String refSection){
-
-    }
-    public void addComment(SQuestion mcQuestion, String comment){
-
-    }
-    public void addInstructions(SQuestion mcQuestion, String instructions){
-
-    }
-
+    
     public List<SQuestion> readQuestions(){
         return sQuestionRepository.findAll();
     }
