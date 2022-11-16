@@ -67,7 +67,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
         stage.setScene(new Scene(tfQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
-            add();
+            createQuestion();
         });
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
@@ -83,7 +83,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     }
 
 
-    public void add() {
+    public void createQuestion() {
 
         System.out.println("Add PRSSEDDDD");
        if (isFalseCheckBox.isSelected() && !questionContent.getText().isBlank()){

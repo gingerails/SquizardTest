@@ -5,11 +5,7 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.FillinBlankQC
 import com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.MultiChoiceQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.TrueFalseQController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.FibQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.MQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.McQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.ShortQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.TfQuestionController;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedWriter;
 import java.io.File;

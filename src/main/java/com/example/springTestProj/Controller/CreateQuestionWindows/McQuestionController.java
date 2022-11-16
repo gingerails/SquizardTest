@@ -56,7 +56,7 @@ public class McQuestionController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             stage.close();
-            add(path+"test.html");
+            addHTML(path+"test.html");
            
         });
     }
@@ -76,7 +76,7 @@ public class McQuestionController implements ControlDialogBoxes {
 //
 //    }
 
-    public void add(String file) {
+    public void addHTML(String file) {
         
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         

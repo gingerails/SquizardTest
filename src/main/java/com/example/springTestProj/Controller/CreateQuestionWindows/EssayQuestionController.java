@@ -68,8 +68,6 @@ public class EssayQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    @FXML
-    private TextField questionField;
     public String path="src\\main\\resources\\";
 
     public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, FxWeaver fxWeaver) {
@@ -86,7 +84,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
         stage.setScene(new Scene(essayQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
-            add();
+            createQuestion();
         });
         this.answerGraphicButton.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
@@ -97,16 +95,15 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     }
 
-    public void add(){
+    public void createQuestion(){
         if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
             String question = questionTextField.getText();
             String answer = answerTextField.getText();
             EssayQuestion essayQuestion = essayQuestionService.createEssayQuestion(question, answer);
             checkFieldsAndAddQuestion(essayQuestion);
+            addHTML(path+"test.html");
             stage.close();
-            add(path+"test.html");
-        });
-        }else{
+        } else{
             error.setText("Error: Must have question and answer!");
         }
 
@@ -154,23 +151,16 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     @Override
     public void show(Stage thisStage) {
-//        this.stage = thisStage;
-//        stage.setScene(new Scene(mainVbox));
-//        System.out.println("Showing essay question screen");
         stage.show();
         this.stage.centerOnScreen();
     }
 
-//    @Override
-//    public <T> void add(T t) {
-//
-//    }
 
-  public void add(String file) {
+  public void addHTML(String file) {
         try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
 
             p.println("<hr />" + "\n"
-                    + "<p><strong>Essay: " + questionField.getText() + "</strong></p>" + "\n"
+                    + "<p><strong>Essay: " + questionTextField.getText() + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
@@ -199,11 +189,11 @@ public class EssayQuestionController implements ControlDialogBoxes {
             p.close();
             f.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
-            root=loader.load();
-
-            TestMakerController TestMakeController = loader.getController();
-            TestMakeController.initialize();
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
+//            root=loader.load();
+//
+//            TestMakerController TestMakeController = loader.getController();
+//            TestMakeController.initialize();
             //engine.reload();
         } catch (IOException i) {
             i.printStackTrace();

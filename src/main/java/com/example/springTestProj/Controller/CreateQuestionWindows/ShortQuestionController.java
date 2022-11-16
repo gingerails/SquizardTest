@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,85 +51,74 @@ public class ShortQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
+    public String path = "src\\main\\resources\\";
+
+
     public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService) {
-        System.out.println("Short Answer Controller");
-    public String path="src\\main\\resources\\";
-    public ShortQuestionController(UserService userService, FxWeaver fxWeaver) {
-        System.out.println("Short Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
     }
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         this.stage = new Stage();
         stage.setTitle("Add Short Answer Question");
         stage.setScene(new Scene(sQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             //stage.close();
-            add();
+            createQuestion();
+            addHTML(path + "test.html");
             stage.close();
-            add(path+"test.html");
         });
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
         });
-
     }
 
-
-    @Override
-    public void show(Stage thisStage) {
-//        this.stage = thisStage;
-//        stage.setScene(new Scene(mainVbox));
-//        System.out.println("Showing essay question screen");
-        stage.show();
-        this.stage.centerOnScreen();
-    }
-
-//    @Override
-//    public <T> void add(T t) {
-//
-public void add(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-
-    public void add() {
+    public void createQuestion() {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
-       if (answer.getText().isBlank() || questionContent.getText().isBlank()){
-           System.out.println("SOMETHING WAS LEFT BLANK");
-           error.setText("Error: Must fill out each choice, question and answer!");
-       } else{
-           String question = questionContent.getText();
-           String correctAnswer = answer.getText();
-           ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.createSQuestion(question, correctAnswer);
-           checkFieldsAndAddQuestion(shortAnswerQuestion);
-           stage.close();
-       }
+        if (answer.getText().isBlank() || questionContent.getText().isBlank()) {
+            System.out.println("SOMETHING WAS LEFT BLANK");
+            error.setText("Error: Must fill out each choice, question and answer!");
+        } else {
+            String question = questionContent.getText();
+            String correctAnswer = answer.getText();
+            ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.createSQuestion(question, correctAnswer);
+            checkFieldsAndAddQuestion(shortAnswerQuestion);
+            stage.close();
+        }
     }
 
-        public void checkFieldsAndAddQuestion(ShortAnswerQuestion shortAnswerQuestion){
+    public void checkFieldsAndAddQuestion(ShortAnswerQuestion shortAnswerQuestion) {
 
-        if(!referenceMaterial.getText().isBlank()){
-            String refMaterial =  referenceMaterial.getText();
+        if (!referenceMaterial.getText().isBlank()) {
+            String refMaterial = referenceMaterial.getText();
             shortAnswerQuestion.setReferenceMaterial(refMaterial);
         }
-        if(!referenceSection.getText().isBlank()){
-            String refSection =  referenceSection.getText();
+        if (!referenceSection.getText().isBlank()) {
+            String refSection = referenceSection.getText();
             shortAnswerQuestion.setTextReferenceSection(refSection);
         }
-        if(!instructorComment.getText().isBlank()){
-            String comment =  instructorComment.getText();
+        if (!instructorComment.getText().isBlank()) {
+            String comment = instructorComment.getText();
             shortAnswerQuestion.setInstructorComment(comment);
         }
-        if(!gradingInstructions.getText().isBlank()){
-            String instructions =  gradingInstructions.getText();
+        if (!gradingInstructions.getText().isBlank()) {
+            String instructions = gradingInstructions.getText();
             shortAnswerQuestion.setGradingInstruction(instructions);
         }
         shortAnswerQService.saveQuestionToRepository(shortAnswerQuestion);
+
+
+    }
+
+
+    public void addHTML(String file) {
+        try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b);) {
 
             p.println("<hr />" + "\n"
                     + "<p><strong>Short Answer: " + questionField.getText() + "</strong></p>" + "\n"
@@ -144,4 +134,11 @@ public void add(String file) {
             i.printStackTrace();
         }
     }
+
+    @Override
+    public void show(Stage thisStage) {
+        stage.show();
+        this.stage.centerOnScreen();
+    }
 }
+

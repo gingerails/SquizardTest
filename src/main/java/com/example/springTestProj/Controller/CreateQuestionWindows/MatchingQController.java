@@ -28,12 +28,11 @@ public class MatchingQController implements ControlDialogBoxes {
     @FXML
     private VBox mQuestionBox;
 
-    public MatchingQController(UserService userService, FxWeaver fxWeaver) {
 
     public String path="src\\main\\resources\\";
 
 
-    public MQuestionController(UserService userService, FxWeaver fxWeaver) {
+    public MatchingQController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
     }

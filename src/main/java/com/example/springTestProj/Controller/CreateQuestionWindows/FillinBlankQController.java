@@ -32,7 +32,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
     private TextField questionField;
 
     public String path="src\\main\\resources\\";
-    public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
+    //public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
 
     public FillinBlankQController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
@@ -59,15 +59,12 @@ public class FillinBlankQController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             //System.out.print("Add question button pressed");
             stage.close();
-            add(path+"test.html");
+            addHTML(path+"test.html");
         });
     }
 
-//    @Override
-//    public <T> void add(T t) {
-//
-//    }
-    public void add(String file) {
+
+    public void addHTML(String file) {
         String question=questionField.getText();
         String rs=question.replace("/?/"," __________________ ");
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene

@@ -76,16 +76,16 @@ public class CreateTestController implements ControlSwitchScreen {
         
         this.createTest.setOnAction(actionEvent -> {
             //System.out.print("create button pressed");
-            saveTest();
-            //if(name.getText()!=".html"&&classes.getValue()!=null&&section.getValue()!=null)
-               // {
-            
-            loadTestMaker();
-              //  }
-           // else
-              //  {
-               //     error.setText("ERROR: One or more items not selected.");
-              //  }
+
+            if(name.getText()!=".html"&&classes.getValue()!=null&&section.getValue()!=null)
+                {
+                    saveTest();
+                    loadTestMaker();
+                }
+            else
+                {
+                    error.setText("ERROR: One or more items not selected.");
+                }
         });
         this.classes.setOnAction(actionEvent -> {
            getSectionInfo();

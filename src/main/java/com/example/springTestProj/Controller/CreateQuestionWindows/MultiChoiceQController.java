@@ -71,7 +71,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             //stage.close();
-            add();
+            createQuestion();
         });
         
         this.addAnswerGraphic.setOnAction(actionEvent -> {
@@ -89,7 +89,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
 
 
-    public void add() {
+    public void createQuestion() {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
        if (choice1Field.getText().isBlank() ||
