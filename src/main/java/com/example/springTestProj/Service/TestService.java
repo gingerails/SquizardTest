@@ -1,10 +1,7 @@
 package com.example.springTestProj.Service;
 
 import com.example.springTestProj.Entities.*;
-import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
-import com.example.springTestProj.Entities.QuestionEntities.FillinBlankQuestion;
-import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
-import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.*;
 import com.example.springTestProj.Repository.TestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +80,33 @@ public class TestService {
         return test;
     }
 
+    /**
+     *
+     * @param test
+     * @param multiChoiceQuestion
+     * @return
+     */
+    public Test addMCQuestion(Test test, MultiChoiceQuestion multiChoiceQuestion){
+        String multiChoiceQID = multiChoiceQuestion.getQuestionID();
+        String multiChoiceSection = test.getMultiChoiceQ();
+        multiChoiceSection = multiChoiceSection + "," + multiChoiceQID;
+        test.setMultiChoiceQ(multiChoiceSection);
+
+        addQuestionToExistingTestAndSave(test);     // call this un every addQuestion method
+
+        return test;
+    }
+    public Test addShortAnswerQ(Test test, ShortAnswerQuestion shortAnswerQuestion){
+        String shortAnswerID = shortAnswerQuestion.getQuestionID();
+        String shortAnswerSection = test.getShortAnswerQ();
+        shortAnswerSection = shortAnswerSection + "," + shortAnswerID;
+        test.setShortAnswerQ(shortAnswerSection);
+
+        addQuestionToExistingTestAndSave(test);     // call this un every addQuestion method
+
+        return test;
+    }
+
     @Transactional
     public void addQuestionToExistingTestAndSave(Test test){
        // // the updatedCourse already has all the new attributes added to it via addCourseController
@@ -94,9 +118,7 @@ public class TestService {
     public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion){
 
     }
-    public void addMCQuestion(MultiChoiceQuestion multiChoiceQuestion){
 
-    }
 //    public void addTFQuestion(TFQuestion tfQuestion){
 //
 //    }

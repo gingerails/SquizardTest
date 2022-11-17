@@ -1,7 +1,9 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
+import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
+import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -22,6 +24,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
+    private final TestService testService;
     private final MultiChoiceQService multiChoiceQService;
     private Stage stage;
 
@@ -56,8 +59,8 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService) {
-        System.out.println("multChoice Controller");
+    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService) {
+        this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.multiChoiceQService = multiChoiceQService;
@@ -131,6 +134,19 @@ public class MultiChoiceQController implements ControlDialogBoxes {
             multiChoiceQuestion.setGradingInstruction(instructions);
         }
         multiChoiceQService.saveQuestionToRepository(multiChoiceQuestion);
+        Test currentTest = getCurrentTestSectionInfo();
+        testService.addMCQuestion(currentTest, multiChoiceQuestion);// also save to test using test service
+    }
 
+
+    /**
+     * Get currentTest obj from TestService, which contains a copy of the test being edited
+     * @return
+     */
+    public Test getCurrentTestSectionInfo(){
+        Test currentTest = testService.returnThisTest();
+        System.out.println(currentTest.getTestUUID());
+
+        return currentTest;
     }
 }

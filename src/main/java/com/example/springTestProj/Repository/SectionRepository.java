@@ -25,6 +25,8 @@ public interface SectionRepository extends JpaRepository<Section, SectionPrimary
     List<Section> findSectionsByCourseUUID(String courseUUID);
 //    List<Section> findSectionsByCourseUUID(String courseUUID);
 
+//    void deleteCoursesByCoursesPrimaryKey_CoursesUUID(String courseID); // delete coursenum is used to update a course and add new sections
+    void deleteSectionBySectionPrimaryKeySectionUUID(String sectionID); // delete coursenum is used to update a course and add new sections
 
     //  Section findSectionBySectionname(String Sectionname);
 }

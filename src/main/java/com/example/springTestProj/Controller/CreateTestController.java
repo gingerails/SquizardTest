@@ -142,8 +142,16 @@ public class CreateTestController implements ControlSwitchScreen {
         } else{
             Section testSection = sectionService.returnSectionBySectionAndCourseID(sectionName, courseID);
             String sectionUUID = testSection.getSectionPrimaryKey().getSectionUUID();
+
+            // save test
             Test newTest = testService.createTest(fileName, sectionUUID);
             testService.saveTestToRepository(newTest);
+
+            // save section w test
+            String currentTests = testSection.getTest();
+            String addedTests = currentTests + "," + newTest.getTestUUID();
+            testSection.setTest(addedTests);
+            sectionService.addTestToSection(testSection);
         }
 
     }

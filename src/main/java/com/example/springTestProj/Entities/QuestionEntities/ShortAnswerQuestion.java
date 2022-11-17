@@ -17,9 +17,9 @@ public class ShortAnswerQuestion {
     @Column(name = "question_id")
     private String questionID;
     @Column(name = "question_content")
-    private String qContent;
+    private String questionContent;
     @Column(name = "question_graphic")
-    private String qGraphic;
+    private String questionGraphic;
     @Column(name = "correct_answer")
     private String correctAnswer;
     @Column(name = "answer_graphic")
@@ -43,8 +43,10 @@ public class ShortAnswerQuestion {
         this.questionID = questionID;
     }
 
-    public ShortAnswerQuestion(String questionID, String questionContent, String questionAnswer) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ShortAnswerQuestion(String questionID, String questionContent, String correctAnswer) {
+        this.questionID = questionID;
+        this.questionContent = questionContent;
+        this.correctAnswer = correctAnswer;
     }
 
     @Override
