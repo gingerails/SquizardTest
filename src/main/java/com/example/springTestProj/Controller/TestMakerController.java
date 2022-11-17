@@ -46,7 +46,7 @@ public class TestMakerController implements ControlSwitchScreen {
 
     @FXML
     private WebView viewer;
-    private WebEngine engine;
+    public static WebEngine engine;
     @FXML
     private VBox mainVbox;
     @FXML

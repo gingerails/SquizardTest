@@ -1,5 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
@@ -135,6 +136,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             b.close();
             p.close();
             f.close();
+            TestMakerController.engine.reload();
             //engine.reload();
         } catch (IOException i) {
             i.printStackTrace();

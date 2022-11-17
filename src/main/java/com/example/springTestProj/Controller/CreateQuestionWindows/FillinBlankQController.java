@@ -1,5 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -79,6 +80,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
             b.close();
             p.close();
             f.close();
+            TestMakerController.engine.reload();
             //engine.reload();
         } catch (IOException i) {
             i.printStackTrace();

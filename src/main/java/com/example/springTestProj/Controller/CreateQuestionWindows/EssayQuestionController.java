@@ -188,7 +188,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             b.close();
             p.close();
             f.close();
-
+            TestMakerController.engine.reload();
 //            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
 //            root=loader.load();
 //
