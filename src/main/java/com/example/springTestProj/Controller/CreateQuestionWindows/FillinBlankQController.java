@@ -81,7 +81,6 @@ public class FillinBlankQController implements ControlDialogBoxes {
             p.close();
             f.close();
             TestMakerController.engine.reload();
-            //engine.reload();
         } catch (IOException i) {
             i.printStackTrace();
         }

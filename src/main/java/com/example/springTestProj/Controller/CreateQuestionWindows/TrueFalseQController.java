@@ -1,10 +1,15 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -52,7 +57,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-
+    public String path="src\\main\\resources\\";
     public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -97,6 +102,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
            String correctAnswer = "True";
            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
            checkFieldsAndAddQuestion(trueFalseQuestion);
+           addHTML(path+"test.html");
            stage.close();
        }
        else{
@@ -139,5 +145,24 @@ public class TrueFalseQController implements ControlDialogBoxes {
 
         return currentTest;
     }
+     public void addHTML(String file) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
 
+            p.println("<hr />" + "\n"
+            +"<p><span style='font-size:16px'><strong>T/F: "+questionContent.getText()+" ______"+"</strong></span></p>"+"\n" 
+            );
+            b.close();
+            p.close();
+            f.close();
+            TestMakerController.engine.reload();
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
+//            root=loader.load();
+//
+//            TestMakerController TestMakeController = loader.getController();
+//            TestMakeController.initialize();
+            //engine.reload();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
 }

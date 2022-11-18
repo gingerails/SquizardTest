@@ -1,10 +1,15 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -59,6 +64,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
+    public String path="src\\main\\resources\\";
     public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
@@ -79,6 +85,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         
         this.addAnswerGraphic.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
+            
         });
                 
     }
@@ -111,6 +118,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
            MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.createMCQuestion(question, correctAnswer, falseAnswer);
            checkFieldsAndAddQuestion(multiChoiceQuestion);
+           addHTML(path+"test.html");
            stage.close();
        }
     }
@@ -148,5 +156,33 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         System.out.println(currentTest.getTestUUID());
 
         return currentTest;
+    }
+     public void addHTML(String file) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+
+            p.println("<hr />" + "\n"
+                  +"<p><span style='font-size:16px'><strong>"+questionContent.getText()+"</strong></span></p>"+"\n"
+
+                  +"<p><span style='font-size:16px'>a. "+choice1Field.getText()+"</span></p>"+"\n"
+                    
+                   +"<p><span style='font-size:16px'>b. "+choice2Field.getText()+"</span></p>"+"\n"
+                    
+                    +"<p><span style='font-size:16px'>c. "+choice3Field.getText()+"</span></p>"+"\n"
+                    
+                    +"<p><span style='font-size:16px'>d. "+choice4Field.getText()+"</span></p>"+"\n"
+            );
+            b.close();
+            p.close();
+            f.close();
+            TestMakerController.engine.reload();
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
+//            root=loader.load();
+//
+//            TestMakerController TestMakeController = loader.getController();
+//            TestMakeController.initialize();
+            //engine.reload();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 }
