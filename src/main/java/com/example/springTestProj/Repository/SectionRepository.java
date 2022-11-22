@@ -1,6 +1,6 @@
 package com.example.springTestProj.Repository;
 
-import com.example.springTestProj.Entities.CompositeKeys.SectionPrimaryKey;
+import com.example.springTestProj.Entities.CompositeKeys.SectionID;
 import com.example.springTestProj.Entities.Section;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SectionRepository extends JpaRepository<Section, SectionPrimaryKey> {
+public interface SectionRepository extends JpaRepository<Section, SectionID> {
 
 //    boolean existsBySectionNum(String sectionNum);
 //    boolean existsBySectionPrimaryKey_SectionNum(String sectionNum);

@@ -4,7 +4,7 @@
  */
 package com.example.springTestProj.Entities;
 
-import com.example.springTestProj.Entities.CompositeKeys.SectionPrimaryKey;
+import com.example.springTestProj.Entities.CompositeKeys.SectionID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +20,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Section")
 public class Section {
-    @EmbeddedId
-    SectionPrimaryKey sectionPrimaryKey;
 
+    // what is a section?
+
+    @EmbeddedId
+    SectionID sectionID;
     @Column(name = "course_uuid")
     private String courseUUID;
 
@@ -32,20 +34,10 @@ public class Section {
     public Section() {
 
     }
-//
-//    public Section(String sectionID, String courseUUID, String sectionNum) {
-//        this.section
-//    }
 
-    public Section(SectionPrimaryKey sectionPrimaryKey, String courseUUID) {
-        this.sectionPrimaryKey = sectionPrimaryKey;
+    public Section(SectionID sectionID, String courseUUID) {
+        this.sectionID = sectionID;
         this.courseUUID = courseUUID;
     }
-
-
-//    @Override
-//    public String toString() {
-//        return "Section [SectionUUID=" + sectionUUID + "]";
-//    }
 
 }

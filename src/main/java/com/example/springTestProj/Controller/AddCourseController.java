@@ -1,6 +1,6 @@
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Course;
 import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Service.FeedbackService;
@@ -109,7 +109,7 @@ public class AddCourseController implements ControlSwitchScreen {
     }
 
     public void createCourse(String courseNum) {
-        Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
+        Course newCourse = courseService.createCourse(String.valueOf(courseNum));
         courseService.saveCourseToRepository(newCourse);
 
     }
@@ -125,14 +125,14 @@ public class AddCourseController implements ControlSwitchScreen {
             updateExistingCourse(course, sectionsArrayList);
         } // ********** Course does not exist in repository ******************
         else {       // otherwise, we are creating an entirely new course with sections
-            Courses newCourse = courseService.createCourse(course); // returns new course w rand uuid
+            Course newCourse = courseService.createCourse(course); // returns new course w rand uuid
             for (String s : sectionsList) {
-                if (sectionService.existsByCourseSection(newCourse.getCoursesPrimaryKey()
-                        .getCoursesUUID(), s)) {         // checks for sections here just incase user adds a duplicate entry
+                if (sectionService.existsByCourseSection(newCourse.getCourseID()
+                        .getUuid(), s)) {         // checks for sections here just incase user adds a duplicate entry
                     System.out.println("Error: Section already exists. Did not add duplicate section.");
                 } else {
-                    Section newSection = sectionService.createNewSection(newCourse.getCoursesPrimaryKey()
-                            .getCoursesUUID(), s);
+                    Section newSection = sectionService.createNewSection(newCourse.getCourseID()
+                            .getUuid(), s);
                     sectionService.saveSectionToRepository(newSection);
                 }
             }
@@ -146,9 +146,9 @@ public class AddCourseController implements ControlSwitchScreen {
     }
 
     public void updateExistingCourse(String course, ArrayList<String> sectionsList) {
-        Courses existingCourse = courseService.returnCourseByCourseNum(course);
-        String courseUUID = existingCourse.getCoursesPrimaryKey()
-                .getCoursesUUID();                // get existing course's id
+        Course existingCourse = courseService.returnCourseByCourseNum(course);
+        String courseUUID = existingCourse.getCourseID()
+                .getUuid();                // get existing course's id
         //  ArrayList<String> addedSectionsList = new ArrayList<String>(); // after each section is added to the repo, save it here. This will be added to the 'sections' column of the course table entry
         for (String s : sectionsList) {
             if (sectionService.existsByCourseSection(courseUUID, s)) {         // for each section in list, check if that course id + section exists

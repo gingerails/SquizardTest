@@ -5,7 +5,7 @@
  */
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Course;
 import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.CourseService;
@@ -115,11 +115,11 @@ public class CreateTestController implements ControlSwitchScreen {
     public void getCoursesInfo() {
         classes.getItems()
                 .clear();
-        List<Courses> dropdownCourseList = courseService.readCourses();
-        for (Courses course : dropdownCourseList) {
+        List<Course> dropdownCourseList = courseService.readCourses();
+        for (Course course : dropdownCourseList) {
 
-            String statementString = course.getCoursesPrimaryKey()
-                    .getCourseNum();
+            String statementString = course.getCourseID()
+                    .getNumber();
             //System.out.println(statementString);
 
             classes.getItems()
@@ -132,16 +132,16 @@ public class CreateTestController implements ControlSwitchScreen {
         String className = (String) classes.getValue();
         String sectionName = (String) section.getValue();
 
-        Courses selectedCourse = courseService.returnCourseByCourseNum(className);
-        String courseID = selectedCourse.getCoursesPrimaryKey()
-                .getCoursesUUID();
+        Course selectedCourse = courseService.returnCourseByCourseNum(className);
+        String courseID = selectedCourse.getCourseID()
+                .getUuid();
 
         if (sectionName == "ALL") {
             List<Section> allSections = sectionService.findCourseSections(courseID);
         } else {
             Section testSection = sectionService.returnSectionBySectionAndCourseID(sectionName, courseID);
-            String sectionUUID = testSection.getSectionPrimaryKey()
-                    .getSectionUUID();
+            String sectionUUID = testSection.getSectionID()
+                    .getUuid();
 
             // save test
             Test newTest = testService.createTest(fileName, sectionUUID);
@@ -162,8 +162,8 @@ public class CreateTestController implements ControlSwitchScreen {
         section.getItems()
                 .addAll("ALL");
 
-        List<Courses> dropdownCourseList = courseService.readCourses();
-        for (Courses course : dropdownCourseList) {
+        List<Course> dropdownCourseList = courseService.readCourses();
+        for (Course course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
             if (course.getSections() == null) {
                 sectionsAsString = "";
@@ -174,8 +174,8 @@ public class CreateTestController implements ControlSwitchScreen {
 
                 //System.out.println("1."+course.getCoursesPrimaryKey().getCourseNum());
                 //System.out.println("2."+classes.getValue());
-                if (course.getCoursesPrimaryKey()
-                        .getCourseNum()
+                if (course.getCourseID()
+                        .getNumber()
                         .equals(classes.getValue())) {
                     String statementString = currentSection;
                     //System.out.println(currentSection);

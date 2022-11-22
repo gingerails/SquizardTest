@@ -4,7 +4,7 @@
  */
 package com.example.springTestProj.Entities;
 
-import com.example.springTestProj.Entities.CompositeKeys.CoursesPrimaryKey;
+import com.example.springTestProj.Entities.CompositeKeys.CourseID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +18,7 @@ import javax.persistence.Table;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "Course")
-public class Courses {
+public class Course {
     //    @Id
     // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
 //    @Column(name = "CoursesUUID")
@@ -27,25 +26,15 @@ public class Courses {
 //    @Column(name = "course_num")
 //    private String coursesNum;
     @EmbeddedId
-    CoursesPrimaryKey coursesPrimaryKey;
-    @Column(name = "sections")
+    CourseID courseID;
+
     private String sections;
 
-    public Courses() {
-
+    public Course(CourseID courseID) {
+        this.courseID = courseID;
     }
 
-    public Courses(CoursesPrimaryKey coursesPrimaryKey) {
-        this.coursesPrimaryKey = coursesPrimaryKey;
-    }
-
-
-    public void addSection(String section) {
+    public Course() {
 
     }
-//    @Override
-//    public String toString() {
-//        return "Courses [CoursesUUID=" + coursesUUID + "]";
-//    }
-
 }

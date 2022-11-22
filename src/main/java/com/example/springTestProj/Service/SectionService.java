@@ -1,6 +1,6 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.CompositeKeys.SectionPrimaryKey;
+import com.example.springTestProj.Entities.CompositeKeys.SectionID;
 import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ public class SectionService {
 
     public Section createNewSection(String courseUUID, String sectionNum) {
         String sectionID = String.valueOf(UUID.randomUUID());
-        SectionPrimaryKey newSectionPrimaryKey = new SectionPrimaryKey(sectionID, sectionNum);
-        Section newSection = new Section(newSectionPrimaryKey, courseUUID);
+        SectionID newSectionID = new SectionID(sectionID, sectionNum);
+        Section newSection = new Section(newSectionID, courseUUID);
 
         return newSection;
     }
@@ -31,8 +31,8 @@ public class SectionService {
     @Transactional
     public void addTestToSection(Section updatedSection) {
         // the updatedCourse already has all the new attributes added to it via addCourseController
-        String sectionUUID = updatedSection.getSectionPrimaryKey()
-                .getSectionUUID();
+        String sectionUUID = updatedSection.getSectionID()
+                .getUuid();
         sectionRepository.deleteSectionBySectionPrimaryKeySectionUUID(sectionUUID);  // delete existing vers of this course, preserving the uuid
         saveSectionToRepository(updatedSection);
     }

@@ -5,7 +5,7 @@
  */
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Course;
 import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Service.UserService;
@@ -65,8 +65,8 @@ public class MainController implements ControlSwitchScreen {
     public void getDatabaseCourses() {
         displayClass.getItems()
                 .clear();
-        List<Courses> dropdownCourseList = courseService.readCourses();
-        for (Courses course : dropdownCourseList) {
+        List<Course> dropdownCourseList = courseService.readCourses();
+        for (Course course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
             if (course.getSections() == null) {
                 sectionsAsString = "";
@@ -76,8 +76,8 @@ public class MainController implements ControlSwitchScreen {
             for (String currentSection : sectionsList) {
 
 
-                String statementString = course.getCoursesPrimaryKey()
-                        .getCourseNum() + " " + currentSection;
+                String statementString = course.getCourseID()
+                        .getNumber() + " " + currentSection;
                 System.out.println(currentSection);
                 System.out.println(statementString);
 

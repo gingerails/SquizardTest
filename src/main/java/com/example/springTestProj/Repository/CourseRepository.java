@@ -1,12 +1,12 @@
 package com.example.springTestProj.Repository;
 
-import com.example.springTestProj.Entities.CompositeKeys.CoursesPrimaryKey;
-import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.CompositeKeys.CourseID;
+import com.example.springTestProj.Entities.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Courses, CoursesPrimaryKey> {
+public interface CourseRepository extends JpaRepository<Course, CourseID> {
     // @Override
     // boolean existsById(CoursesPrimaryKey coursesPrimary);
     //    boolean existsByCoursesUUID(String courseID);
@@ -24,6 +24,6 @@ public interface CourseRepository extends JpaRepository<Courses, CoursesPrimaryK
     // List<Courses> readCoursesBy
     // Courses findCoursesByCoursesNumAndSections(String courseNum, String sections);
 
-    Courses findCoursesByCoursesPrimaryKey_CourseNum(String courseNum);
+    Course findCoursesByCoursesPrimaryKey_CourseNum(String courseNum);
 
 }

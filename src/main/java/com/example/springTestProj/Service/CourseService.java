@@ -1,7 +1,7 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.CompositeKeys.CoursesPrimaryKey;
-import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.CompositeKeys.CourseID;
+import com.example.springTestProj.Entities.Course;
 import com.example.springTestProj.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,35 +16,35 @@ public class CourseService {
     CourseRepository courseRepository;
 
 
-    public void saveCourseToRepository(Courses courses) {
-        courseRepository.save(courses);
+    public void saveCourseToRepository(Course course) {
+        courseRepository.save(course);
         System.out.println("Course saved?");
     }
 
-    public Courses createCourse(String courseNumber) {
+    public Course createCourse(String courseNumber) {
         String courseID = String.valueOf(UUID.randomUUID());
-        CoursesPrimaryKey coursesPrimaryKey = new CoursesPrimaryKey(courseID, courseNumber);
-        Courses newCourse = new Courses(coursesPrimaryKey);
+        CourseID coursesPrimaryKey = new CourseID(courseID, courseNumber);
+        Course newCourse = new Course(coursesPrimaryKey);
 
         return newCourse;
     }
 
 
     @Transactional
-    public void addSectionsToExistingCourseAndSave(Courses updatedCourse) {
+    public void addSectionsToExistingCourseAndSave(Course updatedCourse) {
         // the updatedCourse already has all the new attributes added to it via addCourseController
-        String courseUUID = updatedCourse.getCoursesPrimaryKey()
-                .getCoursesUUID();
+        String courseUUID = updatedCourse.getCourseID()
+                .getUuid();
         courseRepository.deleteCoursesByCoursesPrimaryKey_CoursesUUID(courseUUID);  // delete existing vers of this course, preserving the uuid
         saveCourseToRepository(updatedCourse);
     }
 
 
-    public List<Courses> readCourses() {
+    public List<Course> readCourses() {
         return courseRepository.findAll();
     }
 
-    public Courses returnCourseByCourseNum(String course) {
+    public Course returnCourseByCourseNum(String course) {
         return courseRepository.findCoursesByCoursesPrimaryKey_CourseNum(course);
     }
 
