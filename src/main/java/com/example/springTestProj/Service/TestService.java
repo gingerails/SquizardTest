@@ -106,6 +106,17 @@ public class TestService {
 
         return test;
     }
+    public Test addMatchingQuestion(Test test, MatchingQuestion matchingQuestion) {
+        String matchingID = matchingQuestion.getQuestionID();
+        String matchingSection = test.getMatchingQ();
+        matchingSection = matchingSection + "," + matchingID;
+        test.setMatchingQ(matchingSection);
+
+        addQuestionToExistingTestAndSave(test);     // call this un every addQuestion method
+
+        return test;
+    }
+
 
     @Transactional
     public void addQuestionToExistingTestAndSave(Test test){
@@ -118,6 +129,7 @@ public class TestService {
     public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion){
 
     }
+
 
 //    public void addTFQuestion(TFQuestion tfQuestion){
 //

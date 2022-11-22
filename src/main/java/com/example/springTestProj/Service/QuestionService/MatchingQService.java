@@ -5,10 +5,12 @@ import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Repository.QuestionRepositories.EssayQRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.springTestProj.Repository.QuestionRepositories.MatchingQRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class MatchingQService {
     @Autowired
     MatchingQRepository matchingQRepository;

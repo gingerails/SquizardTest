@@ -21,7 +21,7 @@ public class MatchingQuestion {
     @Column(name = "question_id")
     private String questionID;
     @Column(name = "term")
-    static String term;
+    private String term;
     @Column(name = "correct_answer")
     private String correctAnswer;
     @Column(name = "term_graphic")
@@ -37,7 +37,7 @@ public class MatchingQuestion {
     @Column(name = "class_average")
     private Double classAverage;
     
-    public MatchingQuestion(String questionID, String term, String correq)
+    public MatchingQuestion(String questionID, String term, String correctAnswer)
     {
         this.questionID = questionID;
         this.term = term;
@@ -48,6 +48,13 @@ public class MatchingQuestion {
     public MatchingQuestion() {
 
     }
+
+    public MatchingQuestion(String term, String correctAnswer) {
+        this.term = term;
+        this.correctAnswer = correctAnswer;
+
+    }
+
 
 //    public String getTerm()
 //    {
