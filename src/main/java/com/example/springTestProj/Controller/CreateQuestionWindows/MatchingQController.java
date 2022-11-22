@@ -79,12 +79,14 @@ public class MatchingQController implements ControlDialogBoxes {
       Answer.setCellValueFactory(new PropertyValueFactory<>("Answer"));
       
         this.addRow.setOnAction(actionEvent -> {
-           
+            if (termF.getText().isEmpty() || answerF.getText().isEmpty()) {
+                error.setText("ERROR: Term and/or Answer is blank");
+            } else {
                 data.add(new Matching(termF.getText(), answerF.getText()));
+
                 table.setItems(data);
+            }
                 
-               // table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-               // table.getColumns().addAll(termCol, answerCol);
             
         });
         this.add.setOnAction(actionEvent -> {
