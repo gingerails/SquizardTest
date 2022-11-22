@@ -23,6 +23,11 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import com.example.springTestProj.Controller.CreateQuestionWindows.Matching;
+import com.example.springTestProj.Controller.TestMakerController;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import static javafx.collections.FXCollections.observableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -55,7 +60,11 @@ public class MatchingQController implements ControlDialogBoxes {
     @FXML private TableColumn<Matching, String> Answer;
 
     public String path="src\\main\\resources\\";
-    private final ObservableList<Matching> data=FXCollections.observableArrayList();
+    
+    private ObservableList<Matching> data=FXCollections.observableArrayList();
+    
+    private final List<String> termsArray=new ArrayList<String>();
+    private final List<String> answersArray=new ArrayList<String>();
 
     public MatchingQController(UserService userService, FxWeaver fxWeaver) {
         this.userService = userService;
@@ -78,13 +87,20 @@ public class MatchingQController implements ControlDialogBoxes {
       Term.setCellValueFactory(new PropertyValueFactory<>("Term"));
       Answer.setCellValueFactory(new PropertyValueFactory<>("Answer"));
       
-        this.addRow.setOnAction(actionEvent -> {
+        this.addRow.setOnAction((var actionEvent) -> {
+            
+            Matching match=new Matching(termF.getText(), answerF.getText());
             if (termF.getText().isEmpty() || answerF.getText().isEmpty()) {
                 error.setText("ERROR: Term and/or Answer is blank");
             } else {
-                data.add(new Matching(termF.getText(), answerF.getText()));
-
-                table.setItems(data);
+                
+                termsArray.add(termF.getText());
+                answersArray.add(answerF.getText());
+                
+                //data.add(match);
+                
+                //table.setItems(data);
+                table.getItems().add(new Matching(termF.getText(), answerF.getText()));
             }
                 
             
@@ -92,7 +108,7 @@ public class MatchingQController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             stage.close();
-            //add(path+"test.html");
+            addHTML(path+"test.html");
            
         });
     }
@@ -102,6 +118,31 @@ public class MatchingQController implements ControlDialogBoxes {
         stage.show();
         this.stage.centerOnScreen();
     }
-    
+    public void addHTML(String file) {
+        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+
+             p.println("<hr />" + "\n"
+            +"<p><span style='font-size:16px'><strong>Matching: </strong></span></p>"+"\n");
+            
+            for(int i=0;i<termsArray.size();i++)
+            {
+            p.println(termsArray.get(i)+"&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+answersArray.get(i)+"</p>"+"\n"
+                   
+            );
+            }
+            b.close();
+            p.close();
+            f.close();
+            TestMakerController.engine.reload();
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
+//            root=loader.load();
+//
+//            TestMakerController TestMakeController = loader.getController();
+//            TestMakeController.initialize();
+            //engine.reload();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
 
 }

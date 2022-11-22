@@ -14,30 +14,30 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Orames
  */
 public class Matching {
-    static SimpleStringProperty term;
-    static SimpleStringProperty answer;
+    private String term;
+    private String answer;
     
     public Matching(String term, String answer) 
     {
-        this.term=new SimpleStringProperty(term);
-        this.answer=new SimpleStringProperty(answer);
+        this.term=term;
+        this.answer=answer;
         
     }
     
     public String getTerm()
     {
-        return term.get();
+        return term;
     }
     public String getAnswer()
     {
-        return answer.get();
+        return answer;
     }
-    public void setTerm(String fterm)
+    public void setTerm(String term)
     {
-        term.set(fterm);
+        this.term=term;
     }
-    public void setAnswer(String fanswer)
+    public void setAnswer(String answer)
     {
-        answer.set(fanswer);
+        this.answer=answer;
     }
 }
