@@ -31,17 +31,17 @@
          <Label layoutX="6.0" layoutY="514.0" prefHeight="26.0" prefWidth="114.0" text="Grading Instructions:" AnchorPane.leftAnchor="6.0" />
          <TextField layoutX="119.0" layoutY="514.0" prefHeight="26.0" prefWidth="474.0" />
          <Label layoutX="174.0" layoutY="117.0" prefHeight="18.0" prefWidth="142.0" />
-            <TableView layoutX="3.0" layoutY="114.0" prefHeight="252.0" prefWidth="587.0">
-              <columns>
-                <TableColumn prefWidth="192.7999939918518" text="Term" />
-                <TableColumn prefWidth="395.1999206542969" text="Answer" />
-              </columns>
-            </TableView>
-            <Button layoutX="528.0" layoutY="67.0" mnemonicParsing="false" text="Add Row" />
-            <TextField layoutX="207.0" layoutY="67.0" prefHeight="26.0" prefWidth="314.0" />
-            <TextField layoutX="14.0" layoutY="67.0" prefHeight="26.0" prefWidth="185.0" />
+            <Button fx:id="addRow" layoutX="528.0" layoutY="67.0" mnemonicParsing="false" text="Add Row" />
+            <TextField fx:id="answerF" layoutX="207.0" layoutY="67.0" prefHeight="26.0" prefWidth="314.0" />
+            <TextField fx:id="termF" layoutX="14.0" layoutY="67.0" prefHeight="26.0" prefWidth="185.0" />
             <Label layoutX="93.0" layoutY="44.0" text="Term" />
             <Label layoutX="352.0" layoutY="44.0" text="Answer" />
+            <TableView fx:id="table" layoutX="19.0" layoutY="103.0" prefHeight="260.0" prefWidth="558.0">
+               <columns>
+                  <TableColumn fx:id="Term" prefWidth="75.0" text="Term" />
+                  <TableColumn fx:id="Answer" prefWidth="75.0" text="Answer" />
+               </columns></TableView>
+            <Label fx:id="error" layoutX="5.0" layoutY="550.0" prefHeight="18.0" prefWidth="542.0" style="-fx-text-fill: #FF0000;" />
       </children>
    </AnchorPane>
    </children>

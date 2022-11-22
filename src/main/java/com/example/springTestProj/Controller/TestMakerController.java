@@ -28,6 +28,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -55,6 +56,7 @@ public class TestMakerController implements ControlSwitchScreen {
     private Button publish;
     @FXML
     private ComboBox questionType;
+   
 
     public String path = "src\\main\\resources\\";
 
