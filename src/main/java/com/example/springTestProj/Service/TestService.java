@@ -117,6 +117,9 @@ public class TestService {
         return test;
     }
 
+    public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion){
+
+    }
 
     @Transactional
     public void addQuestionToExistingTestAndSave(Test test){
@@ -126,9 +129,7 @@ public class TestService {
         saveTestToRepository(test);
         currentTest = test; // update current test
     }
-    public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion){
 
-    }
 
 
 //    public void addTFQuestion(TFQuestion tfQuestion){
