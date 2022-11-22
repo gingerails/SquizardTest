@@ -1,30 +1,32 @@
 package com.example.springTestProj.Service.QuestionService;
 
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Repository.QuestionRepositories.EssayQRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springTestProj.Repository.QuestionRepositories.MatchingQRepository;
 
 import java.util.List;
 import java.util.UUID;
 
 public class MatchingQService {
     @Autowired
-    MatchingQRepositority essayQRepository;
+    MatchingQRepository matchingQRepository;
 
-    public EssayQuestion createEssayQuestion(String questionContent, String questionAnswer){
+    public MatchingQuestion createMatchingQuestion(String questionTerm, String questionAnswer){
         String questionID = String.valueOf(UUID.randomUUID());
-        EssayQuestion newEssayQuestion = new EssayQuestion(questionID, questionContent, questionAnswer);
+        MatchingQuestion newMatchingQuestion = new MatchingQuestion(questionID, questionTerm, questionAnswer);
 
-        return newEssayQuestion;
+        return newMatchingQuestion;
     }
 
-    public void saveQuestionToRepository(EssayQuestion essayQuestion){
-        essayQRepository.save(essayQuestion);
+    public void saveQuestionToRepository(MatchingQuestion matchingQuestion){
+        matchingQRepository.save(matchingQuestion);
         System.out.println("Question saved?");
     }
 
-    public List<EssayQuestion> readQuestions(){
-        return essayQRepository.findAll();
+    public List<MatchingQuestion> readQuestions(){
+        return matchingQRepository.findAll();
     }
 
 }
