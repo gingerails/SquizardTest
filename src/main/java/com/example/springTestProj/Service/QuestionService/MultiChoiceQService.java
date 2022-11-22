@@ -14,18 +14,19 @@ public class MultiChoiceQService {
     @Autowired
     MultiChoiceQRepository multiChoiceQRepository;
 
-    public MultiChoiceQuestion createMCQuestion(String questionContent, String questionAnswer, String falseAnswer){
+    public MultiChoiceQuestion createMCQuestion(String questionContent, String questionAnswer, String falseAnswer) {
         String questionID = String.valueOf(UUID.randomUUID());
         MultiChoiceQuestion newMultiChoiceQuestion = new MultiChoiceQuestion(questionID, questionContent, questionAnswer, falseAnswer);
 
         return newMultiChoiceQuestion;
     }
-    public void saveQuestionToRepository(MultiChoiceQuestion multiChoiceQuestion){
+
+    public void saveQuestionToRepository(MultiChoiceQuestion multiChoiceQuestion) {
         multiChoiceQRepository.save(multiChoiceQuestion);
         System.out.println("Question saved?");
     }
 
-    public List<MultiChoiceQuestion> readQuestions(){
+    public List<MultiChoiceQuestion> readQuestions() {
         return multiChoiceQRepository.findAll();
     }
 

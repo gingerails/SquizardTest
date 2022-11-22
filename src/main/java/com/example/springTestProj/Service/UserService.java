@@ -6,15 +6,14 @@ package com.example.springTestProj.Service;
 
 import com.example.springTestProj.Entities.User;
 import com.example.springTestProj.Repository.UserRepository;
-import java.util.List;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
- *
  * @author ginge
  */
 @Service
@@ -23,13 +22,13 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public void saveUserToRepository(User user){
+    public void saveUserToRepository(User user) {
         userRepository.save(user);
         System.out.println("User saved?");
 
     }
 
-    public User createUser(String username, String password){
+    public User createUser(String username, String password) {
         String userID = String.valueOf(UUID.randomUUID());  // probably dont do this maybe
         User newUser = new User(userID, username, password);
 
@@ -37,33 +36,33 @@ public class UserService {
     }
 
 
-    public List<User> readUsers(){
+    public List<User> readUsers() {
         return userRepository.findAll();
     }
 
 
-    public User returnUser(String username, String password){
+    public User returnUser(String username, String password) {
         return userRepository.findUsersByUsernameAndPassword(username, password);
     }
 
 
-    public User returnUserByUsername(String username){
+    public User returnUserByUsername(String username) {
         return userRepository.findUsersByUsername(username);
     }
 
 
     @Transactional
-    public String deleteUser(User user){
-        if (userRepository.existsByUserID(user.getUserID())){
+    public String deleteUser(User user) {
+        if (userRepository.existsByUserID(user.getUserID())) {
             try {
-               User userDelete = userRepository.findByUserID(user.getUserID());
-               userRepository.delete(userDelete);
+                User userDelete = userRepository.findByUserID(user.getUserID());
+                userRepository.delete(userDelete);
                 return "User record deleted successfully.";
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
 
-        }else {
+        } else {
             return "User does not exist";
         }
     }

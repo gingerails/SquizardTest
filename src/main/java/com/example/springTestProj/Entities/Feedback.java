@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,7 +14,7 @@ import java.util.UUID;
 public class Feedback {
     @Id
     @Column(name = "test_uuid")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String testUUID;
     @Column(name = "class_average")
     private Double class_average;
@@ -35,7 +34,7 @@ public class Feedback {
 
     @Override
     public String toString() {
-        return "Feedback [test_uuid=" + testUUID + ", class_average =" +  + class_average + ", class =" + className + ", test_length =" + testLength + "]";
+        return "Feedback [test_uuid=" + testUUID + ", class_average =" + +class_average + ", class =" + className + ", test_length =" + testLength + "]";
     }
 
 }

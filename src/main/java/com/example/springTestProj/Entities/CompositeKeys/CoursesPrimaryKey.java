@@ -1,6 +1,6 @@
 package com.example.springTestProj.Entities.CompositeKeys;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,7 +14,7 @@ public class CoursesPrimaryKey implements Serializable {
     @Column(name = "course_num")
     private String courseNum;
 
-    public CoursesPrimaryKey(String coursesUUID, String courseNum){
+    public CoursesPrimaryKey(String coursesUUID, String courseNum) {
         this.coursesUUID = coursesUUID;
         this.courseNum = courseNum;
     }

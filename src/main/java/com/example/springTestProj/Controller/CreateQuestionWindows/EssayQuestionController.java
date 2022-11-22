@@ -9,25 +9,23 @@ import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
-import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * FXML Controller class
@@ -37,14 +35,13 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/essayQuestion.fxml")
 public class EssayQuestionController implements ControlDialogBoxes {
-    private Parent root;
     private final UserService userService;
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
-
     private final FxWeaver fxWeaver;
+    public String path = "src\\main\\resources\\";
+    private Parent root;
     private Stage stage;
-
     @FXML
     private Button add;
     @FXML
@@ -68,8 +65,6 @@ public class EssayQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public String path="src\\main\\resources\\";
-
     public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, FxWeaver fxWeaver) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
@@ -78,7 +73,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         this.stage = new Stage();
         stage.setTitle("Add Essay Question");
         stage.setScene(new Scene(essayQuestionBox));
@@ -95,40 +90,45 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     }
 
-    public void createQuestion(){
-        if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
+    public void createQuestion() {
+        if (!questionTextField.getText()
+                .isBlank() && !answerTextField.getText()
+                .isBlank()) {
             String question = questionTextField.getText();
             String answer = answerTextField.getText();
             EssayQuestion essayQuestion = essayQuestionService.createEssayQuestion(question, answer);
             checkFieldsAndAddQuestion(essayQuestion);
-            addHTML(path+"test.html");
+            addHTML(path + "test.html");
             stage.close();
-        } else{
+        } else {
             error.setText("Error: Must have question and answer!");
         }
 
     }
 
     /**
-     *
      * @param essayQuestion
      */
-    public void checkFieldsAndAddQuestion(EssayQuestion essayQuestion){
+    public void checkFieldsAndAddQuestion(EssayQuestion essayQuestion) {
 
-        if(!MaterialTextField.getText().isBlank()){
-            String refMaterial =  MaterialTextField.getText();
+        if (!MaterialTextField.getText()
+                .isBlank()) {
+            String refMaterial = MaterialTextField.getText();
             essayQuestion.setReferenceMaterial(refMaterial);
         }
-        if(!sectionsTextField.getText().isBlank()){
-            String refSection =  sectionsTextField.getText();
+        if (!sectionsTextField.getText()
+                .isBlank()) {
+            String refSection = sectionsTextField.getText();
             essayQuestion.setTextReferenceSection(refSection);
         }
-        if(!commentTextField.getText().isBlank()){
-            String comment =  commentTextField.getText();
+        if (!commentTextField.getText()
+                .isBlank()) {
+            String comment = commentTextField.getText();
             essayQuestion.setInstructorComment(comment);
         }
-        if(!instructionTextField.getText().isBlank()){
-            String instructions =  instructionTextField.getText();
+        if (!instructionTextField.getText()
+                .isBlank()) {
+            String instructions = instructionTextField.getText();
             essayQuestion.setGradingInstruction(instructions);
         }
 
@@ -139,9 +139,10 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     /**
      * Get currentTest obj from TestService, which contains a copy of the test being edited
+     *
      * @return
      */
-    public Test getCurrentTestSectionInfo(){
+    public Test getCurrentTestSectionInfo() {
         Test currentTest = testService.returnThisTest();
         System.out.println(currentTest.getTestUUID());
 
@@ -156,8 +157,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
 
-  public void addHTML(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+    public void addHTML(String file) {
+        try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b)) {
 
             p.println("<hr />" + "\n"
                     + "<p><strong>Essay: " + questionTextField.getText() + "</strong></p>" + "\n"

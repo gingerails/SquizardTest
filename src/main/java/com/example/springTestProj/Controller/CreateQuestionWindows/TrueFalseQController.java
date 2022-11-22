@@ -61,7 +61,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     }
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         this.stage = new Stage();
         stage.setTitle("Add T/F Question");
         stage.setScene(new Scene(tfQuestionBox));
@@ -86,41 +86,46 @@ public class TrueFalseQController implements ControlDialogBoxes {
     public void createQuestion() {
 
         System.out.println("Add PRSSEDDDD");
-       if (isFalseCheckBox.isSelected() && !questionContent.getText().isBlank()){
-           String question = questionContent.getText();
-           String correctAnswer = "False";
-           TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
-           checkFieldsAndAddQuestion(trueFalseQuestion);
-           stage.close();
-       } else if (isTrueCheckBox.isSelected()&& !questionContent.getText().isBlank()) {
-           String question = questionContent.getText();
-           String correctAnswer = "True";
-           TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
-           checkFieldsAndAddQuestion(trueFalseQuestion);
-           stage.close();
-       }
-       else{
-           System.out.println("No button sELKECTEDDDD");
-           error.setText("Error: Must select true or false!");
-       }
+        if (isFalseCheckBox.isSelected() && !questionContent.getText()
+                .isBlank()) {
+            String question = questionContent.getText();
+            String correctAnswer = "False";
+            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
+            checkFieldsAndAddQuestion(trueFalseQuestion);
+            stage.close();
+        } else if (isTrueCheckBox.isSelected() && !questionContent.getText()
+                .isBlank()) {
+            String question = questionContent.getText();
+            String correctAnswer = "True";
+            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
+            checkFieldsAndAddQuestion(trueFalseQuestion);
+            stage.close();
+        } else {
+            System.out.println("No button sELKECTEDDDD");
+            error.setText("Error: Must select true or false!");
+        }
     }
 
-    public void checkFieldsAndAddQuestion(TrueFalseQuestion trueFalseQuestion){
+    public void checkFieldsAndAddQuestion(TrueFalseQuestion trueFalseQuestion) {
 
-        if(!referenceMaterial.getText().isBlank()){
-            String refMaterial =  referenceMaterial.getText();
+        if (!referenceMaterial.getText()
+                .isBlank()) {
+            String refMaterial = referenceMaterial.getText();
             trueFalseQuestion.setReferenceMaterial(refMaterial);
         }
-        if(!referenceSection.getText().isBlank()){
-            String refSection =  referenceSection.getText();
+        if (!referenceSection.getText()
+                .isBlank()) {
+            String refSection = referenceSection.getText();
             trueFalseQuestion.setTextReferenceSection(refSection);
         }
-        if(!instructorComment.getText().isBlank()){
-            String comment =  instructorComment.getText();
+        if (!instructorComment.getText()
+                .isBlank()) {
+            String comment = instructorComment.getText();
             trueFalseQuestion.setInstructorComment(comment);
         }
-        if(!gradingInstructions.getText().isBlank()){
-            String instructions =  gradingInstructions.getText();
+        if (!gradingInstructions.getText()
+                .isBlank()) {
+            String instructions = gradingInstructions.getText();
             trueFalseQuestion.setGradingInstruction(instructions);
         }
 
@@ -131,9 +136,10 @@ public class TrueFalseQController implements ControlDialogBoxes {
 
     /**
      * Get currentTest obj from TestService, which contains a copy of the test being edited
+     *
      * @return
      */
-    public Test getCurrentTestSectionInfo(){
+    public Test getCurrentTestSectionInfo() {
         Test currentTest = testService.returnThisTest();
         System.out.println(currentTest.getTestUUID());
 

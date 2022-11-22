@@ -1,7 +1,7 @@
 package com.example.springTestProj.Service;
 
-import com.example.springTestProj.Entities.*;
 import com.example.springTestProj.Entities.QuestionEntities.*;
+import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Repository.TestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class TestService {
 
     // creating test key
 
-    public Test createTest(String testName, String sectionUUID){
+    public Test createTest(String testName, String sectionUUID) {
         String testUUID = String.valueOf(UUID.randomUUID());
         Test newTest = new Test(testUUID, testName, sectionUUID);
         currentTest = newTest;
@@ -31,28 +31,29 @@ public class TestService {
         return newTest;
     }
 
-    public void saveTestToRepository(Test test){
+    public void saveTestToRepository(Test test) {
         testsRepository.save(test);
         System.out.println("Test saved?");
     }
 
 
-    public Test returnTestByTestID(String testID){
+    public Test returnTestByTestID(String testID) {
         return testsRepository.findByTestUUID(testID);
     }
 
 
-    public Test returnThisTest(){
+    public Test returnThisTest() {
         return currentTest;
     }
 
     /**
      * update test object by adding tf question
+     *
      * @param test
      * @param trueFalseQuestion
      * @return
      */
-    public Test addTFQuestion(Test test, TrueFalseQuestion trueFalseQuestion){
+    public Test addTFQuestion(Test test, TrueFalseQuestion trueFalseQuestion) {
         String tfQuestionID = trueFalseQuestion.getQuestionID();
         String tfSection = test.getTrueFalseQ();
         tfSection = tfSection + "," + tfQuestionID;
@@ -65,11 +66,12 @@ public class TestService {
 
     /**
      * Updates test by adding Essay Question
+     *
      * @param test
      * @param essayQuestion
      * @return
      */
-    public Test addEQuestion(Test test, EssayQuestion essayQuestion){
+    public Test addEQuestion(Test test, EssayQuestion essayQuestion) {
         String eQuestionID = essayQuestion.getQuestionID();
         String essaySection = test.getEssayQ();
         essaySection = essaySection + "," + eQuestionID;
@@ -81,12 +83,11 @@ public class TestService {
     }
 
     /**
-     *
      * @param test
      * @param multiChoiceQuestion
      * @return
      */
-    public Test addMCQuestion(Test test, MultiChoiceQuestion multiChoiceQuestion){
+    public Test addMCQuestion(Test test, MultiChoiceQuestion multiChoiceQuestion) {
         String multiChoiceQID = multiChoiceQuestion.getQuestionID();
         String multiChoiceSection = test.getMultiChoiceQ();
         multiChoiceSection = multiChoiceSection + "," + multiChoiceQID;
@@ -96,7 +97,8 @@ public class TestService {
 
         return test;
     }
-    public Test addShortAnswerQ(Test test, ShortAnswerQuestion shortAnswerQuestion){
+
+    public Test addShortAnswerQ(Test test, ShortAnswerQuestion shortAnswerQuestion) {
         String shortAnswerID = shortAnswerQuestion.getQuestionID();
         String shortAnswerSection = test.getShortAnswerQ();
         shortAnswerSection = shortAnswerSection + "," + shortAnswerID;
@@ -108,14 +110,15 @@ public class TestService {
     }
 
     @Transactional
-    public void addQuestionToExistingTestAndSave(Test test){
-       // // the updatedCourse already has all the new attributes added to it via addCourseController
+    public void addQuestionToExistingTestAndSave(Test test) {
+        // // the updatedCourse already has all the new attributes added to it via addCourseController
         String testUUID = test.getTestUUID();
         testsRepository.deleteById(testUUID); // delete existing vers of this course, preserving the uuid
         saveTestToRepository(test);
         currentTest = test; // update current test
     }
-    public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion){
+
+    public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion) {
 
     }
 
@@ -125,7 +128,6 @@ public class TestService {
 //    public void addTFQuestion(TFQuestion tfQuestion){
 //
 //    }
-
 
 
 }

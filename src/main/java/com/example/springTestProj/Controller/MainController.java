@@ -4,16 +4,11 @@
  * and open the template in the editor.
  */
 package com.example.springTestProj.Controller;
-import com.example.springTestProj.Service.CourseService;
-import com.example.springTestProj.Repository.CourseRepository;
-import com.example.springTestProj.Repository.CourseRepository;
+
 import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Repository.CourseRepository;
+import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Service.UserService;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -28,8 +23,11 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FXML Controller class
@@ -39,12 +37,11 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/Main.fxml")
 public class MainController implements ControlSwitchScreen {
-    
-    CourseRepository courseRepository;
-    
+
     private final CourseService courseService;
     private final UserService userService;
     private final FxWeaver fxWeaver;
+    CourseRepository courseRepository;
     private Stage stage;
 
     @FXML
@@ -55,51 +52,50 @@ public class MainController implements ControlSwitchScreen {
     private Button preview1;
     @FXML
     private Button addCourseButton;
-    @FXML 
+    @FXML
     private ComboBox displayClass;
-    
-   
-   
+
+
     public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.courseService=courseService;
+        this.courseService = courseService;
     }
 
-    public void getDatabaseCourses()
-    {
-        displayClass.getItems().clear();
-      List<Courses> dropdownCourseList = courseService.readCourses();
+    public void getDatabaseCourses() {
+        displayClass.getItems()
+                .clear();
+        List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
-            if(course.getSections()==null)
-            {
-                sectionsAsString="";
+            if (course.getSections() == null) {
+                sectionsAsString = "";
             }
             String[] sectionsList = sectionsAsString.split(",");
             ArrayList<String> displayList = new ArrayList<>();
-            for (String currentSection: sectionsList) {
-                
-               
-                String statementString = course.getCoursesPrimaryKey().getCourseNum() + " " + currentSection;
+            for (String currentSection : sectionsList) {
+
+
+                String statementString = course.getCoursesPrimaryKey()
+                        .getCourseNum() + " " + currentSection;
                 System.out.println(currentSection);
                 System.out.println(statementString);
-                
-                displayClass.getItems().addAll(statementString);
- 
+
+                displayClass.getItems()
+                        .addAll(statementString);
+
             }
         }
-            
-        
-        
+
+
     }
-   
-   //String test="cs101,cs202,cs303";
-    
+
+    //String test="cs101,cs202,cs303";
+
     @FXML
-    public void initialize () {
-        
-    getDatabaseCourses();
+    public void initialize() {
+
+        getDatabaseCourses();
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
@@ -111,14 +107,15 @@ public class MainController implements ControlSwitchScreen {
         this.preview1.setOnAction(actionEvent -> {
             loadpreview("/website.html");
         });
-        
-        
+
+
     }
 
     @Override
     public Stage getCurrentStage() {
         Node node = addTest.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
-        Stage currentStage = (Stage) node.getScene().getWindow();
+        Stage currentStage = (Stage) node.getScene()
+                .getWindow();
         return currentStage;
     }
 
@@ -133,41 +130,45 @@ public class MainController implements ControlSwitchScreen {
     }
 
     /**
-     *  gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
+     * gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
      */
-    
-   
-   
+
+
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
                 fxWeaver.load(CreateTestController.class);
-        createTestControllerAndView.getController().show(getCurrentStage());
+        createTestControllerAndView.getController()
+                .show(getCurrentStage());
     }
-     public void loadpreview(String name) {
-         Stage nstage= new Stage();
-         
-         WebView browser = new WebView();
-         WebEngine engine = browser.getEngine();
-         URL url = this.getClass().getResource(name);
-         engine.load(url.toString());  
-         
 
-         StackPane sp = new StackPane();
-         sp.getChildren().add(browser);
+    public void loadpreview(String name) {
+        Stage nstage = new Stage();
 
-         Scene root = new Scene(sp);
+        WebView browser = new WebView();
+        WebEngine engine = browser.getEngine();
+        URL url = this.getClass()
+                .getResource(name);
+        engine.load(url.toString());
 
-         nstage.setScene(root);
-         nstage.show();
+
+        StackPane sp = new StackPane();
+        sp.getChildren()
+                .add(browser);
+
+        Scene root = new Scene(sp);
+
+        nstage.setScene(root);
+        nstage.show();
     }
+
     public void loadAddCourseScreen() {
-        
+
         FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
                 fxWeaver.load(AddCourseController.class);
-        addCourseControllerAndView.getController().show(getCurrentStage());
-        
-        
-        
+        addCourseControllerAndView.getController()
+                .show(getCurrentStage());
+
+
     }
 }

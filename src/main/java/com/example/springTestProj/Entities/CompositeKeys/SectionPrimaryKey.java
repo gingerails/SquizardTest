@@ -1,6 +1,5 @@
 package com.example.springTestProj.Entities.CompositeKeys;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

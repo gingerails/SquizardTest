@@ -67,7 +67,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     }
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         this.stage = new Stage();
         stage.setTitle("Add Multiple Choice Question");
         stage.setScene(new Scene(mcQuestionBox));
@@ -76,11 +76,11 @@ public class MultiChoiceQController implements ControlDialogBoxes {
             //stage.close();
             createQuestion();
         });
-        
+
         this.addAnswerGraphic.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
         });
-                
+
     }
 
 
@@ -91,46 +91,55 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     }
 
 
-
     public void createQuestion() {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
-       if (choice1Field.getText().isBlank() ||
-               choice2Field.getText().isBlank() ||
-               choice3Field.getText().isBlank() ||
-               choice4Field.getText().isBlank() ||
-               answerTextField.getText().isBlank() ||
-               questionContent.getText().isBlank()){
-           System.out.println("SOMETHING WAS LEFT BLANK");
-           error.setText("Error: Must fill out each choice, question and answer!");
-       } else{
-           String question = questionContent.getText();
-           String correctAnswer = answerTextField.getText();
-           String[] falseAnswers = {choice1Field.getText(),choice2Field.getText(),choice3Field.getText(),choice4Field.getText()};
-           String falseAnswer = Arrays.toString(falseAnswers);
+        if (choice1Field.getText()
+                .isBlank() ||
+                choice2Field.getText()
+                        .isBlank() ||
+                choice3Field.getText()
+                        .isBlank() ||
+                choice4Field.getText()
+                        .isBlank() ||
+                answerTextField.getText()
+                        .isBlank() ||
+                questionContent.getText()
+                        .isBlank()) {
+            System.out.println("SOMETHING WAS LEFT BLANK");
+            error.setText("Error: Must fill out each choice, question and answer!");
+        } else {
+            String question = questionContent.getText();
+            String correctAnswer = answerTextField.getText();
+            String[] falseAnswers = {choice1Field.getText(), choice2Field.getText(), choice3Field.getText(), choice4Field.getText()};
+            String falseAnswer = Arrays.toString(falseAnswers);
 
-           MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.createMCQuestion(question, correctAnswer, falseAnswer);
-           checkFieldsAndAddQuestion(multiChoiceQuestion);
-           stage.close();
-       }
+            MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.createMCQuestion(question, correctAnswer, falseAnswer);
+            checkFieldsAndAddQuestion(multiChoiceQuestion);
+            stage.close();
+        }
     }
-    
-    public void checkFieldsAndAddQuestion(MultiChoiceQuestion multiChoiceQuestion){
 
-        if(!referenceMaterial.getText().isBlank()){
-            String refMaterial =  referenceMaterial.getText();
+    public void checkFieldsAndAddQuestion(MultiChoiceQuestion multiChoiceQuestion) {
+
+        if (!referenceMaterial.getText()
+                .isBlank()) {
+            String refMaterial = referenceMaterial.getText();
             multiChoiceQuestion.setReferenceMaterial(refMaterial);
         }
-        if(!referenceSection.getText().isBlank()){
-            String refSection =  referenceSection.getText();
+        if (!referenceSection.getText()
+                .isBlank()) {
+            String refSection = referenceSection.getText();
             multiChoiceQuestion.setTextReferenceSection(refSection);
         }
-        if(!instructorComment.getText().isBlank()){
-            String comment =  instructorComment.getText();
+        if (!instructorComment.getText()
+                .isBlank()) {
+            String comment = instructorComment.getText();
             multiChoiceQuestion.setInstructorComment(comment);
         }
-        if(!gradingInstructions.getText().isBlank()){
-            String instructions =  gradingInstructions.getText();
+        if (!gradingInstructions.getText()
+                .isBlank()) {
+            String instructions = gradingInstructions.getText();
             multiChoiceQuestion.setGradingInstruction(instructions);
         }
         multiChoiceQService.saveQuestionToRepository(multiChoiceQuestion);
@@ -141,9 +150,10 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
     /**
      * Get currentTest obj from TestService, which contains a copy of the test being edited
+     *
      * @return
      */
-    public Test getCurrentTestSectionInfo(){
+    public Test getCurrentTestSectionInfo() {
         Test currentTest = testService.returnThisTest();
         System.out.println(currentTest.getTestUUID());
 

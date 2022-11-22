@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package com.example.springTestProj.Repository;
+
 import com.example.springTestProj.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUsersByUsernameAndPassword(String username, String password);
 
     User findUsersByUsername(String username);
-   // User findUsersBy
+    // User findUsersBy
 }

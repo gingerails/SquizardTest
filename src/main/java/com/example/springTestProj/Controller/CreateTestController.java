@@ -15,8 +15,7 @@ import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
@@ -26,9 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+
 /**
  * FXML Controller class
  *
@@ -57,38 +54,34 @@ public class CreateTestController implements ControlSwitchScreen {
     private CheckBox analytic;
     @FXML
     private Label error;
-   
 
-   
+
     public CreateTestController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, SectionService sectionService) {
         //System.out.println("Create Test Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.courseService=courseService;
+        this.courseService = courseService;
         this.testService = testService;
         this.sectionService = sectionService;
     }
-    
+
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         getCoursesInfo();
-        
+
         this.createTest.setOnAction(actionEvent -> {
             //System.out.print("create button pressed");
 
-            if(name.getText()!=".html"&&classes.getValue()!=null&&section.getValue()!=null)
-                {
-                    saveTest();
-                    loadTestMaker();
-                }
-            else
-                {
-                    error.setText("ERROR: One or more items not selected.");
-                }
+            if (name.getText() != ".html" && classes.getValue() != null && section.getValue() != null) {
+                saveTest();
+                loadTestMaker();
+            } else {
+                error.setText("ERROR: One or more items not selected.");
+            }
         });
         this.classes.setOnAction(actionEvent -> {
-           getSectionInfo();
+            getSectionInfo();
         });
 //
     }
@@ -96,7 +89,8 @@ public class CreateTestController implements ControlSwitchScreen {
     @Override
     public Stage getCurrentStage() {
         Node node = createTest.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
-        Stage currentStage = (Stage) node.getScene().getWindow();
+        Stage currentStage = (Stage) node.getScene()
+                .getWindow();
         return currentStage;
     }
 
@@ -114,34 +108,40 @@ public class CreateTestController implements ControlSwitchScreen {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView
                 = fxWeaver.load(TestMakerController.class);
-        testMakerControllerAndView.getController().show(getCurrentStage());
+        testMakerControllerAndView.getController()
+                .show(getCurrentStage());
     }
-     public void getCoursesInfo()
-    {
-       classes.getItems().clear();
-       List<Courses> dropdownCourseList = courseService.readCourses();
+
+    public void getCoursesInfo() {
+        classes.getItems()
+                .clear();
+        List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
 
-                String statementString = course.getCoursesPrimaryKey().getCourseNum();
-                //System.out.println(statementString);
-                
-                classes.getItems().addAll(statementString);
+            String statementString = course.getCoursesPrimaryKey()
+                    .getCourseNum();
+            //System.out.println(statementString);
+
+            classes.getItems()
+                    .addAll(statementString);
         }
     }
-    public void saveTest()
-    {
-        String fileName=name.getText()+".html";
-        String className=(String) classes.getValue();
-        String sectionName=(String) section.getValue();
+
+    public void saveTest() {
+        String fileName = name.getText() + ".html";
+        String className = (String) classes.getValue();
+        String sectionName = (String) section.getValue();
 
         Courses selectedCourse = courseService.returnCourseByCourseNum(className);
-        String courseID = selectedCourse.getCoursesPrimaryKey().getCoursesUUID();
+        String courseID = selectedCourse.getCoursesPrimaryKey()
+                .getCoursesUUID();
 
-        if(sectionName == "ALL"){
+        if (sectionName == "ALL") {
             List<Section> allSections = sectionService.findCourseSections(courseID);
-        } else{
+        } else {
             Section testSection = sectionService.returnSectionBySectionAndCourseID(sectionName, courseID);
-            String sectionUUID = testSection.getSectionPrimaryKey().getSectionUUID();
+            String sectionUUID = testSection.getSectionPrimaryKey()
+                    .getSectionUUID();
 
             // save test
             Test newTest = testService.createTest(fileName, sectionUUID);
@@ -155,10 +155,12 @@ public class CreateTestController implements ControlSwitchScreen {
         }
 
     }
-    public void getSectionInfo()
-    {
-        section.getItems().clear();
-        section.getItems().addAll("ALL");
+
+    public void getSectionInfo() {
+        section.getItems()
+                .clear();
+        section.getItems()
+                .addAll("ALL");
 
         List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
@@ -172,19 +174,21 @@ public class CreateTestController implements ControlSwitchScreen {
 
                 //System.out.println("1."+course.getCoursesPrimaryKey().getCourseNum());
                 //System.out.println("2."+classes.getValue());
-                if(course.getCoursesPrimaryKey().getCourseNum().equals(classes.getValue()))
-                {
-                String statementString = currentSection;
-                //System.out.println(currentSection);
-                //System.out.println(statementString);
-                section.getItems().addAll(statementString);
-               //System.out.println(course.getCoursesPrimaryKey().getCourseNum());
+                if (course.getCoursesPrimaryKey()
+                        .getCourseNum()
+                        .equals(classes.getValue())) {
+                    String statementString = currentSection;
+                    //System.out.println(currentSection);
+                    //System.out.println(statementString);
+                    section.getItems()
+                            .addAll(statementString);
+                    //System.out.println(course.getCoursesPrimaryKey().getCourseNum());
                 }
-                
+
             }
-        
+
+        }
     }
-}
 }
 
 

@@ -1,35 +1,24 @@
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.FillinBlankQController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.MultiChoiceQController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.TrueFalseQController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.ShortQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.*;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Field;
-import java.net.URL;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 
 /**
  * FXML Controller class
@@ -42,8 +31,9 @@ public class TestMakerController implements ControlSwitchScreen {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
+    public String path = "src\\main\\resources\\";
+    File f = new File(path + "test.html");
     private Stage stage;
-
     @FXML
     private WebView viewer;
     private WebEngine engine;
@@ -55,10 +45,6 @@ public class TestMakerController implements ControlSwitchScreen {
     private Button publish;
     @FXML
     private ComboBox questionType;
-
-    public String path = "src\\main\\resources\\";
-
-    File f = new File(path + "test.html");
 
     public TestMakerController(UserService userService, FxWeaver fxWeaver) {
         //System.out.println("Test maker Controller");
@@ -72,23 +58,26 @@ public class TestMakerController implements ControlSwitchScreen {
         createTest(path + "test.html", "Test Name");
         //webviewer
         engine = viewer.getEngine();
-        engine.load(f.toURI().toString());
+        engine.load(f.toURI()
+                .toString());
 
-        questionType.getItems().addAll(
-                "Essay",
-                "Multiple Choice",
-                "Matching",
-                "Fill in Blank",
-                "True/False",
-                "Short Answer"
-        );
+        questionType.getItems()
+                .addAll(
+                        "Essay",
+                        "Multiple Choice",
+                        "Matching",
+                        "Fill in Blank",
+                        "True/False",
+                        "Short Answer"
+                );
         this.add.setOnAction(actionEvent -> {
             try {
                 //System.out.print("essay Question");
                 pickQuestion();
 
             } catch (IOException ex) {
-                Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TestMakerController.class.getName())
+                        .log(Level.SEVERE, null, ex);
             }
 
         });
@@ -104,7 +93,8 @@ public class TestMakerController implements ControlSwitchScreen {
     @Override
     public Stage getCurrentStage() {
         Node node = add.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
-        Stage currentStage = (Stage) node.getScene().getWindow();
+        Stage currentStage = (Stage) node.getScene()
+                .getWindow();
         return currentStage;
     }
 
@@ -132,7 +122,7 @@ public class TestMakerController implements ControlSwitchScreen {
     }
 
     public void publish(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+        try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b)) {
 
             p.println("</html>");
             b.close();
@@ -144,8 +134,8 @@ public class TestMakerController implements ControlSwitchScreen {
         }
 
     }
-    public void refresh()
-    {
+
+    public void refresh() {
         engine.reload();
     }
 
@@ -153,42 +143,48 @@ public class TestMakerController implements ControlSwitchScreen {
         String qType = (String) questionType.getValue();
         System.out.println(qType);
 
-        if ("Essay".equals(qType) == true) {
+        if ("Essay".equals(qType)) {
             System.out.println("essay");
             FxControllerAndView<EssayQuestionController, VBox> essayQuestionControllerAndView
                     = fxWeaver.load(EssayQuestionController.class);
-            essayQuestionControllerAndView.getController().show(getCurrentStage());
+            essayQuestionControllerAndView.getController()
+                    .show(getCurrentStage());
 
         }
-        if ("Multiple Choice".equals(qType) == true) {
+        if ("Multiple Choice".equals(qType)) {
             System.out.println("Multiple Choice");
             FxControllerAndView<MultiChoiceQController, VBox> McQuestionControllerAndView =
                     fxWeaver.load(MultiChoiceQController.class);
-            McQuestionControllerAndView.getController().show(getCurrentStage());
+            McQuestionControllerAndView.getController()
+                    .show(getCurrentStage());
         }
-        if ("Matching".equals(qType) == true) {
+        if ("Matching".equals(qType)) {
             System.out.println("Matching");
             FxControllerAndView<MatchingQController, VBox> mQuestionControllerAndView =
                     fxWeaver.load(MatchingQController.class);
-            mQuestionControllerAndView.getController().show(getCurrentStage());
+            mQuestionControllerAndView.getController()
+                    .show(getCurrentStage());
         }
-        if ("Fill in Blank".equals(qType) == true) {
+        if ("Fill in Blank".equals(qType)) {
             System.out.println("FIB");
             FxControllerAndView<FillinBlankQController, VBox> fibQuestionControllerAndView =
                     fxWeaver.load(FillinBlankQController.class);
-            fibQuestionControllerAndView.getController().show(getCurrentStage());
+            fibQuestionControllerAndView.getController()
+                    .show(getCurrentStage());
         }
-        if ("True/False".equals(qType) == true) {
+        if ("True/False".equals(qType)) {
             System.out.println("T/F");
             FxControllerAndView<TrueFalseQController, VBox> tfQuestionControllerAndView =
                     fxWeaver.load(TrueFalseQController.class);
-            tfQuestionControllerAndView.getController().show(getCurrentStage());
+            tfQuestionControllerAndView.getController()
+                    .show(getCurrentStage());
         }
-        if ("Short Answer".equals(qType) == true) {
+        if ("Short Answer".equals(qType)) {
             System.out.println("Short");
             FxControllerAndView<ShortQuestionController, VBox> shortQuestionControllerAndView
                     = fxWeaver.load(ShortQuestionController.class);
-            shortQuestionControllerAndView.getController().show(getCurrentStage());
+            shortQuestionControllerAndView.getController()
+                    .show(getCurrentStage());
         }
     }
 }

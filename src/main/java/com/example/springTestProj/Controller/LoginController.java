@@ -1,8 +1,6 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Service.UserService;
-import java.awt.Color;
-import static java.awt.Color.RED;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -22,31 +20,23 @@ import org.springframework.stereotype.Component;
 public class LoginController implements ControlSwitchScreen {
     private final UserService userService;
     private final FxWeaver fxWeaver;
-    private Stage stage;
-
     @FXML
     public Label error;
-   
     @FXML
     public Label label;
-
     @FXML
     public Button button;
-
     @FXML
     public TextField usrField;
-
     @FXML
     public TextField passField;
-
     @FXML
     public Label confirm;
-
     @FXML
     public Hyperlink createAccountLink;
-
     @FXML
     VBox loginVbox;  // fx:id !!!!!
+    private Stage stage;
 
     public LoginController(UserService userService,
                            FxWeaver fxWeaver) {//
@@ -61,13 +51,14 @@ public class LoginController implements ControlSwitchScreen {
      * automatically called
      */
     @FXML
-    public void initialize () {
+    public void initialize() {
         this.createAccountLink.setOnAction(actionEvent -> {
             // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
             Stage currentStage = getCurrentStage();
             FxControllerAndView<CreateAccountController, VBox> createAccountControllerAndView =
                     fxWeaver.load(CreateAccountController.class);
-            createAccountControllerAndView.getController().show(getCurrentStage());
+            createAccountControllerAndView.getController()
+                    .show(getCurrentStage());
         });
 
         this.button.setOnAction(actionEvent -> {
@@ -79,7 +70,8 @@ public class LoginController implements ControlSwitchScreen {
     @Override
     public Stage getCurrentStage() {
         Node node = button.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
-        Stage currentStage = (Stage) node.getScene().getWindow();
+        Stage currentStage = (Stage) node.getScene()
+                .getWindow();
         return currentStage;
     }
 
@@ -93,7 +85,6 @@ public class LoginController implements ControlSwitchScreen {
 
 
     /**
-     *
      * verify user exists. if so, switch scene to main menu.
      * probably need to put the scene switching stuff in its own method for the sake of SRP?
      */
@@ -101,21 +92,21 @@ public class LoginController implements ControlSwitchScreen {
         System.out.println("Verifying User...");
         String Username = usrField.getText();
         String Password = passField.getText();
-        if(userService.returnUser(Username, Password) != null) //needs to talk to database and veify the username and passwords
+        if (userService.returnUser(Username, Password) != null) //needs to talk to database and veify the username and passwords
         {
             System.out.println("Found User!");
             Stage currentStage = getCurrentStage();
             FxControllerAndView<MainController, VBox> mainMenuControllerAndView =
-                  fxWeaver.load(MainController.class);
-            mainMenuControllerAndView.getController().show(currentStage);
-        }
-        else{
+                    fxWeaver.load(MainController.class);
+            mainMenuControllerAndView.getController()
+                    .show(currentStage);
+        } else {
             System.out.println("Error: UserName/Password is incorrect! Try Again!");
-            
-            error.setText("Error: UserName/Password is incorrect! Try Again!");
-       
 
-    }
+            error.setText("Error: UserName/Password is incorrect! Try Again!");
+
+
+        }
     }
 
 }

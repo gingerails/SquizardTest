@@ -14,18 +14,19 @@ public class TrueFalseQService {
     @Autowired
     TrueFalseQRepository trueFalseQRepository;
 
-    public TrueFalseQuestion createTFQuestion(String questionContent, String questionAnswer){
+    public TrueFalseQuestion createTFQuestion(String questionContent, String questionAnswer) {
         String questionID = String.valueOf(UUID.randomUUID());
         TrueFalseQuestion newTrueFalseQuestion = new TrueFalseQuestion(questionID, questionContent, questionAnswer);
 
         return newTrueFalseQuestion;
     }
-    public void saveQuestionToRepository(TrueFalseQuestion trueFalseQuestion){
+
+    public void saveQuestionToRepository(TrueFalseQuestion trueFalseQuestion) {
         trueFalseQRepository.save(trueFalseQuestion);
         System.out.println("Question saved?");
     }
 
-    public List<TrueFalseQuestion> readQuestions(){
+    public List<TrueFalseQuestion> readQuestions() {
         return trueFalseQRepository.findAll();
     }
 

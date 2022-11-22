@@ -5,10 +5,6 @@ import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +16,11 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 @Component
 @FxmlView("/shortAnswerQ.fxml")
 public class ShortQuestionController implements ControlDialogBoxes {
@@ -28,8 +29,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
+    public String path = "src\\main\\resources\\";
     private Stage stage;
-
     @FXML
     private Button add;
     @FXML
@@ -54,8 +55,6 @@ public class ShortQuestionController implements ControlDialogBoxes {
     private TextField answerField;
     @FXML
     private Label error;
-
-    public String path = "src\\main\\resources\\";
 
 
     public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService) {
@@ -86,7 +85,9 @@ public class ShortQuestionController implements ControlDialogBoxes {
     public void createQuestion() {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
-        if (answerField.getText().isBlank() || questionContent.getText().isBlank()) {
+        if (answerField.getText()
+                .isBlank() || questionContent.getText()
+                .isBlank()) {
             System.out.println("SOMETHING WAS LEFT BLANK");
             error.setText("Error: Must fill out each choice, question and answer!");
         } else {
@@ -100,19 +101,23 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     public void checkFieldsAndAddQuestion(ShortAnswerQuestion shortAnswerQuestion) {
 
-        if (!referenceMaterial.getText().isBlank()) {
+        if (!referenceMaterial.getText()
+                .isBlank()) {
             String refMaterial = referenceMaterial.getText();
             shortAnswerQuestion.setReferenceMaterial(refMaterial);
         }
-        if (!referenceSection.getText().isBlank()) {
+        if (!referenceSection.getText()
+                .isBlank()) {
             String refSection = referenceSection.getText();
             shortAnswerQuestion.setTextReferenceSection(refSection);
         }
-        if (!instructorComment.getText().isBlank()) {
+        if (!instructorComment.getText()
+                .isBlank()) {
             String comment = instructorComment.getText();
             shortAnswerQuestion.setInstructorComment(comment);
         }
-        if (!gradingInstructions.getText().isBlank()) {
+        if (!gradingInstructions.getText()
+                .isBlank()) {
             String instructions = gradingInstructions.getText();
             shortAnswerQuestion.setGradingInstruction(instructions);
         }
@@ -124,7 +129,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
 
     public void addHTML(String file) {
-        try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b);) {
+        try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b)) {
 
             p.println("<hr />" + "\n"
                     + "<p><strong>Short Answer: " + answerField.getText() + "</strong></p>" + "\n"
@@ -143,9 +148,10 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     /**
      * Get currentTest obj from TestService, which contains a copy of the test being edited
+     *
      * @return
      */
-    public Test getCurrentTestSectionInfo(){
+    public Test getCurrentTestSectionInfo() {
         Test currentTest = testService.returnThisTest();
         System.out.println(currentTest.getTestUUID());
 

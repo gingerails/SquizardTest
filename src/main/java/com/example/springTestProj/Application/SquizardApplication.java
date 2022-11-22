@@ -22,7 +22,8 @@ public class SquizardApplication extends Application {
         this.context = new SpringApplicationBuilder()
                 .sources(Main.class)
                 .initializers(initializer)
-                .run(getParameters().getRaw().toArray(new String[0]));
+                .run(getParameters().getRaw()
+                        .toArray(new String[0]));
     }
 
     @Override

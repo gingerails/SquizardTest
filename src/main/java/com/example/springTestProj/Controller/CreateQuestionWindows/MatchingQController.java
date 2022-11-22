@@ -1,11 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,15 +16,12 @@ public class MatchingQController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
+    public String path = "src\\main\\resources\\";
     private Stage stage;
-
     @FXML
     private Button add;
     @FXML
     private VBox mQuestionBox;
-
-
-    public String path="src\\main\\resources\\";
 
 
     public MatchingQController(UserService userService, FxWeaver fxWeaver) {
@@ -38,7 +30,7 @@ public class MatchingQController implements ControlDialogBoxes {
     }
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         this.stage = new Stage();
         stage.setTitle("Add Matching Question");
         stage.setScene(new Scene(mQuestionBox));

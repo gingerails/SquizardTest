@@ -21,29 +21,21 @@ import org.springframework.stereotype.Component;
 public class CreateAccountController implements ControlSwitchScreen {
     private final UserService userService;
     private final FxWeaver fxWeaver;
-
-    private Stage stage;
-
     @FXML
     public Label label;
-
     @FXML
     public Button button;
-
     @FXML
     public TextField usrField;
-
     @FXML
     public TextField passField;
-
     @FXML
     public Label confirm;
-
     @FXML
     public Hyperlink existingAccountLink;
-
     @FXML
     VBox createAccountVbox;  // fx:id !!!!!
+    private Stage stage;
 
 
     public CreateAccountController(UserService userService, FxWeaver fxWeaver) {
@@ -53,7 +45,7 @@ public class CreateAccountController implements ControlSwitchScreen {
     }
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         this.existingAccountLink.setOnAction(actionEvent -> {
             System.out.print("Link clicked");
             loadLoginScreen();
@@ -77,7 +69,8 @@ public class CreateAccountController implements ControlSwitchScreen {
     @Override
     public Stage getCurrentStage() {
         Node node = button.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
-        Stage currentStage = (Stage) node.getScene().getWindow();
+        Stage currentStage = (Stage) node.getScene()
+                .getWindow();
         return currentStage;
     }
 
@@ -85,26 +78,26 @@ public class CreateAccountController implements ControlSwitchScreen {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<LoginController, VBox> loginControllerAndView =
                 fxWeaver.load(LoginController.class);
-        loginControllerAndView.getController().show(getCurrentStage());
+        loginControllerAndView.getController()
+                .show(getCurrentStage());
     }
 
     /**
      * saves new user.
      */
-    public void createUser(){
+    public void createUser() {
 
         System.out.println("Verifying User...");
 
         String username = usrField.getText();
         String password = passField.getText();
         System.out.println(userService.returnUserByUsername(username));
-        if(userService.returnUserByUsername(username) == null) // there mustn't be any users w that username on this device
+        if (userService.returnUserByUsername(username) == null) // there mustn't be any users w that username on this device
         {
             // SAVE NEW USER TO REPOSITORY
             User newUser = userService.createUser(username, password);
             userService.saveUserToRepository(newUser);
-        }
-        else{
+        } else {
             System.out.println("Error: Username taken");
         }
     }

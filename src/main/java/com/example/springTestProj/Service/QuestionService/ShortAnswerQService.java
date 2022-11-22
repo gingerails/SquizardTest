@@ -14,18 +14,19 @@ public class ShortAnswerQService {
     @Autowired
     ShortAnswerQRepository shortAnswerQRepository;
 
-    public ShortAnswerQuestion createSQuestion(String questionContent, String questionAnswer){
+    public ShortAnswerQuestion createSQuestion(String questionContent, String questionAnswer) {
         String questionID = String.valueOf(UUID.randomUUID());
         ShortAnswerQuestion newShortAnswerQuestion = new ShortAnswerQuestion(questionID, questionContent, questionAnswer);
 
         return newShortAnswerQuestion;
     }
-    public void saveQuestionToRepository(ShortAnswerQuestion shortAnswerQuestion){
+
+    public void saveQuestionToRepository(ShortAnswerQuestion shortAnswerQuestion) {
         shortAnswerQRepository.save(shortAnswerQuestion);
         System.out.println("Question saved?");
     }
-    
-    public List<ShortAnswerQuestion> readQuestions(){
+
+    public List<ShortAnswerQuestion> readQuestions() {
         return shortAnswerQRepository.findAll();
     }
 

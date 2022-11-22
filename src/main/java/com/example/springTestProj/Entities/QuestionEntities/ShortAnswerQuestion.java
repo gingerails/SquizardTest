@@ -3,8 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.example.springTestProj.Entities.QuestionEntities;
-import lombok.*;
-import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -13,7 +20,7 @@ import javax.persistence.*;
 @Table(name = "short_answer_q")
 public class ShortAnswerQuestion {
     @Id
-   // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
+    // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
     @Column(name = "question_id")
     private String questionID;
     @Column(name = "question_content")
@@ -34,7 +41,7 @@ public class ShortAnswerQuestion {
     private String gradingInstruction;
     @Column(name = "class_average")
     private Double classAverage;
-    
+
 
     public ShortAnswerQuestion() {
     }
