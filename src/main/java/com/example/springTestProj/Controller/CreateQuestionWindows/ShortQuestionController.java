@@ -128,7 +128,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
         try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b);) {
 
             p.println("<hr />" + "\n"
-                    + "<p><strong>Short Answer: " + answerField.getText() + "</strong></p>" + "\n"
+                    + "<p><strong>Short Answer: " + questionField.getText() + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"

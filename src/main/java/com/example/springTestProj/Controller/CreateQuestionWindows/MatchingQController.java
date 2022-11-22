@@ -89,7 +89,7 @@ public class MatchingQController implements ControlDialogBoxes {
       
         this.addRow.setOnAction((var actionEvent) -> {
             
-            Matching match=new Matching(termF.getText(), answerF.getText());
+            //Matching match=new Matching(termF.getText(), answerF.getText());
             if (termF.getText().isEmpty() || answerF.getText().isEmpty()) {
                 error.setText("ERROR: Term and/or Answer is blank");
             } else {
@@ -101,6 +101,8 @@ public class MatchingQController implements ControlDialogBoxes {
                 
                 //table.setItems(data);
                 table.getItems().add(new Matching(termF.getText(), answerF.getText()));
+                termF.clear();
+                answerF.clear();
             }
                 
             

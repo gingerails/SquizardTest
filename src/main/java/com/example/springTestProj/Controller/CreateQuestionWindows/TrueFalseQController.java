@@ -149,7 +149,8 @@ public class TrueFalseQController implements ControlDialogBoxes {
         try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
 
             p.println("<hr />" + "\n"
-            +"<p><span style='font-size:16px'><strong>T/F: "+questionContent.getText()+" ______"+"</strong></span></p>"+"\n" 
+            +"<p><span style='font-size:16px'><strong>T/F: </strong></span></p>"+"\n"
+            +"<p>"+questionContent.getText()+" ______</p>"+"\n" 
             );
             b.close();
             p.close();
