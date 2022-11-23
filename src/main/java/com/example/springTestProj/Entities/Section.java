@@ -23,6 +23,8 @@ public class Section {
 
     // what is a section?
 
+    // Sections are individual classes of a course (Course: CS499 Section: 01, 02, ect).
+    // course can have multiple sections, sections can have multiple tests.
     @EmbeddedId
     SectionID sectionID;
     @Column(name = "course_uuid")

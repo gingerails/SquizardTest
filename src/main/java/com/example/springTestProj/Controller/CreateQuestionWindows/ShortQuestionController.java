@@ -1,8 +1,8 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
+import com.example.springTestProj.Entities.Question;
 import com.example.springTestProj.Entities.Test;
-import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
+import com.example.springTestProj.Service.QuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
@@ -27,7 +27,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
-    private final ShortAnswerQService shortAnswerQService;
+    private final QuestionService questionService;
     private final TestService testService;
     public String path = "src\\main\\resources\\";
     private Stage stage;
@@ -57,10 +57,10 @@ public class ShortQuestionController implements ControlDialogBoxes {
     private Label error;
 
 
-    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService) {
+    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, QuestionService questionService, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.shortAnswerQService = shortAnswerQService;
+        this.questionService = questionService;
         this.testService = testService;
     }
 
@@ -93,13 +93,13 @@ public class ShortQuestionController implements ControlDialogBoxes {
         } else {
             String question = questionContent.getText();
             String correctAnswer = answerField.getText();
-            ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.createSQuestion(question, correctAnswer);
+            Question shortAnswerQuestion = questionService.createQuestion(question, correctAnswer);
             checkFieldsAndAddQuestion(shortAnswerQuestion);
             stage.close();
         }
     }
 
-    public void checkFieldsAndAddQuestion(ShortAnswerQuestion shortAnswerQuestion) {
+    public void checkFieldsAndAddQuestion(Question shortAnswerQuestion) {
 
         if (!referenceMaterial.getText()
                 .isBlank()) {
@@ -121,9 +121,9 @@ public class ShortQuestionController implements ControlDialogBoxes {
             String instructions = gradingInstructions.getText();
             shortAnswerQuestion.setGradingInstruction(instructions);
         }
-        shortAnswerQService.saveQuestionToRepository(shortAnswerQuestion);
+        questionService.saveQuestionToRepository(shortAnswerQuestion);
         Test currentTest = getCurrentTestSectionInfo();
-        testService.addShortAnswerQ(currentTest, shortAnswerQuestion);
+        //testService.addQuestion(currentTest, shortAnswerQuestion);
 
     }
 

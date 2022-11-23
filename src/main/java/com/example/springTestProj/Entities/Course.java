@@ -19,15 +19,9 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 public class Course {
-    //    @Id
-    // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
-//    @Column(name = "CoursesUUID")
-//    private String coursesUUID;
-//    @Column(name = "course_num")
-//    private String coursesNum;
     @EmbeddedId
     CourseID courseID;
-
+    @Column(name = "sections")
     private String sections;
 
     public Course(CourseID courseID) {

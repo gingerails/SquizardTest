@@ -51,6 +51,8 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Button preview1;
     @FXML
+    private Button recent1;
+    @FXML
     private Button addCourseButton;
     @FXML
     private ComboBox displayClass;
@@ -89,8 +91,6 @@ public class MainController implements ControlSwitchScreen {
 
 
     }
-
-    //String test="cs101,cs202,cs303";
 
     @FXML
     public void initialize() {

@@ -1,8 +1,8 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
+import com.example.springTestProj.Entities.Question;
 import com.example.springTestProj.Entities.Test;
-import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
+import com.example.springTestProj.Service.QuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
@@ -23,7 +23,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
-    private final TrueFalseQService trueFalseQService;
+    private final QuestionService questionService;
     private final TestService testService;
     private Stage stage;
 
@@ -53,10 +53,10 @@ public class TrueFalseQController implements ControlDialogBoxes {
     private Label error;
 
 
-    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, TestService testService) {
+    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, QuestionService questionService, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.trueFalseQService = trueFalseQService;
+        this.questionService = questionService;
         this.testService = testService;
     }
 
@@ -90,14 +90,14 @@ public class TrueFalseQController implements ControlDialogBoxes {
                 .isBlank()) {
             String question = questionContent.getText();
             String correctAnswer = "False";
-            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
+            Question trueFalseQuestion = questionService.createQuestion(question, correctAnswer);
             checkFieldsAndAddQuestion(trueFalseQuestion);
             stage.close();
         } else if (isTrueCheckBox.isSelected() && !questionContent.getText()
                 .isBlank()) {
             String question = questionContent.getText();
             String correctAnswer = "True";
-            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
+            Question trueFalseQuestion = questionService.createQuestion(question, correctAnswer);
             checkFieldsAndAddQuestion(trueFalseQuestion);
             stage.close();
         } else {
@@ -106,7 +106,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
         }
     }
 
-    public void checkFieldsAndAddQuestion(TrueFalseQuestion trueFalseQuestion) {
+    public void checkFieldsAndAddQuestion(Question trueFalseQuestion) {
 
         if (!referenceMaterial.getText()
                 .isBlank()) {
@@ -129,9 +129,9 @@ public class TrueFalseQController implements ControlDialogBoxes {
             trueFalseQuestion.setGradingInstruction(instructions);
         }
 
-        trueFalseQService.saveQuestionToRepository(trueFalseQuestion);
+        questionService.saveQuestionToRepository(trueFalseQuestion);
         Test currentTest = getCurrentTestSectionInfo();
-        testService.addTFQuestion(currentTest, trueFalseQuestion);// also save to test using test service
+      //  testService.addQuestion(currentTest, trueFalseQuestion);// also save to test using test service
     }
 
     /**

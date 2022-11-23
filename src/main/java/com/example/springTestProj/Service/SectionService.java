@@ -33,23 +33,18 @@ public class SectionService {
         // the updatedCourse already has all the new attributes added to it via addCourseController
         String sectionUUID = updatedSection.getSectionID()
                 .getUuid();
-        sectionRepository.deleteSectionBySectionPrimaryKeySectionUUID(sectionUUID);  // delete existing vers of this course, preserving the uuid
+        sectionRepository.deleteSectionBySectionID_Uuid(sectionUUID);  // delete existing vers of this course, preserving the uuid
         saveSectionToRepository(updatedSection);
     }
 
-
-    //    public Section returnSectionBySectionNum(String sectionNum){
-//        return sectionRepository.findBySectionPrimaryKey_SectionNum(sectionNum);
-//    }
     public Section returnSectionBySectionAndCourseID(String sectionNum, String courseID) {
-        return sectionRepository.findSectionBySectionPrimaryKeySectionNumAndAndCourseUUID(sectionNum, courseID);
+        return sectionRepository.findSectionBySectionID_NumberAndCourseUUID(sectionNum, courseID);
     }
 
     public boolean existsByCourseSection(String section, String courseUUID) {
-        return sectionRepository.existsByCourseUUIDAndSectionPrimaryKey_SectionNum(section, courseUUID);
+        return sectionRepository.existsByCourseUUIDAndSectionID_Number(section, courseUUID);
     }
 
-    // public bool checkExistingSections(String )
     public List<Section> readSections() {
         return sectionRepository.findAll();
     }

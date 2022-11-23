@@ -10,11 +10,13 @@ public interface CourseRepository extends JpaRepository<Course, CourseID> {
     // @Override
     // boolean existsById(CoursesPrimaryKey coursesPrimary);
     //    boolean existsByCoursesUUID(String courseID);
-    boolean existsByCoursesPrimaryKey_CoursesUUID(String courseID);
+    //boolean existsByCoursesPrimaryKey_CoursesUUID(String courseID);
 
-    boolean existsByCoursesPrimaryKey_CourseNum(String courseNum);
+  //  boolean existsByCoursesPrimaryKey_CourseNum(String courseNum);
+    boolean existsByCourseID_Number(String courseNum);
 
-    void deleteCoursesByCoursesPrimaryKey_CoursesUUID(String courseID); // delete coursenum is used to update a course and add new sections
+  //  void deleteCoursesByCoursesPrimaryKey_CoursesUUID(String courseID); // delete coursenum is used to update a course and add new sections
+    void deleteCourseByCourseID_Uuid(String courseUUID);
     // boolean existsByCoursesNum(String courseNum);
 //    boolean existsByCoursesNumAndSections(String courseNum, String sections);
 
@@ -24,6 +26,7 @@ public interface CourseRepository extends JpaRepository<Course, CourseID> {
     // List<Courses> readCoursesBy
     // Courses findCoursesByCoursesNumAndSections(String courseNum, String sections);
 
-    Course findCoursesByCoursesPrimaryKey_CourseNum(String courseNum);
+   // Course findCoursesByCoursesPrimaryKey_CourseNum(String courseNum);
+    Course findCourseByCourseID_Number(String courseNum);
 
 }

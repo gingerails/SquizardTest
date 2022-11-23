@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.Question;
 import com.example.springTestProj.Entities.Test;
-import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.QuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
@@ -37,7 +32,7 @@ import java.io.PrintWriter;
 public class EssayQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final TestService testService;
-    private final EssayQuestionService essayQuestionService;
+    private final QuestionService questionService;
     private final FxWeaver fxWeaver;
     public String path = "src\\main\\resources\\";
     private Parent root;
@@ -65,9 +60,9 @@ public class EssayQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, FxWeaver fxWeaver) {
+    public EssayQuestionController(UserService userService, TestService testService, QuestionService questionService, FxWeaver fxWeaver) {
         this.testService = testService;
-        this.essayQuestionService = essayQuestionService;
+        this.questionService = questionService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
@@ -96,7 +91,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
                 .isBlank()) {
             String question = questionTextField.getText();
             String answer = answerTextField.getText();
-            EssayQuestion essayQuestion = essayQuestionService.createEssayQuestion(question, answer);
+            Question essayQuestion = questionService.createQuestion(question, answer);
             checkFieldsAndAddQuestion(essayQuestion);
             addHTML(path + "test.html");
             stage.close();
@@ -109,7 +104,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     /**
      * @param essayQuestion
      */
-    public void checkFieldsAndAddQuestion(EssayQuestion essayQuestion) {
+    public void checkFieldsAndAddQuestion(Question essayQuestion) {
 
         if (!MaterialTextField.getText()
                 .isBlank()) {
@@ -132,9 +127,9 @@ public class EssayQuestionController implements ControlDialogBoxes {
             essayQuestion.setGradingInstruction(instructions);
         }
 
-        essayQuestionService.saveQuestionToRepository(essayQuestion);
+        questionService.saveQuestionToRepository(essayQuestion);
         Test currentTest = getCurrentTestSectionInfo();
-        testService.addEQuestion(currentTest, essayQuestion);// also save to test using test service
+        //estService.addQuestion(currentTest, essayQuestion);// also save to test using test service
     }
 
     /**

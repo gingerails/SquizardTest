@@ -4,36 +4,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "Test")
+@Table(name = "test_vertwo")
 public class Test {
 
     @Id
-    // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
+    @GeneratedValue(strategy=GenerationType.IDENTITY) // idek
     @Column(name = "test_uuid")
     private String testUUID;
     @Column(name = "test_name")
     private String testName;
     @Column(name = "section_uuid")
     private String sectionUUID;
-    @Column(name = "true_false_q_ids")
-    private String trueFalseQ;
-    @Column(name = "short_answer_q_ids")
-    private String shortAnswerQ;
-    @Column(name = "mult_choice_q_ids")
-    private String multiChoiceQ;
-    @Column(name = "matching_q_id")
-    private String matchingQ;
-    @Column(name = "essay_q_ids")
-    private String essayQ;
+    @Column(name = "date_used")
+    private String dateUsed;
     @Column(name = "test_html")
     private String testHTML;
     @Column(name = "test_key_html")

@@ -10,24 +10,31 @@ import java.util.List;
 @Repository
 public interface SectionRepository extends JpaRepository<Section, SectionID> {
 
+    boolean existsByCourseUUIDAndSectionID_Number(String courseID, String sectionNum);
+    Section findSectionBySectionID_NumberAndCourseUUID(String sectionNum, String courseID);
+    List<Section> findSectionsByCourseUUID(String courseUUID);
+    void deleteSectionBySectionID_Uuid(String sectionID);
+
 //    boolean existsBySectionNum(String sectionNum);
 //    boolean existsBySectionPrimaryKey_SectionNum(String sectionNum);
 //    boolean existsByCourseUUIDAndSectionNum(String courseUUID, String sectionNum);
 
-    boolean existsByCourseUUIDAndSectionPrimaryKey_SectionNum(String courseID, String sectionNum);
+   // boolean existsByCourseUUIDAndSectionPrimaryKey_SectionNum(String courseID, String sectionNum);
+
     //  Section findBySectionNumAndCourseUUID(String sectionNum, String courseUUID);
 
-    Section findBySectionPrimaryKey_SectionNum(String sectionNum);
+   // Section findBySectionPrimaryKey_SectionNum(String sectionNum);
 
-    Section findSectionByCourseUUIDAndSectionPrimaryKey_SectionNum(String courseID, String sectionNum);
+   // Section findSectionByCourseUUIDAndSectionPrimaryKey_SectionNum(String courseID, String sectionNum);
 
-    Section findSectionBySectionPrimaryKeySectionNumAndAndCourseUUID(String sectionNum, String courseID);
+    //Section findSectionBySectionPrimaryKeySectionNumAndAndCourseUUID(String sectionNum, String courseID);
 
-    List<Section> findSectionsByCourseUUID(String courseUUID);
+
 //    List<Section> findSectionsByCourseUUID(String courseUUID);
 
     //    void deleteCoursesByCoursesPrimaryKey_CoursesUUID(String courseID); // delete coursenum is used to update a course and add new sections
-    void deleteSectionBySectionPrimaryKeySectionUUID(String sectionID); // delete coursenum is used to update a course and add new sections
+    //void deleteSectionBySectionPrimaryKeySectionUUID(String sectionID); // delete coursenum is used to update a course and add new sections
+
 
     //  Section findSectionBySectionname(String Sectionname);
 }

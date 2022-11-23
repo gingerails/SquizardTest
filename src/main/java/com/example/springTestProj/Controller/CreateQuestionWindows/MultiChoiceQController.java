@@ -1,8 +1,8 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
+import com.example.springTestProj.Entities.Question;
 import com.example.springTestProj.Entities.Test;
-import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
+import com.example.springTestProj.Service.QuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import javafx.fxml.FXML;
@@ -25,7 +25,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final TestService testService;
-    private final MultiChoiceQService multiChoiceQService;
+    private final QuestionService questionService;
     private Stage stage;
 
     @FXML
@@ -39,7 +39,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     @FXML
     private TextField referenceSection;
     @FXML
-    private TextField questionContent;
+    private TextField questionContentText;
     @FXML
     private TextField referenceMaterial;
     @FXML
@@ -59,11 +59,11 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService) {
+    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, QuestionService questionService) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.multiChoiceQService = multiChoiceQService;
+        this.questionService = questionService;
     }
 
     @FXML
@@ -104,47 +104,47 @@ public class MultiChoiceQController implements ControlDialogBoxes {
                         .isBlank() ||
                 answerTextField.getText()
                         .isBlank() ||
-                questionContent.getText()
+                questionContentText.getText()
                         .isBlank()) {
             System.out.println("SOMETHING WAS LEFT BLANK");
             error.setText("Error: Must fill out each choice, question and answer!");
         } else {
-            String question = questionContent.getText();
+            String questionContent = questionContentText.getText();
             String correctAnswer = answerTextField.getText();
             String[] falseAnswers = {choice1Field.getText(), choice2Field.getText(), choice3Field.getText(), choice4Field.getText()};
             String falseAnswer = Arrays.toString(falseAnswers);
 
-            MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.createMCQuestion(question, correctAnswer, falseAnswer);
-            checkFieldsAndAddQuestion(multiChoiceQuestion);
+            Question question = questionService.createQuestionWithFalseAnswer(questionContent, correctAnswer, falseAnswer);
+            checkFieldsAndAddQuestion(question);
             stage.close();
         }
     }
 
-    public void checkFieldsAndAddQuestion(MultiChoiceQuestion multiChoiceQuestion) {
+    public void checkFieldsAndAddQuestion(Question question) {
 
         if (!referenceMaterial.getText()
                 .isBlank()) {
             String refMaterial = referenceMaterial.getText();
-            multiChoiceQuestion.setReferenceMaterial(refMaterial);
+            question.setReferenceMaterial(refMaterial);
         }
         if (!referenceSection.getText()
                 .isBlank()) {
             String refSection = referenceSection.getText();
-            multiChoiceQuestion.setTextReferenceSection(refSection);
+            question.setTextReferenceSection(refSection);
         }
         if (!instructorComment.getText()
                 .isBlank()) {
             String comment = instructorComment.getText();
-            multiChoiceQuestion.setInstructorComment(comment);
+            question.setInstructorComment(comment);
         }
         if (!gradingInstructions.getText()
                 .isBlank()) {
             String instructions = gradingInstructions.getText();
-            multiChoiceQuestion.setGradingInstruction(instructions);
+            question.setGradingInstruction(instructions);
         }
-        multiChoiceQService.saveQuestionToRepository(multiChoiceQuestion);
+        questionService.saveQuestionToRepository(question);
         Test currentTest = getCurrentTestSectionInfo();
-        testService.addMCQuestion(currentTest, multiChoiceQuestion);// also save to test using test service
+     //   testService.addQuestion(currentTest, question);// also save to test using test service
     }
 
 

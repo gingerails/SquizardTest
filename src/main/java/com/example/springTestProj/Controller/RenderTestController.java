@@ -10,8 +10,9 @@ public class RenderTestController {
     private final QuestionRenderHelper questionRenderHelper;
     private final QuestionService questionService;
 
-    public RenderTestController(QuestionRenderHelper questionRenderHelper) {
+    public RenderTestController(QuestionRenderHelper questionRenderHelper, QuestionService questionService) {
         this.questionRenderHelper = questionRenderHelper;
+        this.questionService = questionService;
     }
 
 
