@@ -28,9 +28,9 @@ public class Test {
     private String trueFalseQ;
     @Column(name = "short_answer_q_ids")
     private String shortAnswerQ;
-    @Column(name = "mult_choice_q_ids")
+    @Column(name = "multi_choice_q_ids")
     private String multiChoiceQ;
-    @Column(name = "matching_q_id")
+    @Column(name = "matching_q_ids")
     private String matchingQ;
     @Column(name = "essay_q_ids")
     private String essayQ;

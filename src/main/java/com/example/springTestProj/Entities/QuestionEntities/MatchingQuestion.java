@@ -20,11 +20,11 @@ public class MatchingQuestion {
     @Id
     @Column(name = "question_id")
     private String questionID;
-    @Column(name = "term")
+    @Column(name = "question_content")
     private String term;
     @Column(name = "correct_answer")
     private String correctAnswer;
-    @Column(name = "term_graphic")
+    @Column(name = "answer_graphic")
     private String termGraphic;
     @Column(name = "text_ref_section")
     private String textReferenceSection;
