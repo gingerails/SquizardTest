@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @Embeddable
 public class CoursesPrimaryKey implements Serializable {
-    @Column(name = "CoursesUUID")
+    @Column(name = "course_id")
     private String coursesUUID;
     @Column(name = "course_num")
     private String courseNum;
