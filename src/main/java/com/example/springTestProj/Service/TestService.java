@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -24,8 +25,9 @@ public class TestService {
     // creating test key
 
     public Test createTest(String testName, String sectionUUID){
+        Date dateCreated = new Date();
         String testUUID = String.valueOf(UUID.randomUUID());
-        Test newTest = new Test(testUUID, testName, sectionUUID);
+        Test newTest = new Test(testUUID, dateCreated, testName, sectionUUID);
         currentTest = newTest;
 
         return newTest;
