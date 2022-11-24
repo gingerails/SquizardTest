@@ -1,12 +1,12 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
+import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.MatchingQService;
+import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,24 +14,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import static javafx.scene.control.cell.ProgressBarTableCell.forTableColumn;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.persistence.Column;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-import com.example.springTestProj.Controller.CreateQuestionWindows.Matching;
-import com.example.springTestProj.Controller.TestMakerController;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import static javafx.collections.FXCollections.observableList;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 
 @Component
@@ -39,6 +28,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class MatchingQController implements ControlDialogBoxes {
 
     private final UserService userService;
+    private final TestService testService;
+    private final MatchingQService matchingQService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -49,70 +40,106 @@ public class MatchingQController implements ControlDialogBoxes {
     @FXML
     private VBox mQuestionBox;
     @FXML
-    private TableView<Matching> table;
+    private TableView<MatchingQuestion> table;
     @FXML
     private TextField termF;
     @FXML
     private TextField answerF;
+
+    @FXML
+    private TextField referenceSection;
+    @FXML
+    private TextField referenceMaterial;
+    @FXML
+    private TextField instructorComment;
+    @FXML
+    private TextField gradingInstructions;
     @FXML
     private Label error;
-    @FXML private TableColumn<Matching, String> Term;
-    @FXML private TableColumn<Matching, String> Answer;
+    @FXML private TableColumn<MatchingQuestion, String> Term;
+    @FXML private TableColumn<MatchingQuestion, String> correctAnswer;
 
     public String path="src\\main\\resources\\";
-    
-    private ObservableList<Matching> data=FXCollections.observableArrayList();
-    
-    private final List<String> termsArray=new ArrayList<String>();
-    private final List<String> answersArray=new ArrayList<String>();
+    private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
-    public MatchingQController(UserService userService, FxWeaver fxWeaver) {
+    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, FxWeaver fxWeaver) {
         this.userService = userService;
+        this.testService = testService;
+        this.matchingQService = matchingQService;
         this.fxWeaver = fxWeaver;
     }
 
     @FXML
     public void initialize () {
-        
-        
-        
-        
-        
         this.stage = new Stage();
-        stage.setTitle("Add Matching Question");
+        stage.setTitle("Add MatchingQuestion Question");
         stage.setScene(new Scene(mQuestionBox));
-        
-        
+
+        Term.setCellValueFactory(new PropertyValueFactory<>("Term"));
+        correctAnswer.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
       
-      Term.setCellValueFactory(new PropertyValueFactory<>("Term"));
-      Answer.setCellValueFactory(new PropertyValueFactory<>("Answer"));
-      
-        this.addRow.setOnAction((var actionEvent) -> {
-            
-            //Matching match=new Matching(termF.getText(), answerF.getText());
+        this.addRow.setOnAction(actionEvent -> {
             if (termF.getText().isEmpty() || answerF.getText().isEmpty()) {
                 error.setText("ERROR: Term and/or Answer is blank");
             } else {
-                
-                termsArray.add(termF.getText());
-                answersArray.add(answerF.getText());
-                
-                //data.add(match);
-                
-                //table.setItems(data);
-                table.getItems().add(new Matching(termF.getText(), answerF.getText()));
-                termF.clear();
-                answerF.clear();
+                MatchingQuestion newQuestion = new MatchingQuestion(termF.getText(), answerF.getText());
+                data.add(newQuestion);
+                table.setItems(data);
             }
-                
-            
+
         });
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
+
+            for (MatchingQuestion question : data){
+                createQuestion(question);
+            }
+
             stage.close();
-            addHTML(path+"test.html");
-           
+            //add(path+"test.html");
         });
+    }
+
+    public void createQuestion(MatchingQuestion question){
+        String termContent = question.getTerm();
+        String correctAnswer = question.getCorrectAnswer();
+        MatchingQuestion matchingQuestion = matchingQService.createMatchingQuestion(termContent, correctAnswer);
+        checkFieldsAndAddQuestion(matchingQuestion);
+    }
+
+    public void checkFieldsAndAddQuestion(MatchingQuestion matchingQuestion){
+
+        if(!referenceMaterial.getText().isBlank()){
+            String refMaterial =  referenceMaterial.getText();
+            matchingQuestion.setReferenceMaterial(refMaterial);
+        }
+        if(!referenceSection.getText().isBlank()){
+            String refSection =  referenceSection.getText();
+            matchingQuestion.setTextReferenceSection(refSection);
+        }
+        if(!instructorComment.getText().isBlank()){
+            String comment =  instructorComment.getText();
+            matchingQuestion.setInstructorComment(comment);
+        }
+        if(!gradingInstructions.getText().isBlank()){
+            String instructions =  gradingInstructions.getText();
+            matchingQuestion.setGradingInstruction(instructions);
+        }
+        matchingQService.saveQuestionToRepository(matchingQuestion);
+        Test currentTest = getCurrentTestSectionInfo();
+        testService.addMatchingQuestion(currentTest, matchingQuestion);// also save to test using test service
+    }
+
+
+    /**
+     * Get currentTest obj from TestService, which contains a copy of the test being edited
+     * @return
+     */
+    public Test getCurrentTestSectionInfo(){
+        Test currentTest = testService.returnThisTest();
+        System.out.println(currentTest.getTestUUID());
+
+        return currentTest;
     }
 
     @Override
@@ -120,31 +147,6 @@ public class MatchingQController implements ControlDialogBoxes {
         stage.show();
         this.stage.centerOnScreen();
     }
-    public void addHTML(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-
-             p.println("<hr />" + "\n"
-            +"<p><span style='font-size:16px'><strong>Matching: </strong></span></p>"+"\n");
-            
-            for(int i=0;i<termsArray.size();i++)
-            {
-            p.println(termsArray.get(i)+"&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+answersArray.get(i)+"</p>"+"\n"
-                   
-            );
-            }
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
-//            root=loader.load();
-//
-//            TestMakerController TestMakeController = loader.getController();
-//            TestMakeController.initialize();
-            //engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
+    
 
 }

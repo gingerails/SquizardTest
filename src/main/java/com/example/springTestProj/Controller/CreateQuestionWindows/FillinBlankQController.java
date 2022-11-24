@@ -48,7 +48,6 @@ public class FillinBlankQController implements ControlDialogBoxes {
 
         this.add.setOnAction(actionEvent -> {
 
-            stage.close();
 
         });
     }
@@ -73,7 +72,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
         try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
 
             p.println("<hr />" + "\n"
-                   +"<p><strong>Fill in the Blank:</strong></p>"+"\n"
+                   +"<p><strong>Fill in the Blanks</strong></p>"+"\n"
 
                    +"<p>"+rs+"</p>"+"\n"
             );

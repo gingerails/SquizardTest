@@ -93,7 +93,7 @@ public class TestMakerController implements ControlSwitchScreen {
         questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
-                "Matching",
+                "MatchingQuestion",
                 "Fill in Blank",
                 "True/False",
                 "Short Answer"
@@ -190,8 +190,8 @@ public class TestMakerController implements ControlSwitchScreen {
                     fxWeaver.load(MultiChoiceQController.class);
             McQuestionControllerAndView.getController().show(getCurrentStage());
         }
-        if ("Matching".equals(qType) == true) {
-            System.out.println("Matching");
+        if ("MatchingQuestion".equals(qType) == true) {
+            System.out.println("MatchingQuestion");
             FxControllerAndView<MatchingQController, VBox> mQuestionControllerAndView =
                     fxWeaver.load(MatchingQController.class);
             mQuestionControllerAndView.getController().show(getCurrentStage());

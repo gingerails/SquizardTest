@@ -23,23 +23,23 @@
          <Label layoutX="174.0" layoutY="61.0" prefHeight="18.0" prefWidth="142.0" />
          <Button fx:id="addAnswerGraphic" layoutX="258.0" layoutY="374.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
          <Label layoutX="6.0" layoutY="404.0" text="Sections:" AnchorPane.leftAnchor="6.0" />
-         <TextField layoutX="63.0" layoutY="399.0" prefHeight="26.0" prefWidth="529.0" />
+         <TextField fx:id="referenceSection" layoutX="63.0" layoutY="399.0" prefHeight="26.0" prefWidth="529.0" />
          <Label layoutX="6.0" layoutY="442.0" text="Material:" AnchorPane.leftAnchor="6.0" />
-         <TextField layoutX="63.0" layoutY="438.0" prefHeight="26.0" prefWidth="529.0" />
+         <TextField fx:id="referenceMaterial" layoutX="63.0" layoutY="438.0" prefHeight="26.0" prefWidth="529.0" />
          <Label layoutX="6.0" layoutY="479.0" text="Comment:" AnchorPane.leftAnchor="6.0" />
-         <TextField layoutX="63.0" layoutY="475.0" prefHeight="26.0" prefWidth="529.0" />
+         <TextField fx:id="instructorComment" layoutX="63.0" layoutY="475.0" prefHeight="26.0" prefWidth="529.0" />
          <Label layoutX="6.0" layoutY="514.0" prefHeight="26.0" prefWidth="114.0" text="Grading Instructions:" AnchorPane.leftAnchor="6.0" />
-         <TextField layoutX="119.0" layoutY="514.0" prefHeight="26.0" prefWidth="474.0" />
+         <TextField fx:id="gradingInstructions" layoutX="119.0" layoutY="514.0" prefHeight="26.0" prefWidth="474.0" />
          <Label layoutX="174.0" layoutY="117.0" prefHeight="18.0" prefWidth="142.0" />
             <Button fx:id="addRow" layoutX="528.0" layoutY="67.0" mnemonicParsing="false" text="Add Row" />
             <TextField fx:id="answerF" layoutX="207.0" layoutY="67.0" prefHeight="26.0" prefWidth="314.0" />
             <TextField fx:id="termF" layoutX="14.0" layoutY="67.0" prefHeight="26.0" prefWidth="185.0" />
             <Label layoutX="93.0" layoutY="44.0" text="Term" />
             <Label layoutX="352.0" layoutY="44.0" text="Answer" />
-            <TableView fx:id="table" editable="true" layoutX="19.0" layoutY="103.0" prefHeight="260.0" prefWidth="558.0">
+            <TableView fx:id="table" layoutX="19.0" layoutY="103.0" prefHeight="260.0" prefWidth="558.0">
                <columns>
-                  <TableColumn fx:id="Term" prefWidth="276.79999351501465" text="Term" />
-                  <TableColumn fx:id="Answer" prefWidth="280.8000183105469" text="Answer" />
+                  <TableColumn fx:id="Term" prefWidth="75.0" text="Term" />
+                  <TableColumn fx:id="correctAnswer" prefWidth="75.0" text="Answer" />
                </columns></TableView>
             <Label fx:id="error" layoutX="5.0" layoutY="550.0" prefHeight="18.0" prefWidth="542.0" style="-fx-text-fill: #FF0000;" />
       </children>
