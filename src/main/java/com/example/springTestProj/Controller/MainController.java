@@ -4,16 +4,18 @@
  * and open the template in the editor.
  */
 package com.example.springTestProj.Controller;
+import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Repository.CourseRepository;
-import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.stream.Collectors;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -28,7 +30,6 @@ import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,6 +45,7 @@ public class MainController implements ControlSwitchScreen {
     
     private final CourseService courseService;
     private final UserService userService;
+    private final TestService testService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -60,10 +62,11 @@ public class MainController implements ControlSwitchScreen {
     
    
    
-    public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService) {
+    public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.courseService=courseService;
+        this.testService = testService;
     }
 
     public void getDatabaseCourses()
@@ -170,4 +173,17 @@ public class MainController implements ControlSwitchScreen {
         
         
     }
+
+    /**
+     * for the test preview - go through the existing tests
+     * get their htmls
+     */
+    public void showExistingTests(){
+        List<Test> allTests = testService.findAllTests();
+        for (Test test : allTests) {
+            String testHTML = test.getTestHTML();
+
+        }
+    }
+
 }

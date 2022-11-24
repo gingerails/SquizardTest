@@ -7,6 +7,8 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.MultiChoiceQC
 import com.example.springTestProj.Controller.CreateQuestionWindows.TrueFalseQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.ShortQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
+import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,15 +27,12 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -47,6 +46,7 @@ import javafx.scene.web.WebView;
 public class TestMakerController implements ControlSwitchScreen {
 
     private final UserService userService;
+    private final TestService testService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -74,16 +74,18 @@ public class TestMakerController implements ControlSwitchScreen {
     File f = new File(path + "test.html");
 
     
-    public TestMakerController(UserService userService, FxWeaver fxWeaver) {
-        //System.out.println("Test maker Controller");
+    public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver) {
+        this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
 
     @FXML
     public void initialize() throws IOException {
+        Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
 
-        createTest(path + "test.html", "Test Name");
+        createTest(path + "test.html", testName);
         //webviewer
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());

@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TestService {
@@ -132,6 +131,9 @@ public class TestService {
         currentTest = test; // update current test
     }
 
+    public List<Test> findAllTests() {
+        return testsRepository.findAll();
+    }
 
 
 //    public void addTFQuestion(TFQuestion tfQuestion){
