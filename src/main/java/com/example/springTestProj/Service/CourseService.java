@@ -52,32 +52,5 @@ public class CourseService {
     public boolean existsByCourseNum(String courseNum){
         return courseRepository.existsByCoursesPrimaryKey_CourseNum(courseNum);
     }
-
-//    public boolean existsByCourseNumAndSection(String courseNum, String section){
-//        return courseRepository.existsByCoursesNumAndSection(courseNum,section);
-//    }
-
-//
-//    String[] sectionsList = sections.split(",");
-//        for (String section:sectionsList) {
-//        Courses existingCourse = courseRepository.findCoursesByCoursesNum(courseNum);
-//        String courseUUID = existingCourse.getCoursesUUID();
-//    }
-//    @Transactional
-//    public String deleteUser(User user){
-//        if (courseRepository.existsByUserID(user.getUserID())){
-//            try {
-//                User userDelete = courseRepository.findByUserID(user.getUserID());
-//                courseRepository.delete(userDelete);
-//                return "User record deleted successfully.";
-//            }catch (Exception e){
-//                throw e;
-//            }
-//
-//        }else {
-//            return "User does not exist";
-//        }
-//    }
-
    
 }

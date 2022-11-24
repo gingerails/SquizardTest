@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -20,6 +21,8 @@ public class Test {
     // @GeneratedValue(strategy=GenerationType.IDENTITY)  idek
     @Column(name = "test_uuid")
     private String testUUID;
+    @Column(name = "date_created")
+    private Date dateCreated;
     @Column(name = "test_name")
     private String testName;
     @Column(name = "section_uuid")
@@ -28,9 +31,9 @@ public class Test {
     private String trueFalseQ;
     @Column(name = "short_answer_q_ids")
     private String shortAnswerQ;
-    @Column(name = "mult_choice_q_ids")
+    @Column(name = "multi_choice_q_ids")
     private String multiChoiceQ;
-    @Column(name = "matching_q_id")
+    @Column(name = "matching_q_ids")
     private String matchingQ;
     @Column(name = "essay_q_ids")
     private String essayQ;
@@ -52,6 +55,12 @@ public class Test {
 
     public Test(String testUUID, String testName, String sectionUUID) {
         this.testUUID = testUUID;
+        this.testName = testName;
+        this.sectionUUID = sectionUUID;
+    }
+    public Test(String testUUID, Date dateCreated, String testName, String sectionUUID) {
+        this.testUUID = testUUID;
+        this.dateCreated = dateCreated;
         this.testName = testName;
         this.sectionUUID = sectionUUID;
     }
