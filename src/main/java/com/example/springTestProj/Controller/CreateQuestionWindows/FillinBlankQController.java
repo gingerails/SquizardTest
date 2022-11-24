@@ -48,7 +48,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
 
         this.add.setOnAction(actionEvent -> {
 
-
+            stage.close();
 
         });
     }

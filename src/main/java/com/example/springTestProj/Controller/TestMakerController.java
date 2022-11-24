@@ -6,6 +6,7 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQCont
 import com.example.springTestProj.Controller.CreateQuestionWindows.MultiChoiceQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.TrueFalseQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.ShortQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,6 +29,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -56,12 +58,15 @@ public class TestMakerController implements ControlSwitchScreen {
     private Button publish;
     @FXML
     private ComboBox questionType;
+    @FXML 
+    private MenuBar menuBar;
    
 
     public String path = "src\\main\\resources\\";
 
     File f = new File(path + "test.html");
 
+    
     public TestMakerController(UserService userService, FxWeaver fxWeaver) {
         //System.out.println("Test maker Controller");
         this.fxWeaver = fxWeaver;
@@ -145,6 +150,14 @@ public class TestMakerController implements ControlSwitchScreen {
             i.printStackTrace();
         }
 
+    }
+    
+    public void Qorder()
+    {
+        System.out.println("Qorder");
+            FxControllerAndView<questionOrderingController, VBox> QuestionOrderingControllerAndView
+                    = fxWeaver.load(questionOrderingController.class);
+            QuestionOrderingControllerAndView.getController().show(getCurrentStage());
     }
     public void refresh()
     {
