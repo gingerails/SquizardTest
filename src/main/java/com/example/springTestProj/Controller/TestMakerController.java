@@ -29,6 +29,9 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
@@ -60,8 +63,12 @@ public class TestMakerController implements ControlSwitchScreen {
     private ComboBox questionType;
     @FXML 
     private MenuBar menuBar;
-   
+    @FXML
+    private ListView<String> mcList;
 
+    private static final ObservableList<String> mcListArray = FXCollections
+            .observableArrayList();
+    
     public String path = "src\\main\\resources\\";
 
     File f = new File(path + "test.html");
@@ -81,6 +88,8 @@ public class TestMakerController implements ControlSwitchScreen {
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());
 
+        addMCText();
+        addMCText();
         questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
@@ -163,7 +172,7 @@ public class TestMakerController implements ControlSwitchScreen {
     {
         engine.reload();
     }
-
+    
     public void pickQuestion() throws IOException {
         String qType = (String) questionType.getValue();
         System.out.println(qType);
@@ -205,5 +214,21 @@ public class TestMakerController implements ControlSwitchScreen {
                     = fxWeaver.load(ShortQuestionController.class);
             shortQuestionControllerAndView.getController().show(getCurrentStage());
         }
+    }
+    public void addMCText()
+    {
+        mcListArray.add("Question: "+"question"+"\n"
+                +"Choice 1: "+"choice"+"\n"
+                +"Choice 2: "+"choice"+"\n"
+                +"Choice 3: "+"choice"+"\n"
+                +"Choice 4: "+"choice"+"\n"
+                +"Answer: "+"answer"+"\n"
+                +"Sections: "+"sections"+"\n"
+                +"Material: "+"material"+"\n"
+                +"Comment: "+"comment"+"\n"
+                +"Grading Instructions: "+"instructions"+"\n"
+        
+        );
+        mcList.setItems(mcListArray);
     }
 }

@@ -66,6 +66,8 @@ public class questionOrderingController implements ControlDialogBoxes {
             .observableArrayList();
 
     public String path = "src\\main\\resources\\";
+    
+    public String types;
 
     public questionOrderingController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService) {
         this.fxWeaver = fxWeaver;
@@ -76,10 +78,13 @@ public class questionOrderingController implements ControlDialogBoxes {
 
     @FXML
     public void initialize() {
+        repopulateData();
         initializeListeners();
         
         this.reset.setOnAction(actionEvent -> {
+            types();
             repopulateData();
+            
             
         });
         this.apply.setOnAction(actionEvent -> {
@@ -135,7 +140,7 @@ public class questionOrderingController implements ControlDialogBoxes {
 
     
     private void populateData() {
-        leftList.addAll("Multiple Choice","Fill in the Blank","True/False","Short Answer","Essay");
+        leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
 
         list.setItems(leftList);
         list2.setItems(rightList);
@@ -145,10 +150,17 @@ public class questionOrderingController implements ControlDialogBoxes {
     {
         list.getItems().clear();
         list2.getItems().clear();
-        leftList.addAll("Multiple Choice","Fill in the Blank","True/False","Short Answer","Essay");
+        leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);
         list2.setItems(rightList);
+    }
+    
+    private void types()
+    {
+        
+        types=list2.getItems().toString();
+        System.out.println(types);
     }
 
    
