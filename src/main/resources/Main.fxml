@@ -9,6 +9,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -89,14 +90,39 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="recent1" layoutX="14.0" layoutY="296.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="preview1" layoutX="41.0" layoutY="373.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
-            <Label layoutX="64.0" layoutY="350.0" text="Test1" />
-            <Button layoutX="60.0" layoutY="408.0" mnemonicParsing="false" text="Edit" />
+            <Pane fx:id="recentsPane" layoutX="14.0" layoutY="296.0" prefHeight="430.0" prefWidth="1401.0">
+               <children>
+                  <Button fx:id="recent1" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="preview1" layoutX="41.0" layoutY="111.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                  <Label layoutX="64.0" layoutY="88.0" text="Test1" />
+                  <Button layoutX="60.0" layoutY="146.0" mnemonicParsing="false" text="Edit" />
+                  <Button fx:id="recent2" layoutX="177.0" layoutY="34.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="preview2" layoutX="204.0" layoutY="111.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                  <Button layoutX="223.0" layoutY="146.0" mnemonicParsing="false" text="Edit" />
+                  <Button fx:id="recent3" layoutX="341.0" layoutY="34.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="preview3" layoutX="368.0" layoutY="111.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                  <Button layoutX="387.0" layoutY="146.0" mnemonicParsing="false" text="Edit" />
+                  <Button fx:id="recent4" layoutX="507.0" layoutY="34.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="preview4" layoutX="534.0" layoutY="111.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                  <Button layoutX="553.0" layoutY="146.0" mnemonicParsing="false" text="Edit" />
+               </children>
+            </Pane>
             </children>
         </AnchorPane>
     </children>
