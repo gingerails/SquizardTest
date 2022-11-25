@@ -1,15 +1,12 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -31,6 +28,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final TestService testService;
     private final MultiChoiceQService multiChoiceQService;
+    private final QuestionHTMLHelper questionHTMLHelper;
     private Stage stage;
 
     @FXML
@@ -64,12 +62,13 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public String path="src\\main\\resources\\";
-    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService) {
+    public String path="src\\main\\resources\\generatedTests\\";
+    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, QuestionHTMLHelper questionHTMLHelper) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.multiChoiceQService = multiChoiceQService;
+        this.questionHTMLHelper = questionHTMLHelper;
     }
 
     @FXML
@@ -118,7 +117,9 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
            MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.createMCQuestion(question, correctAnswer, falseAnswer);
            checkFieldsAndAddQuestion(multiChoiceQuestion);
-           addHTML(path+"test.html");
+           Test currentTest = getCurrentTestSectionInfo();
+           String testFile = currentTest.getTestName();
+           addHTML(multiChoiceQuestion, path+testFile);
            stage.close();
        }
     }
@@ -157,32 +158,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
         return currentTest;
     }
-     public void addHTML(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-
-            p.println("<hr />" + "\n"
-                  +"<p><span style='font-size:16px'><strong>"+questionContent.getText()+"</strong></span></p>"+"\n"
-
-                  +"<p><span style='font-size:16px'>a. "+choice1Field.getText()+"</span></p>"+"\n"
-                    
-                   +"<p><span style='font-size:16px'>b. "+choice2Field.getText()+"</span></p>"+"\n"
-                    
-                    +"<p><span style='font-size:16px'>c. "+choice3Field.getText()+"</span></p>"+"\n"
-                    
-                    +"<p><span style='font-size:16px'>d. "+choice4Field.getText()+"</span></p>"+"\n"
-            );
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
-//            root=loader.load();
-//
-//            TestMakerController TestMakeController = loader.getController();
-//            TestMakeController.initialize();
-            //engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+    public void addHTML(MultiChoiceQuestion multiChoiceQuestion, String file) {
+        questionHTMLHelper.addMultiChoiceHTML(multiChoiceQuestion, file);
     }
 }

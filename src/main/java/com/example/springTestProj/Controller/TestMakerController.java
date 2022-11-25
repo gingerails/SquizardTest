@@ -100,46 +100,46 @@ public class TestMakerController implements ControlSwitchScreen {
     private ComboBox questionType;
     @FXML 
     private MenuBar menuBar;
-    
+
     @FXML
     private ListView<String> mcList;
 
     private static final ObservableList<String> mcListArray = FXCollections
             .observableArrayList();
-    
+
     @FXML
     private ListView<String> fibList;
 
     private static final ObservableList<String> fibListArray = FXCollections
             .observableArrayList();
-    
+
     @FXML
     private ListView<String> tfList;
 
     private static final ObservableList<String> tfListArray = FXCollections
             .observableArrayList();
-    
+
     @FXML
     private ListView<String> eList;
 
     private static final ObservableList<String> eListArray = FXCollections
             .observableArrayList();
-    
+
      @FXML
     private ListView<String> saList;
 
     private static final ObservableList<String> saListArray = FXCollections
             .observableArrayList();
-    
+
      @FXML
     private ListView<String> mList;
 
     private static final ObservableList<String> mListArray = FXCollections
             .observableArrayList();
-    
-    public String path = "src\\main\\resources\\";
 
-    File f = new File(path + "test.html");
+    public String path = "src\\main\\resources\\generatedTests\\";
+
+
 
     
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver) {
@@ -152,10 +152,9 @@ public class TestMakerController implements ControlSwitchScreen {
     public void initialize() throws IOException {
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
-        
-        testName=testName.replaceAll(".html", "");
 
-        createTest(path + "test.html", testName);
+        File f = new File(path + testName);
+        createTest(path + testName, testName);
         //webviewer
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());
@@ -185,93 +184,93 @@ public class TestMakerController implements ControlSwitchScreen {
 
         });
          this.addMC.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 addMCScene();
 
-            
+
         });
          this.editMC.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 editMCScene();
 
-            
+
         });
           this.editM.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 editMScene();
 
-            
+
         });
             this.editFIB.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 editFIBScene();
 
-            
+
         });
             this.editTF.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 editTFScene();
 
-            
+
         });
          this.editE.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 editEScene();
 
-            
+
         });
          this.editSA.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 editSAScene();
 
-            
+
         });
          this.addM.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 addMScene();
 
-            
+
         });
-         
+
          this.addTF.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 addTFScene();
 
-            
+
         });
           this.addSA.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 addSAScene();
 
-            
+
         });
           this.addE.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 addEScene();
 
-            
+
         });
           this.addFIB.setOnAction(actionEvent -> {
-            
+
                 //System.out.print("essay Question");
                 addFIBScene();
 
-            
+
         });
         this.publish.setOnAction(actionEvent -> {
 
-            publish(path + "test.html");
+            publish(path + testName);
 
         });
 
@@ -300,7 +299,7 @@ public class TestMakerController implements ControlSwitchScreen {
          FxControllerAndView<addMCController, VBox> AddMCControllerAndView
                     = fxWeaver.load(addMCController.class);
             AddMCControllerAndView.getController().show(getCurrentStage());
-    
+
     }
       public void editMCScene()
     {
@@ -380,8 +379,8 @@ public class TestMakerController implements ControlSwitchScreen {
         writer.close();
 
     }
-    
-   
+
+
 
     public void publish(String file) {
         try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
@@ -479,7 +478,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 +"Material: "+"material"+"\n"
                 +"Comment: "+"comment"+"\n"
                 +"Grading Instructions: "+"instructions"+"\n"
-        
+
         );
         fibList.setItems(fibListArray);
     }
@@ -495,7 +494,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 +"Material: "+"material"+"\n"
                 +"Comment: "+"comment"+"\n"
                 +"Grading Instructions: "+"instructions"+"\n"
-        
+
         );
         mList.setItems(mListArray);
     }
@@ -511,7 +510,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 +"Material: "+"material"+"\n"
                 +"Comment: "+"comment"+"\n"
                 +"Grading Instructions: "+"instructions"+"\n"
-        
+
         );
         eList.setItems(eListArray);
     }
@@ -527,7 +526,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 +"Material: "+"material"+"\n"
                 +"Comment: "+"comment"+"\n"
                 +"Grading Instructions: "+"instructions"+"\n"
-        
+
         );
         saList.setItems(saListArray);
     }
@@ -543,7 +542,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 +"Material: "+"material"+"\n"
                 +"Comment: "+"comment"+"\n"
                 +"Grading Instructions: "+"instructions"+"\n"
-        
+
         );
         tfList.setItems(tfListArray);
     }

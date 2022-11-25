@@ -1,6 +1,8 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
@@ -29,6 +31,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final TrueFalseQService trueFalseQService;
+    private final QuestionHTMLHelper questionHTMLHelper;
     private final TestService testService;
     private Stage stage;
 
@@ -57,11 +60,12 @@ public class TrueFalseQController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public String path="src\\main\\resources\\";
-    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, TestService testService) {
+    public String path="src\\main\\resources\\generatedTests\\";
+    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, QuestionHTMLHelper questionHTMLHelper, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.trueFalseQService = trueFalseQService;
+        this.questionHTMLHelper = questionHTMLHelper;
         this.testService = testService;
     }
 
@@ -102,7 +106,9 @@ public class TrueFalseQController implements ControlDialogBoxes {
            String correctAnswer = "True";
            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
            checkFieldsAndAddQuestion(trueFalseQuestion);
-           addHTML(path+"test.html");
+           Test currentTest = getCurrentTestSectionInfo();
+           String testFile = currentTest.getTestName();
+           addHTML(trueFalseQuestion, path+testFile);
            stage.close();
        }
        else{
@@ -145,25 +151,10 @@ public class TrueFalseQController implements ControlDialogBoxes {
 
         return currentTest;
     }
-     public void addHTML(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
 
-            p.println("<hr />" + "\n"
-            +"<p><span style='font-size:16px'><strong>T/F: </strong></span></p>"+"\n"
-            +"<p>"+questionContent.getText()+" ______</p>"+"\n" 
-            );
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
-//            root=loader.load();
-//
-//            TestMakerController TestMakeController = loader.getController();
-//            TestMakeController.initialize();
-            //engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+
+    public void addHTML(TrueFalseQuestion trueFalseQuestion, String file) {
+        questionHTMLHelper.addTrueFalseHTML(trueFalseQuestion, file);
     }
+
 }

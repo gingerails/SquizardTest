@@ -5,6 +5,7 @@
  */
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
@@ -16,12 +17,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -41,6 +40,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
+    private final QuestionHTMLHelper questionHTMLHelper;
 
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -68,11 +68,12 @@ public class EssayQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public String path="src\\main\\resources\\";
+    public String path="src\\main\\resources\\generatedTests\\";
 
-    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, FxWeaver fxWeaver) {
+    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
+        this.questionHTMLHelper = questionHTMLHelper;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
@@ -101,7 +102,9 @@ public class EssayQuestionController implements ControlDialogBoxes {
             String answer = answerTextField.getText();
             EssayQuestion essayQuestion = essayQuestionService.createEssayQuestion(question, answer);
             checkFieldsAndAddQuestion(essayQuestion);
-            addHTML(path+"test.html");
+            Test currentTest = getCurrentTestSectionInfo();
+            String testName = currentTest.getTestName();
+            addHTML(essayQuestion, path + testName);
             stage.close();
         } else{
             error.setText("Error: Must have question and answer!");
@@ -156,47 +159,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
 
-  public void addHTML(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-
-            p.println("<hr />" + "\n"
-                    + "<p><strong>Essay: " + questionTextField.getText() + "</strong></p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n");
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/testMaker.fxml"));
-//            root=loader.load();
-//
-//            TestMakerController TestMakeController = loader.getController();
-//            TestMakeController.initialize();
-            //engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
+  public void addHTML(EssayQuestion essayQuestion, String file) {
+    questionHTMLHelper.addEssayHTML(essayQuestion, file);
+  }
 }

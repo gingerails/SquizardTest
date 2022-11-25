@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
@@ -55,11 +56,15 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Button addTest;
     @FXML
-    private Button preview1;
+    private Button preview1, preview2, preview3, preview4;
+    @FXML
+    private Button recent1, recent2, recent3, recent4;
     @FXML
     private Button addCourseButton;
     @FXML 
     private ComboBox displayClass;
+    @FXML
+    private Pane recentsPane;
     
    
    
@@ -74,7 +79,7 @@ public class MainController implements ControlSwitchScreen {
     public void getDatabaseCourses()
     {
         displayClass.getItems().clear();
-      List<Courses> dropdownCourseList = courseService.readCourses();
+        List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
             if(course.getSections()==null)
@@ -94,17 +99,14 @@ public class MainController implements ControlSwitchScreen {
  
             }
         }
-            
-        
         
     }
-   
-   //String test="cs101,cs202,cs303";
-    
+
     @FXML
     public void initialize () {
-        showExistingTests();
+        recentsPane.setVisible(false);
         getDatabaseCourses();
+        showExistingTests();
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
@@ -179,8 +181,10 @@ public class MainController implements ControlSwitchScreen {
     public void showExistingTests(){
         List<Test> allTests = testService.findAllTests();
 
-//
-     //   for (Test test : allTests) {
+
+        for (Test test : allTests) {
+            String testName = test.getTestName();
+
             //String essayQs = test.getEssayQ();
           //  String[] arrStr = essayQs.split(",");
            // for (String id:arrStr) {
@@ -189,10 +193,10 @@ public class MainController implements ControlSwitchScreen {
 
             //}
 //
-//            String testHTML = test.getTestHTML();
 //
 //
-      //  }
+//
+        }
     }
 
 }
