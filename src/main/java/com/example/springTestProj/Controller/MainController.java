@@ -4,17 +4,17 @@
  * and open the template in the editor.
  */
 package com.example.springTestProj.Controller;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +46,7 @@ public class MainController implements ControlSwitchScreen {
     private final CourseService courseService;
     private final UserService userService;
     private final TestService testService;
+    private final EssayQuestionService essayQuestionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -62,11 +63,12 @@ public class MainController implements ControlSwitchScreen {
     
    
    
-    public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService) {
+    public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.courseService=courseService;
         this.testService = testService;
+        this.essayQuestionService = essayQuestionService;
     }
 
     public void getDatabaseCourses()
@@ -101,8 +103,8 @@ public class MainController implements ControlSwitchScreen {
     
     @FXML
     public void initialize () {
-        
-    getDatabaseCourses();
+        showExistingTests();
+        getDatabaseCourses();
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
@@ -114,7 +116,7 @@ public class MainController implements ControlSwitchScreen {
         this.preview1.setOnAction(actionEvent -> {
             loadpreview("/website.html");
         });
-        
+
         
     }
 
@@ -165,13 +167,9 @@ public class MainController implements ControlSwitchScreen {
          nstage.show();
     }
     public void loadAddCourseScreen() {
-        
         FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
                 fxWeaver.load(AddCourseController.class);
         addCourseControllerAndView.getController().show(getCurrentStage());
-        
-        
-        
     }
 
     /**
@@ -180,10 +178,21 @@ public class MainController implements ControlSwitchScreen {
      */
     public void showExistingTests(){
         List<Test> allTests = testService.findAllTests();
-        for (Test test : allTests) {
-            String testHTML = test.getTestHTML();
 
-        }
+//
+     //   for (Test test : allTests) {
+            //String essayQs = test.getEssayQ();
+          //  String[] arrStr = essayQs.split(",");
+           // for (String id:arrStr) {
+           //     System.out.println(id);
+           //     if
+
+            //}
+//
+//            String testHTML = test.getTestHTML();
+//
+//
+      //  }
     }
 
 }
