@@ -1,9 +1,17 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.QuestionService.MatchingQService;
+import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
+import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 
@@ -35,19 +43,23 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
+import java.util.List;
 
 @Component
-@FxmlView("/questionOrdering.fxml")
-public class questionOrderingController implements ControlDialogBoxes {
+@FxmlView("/TFOrdering.fxml")
+public class editTFController implements ControlDialogBoxes {
 
     private final UserService userService;
+    private final MatchingQService matchingQService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
+    private final TrueFalseQService trueFalseQService;
+    
     private Stage stage;
 
     @FXML
-    private VBox questionOrderingBox;
+    private VBox tfVBox;
     @FXML
     private ListView<String> list;
     @FXML
@@ -69,11 +81,13 @@ public class questionOrderingController implements ControlDialogBoxes {
     
     public String types;
 
-    public questionOrderingController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService) {
+    public editTFController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,TrueFalseQService trueFalseQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
+        this.matchingQService = matchingQService;
+        this.trueFalseQService=trueFalseQService;
     }
 
     @FXML
@@ -94,7 +108,7 @@ public class questionOrderingController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(questionOrderingBox));
+        stage.setScene(new Scene(tfVBox));
     }
 
     @Override
@@ -140,7 +154,15 @@ public class questionOrderingController implements ControlDialogBoxes {
 
     
     private void populateData() {
-        leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        List<TrueFalseQuestion> tfQuestions = trueFalseQService.readQuestions();
+        for(TrueFalseQuestion q : tfQuestions){
+            String questionContent = q.getQuestionContent();
+            //String questionAnswer = q.getCorrectAnswer();
+            System.out.println("Q:    " + questionContent);
+            //System.out.println("A:    " + questionAnswer);
+            leftList.addAll(questionContent);
+        }
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
 
         list.setItems(leftList);
         list2.setItems(rightList);
@@ -150,7 +172,15 @@ public class questionOrderingController implements ControlDialogBoxes {
     {
         list.getItems().clear();
         list2.getItems().clear();
-        leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+         List<TrueFalseQuestion> tfQuestions = trueFalseQService.readQuestions();
+        for(TrueFalseQuestion q : tfQuestions){
+            String questionContent = q.getQuestionContent();
+            //String questionAnswer = q.getCorrectAnswer();
+            System.out.println("Q:    " + questionContent);
+            //System.out.println("A:    " + questionAnswer);
+            leftList.addAll(questionContent);
+        }
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);
         list2.setItems(rightList);
