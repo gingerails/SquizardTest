@@ -63,10 +63,41 @@ public class TestMakerController implements ControlSwitchScreen {
     private ComboBox questionType;
     @FXML 
     private MenuBar menuBar;
+    
     @FXML
     private ListView<String> mcList;
 
     private static final ObservableList<String> mcListArray = FXCollections
+            .observableArrayList();
+    
+    @FXML
+    private ListView<String> fibList;
+
+    private static final ObservableList<String> fibListArray = FXCollections
+            .observableArrayList();
+    
+    @FXML
+    private ListView<String> tfList;
+
+    private static final ObservableList<String> tfListArray = FXCollections
+            .observableArrayList();
+    
+    @FXML
+    private ListView<String> eList;
+
+    private static final ObservableList<String> eListArray = FXCollections
+            .observableArrayList();
+    
+     @FXML
+    private ListView<String> saList;
+
+    private static final ObservableList<String> saListArray = FXCollections
+            .observableArrayList();
+    
+     @FXML
+    private ListView<String> mList;
+
+    private static final ObservableList<String> mListArray = FXCollections
             .observableArrayList();
     
     public String path = "src\\main\\resources\\";
@@ -84,6 +115,8 @@ public class TestMakerController implements ControlSwitchScreen {
     public void initialize() throws IOException {
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
+        
+        testName=testName.replaceAll(".html", "");
 
         createTest(path + "test.html", testName);
         //webviewer
@@ -91,7 +124,11 @@ public class TestMakerController implements ControlSwitchScreen {
         engine.load(f.toURI().toString());
 
         addMCText();
-        addMCText();
+        addTFText();
+        addSAText();
+        addEText();
+        addFIBText();
+        addMText();
         questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
@@ -232,5 +269,85 @@ public class TestMakerController implements ControlSwitchScreen {
         
         );
         mcList.setItems(mcListArray);
+    }
+     public void addFIBText()
+    {
+        fibListArray.add("Question: "+"question"+"\n"
+                +"Choice 1: "+"choice"+"\n"
+                +"Choice 2: "+"choice"+"\n"
+                +"Choice 3: "+"choice"+"\n"
+                +"Choice 4: "+"choice"+"\n"
+                +"Answer: "+"answer"+"\n"
+                +"Sections: "+"sections"+"\n"
+                +"Material: "+"material"+"\n"
+                +"Comment: "+"comment"+"\n"
+                +"Grading Instructions: "+"instructions"+"\n"
+        
+        );
+        fibList.setItems(fibListArray);
+    }
+      public void addMText()
+    {
+        mListArray.add("Question: "+"question"+"\n"
+                +"Choice 1: "+"choice"+"\n"
+                +"Choice 2: "+"choice"+"\n"
+                +"Choice 3: "+"choice"+"\n"
+                +"Choice 4: "+"choice"+"\n"
+                +"Answer: "+"answer"+"\n"
+                +"Sections: "+"sections"+"\n"
+                +"Material: "+"material"+"\n"
+                +"Comment: "+"comment"+"\n"
+                +"Grading Instructions: "+"instructions"+"\n"
+        
+        );
+        mList.setItems(mListArray);
+    }
+       public void addEText()
+    {
+        eListArray.add("Question: "+"question"+"\n"
+                +"Choice 1: "+"choice"+"\n"
+                +"Choice 2: "+"choice"+"\n"
+                +"Choice 3: "+"choice"+"\n"
+                +"Choice 4: "+"choice"+"\n"
+                +"Answer: "+"answer"+"\n"
+                +"Sections: "+"sections"+"\n"
+                +"Material: "+"material"+"\n"
+                +"Comment: "+"comment"+"\n"
+                +"Grading Instructions: "+"instructions"+"\n"
+        
+        );
+        eList.setItems(eListArray);
+    }
+        public void addSAText()
+    {
+        saListArray.add("Question: "+"question"+"\n"
+                +"Choice 1: "+"choice"+"\n"
+                +"Choice 2: "+"choice"+"\n"
+                +"Choice 3: "+"choice"+"\n"
+                +"Choice 4: "+"choice"+"\n"
+                +"Answer: "+"answer"+"\n"
+                +"Sections: "+"sections"+"\n"
+                +"Material: "+"material"+"\n"
+                +"Comment: "+"comment"+"\n"
+                +"Grading Instructions: "+"instructions"+"\n"
+        
+        );
+        saList.setItems(saListArray);
+    }
+         public void addTFText()
+    {
+        tfListArray.add("Question: "+"question"+"\n"
+                +"Choice 1: "+"choice"+"\n"
+                +"Choice 2: "+"choice"+"\n"
+                +"Choice 3: "+"choice"+"\n"
+                +"Choice 4: "+"choice"+"\n"
+                +"Answer: "+"answer"+"\n"
+                +"Sections: "+"sections"+"\n"
+                +"Material: "+"material"+"\n"
+                +"Comment: "+"comment"+"\n"
+                +"Grading Instructions: "+"instructions"+"\n"
+        
+        );
+        tfList.setItems(tfListArray);
     }
 }

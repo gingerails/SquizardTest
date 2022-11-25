@@ -22,7 +22,7 @@
    <children>
       <SplitPane dividerPositions="0.49394184168012917" layoutX="112.0" layoutY="284.0" prefHeight="727.0" prefWidth="992.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="726.0" prefWidth="403.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="726.0" prefWidth="994.0">
                <children>
                   <ComboBox fx:id="questionType" layoutX="302.0" layoutY="31.0" prefWidth="150.0" promptText="Question Type" visibleRowCount="4" AnchorPane.rightAnchor="33.99999999999997" />
                         <ScrollPane hbarPolicy="ALWAYS" layoutY="63.0" prefHeight="662.0" prefWidth="606.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -32,21 +32,27 @@
                                     <Label layoutY="5.0" text="Multiple Choice" />
                                     <ListView fx:id="mcList" layoutY="23.0" prefHeight="129.0" prefWidth="606.0" />
                                     <Label layoutX="-1.0" layoutY="153.0" text="Fill in Blank" />
-                                    <ListView layoutX="-1.0" layoutY="171.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
+                                    <ListView fx:id="fibList" layoutX="-1.0" layoutY="171.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
                                     <Label layoutY="301.0" text="True/False" />
-                                    <ListView layoutY="319.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
+                                    <ListView fx:id="tfList" layoutY="319.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
                                     <Label layoutY="449.0" text="Matching" />
-                                    <ListView layoutY="467.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
+                                    <ListView fx:id="mList" layoutY="467.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
                                     <Label layoutX="-1.0" layoutY="597.0" text="Short Answer" />
-                                    <ListView layoutX="-1.0" layoutY="615.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
+                                    <ListView fx:id="saList" layoutX="-1.0" layoutY="615.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
                                     <Label layoutY="745.0" text="Essay" />
-                                    <ListView layoutY="763.0" prefHeight="129.0" prefWidth="606.0" />
+                                    <ListView fx:id="eList" layoutY="763.0" prefHeight="129.0" prefWidth="606.0" />
                                     <Button layoutX="612.0" layoutY="171.0" mnemonicParsing="false" text="Edit" />
                                     <Button layoutX="613.0" layoutY="24.0" mnemonicParsing="false" text="Edit" />
                                     <Button layoutX="613.0" layoutY="319.0" mnemonicParsing="false" text="Edit" />
                                     <Button layoutX="614.0" layoutY="469.0" mnemonicParsing="false" text="Edit" />
                                     <Button layoutX="614.0" layoutY="616.0" mnemonicParsing="false" text="Edit" />
                                     <Button layoutX="613.0" layoutY="763.0" mnemonicParsing="false" text="Edit" />
+                                    <Button layoutX="613.0" layoutY="54.0" mnemonicParsing="false" text="Add" />
+                                    <Button layoutX="612.0" layoutY="202.0" mnemonicParsing="false" text="Add" />
+                                    <Button layoutX="613.0" layoutY="351.0" mnemonicParsing="false" text="Add" />
+                                    <Button layoutX="614.0" layoutY="501.0" mnemonicParsing="false" text="Add" />
+                                    <Button layoutX="614.0" layoutY="647.0" mnemonicParsing="false" text="Add" />
+                                    <Button layoutX="613.0" layoutY="794.0" mnemonicParsing="false" text="Add" />
                                  </children>
                               </AnchorPane>
                           </content>
