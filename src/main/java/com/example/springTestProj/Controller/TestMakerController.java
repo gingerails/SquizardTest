@@ -1,11 +1,18 @@
 package com.example.springTestProj.Controller;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.addMController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.FillinBlankQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.MultiChoiceQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.TrueFalseQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.ShortQuestionController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.addEController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.addFIBController;
+
+import com.example.springTestProj.Controller.CreateQuestionWindows.addMCController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.addShortAnswerController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.addTFController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.TestService;
@@ -57,6 +64,18 @@ public class TestMakerController implements ControlSwitchScreen {
     private VBox mainVbox;
     @FXML
     private Button add;
+    @FXML
+    private Button addMC;
+    @FXML
+    private Button addTF;
+    @FXML
+    private Button addE;
+    @FXML
+    private Button addM;
+    @FXML
+    private Button addFIB;
+    @FXML
+    private Button addSA;
     @FXML
     private Button publish;
     @FXML
@@ -147,6 +166,49 @@ public class TestMakerController implements ControlSwitchScreen {
             }
 
         });
+         this.addMC.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                addMCScene();
+
+            
+        });
+         this.addM.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                addMScene();
+
+            
+        });
+         
+         this.addTF.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                addTFScene();
+
+            
+        });
+          this.addSA.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                addSAScene();
+
+            
+        });
+          this.addE.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                addEScene();
+
+            
+        });
+          this.addFIB.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                addFIBScene();
+
+            
+        });
         this.publish.setOnAction(actionEvent -> {
 
             publish(path + "test.html");
@@ -173,6 +235,42 @@ public class TestMakerController implements ControlSwitchScreen {
         this.stage.setMaximized(true);
         this.stage.centerOnScreen();
     }
+     public void addMCScene()
+    {
+         FxControllerAndView<addMCController, VBox> AddMCControllerAndView
+                    = fxWeaver.load(addMCController.class);
+            AddMCControllerAndView.getController().show(getCurrentStage());
+    }
+     public void addEScene()
+    {
+         FxControllerAndView<addEController, VBox> AddEControllerAndView
+                    = fxWeaver.load(addEController.class);
+            AddEControllerAndView.getController().show(getCurrentStage());
+    }
+      public void addSAScene()
+    {
+         FxControllerAndView<addShortAnswerController, VBox> AddSAControllerAndView
+                    = fxWeaver.load(addShortAnswerController.class);
+            AddSAControllerAndView.getController().show(getCurrentStage());
+    }
+      public void addTFScene()
+    {
+         FxControllerAndView<addTFController, VBox> AddTFControllerAndView
+                    = fxWeaver.load(addTFController.class);
+            AddTFControllerAndView.getController().show(getCurrentStage());
+    }
+     public void addFIBScene()
+    {
+         FxControllerAndView<addFIBController, VBox> AddFIBControllerAndView
+                    = fxWeaver.load(addFIBController.class);
+            AddFIBControllerAndView.getController().show(getCurrentStage());
+    }
+      public void addMScene()
+    {
+         FxControllerAndView<addMController, VBox> AddMontrollerAndView
+                    = fxWeaver.load(addMController.class);
+            AddMontrollerAndView.getController().show(getCurrentStage());
+    }
 
     public void createTest(String file, String testName) throws IOException {
         String setup = "<!DOCTYPE html>" + "\n"
@@ -185,6 +283,8 @@ public class TestMakerController implements ControlSwitchScreen {
         writer.close();
 
     }
+    
+   
 
     public void publish(String file) {
         try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {

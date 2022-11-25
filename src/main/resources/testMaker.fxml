@@ -48,12 +48,12 @@
                                     <Button layoutX="614.0" layoutY="469.0" mnemonicParsing="false" text="Edit" />
                                     <Button layoutX="614.0" layoutY="616.0" mnemonicParsing="false" text="Edit" />
                                     <Button layoutX="613.0" layoutY="763.0" mnemonicParsing="false" text="Edit" />
-                                    <Button layoutX="613.0" layoutY="54.0" mnemonicParsing="false" text="Add" />
-                                    <Button layoutX="612.0" layoutY="202.0" mnemonicParsing="false" text="Add" />
-                                    <Button layoutX="613.0" layoutY="351.0" mnemonicParsing="false" text="Add" />
-                                    <Button layoutX="614.0" layoutY="501.0" mnemonicParsing="false" text="Add" />
-                                    <Button layoutX="614.0" layoutY="647.0" mnemonicParsing="false" text="Add" />
-                                    <Button layoutX="613.0" layoutY="794.0" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="addMC" layoutX="613.0" layoutY="54.0" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="addFIB" layoutX="612.0" layoutY="202.0" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="addTF" layoutX="613.0" layoutY="351.0" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="addM" layoutX="614.0" layoutY="501.0" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="addSA" layoutX="614.0" layoutY="647.0" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="addE" layoutX="613.0" layoutY="794.0" mnemonicParsing="false" text="Add" />
                                     <TextField layoutX="702.0" layoutY="24.0" prefHeight="26.0" prefWidth="66.0" />
                                     <Label layoutX="654.0" layoutY="28.0" text="Pts Each:" />
                                     <TextField layoutX="702.0" layoutY="170.0" prefHeight="26.0" prefWidth="66.0" />
