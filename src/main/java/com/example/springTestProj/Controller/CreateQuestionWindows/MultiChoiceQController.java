@@ -117,7 +117,9 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
            MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.createMCQuestion(question, correctAnswer, falseAnswer);
            checkFieldsAndAddQuestion(multiChoiceQuestion);
-           addHTML(multiChoiceQuestion, path+"test.html");
+           Test currentTest = getCurrentTestSectionInfo();
+           String testFile = currentTest.getTestName();
+           addHTML(multiChoiceQuestion, path+testFile);
            stage.close();
        }
     }

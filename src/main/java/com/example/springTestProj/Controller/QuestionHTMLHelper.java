@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 public class QuestionHTMLHelper {
 
    // public static String getHTML(String )
+
     public void addShortAnswerHTML(ShortAnswerQuestion shortAnswerQuestion, String file){
         try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b);) {
 

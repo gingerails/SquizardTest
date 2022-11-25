@@ -92,7 +92,9 @@ public class ShortQuestionController implements ControlDialogBoxes {
             String correctAnswer = answerField.getText();
             ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.createSQuestion(question, correctAnswer);
             checkFieldsAndAddQuestion(shortAnswerQuestion);
-            addHTML(shortAnswerQuestion, path + "test.html");
+            Test currentTest = getCurrentTestSectionInfo();
+            String testFile = currentTest.getTestName();
+            addHTML(shortAnswerQuestion, path+testFile);
             stage.close();
         }
     }
