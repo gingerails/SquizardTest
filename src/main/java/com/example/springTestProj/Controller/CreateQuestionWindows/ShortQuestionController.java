@@ -1,15 +1,11 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,6 +24,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
+    private final QuestionHTMLHelper questionHTMLHelper;
     private final TestService testService;
     private Stage stage;
 
@@ -56,13 +53,14 @@ public class ShortQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public String path = "src\\main\\resources\\";
+    public String path = "src\\main\\resources\\generatedTests\\";
 
 
-    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService) {
+    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
+        this.questionHTMLHelper = questionHTMLHelper;
         this.testService = testService;
     }
 
@@ -75,7 +73,6 @@ public class ShortQuestionController implements ControlDialogBoxes {
             System.out.print("Add question button pressed");
             //stage.close();
             createQuestion();
-            addHTML(path + "test.html");
             stage.close();
         });
 
@@ -95,6 +92,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             String correctAnswer = answerField.getText();
             ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.createSQuestion(question, correctAnswer);
             checkFieldsAndAddQuestion(shortAnswerQuestion);
+            addHTML(shortAnswerQuestion, path + "test.html");
             stage.close();
         }
     }
@@ -123,24 +121,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     }
 
-
-    public void addHTML(String file) {
-        try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b);) {
-
-            p.println("<hr />" + "\n"
-                    + "<p><strong>Short Answer: " + questionField.getText() + "</strong></p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n");
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-            //engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+    public void addHTML(ShortAnswerQuestion shortAnswerQuestion, String file) {
+        questionHTMLHelper.addShortAnswerHTML(shortAnswerQuestion, file);
     }
 
     /**
