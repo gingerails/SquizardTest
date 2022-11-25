@@ -1,5 +1,6 @@
-package com.example.springTestProj.Controller.CreateQuestionWindows;
+package com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;

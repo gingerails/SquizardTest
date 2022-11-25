@@ -1,17 +1,16 @@
-package com.example.springTestProj.Controller.CreateQuestionWindows;
+package com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
-import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
-import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 
@@ -46,20 +45,20 @@ import java.awt.image.ColorModel;
 import java.util.List;
 
 @Component
-@FxmlView("/FIBOrdering.fxml")
-public class editFIBController implements ControlDialogBoxes {
+@FxmlView("/EOrdering.fxml")
+public class editEController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final MatchingQService matchingQService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
-    private final TrueFalseQService trueFalseQService;
+    private final EssayQuestionService essayQuestionService;
     
     private Stage stage;
 
     @FXML
-    private VBox fibVBox;
+    private VBox eVBox;
     @FXML
     private ListView<String> list;
     @FXML
@@ -81,13 +80,13 @@ public class editFIBController implements ControlDialogBoxes {
     
     public String types;
 
-    public editFIBController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,TrueFalseQService trueFalseQService) {
+    public editEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
         this.matchingQService = matchingQService;
-        this.trueFalseQService=trueFalseQService;
+        this.essayQuestionService = essayQuestionService;
     }
 
     @FXML
@@ -108,7 +107,7 @@ public class editFIBController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(fibVBox));
+        stage.setScene(new Scene(eVBox));
     }
 
     @Override
@@ -154,7 +153,14 @@ public class editFIBController implements ControlDialogBoxes {
 
     
     private void populateData() {
-      
+       List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
+        for(EssayQuestion q : eQuestions){
+            String questionContent = q.getQuestionContent();
+            //String questionAnswer = q.getCorrectAnswer();
+            System.out.println("Q:    " + questionContent);
+            //System.out.println("A:    " + questionAnswer);
+            leftList.addAll(questionContent);
+        } 
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
 
         list.setItems(leftList);
@@ -165,7 +171,14 @@ public class editFIBController implements ControlDialogBoxes {
     {
         list.getItems().clear();
         list2.getItems().clear();
-       
+        List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
+        for(EssayQuestion q : eQuestions){
+            String questionContent = q.getQuestionContent();
+            //String questionAnswer = q.getCorrectAnswer();
+            System.out.println("Q:    " + questionContent);
+            //System.out.println("A:    " + questionAnswer);
+            leftList.addAll(questionContent);
+        } 
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);

@@ -1,5 +1,6 @@
-package com.example.springTestProj.Controller.CreateQuestionWindows;
+package com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
@@ -42,8 +43,8 @@ import java.awt.image.ColorModel;
 import java.util.List;
 
 @Component
-@FxmlView("/addFIB.fxml")
-public class addFIBController implements ControlDialogBoxes {
+@FxmlView("/addM.fxml")
+public class addMController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
@@ -54,7 +55,7 @@ public class addFIBController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private VBox FIBVBox;
+    private VBox MVBox;
     @FXML
     private ListView<String> list;
     
@@ -76,7 +77,7 @@ public class addFIBController implements ControlDialogBoxes {
     
     public String types;
 
-    public addFIBController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService) {
+    public addMController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
@@ -100,7 +101,7 @@ public class addFIBController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(FIBVBox));
+        stage.setScene(new Scene(MVBox));
     }
 
     @Override
@@ -116,7 +117,7 @@ public class addFIBController implements ControlDialogBoxes {
 
     
     private void populateData() {
-    /*    List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
+        List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
         for(MatchingQuestion q : mQuestions){
             String termContent = q.getTerm();
             String answerContent = q.getCorrectAnswer();
@@ -125,7 +126,7 @@ public class addFIBController implements ControlDialogBoxes {
             leftList.addAll(termContent+" "+answerContent);
         } 
         
-*/
+
         list.setItems(leftList);
         
     }

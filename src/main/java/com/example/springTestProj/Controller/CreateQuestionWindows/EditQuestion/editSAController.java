@@ -1,5 +1,6 @@
-package com.example.springTestProj.Controller.CreateQuestionWindows;
+package com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
@@ -44,8 +45,8 @@ import java.awt.image.ColorModel;
 import java.util.List;
 
 @Component
-@FxmlView("/EOrdering.fxml")
-public class editEController implements ControlDialogBoxes {
+@FxmlView("/SAOrdering.fxml")
+public class editSAController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final MatchingQService matchingQService;
@@ -57,7 +58,7 @@ public class editEController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private VBox eVBox;
+    private VBox saVBox;
     @FXML
     private ListView<String> list;
     @FXML
@@ -79,7 +80,7 @@ public class editEController implements ControlDialogBoxes {
     
     public String types;
 
-    public editEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,EssayQuestionService essayQuestionService) {
+    public editSAController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
@@ -106,7 +107,7 @@ public class editEController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(eVBox));
+        stage.setScene(new Scene(saVBox));
     }
 
     @Override
@@ -152,14 +153,14 @@ public class editEController implements ControlDialogBoxes {
 
     
     private void populateData() {
-       List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
-        for(EssayQuestion q : eQuestions){
+        List<ShortAnswerQuestion> saQuestions = shortAnswerQService.readQuestions();
+        for(ShortAnswerQuestion q : saQuestions){
             String questionContent = q.getQuestionContent();
             //String questionAnswer = q.getCorrectAnswer();
             System.out.println("Q:    " + questionContent);
             //System.out.println("A:    " + questionAnswer);
             leftList.addAll(questionContent);
-        } 
+        }
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
 
         list.setItems(leftList);
@@ -170,14 +171,14 @@ public class editEController implements ControlDialogBoxes {
     {
         list.getItems().clear();
         list2.getItems().clear();
-        List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
-        for(EssayQuestion q : eQuestions){
+         List<ShortAnswerQuestion> saQuestions = shortAnswerQService.readQuestions();
+        for(ShortAnswerQuestion q : saQuestions){
             String questionContent = q.getQuestionContent();
             //String questionAnswer = q.getCorrectAnswer();
             System.out.println("Q:    " + questionContent);
             //System.out.println("A:    " + questionAnswer);
             leftList.addAll(questionContent);
-        } 
+        }
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);

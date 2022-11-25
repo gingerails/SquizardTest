@@ -1,11 +1,12 @@
-package com.example.springTestProj.Controller.CreateQuestionWindows;
+package com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
-import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
-import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.TestService;
@@ -42,19 +43,19 @@ import java.awt.image.ColorModel;
 import java.util.List;
 
 @Component
-@FxmlView("/addE.fxml")
-public class addEController implements ControlDialogBoxes {
+@FxmlView("/addFIB.fxml")
+public class addFIBController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
-    private final EssayQuestionService essayQuestionService;
+    private final MatchingQService matchingQService;
 
     private final TestService testService;
     private Stage stage;
 
     @FXML
-    private VBox EVBox;
+    private VBox FIBVBox;
     @FXML
     private ListView<String> list;
     
@@ -76,15 +77,14 @@ public class addEController implements ControlDialogBoxes {
     
     public String types;
 
-    public addEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, EssayQuestionService essayQuestionService) {
+    public addFIBController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
-        this.essayQuestionService = essayQuestionService;
+        this.matchingQService = matchingQService;
     }
 
-    @FXML
     public void initialize() {
        // repopulateData();
         initializeListeners();
@@ -101,7 +101,7 @@ public class addEController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(EVBox));
+        stage.setScene(new Scene(FIBVBox));
     }
 
     @Override
@@ -117,18 +117,16 @@ public class addEController implements ControlDialogBoxes {
 
     
     private void populateData() {
-        //MultiChoiceQService mcService=new MultiChoiceQService();
-        List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
-        for(EssayQuestion q : eQuestions){
-            String questionContent = q.getQuestionContent();
-            //String questionAnswer = q.getCorrectAnswer();
-            System.out.println("Q:    " + questionContent);
+    /*    List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
+        for(MatchingQuestion q : mQuestions){
+            String termContent = q.getTerm();
+            String answerContent = q.getCorrectAnswer();
+           //System.out.println("Q:    " + questionContent);
             //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(questionContent);
+            leftList.addAll(termContent+" "+answerContent);
         } 
-
         
-
+*/
         list.setItems(leftList);
         
     }

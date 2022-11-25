@@ -1,5 +1,6 @@
-package com.example.springTestProj.Controller.CreateQuestionWindows;
+package com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
@@ -42,41 +43,40 @@ import java.awt.image.ColorModel;
 import java.util.List;
 
 @Component
-@FxmlView("/addM.fxml")
-public class addMController implements ControlDialogBoxes {
+@FxmlView("/MOrdering.fxml")
+public class editMController implements ControlDialogBoxes {
 
     private final UserService userService;
+    private final MatchingQService matchingQService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
-    private final MatchingQService matchingQService;
-
     private final TestService testService;
     private Stage stage;
 
     @FXML
-    private VBox MVBox;
+    private VBox mVBox;
     @FXML
     private ListView<String> list;
-    
+    @FXML
+    private ListView<String> list2;
     
     @FXML
-    private Button select;
+    private Button reset;
     @FXML
     private Button apply;
-    @FXML
-    private Label selection;
-    
 
     //private ObservableList<String> types;
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
-    public String item;
+    private static final ObservableList<String> rightList = FXCollections
+            .observableArrayList();
+
     public String path = "src\\main\\resources\\";
     
     public String types;
 
-    public addMController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService) {
+    public editMController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
@@ -84,13 +84,15 @@ public class addMController implements ControlDialogBoxes {
         this.matchingQService = matchingQService;
     }
 
+    @FXML
     public void initialize() {
-       // repopulateData();
+        //repopulateData();
         initializeListeners();
         
-        this.select.setOnAction(actionEvent -> {
-            item=list.getSelectionModel().getSelectedItem();
-            selection.setText("ADD: "+item);
+        this.reset.setOnAction(actionEvent -> {
+            types();
+            repopulateData();
+            
             
         });
         this.apply.setOnAction(actionEvent -> {
@@ -100,7 +102,7 @@ public class addMController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(MVBox));
+        stage.setScene(new Scene(mVBox));
     }
 
     @Override
@@ -111,12 +113,42 @@ public class addMController implements ControlDialogBoxes {
 
     private void initializeListeners() {
     // drag from left to right
-    
+    list.setOnDragDetected(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        if (list.getSelectionModel().getSelectedItem() == null) {
+          return;
+        }
+
+        Dragboard dragBoard = list.startDragAndDrop(TransferMode.MOVE);
+        ClipboardContent content = new ClipboardContent();
+        content.putString(list.getSelectionModel().getSelectedItem());
+        dragBoard.setContent(content);
+      }
+    });
+
+    list2.setOnDragOver(new EventHandler<DragEvent>() {
+      @Override
+      public void handle(DragEvent dragEvent) {
+        dragEvent.acceptTransferModes(TransferMode.MOVE);
+      }
+    });
+
+    list2.setOnDragDropped(new EventHandler<DragEvent>() {
+      @Override
+      public void handle(DragEvent dragEvent) {
+        String player = dragEvent.getDragboard().getString();
+        list2.getItems().addAll(player);
+        leftList.remove(player);
+        list.setItems(leftList);
+        dragEvent.setDropCompleted(true);
+      }
+    });
     }
 
     
     private void populateData() {
-        List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
+       List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
         for(MatchingQuestion q : mQuestions){
             String termContent = q.getTerm();
             String answerContent = q.getCorrectAnswer();
@@ -124,13 +156,36 @@ public class addMController implements ControlDialogBoxes {
             //System.out.println("A:    " + questionAnswer);
             leftList.addAll(termContent+" "+answerContent);
         } 
-        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
 
         list.setItems(leftList);
-        
+        list2.setItems(rightList);
     }
      
-   
-   
+    private void repopulateData()
+    {
+        list.getItems().clear();
+        list2.getItems().clear();
+         List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
+        for(MatchingQuestion q : mQuestions){
+            String termContent = q.getTerm();
+            String answerContent = q.getCorrectAnswer();
+           //System.out.println("Q:    " + questionContent);
+            //System.out.println("A:    " + questionAnswer);
+            leftList.addAll(termContent+" "+answerContent);
+        } 
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
+        list.setItems(leftList);
+        list2.setItems(rightList);
+    }
+    
+    private void types()
+    {
+        
+        types=list2.getItems().toString();
+        System.out.println(types);
+    }
+
    
 }

@@ -1,9 +1,12 @@
-package com.example.springTestProj.Controller.CreateQuestionWindows;
+package com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB;
 
+import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.TestService;
@@ -40,19 +43,19 @@ import java.awt.image.ColorModel;
 import java.util.List;
 
 @Component
-@FxmlView("/addSA.fxml")
-public class addShortAnswerController implements ControlDialogBoxes {
+@FxmlView("/addE.fxml")
+public class addEController implements ControlDialogBoxes {
 
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
-    private final MultiChoiceQService multiChoiceQService;
+    private final EssayQuestionService essayQuestionService;
 
     private final TestService testService;
     private Stage stage;
 
     @FXML
-    private VBox SAVBox;
+    private VBox EVBox;
     @FXML
     private ListView<String> list;
     
@@ -74,12 +77,12 @@ public class addShortAnswerController implements ControlDialogBoxes {
     
     public String types;
 
-    public addShortAnswerController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MultiChoiceQService multiChoiceQService) {
+    public addEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
-        this.multiChoiceQService = multiChoiceQService;
+        this.essayQuestionService = essayQuestionService;
     }
 
     @FXML
@@ -99,7 +102,7 @@ public class addShortAnswerController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(SAVBox));
+        stage.setScene(new Scene(EVBox));
     }
 
     @Override
@@ -116,8 +119,8 @@ public class addShortAnswerController implements ControlDialogBoxes {
     
     private void populateData() {
         //MultiChoiceQService mcService=new MultiChoiceQService();
-        List<ShortAnswerQuestion> saQuestions = shortAnswerQService.readQuestions();
-        for(ShortAnswerQuestion q : saQuestions){
+        List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
+        for(EssayQuestion q : eQuestions){
             String questionContent = q.getQuestionContent();
             //String questionAnswer = q.getCorrectAnswer();
             System.out.println("Q:    " + questionContent);

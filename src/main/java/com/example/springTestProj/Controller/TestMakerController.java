@@ -1,24 +1,24 @@
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Controller.CreateQuestionWindows.addMController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB.addMController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.FillinBlankQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.MultiChoiceQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.TrueFalseQController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.ShortQuestionController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.addEController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.addFIBController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB.addEController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB.addFIBController;
 
-import com.example.springTestProj.Controller.CreateQuestionWindows.addMCController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.addShortAnswerController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.addTFController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.editEController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.editFIBController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.editMCController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.editMController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.editSAController;
-import com.example.springTestProj.Controller.CreateQuestionWindows.editTFController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB.addMCController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB.addShortAnswerController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionFromDB.addTFController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editEController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editFIBController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editMCController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editMController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editSAController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editTFController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.TestService;
@@ -294,79 +294,6 @@ public class TestMakerController implements ControlSwitchScreen {
         this.stage.setMaximized(true);
         this.stage.centerOnScreen();
     }
-     public void addMCScene()
-    {
-         FxControllerAndView<addMCController, VBox> AddMCControllerAndView
-                    = fxWeaver.load(addMCController.class);
-            AddMCControllerAndView.getController().show(getCurrentStage());
-
-    }
-      public void editMCScene()
-    {
-         FxControllerAndView<editMCController, VBox> EditMCControllerAndView
-                    = fxWeaver.load(editMCController.class);
-            EditMCControllerAndView.getController().show(getCurrentStage());
-    }
-       public void editSAScene()
-    {
-         FxControllerAndView<editSAController, VBox> EditSAControllerAndView
-                    = fxWeaver.load(editSAController.class);
-            EditSAControllerAndView.getController().show(getCurrentStage());
-    }
-        public void editTFScene()
-    {
-         FxControllerAndView<editTFController, VBox> EditTFControllerAndView
-                    = fxWeaver.load(editTFController.class);
-            EditTFControllerAndView.getController().show(getCurrentStage());
-    }
-            public void editFIBScene()
-    {
-         FxControllerAndView<editFIBController, VBox> EditFIBControllerAndView
-                    = fxWeaver.load(editFIBController.class);
-            EditFIBControllerAndView.getController().show(getCurrentStage());
-    }
-       public void editMScene()
-    {
-         FxControllerAndView<editMController, VBox> EditMControllerAndView
-                    = fxWeaver.load(editMController.class);
-            EditMControllerAndView.getController().show(getCurrentStage());
-    }
-         public void editEScene()
-    {
-         FxControllerAndView<editEController, VBox> EditEControllerAndView
-                    = fxWeaver.load(editEController.class);
-            EditEControllerAndView.getController().show(getCurrentStage());
-    }
-     public void addEScene()
-    {
-         FxControllerAndView<addEController, VBox> AddEControllerAndView
-                    = fxWeaver.load(addEController.class);
-            AddEControllerAndView.getController().show(getCurrentStage());
-    }
-      public void addSAScene()
-    {
-         FxControllerAndView<addShortAnswerController, VBox> AddSAControllerAndView
-                    = fxWeaver.load(addShortAnswerController.class);
-            AddSAControllerAndView.getController().show(getCurrentStage());
-    }
-      public void addTFScene()
-    {
-         FxControllerAndView<addTFController, VBox> AddTFControllerAndView
-                    = fxWeaver.load(addTFController.class);
-            AddTFControllerAndView.getController().show(getCurrentStage());
-    }
-     public void addFIBScene()
-    {
-         FxControllerAndView<addFIBController, VBox> AddFIBControllerAndView
-                    = fxWeaver.load(addFIBController.class);
-            AddFIBControllerAndView.getController().show(getCurrentStage());
-    }
-      public void addMScene()
-    {
-         FxControllerAndView<addMController, VBox> AddMontrollerAndView
-                    = fxWeaver.load(addMController.class);
-            AddMontrollerAndView.getController().show(getCurrentStage());
-    }
 
     public void createTest(String file, String testName) throws IOException {
         String setup = "<!DOCTYPE html>" + "\n"
@@ -450,6 +377,10 @@ public class TestMakerController implements ControlSwitchScreen {
             shortQuestionControllerAndView.getController().show(getCurrentStage());
         }
     }
+
+    /**
+     *
+     */
     public void addMCText()
     {
         mcListArray.add("Question: "+"question"+"\n"
@@ -482,7 +413,7 @@ public class TestMakerController implements ControlSwitchScreen {
         );
         fibList.setItems(fibListArray);
     }
-      public void addMText()
+    public void addMText()
     {
         mListArray.add("Question: "+"question"+"\n"
                 +"Choice 1: "+"choice"+"\n"
@@ -498,7 +429,7 @@ public class TestMakerController implements ControlSwitchScreen {
         );
         mList.setItems(mListArray);
     }
-       public void addEText()
+    public void addEText()
     {
         eListArray.add("Question: "+"question"+"\n"
                 +"Choice 1: "+"choice"+"\n"
@@ -514,7 +445,7 @@ public class TestMakerController implements ControlSwitchScreen {
         );
         eList.setItems(eListArray);
     }
-        public void addSAText()
+    public void addSAText()
     {
         saListArray.add("Question: "+"question"+"\n"
                 +"Choice 1: "+"choice"+"\n"
@@ -530,7 +461,7 @@ public class TestMakerController implements ControlSwitchScreen {
         );
         saList.setItems(saListArray);
     }
-         public void addTFText()
+    public void addTFText()
     {
         tfListArray.add("Question: "+"question"+"\n"
                 +"Choice 1: "+"choice"+"\n"
@@ -546,4 +477,83 @@ public class TestMakerController implements ControlSwitchScreen {
         );
         tfList.setItems(tfListArray);
     }
+
+    /**
+     * Add question from database
+     */
+    public void addMCScene()
+    {
+        FxControllerAndView<addMCController, VBox> AddMCControllerAndView
+                = fxWeaver.load(addMCController.class);
+        AddMCControllerAndView.getController().show(getCurrentStage());
+
+    }
+    public void editMCScene()
+    {
+        FxControllerAndView<editMCController, VBox> EditMCControllerAndView
+                = fxWeaver.load(editMCController.class);
+        EditMCControllerAndView.getController().show(getCurrentStage());
+    }
+    public void editSAScene()
+    {
+        FxControllerAndView<editSAController, VBox> EditSAControllerAndView
+                = fxWeaver.load(editSAController.class);
+        EditSAControllerAndView.getController().show(getCurrentStage());
+    }
+    public void editTFScene()
+    {
+        FxControllerAndView<editTFController, VBox> EditTFControllerAndView
+                = fxWeaver.load(editTFController.class);
+        EditTFControllerAndView.getController().show(getCurrentStage());
+    }
+    public void editFIBScene()
+    {
+        FxControllerAndView<editFIBController, VBox> EditFIBControllerAndView
+                = fxWeaver.load(editFIBController.class);
+        EditFIBControllerAndView.getController().show(getCurrentStage());
+    }
+    public void editMScene()
+    {
+        FxControllerAndView<editMController, VBox> EditMControllerAndView
+                = fxWeaver.load(editMController.class);
+        EditMControllerAndView.getController().show(getCurrentStage());
+    }
+    public void editEScene()
+    {
+        FxControllerAndView<editEController, VBox> EditEControllerAndView
+                = fxWeaver.load(editEController.class);
+        EditEControllerAndView.getController().show(getCurrentStage());
+    }
+    public void addEScene()
+    {
+        FxControllerAndView<addEController, VBox> AddEControllerAndView
+                = fxWeaver.load(addEController.class);
+        AddEControllerAndView.getController().show(getCurrentStage());
+    }
+    public void addSAScene()
+    {
+        FxControllerAndView<addShortAnswerController, VBox> AddSAControllerAndView
+                = fxWeaver.load(addShortAnswerController.class);
+        AddSAControllerAndView.getController().show(getCurrentStage());
+    }
+    public void addTFScene()
+    {
+        FxControllerAndView<addTFController, VBox> AddTFControllerAndView
+                = fxWeaver.load(addTFController.class);
+        AddTFControllerAndView.getController().show(getCurrentStage());
+    }
+    public void addFIBScene()
+    {
+        FxControllerAndView<addFIBController, VBox> AddFIBControllerAndView
+                = fxWeaver.load(addFIBController.class);
+        AddFIBControllerAndView.getController().show(getCurrentStage());
+    }
+    public void addMScene()
+    {
+        FxControllerAndView<addMController, VBox> AddMontrollerAndView
+                = fxWeaver.load(addMController.class);
+        AddMontrollerAndView.getController().show(getCurrentStage());
+    }
+
+
 }
