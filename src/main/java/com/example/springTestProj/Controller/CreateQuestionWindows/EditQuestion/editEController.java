@@ -42,6 +42,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -90,7 +91,8 @@ public class editEController implements ControlDialogBoxes {
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() {  
+        
         //repopulateData();
         initializeListeners();
         
@@ -169,13 +171,19 @@ public class editEController implements ControlDialogBoxes {
      
     private void repopulateData()
     {
+        Test currentTest = testService.returnThisTest();
+        String essayQid = currentTest.getEssayQ();
+        String[] arrStr = essayQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
         list.getItems().clear();
         list2.getItems().clear();
         List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
-        for(EssayQuestion q : eQuestions){
-            String questionContent = q.getQuestionContent();
-            //String questionAnswer = q.getCorrectAnswer();
-            System.out.println("Q:    " + questionContent);
+        for(String id: arrStrM){
+            
+            EssayQuestion eq = essayQuestionService.findQuestionByID(id);
+            String questionContent= eq.getQuestionContent();
             //System.out.println("A:    " + questionAnswer);
             leftList.addAll(questionContent);
         } 
