@@ -69,9 +69,9 @@ public class TestMakerController implements ControlSwitchScreen {
     private static final ObservableList<String> mcListArray = FXCollections
             .observableArrayList();
     
-    public String path = "src\\main\\resources\\";
+    public String path = "src\\main\\resources\\generatedTests\\";
 
-    File f = new File(path + "test.html");
+
 
     
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver) {
@@ -85,7 +85,8 @@ public class TestMakerController implements ControlSwitchScreen {
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
 
-        createTest(path + "test.html", testName);
+        File f = new File(path + testName);
+        createTest(path + testName, testName);
         //webviewer
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());
@@ -112,7 +113,7 @@ public class TestMakerController implements ControlSwitchScreen {
         });
         this.publish.setOnAction(actionEvent -> {
 
-            publish(path + "test.html");
+            publish(path + testName);
 
         });
 

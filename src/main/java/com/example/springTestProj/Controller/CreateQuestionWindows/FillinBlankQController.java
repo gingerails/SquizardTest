@@ -32,7 +32,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
     @FXML
     private TextField questionField;
 
-    public String path="src\\main\\resources\\";
+    public String path="src\\main\\resources\\generatedTests\\";
     //public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
 
     public FillinBlankQController(UserService userService, FxWeaver fxWeaver) {
