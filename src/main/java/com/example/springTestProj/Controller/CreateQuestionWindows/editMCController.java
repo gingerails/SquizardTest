@@ -1,8 +1,10 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
@@ -35,19 +37,21 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
+import java.util.List;
 
 @Component
-@FxmlView("/questionOrdering.fxml")
-public class questionOrderingController implements ControlDialogBoxes {
+@FxmlView("/MCOrdering.fxml")
+public class editMCController implements ControlDialogBoxes {
 
     private final UserService userService;
+    private final MultiChoiceQService multiChoiceQService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
     private Stage stage;
 
     @FXML
-    private VBox questionOrderingBox;
+    private VBox mcVBox;
     @FXML
     private ListView<String> list;
     @FXML
@@ -69,11 +73,12 @@ public class questionOrderingController implements ControlDialogBoxes {
     
     public String types;
 
-    public questionOrderingController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService) {
+    public editMCController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MultiChoiceQService multiChoiceQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
+        this.multiChoiceQService = multiChoiceQService;
     }
 
     @FXML
@@ -94,7 +99,7 @@ public class questionOrderingController implements ControlDialogBoxes {
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
-        stage.setScene(new Scene(questionOrderingBox));
+        stage.setScene(new Scene(mcVBox));
     }
 
     @Override
@@ -140,7 +145,15 @@ public class questionOrderingController implements ControlDialogBoxes {
 
     
     private void populateData() {
-        leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        List<MultiChoiceQuestion> mcQuestions = multiChoiceQService.readQuestions();
+        for(MultiChoiceQuestion q : mcQuestions){
+            String questionContent = q.getQuestionContent();
+            //String questionAnswer = q.getCorrectAnswer();
+            System.out.println("Q:    " + questionContent);
+            //System.out.println("A:    " + questionAnswer);
+            leftList.addAll(questionContent);
+        } 
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
 
         list.setItems(leftList);
         list2.setItems(rightList);
@@ -150,7 +163,15 @@ public class questionOrderingController implements ControlDialogBoxes {
     {
         list.getItems().clear();
         list2.getItems().clear();
-        leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+         List<MultiChoiceQuestion> mcQuestions = multiChoiceQService.readQuestions();
+        for(MultiChoiceQuestion q : mcQuestions){
+            String questionContent = q.getQuestionContent();
+            //String questionAnswer = q.getCorrectAnswer();
+            System.out.println("Q:    " + questionContent);
+            //System.out.println("A:    " + questionAnswer);
+            leftList.addAll(questionContent);
+        } 
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);
         list2.setItems(rightList);

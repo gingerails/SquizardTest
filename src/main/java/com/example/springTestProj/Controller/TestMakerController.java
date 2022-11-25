@@ -13,6 +13,12 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.addFIBControl
 import com.example.springTestProj.Controller.CreateQuestionWindows.addMCController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.addShortAnswerController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.addTFController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.editEController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.editFIBController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.editMCController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.editMController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.editSAController;
+import com.example.springTestProj.Controller.CreateQuestionWindows.editTFController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.TestService;
@@ -66,6 +72,18 @@ public class TestMakerController implements ControlSwitchScreen {
     private Button add;
     @FXML
     private Button addMC;
+    @FXML
+    private Button editMC;
+    @FXML
+    private Button editM;
+    @FXML
+    private Button editFIB;
+    @FXML
+    private Button editSA;
+    @FXML
+    private Button editE;
+    @FXML
+    private Button editTF;
     @FXML
     private Button addTF;
     @FXML
@@ -173,6 +191,48 @@ public class TestMakerController implements ControlSwitchScreen {
 
             
         });
+         this.editMC.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                editMCScene();
+
+            
+        });
+          this.editM.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                editMScene();
+
+            
+        });
+            this.editFIB.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                editFIBScene();
+
+            
+        });
+            this.editTF.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                editTFScene();
+
+            
+        });
+         this.editE.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                editEScene();
+
+            
+        });
+         this.editSA.setOnAction(actionEvent -> {
+            
+                //System.out.print("essay Question");
+                editSAScene();
+
+            
+        });
          this.addM.setOnAction(actionEvent -> {
             
                 //System.out.print("essay Question");
@@ -240,6 +300,43 @@ public class TestMakerController implements ControlSwitchScreen {
          FxControllerAndView<addMCController, VBox> AddMCControllerAndView
                     = fxWeaver.load(addMCController.class);
             AddMCControllerAndView.getController().show(getCurrentStage());
+    
+    }
+      public void editMCScene()
+    {
+         FxControllerAndView<editMCController, VBox> EditMCControllerAndView
+                    = fxWeaver.load(editMCController.class);
+            EditMCControllerAndView.getController().show(getCurrentStage());
+    }
+       public void editSAScene()
+    {
+         FxControllerAndView<editSAController, VBox> EditSAControllerAndView
+                    = fxWeaver.load(editSAController.class);
+            EditSAControllerAndView.getController().show(getCurrentStage());
+    }
+        public void editTFScene()
+    {
+         FxControllerAndView<editTFController, VBox> EditTFControllerAndView
+                    = fxWeaver.load(editTFController.class);
+            EditTFControllerAndView.getController().show(getCurrentStage());
+    }
+            public void editFIBScene()
+    {
+         FxControllerAndView<editFIBController, VBox> EditFIBControllerAndView
+                    = fxWeaver.load(editFIBController.class);
+            EditFIBControllerAndView.getController().show(getCurrentStage());
+    }
+       public void editMScene()
+    {
+         FxControllerAndView<editMController, VBox> EditMControllerAndView
+                    = fxWeaver.load(editMController.class);
+            EditMControllerAndView.getController().show(getCurrentStage());
+    }
+         public void editEScene()
+    {
+         FxControllerAndView<editEController, VBox> EditEControllerAndView
+                    = fxWeaver.load(editEController.class);
+            EditEControllerAndView.getController().show(getCurrentStage());
     }
      public void addEScene()
     {
