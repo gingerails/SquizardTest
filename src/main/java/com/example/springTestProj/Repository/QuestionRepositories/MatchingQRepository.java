@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MatchingQRepository extends JpaRepository<MatchingQuestion, String> {
+
+    public MatchingQuestion findByQuestionID(String id);
 }

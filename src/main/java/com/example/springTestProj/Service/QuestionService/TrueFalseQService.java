@@ -1,5 +1,6 @@
 package com.example.springTestProj.Service.QuestionService;
 
+import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Repository.QuestionRepositories.TrueFalseQRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class TrueFalseQService {
 
     public List<TrueFalseQuestion> readQuestions(){
         return trueFalseQRepository.findAll();
+    }
+      public TrueFalseQuestion findQuestionByID(String id){
+        return trueFalseQRepository.findByQuestionID(id);
     }
 
 }

@@ -44,6 +44,7 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.Arrays;
 import java.util.List;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 @Component
 @FxmlView("/EOrdering.fxml")
@@ -64,7 +65,8 @@ public class editEController implements ControlDialogBoxes {
     private ListView<String> list;
     @FXML
     private ListView<String> list2;
-    
+    @FXML
+    private Label error;
     @FXML
     private Button reset;
     @FXML
@@ -106,7 +108,7 @@ public class editEController implements ControlDialogBoxes {
             stage.close();
             
         });
-        populateData();
+        repopulateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
         stage.setScene(new Scene(eVBox));
@@ -153,26 +155,12 @@ public class editEController implements ControlDialogBoxes {
     });
     }
 
-    
-    private void populateData() {
-       List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
-        for(EssayQuestion q : eQuestions){
-            String questionContent = q.getQuestionContent();
-            //String questionAnswer = q.getCorrectAnswer();
-            System.out.println("Q:    " + questionContent);
-            //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(questionContent);
-        } 
-        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-
-        list.setItems(leftList);
-        list2.setItems(rightList);
-    }
-     
     private void repopulateData()
     {
+        try{
         Test currentTest = testService.returnThisTest();
         String essayQid = currentTest.getEssayQ();
+        
         String[] arrStr = essayQid.split(",");
         String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
         
@@ -180,17 +168,26 @@ public class editEController implements ControlDialogBoxes {
         list.getItems().clear();
         list2.getItems().clear();
         List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
-        for(String id: arrStrM){
-            
-            EssayQuestion eq = essayQuestionService.findQuestionByID(id);
-            String questionContent= eq.getQuestionContent();
-            //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(questionContent);
-        } 
+        
+        
+            for (String id : arrStrM) {
+
+                EssayQuestion eq = essayQuestionService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                //System.out.println("A:    " + questionAnswer);
+                leftList.addAll(questionContent);
+            }
+        
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);
         list2.setItems(rightList);
+        }
+        catch(NullPointerException e)
+        {
+            error.setText("ERROR: No Questions");
+        }
+        
     }
     
     private void types()

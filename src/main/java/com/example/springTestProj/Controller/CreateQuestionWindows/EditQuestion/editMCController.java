@@ -38,6 +38,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -57,7 +58,8 @@ public class editMCController implements ControlDialogBoxes {
     private ListView<String> list;
     @FXML
     private ListView<String> list2;
-    
+    @FXML
+    private Label error;
     @FXML
     private Button reset;
     @FXML
@@ -97,7 +99,7 @@ public class editMCController implements ControlDialogBoxes {
             stage.close();
             
         });
-        populateData();
+        repopulateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
         stage.setScene(new Scene(mcVBox));
@@ -144,38 +146,38 @@ public class editMCController implements ControlDialogBoxes {
     });
     }
 
-    
-    private void populateData() {
-        List<MultiChoiceQuestion> mcQuestions = multiChoiceQService.readQuestions();
-        for(MultiChoiceQuestion q : mcQuestions){
-            String questionContent = q.getQuestionContent();
-            //String questionAnswer = q.getCorrectAnswer();
-            System.out.println("Q:    " + questionContent);
-            //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(questionContent);
-        } 
-        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-
-        list.setItems(leftList);
-        list2.setItems(rightList);
-    }
-     
     private void repopulateData()
     {
+          try{
+        Test currentTest = testService.returnThisTest();
+        String mcQid = currentTest.getMultiChoiceQ();
+        
+        String[] arrStr = mcQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
         list.getItems().clear();
         list2.getItems().clear();
-         List<MultiChoiceQuestion> mcQuestions = multiChoiceQService.readQuestions();
-        for(MultiChoiceQuestion q : mcQuestions){
-            String questionContent = q.getQuestionContent();
-            //String questionAnswer = q.getCorrectAnswer();
-            System.out.println("Q:    " + questionContent);
-            //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(questionContent);
-        } 
+        List<MultiChoiceQuestion> mQuestions = multiChoiceQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
+
+                MultiChoiceQuestion eq = multiChoiceQService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                //System.out.println("A:    " + questionAnswer);
+                leftList.addAll(questionContent);
+            }
+        
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);
         list2.setItems(rightList);
+        }
+        catch(NullPointerException e)
+        {
+            error.setText("ERROR: No Questions");
+        }
     }
     
     private void types()

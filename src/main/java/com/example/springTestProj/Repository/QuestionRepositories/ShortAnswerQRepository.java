@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShortAnswerQRepository extends JpaRepository<ShortAnswerQuestion, Long> {
+
+    ShortAnswerQuestion findByQuestionID(String id);
 }

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MultiChoiceQRepository extends JpaRepository<MultiChoiceQuestion, String> {
+
+    public MultiChoiceQuestion findByQuestionID(String id);
 }

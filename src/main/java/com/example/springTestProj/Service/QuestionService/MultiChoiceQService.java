@@ -28,5 +28,7 @@ public class MultiChoiceQService {
     public List<MultiChoiceQuestion> readQuestions(){
         return multiChoiceQRepository.findAll();
     }
-
+     public MultiChoiceQuestion findQuestionByID(String id){
+        return multiChoiceQRepository.findByQuestionID(id);
+    }
 }

@@ -30,5 +30,8 @@ public class MatchingQService {
     public List<MatchingQuestion> readQuestions(){
         return matchingQRepository.findAll();
     }
+     public MatchingQuestion findQuestionByID(String id){
+        return matchingQRepository.findByQuestionID(id);
+    }
 
 }

@@ -40,6 +40,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -59,7 +60,8 @@ public class editMController implements ControlDialogBoxes {
     private ListView<String> list;
     @FXML
     private ListView<String> list2;
-    
+    @FXML
+    private Label error;
     @FXML
     private Button reset;
     @FXML
@@ -99,7 +101,7 @@ public class editMController implements ControlDialogBoxes {
             stage.close();
             
         });
-        populateData();
+        repopulateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
         stage.setScene(new Scene(mVBox));
@@ -147,37 +149,41 @@ public class editMController implements ControlDialogBoxes {
     }
 
     
-    private void populateData() {
-       List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
-        for(MatchingQuestion q : mQuestions){
-            String termContent = q.getTerm();
-            String answerContent = q.getCorrectAnswer();
-           //System.out.println("Q:    " + questionContent);
-            //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(termContent+" "+answerContent);
-        } 
-        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-
-        list.setItems(leftList);
-        list2.setItems(rightList);
-    }
+    
      
-    private void repopulateData()
+   private void repopulateData()
     {
+          try{
+        Test currentTest = testService.returnThisTest();
+        String mQid = currentTest.getMatchingQ();
+        
+        String[] arrStr = mQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
         list.getItems().clear();
         list2.getItems().clear();
-         List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
-        for(MatchingQuestion q : mQuestions){
-            String termContent = q.getTerm();
-            String answerContent = q.getCorrectAnswer();
-           //System.out.println("Q:    " + questionContent);
-            //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(termContent+" "+answerContent);
-        } 
+        List<MatchingQuestion> mcQuestions = matchingQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
+
+                MatchingQuestion eq = matchingQService.findQuestionByID(id);
+                String questionContentTerm = eq.getTerm();
+                String questionContentAnswer = eq.getCorrectAnswer();
+                //System.out.println("A:    " + questionAnswer);
+                leftList.addAll(questionContentTerm+" "+questionContentAnswer);
+            }
+        
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
         
         list.setItems(leftList);
         list2.setItems(rightList);
+        }
+        catch(NullPointerException e)
+        {
+            error.setText("ERROR: No Questions");
+        }
     }
     
     private void types()

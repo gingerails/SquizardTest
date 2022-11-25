@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="eVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editEController">
+<VBox fx:id="eVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editEController">
     <children>
         <Label prefHeight="47.0" prefWidth="604.0" text="                       E Ordering  ">
             <font>
@@ -18,6 +18,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <Label fx:id="error" prefHeight="18.0" prefWidth="470.0" style="-fx-text-fill: #FF0000;" translateY="300.0" />
       <ListView fx:id="list" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="272.0" />
       <ListView fx:id="list2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="276.0" translateX="325.0" translateY="-275.0" />
       <Button fx:id="apply" mnemonicParsing="false" prefHeight="86.0" prefWidth="52.0" text="Apply" translateX="540.0" translateY="-275.0" />
