@@ -16,7 +16,7 @@
 
 <!--<?import javafx.scene.web.HTMLEditor?>-->
 
-<VBox fx:id="mainVbox" prefHeight="763.0" prefWidth="1235.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
+<VBox fx:id="mainVbox" prefHeight="905.0" prefWidth="1235.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.TestMakerController">
     <children>
 <AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -24,11 +24,6 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="726.0" prefWidth="403.0">
                <children>
-                  <Button fx:id="add" layoutX="460.0" layoutY="32.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="3.199999999999978">
-                     <font>
-                        <Font name="Arial Bold" size="12.0" />
-                     </font>
-                  </Button>
                   <ComboBox fx:id="questionType" layoutX="302.0" layoutY="31.0" prefWidth="150.0" promptText="Question Type" visibleRowCount="4" AnchorPane.rightAnchor="33.99999999999997" />
                         <ScrollPane hbarPolicy="ALWAYS" layoutY="63.0" prefHeight="662.0" prefWidth="606.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                           <content>
@@ -46,10 +41,21 @@
                                     <ListView layoutX="-1.0" layoutY="615.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
                                     <Label layoutY="745.0" text="Essay" />
                                     <ListView layoutY="763.0" prefHeight="129.0" prefWidth="606.0" />
+                                    <Button layoutX="612.0" layoutY="171.0" mnemonicParsing="false" text="Edit" />
+                                    <Button layoutX="613.0" layoutY="24.0" mnemonicParsing="false" text="Edit" />
+                                    <Button layoutX="613.0" layoutY="319.0" mnemonicParsing="false" text="Edit" />
+                                    <Button layoutX="614.0" layoutY="469.0" mnemonicParsing="false" text="Edit" />
+                                    <Button layoutX="614.0" layoutY="616.0" mnemonicParsing="false" text="Edit" />
+                                    <Button layoutX="613.0" layoutY="763.0" mnemonicParsing="false" text="Edit" />
                                  </children>
                               </AnchorPane>
                           </content>
                         </ScrollPane>
+                  <Button fx:id="add" layoutX="460.0" layoutY="32.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="3.199999999999978">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="314.0">
