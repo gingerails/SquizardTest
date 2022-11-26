@@ -30,4 +30,7 @@ public class EssayQuestionService {
         return essayQRepository.findAll();
     }
 
+    public EssayQuestion findQuestionByID(String id){
+        return essayQRepository.findByQuestionID(id);
+    }
 }

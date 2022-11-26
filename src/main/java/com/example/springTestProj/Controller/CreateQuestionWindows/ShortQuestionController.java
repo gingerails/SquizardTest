@@ -17,6 +17,8 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 @FxmlView("/shortAnswerQ.fxml")
 public class ShortQuestionController implements ControlDialogBoxes {
@@ -72,7 +74,11 @@ public class ShortQuestionController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             //stage.close();
-            createQuestion();
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             stage.close();
         });
 
@@ -81,7 +87,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
         });
     }
 
-    public void createQuestion() {
+    public void createQuestion() throws IOException {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
         if (answerField.getText().isBlank() || questionContent.getText().isBlank()) {
@@ -123,7 +129,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     }
 
-    public void addHTML(ShortAnswerQuestion shortAnswerQuestion, String file) {
+    public void addHTML(ShortAnswerQuestion shortAnswerQuestion, String file) throws IOException {
         questionHTMLHelper.addShortAnswerHTML(shortAnswerQuestion, file);
     }
 

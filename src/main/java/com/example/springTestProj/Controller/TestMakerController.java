@@ -48,6 +48,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * FXML Controller class
@@ -69,31 +71,9 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private VBox mainVbox;
     @FXML
-    private Button add;
+    private Button add, addMC, editMC, editM, editFIB, editSA, editE, editTF;
     @FXML
-    private Button addMC;
-    @FXML
-    private Button editMC;
-    @FXML
-    private Button editM;
-    @FXML
-    private Button editFIB;
-    @FXML
-    private Button editSA;
-    @FXML
-    private Button editE;
-    @FXML
-    private Button editTF;
-    @FXML
-    private Button addTF;
-    @FXML
-    private Button addE;
-    @FXML
-    private Button addM;
-    @FXML
-    private Button addFIB;
-    @FXML
-    private Button addSA;
+    private Button addTF, addE, addM, addFIB, addSA;
     @FXML
     private Button publish;
     @FXML
@@ -152,9 +132,10 @@ public class TestMakerController implements ControlSwitchScreen {
     public void initialize() throws IOException {
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
+        File f = QuestionHTMLHelper.createNewFile(testName);
 
-        File f = new File(path + testName);
-        createTest(path + testName, testName);
+      //  File f = new File(path + testName);
+       // createTest(path + testName, testName);
         //webviewer
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());
@@ -270,7 +251,7 @@ public class TestMakerController implements ControlSwitchScreen {
         });
         this.publish.setOnAction(actionEvent -> {
 
-            publish(path + testName);
+           // publish(path + testName);
 
         });
 
@@ -295,33 +276,33 @@ public class TestMakerController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
-    public void createTest(String file, String testName) throws IOException {
-        String setup = "<!DOCTYPE html>" + "\n"
-                + "<html>" + "\n"
-                + "<p style='text-align:center'><span style='font-size:36px'><strong>" + testName + "</strong></span></p>" + "\n";
-        String Title = "";
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(setup);
+//    public void createTest(String file, String testName) throws IOException {
+//        String setup = "<!DOCTYPE html>" + "\n"
+//                + "<html>" + "\n"
+//                + "<p style='text-align:center'><span style='font-size:36px'><strong>" + testName + "</strong></span></p>" + "\n";
+//        String Title = "";
+//        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+//        writer.write(setup);
+//
+//        writer.close();
+//
+//    }
 
-        writer.close();
-
-    }
 
 
-
-    public void publish(String file) {
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-
-            p.println("</html>");
-            b.close();
-            p.close();
-            f.close();
-            engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-
-    }
+//    public void publish(String file) {
+//        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
+//
+//            p.println("</html>");
+//            b.close();
+//            p.close();
+//            f.close();
+//            engine.reload();
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//        }
+//
+//    }
     
     public void Qorder()
     {

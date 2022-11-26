@@ -1,5 +1,6 @@
 package com.example.springTestProj.Service.QuestionService;
 
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Repository.QuestionRepositories.MultiChoiceQRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class MultiChoiceQService {
 
     public List<MultiChoiceQuestion> readQuestions(){
         return multiChoiceQRepository.findAll();
+    }
+
+    public MultiChoiceQuestion findQuestionByID(String id){
+        return multiChoiceQRepository.findByQuestionID(id);
     }
 
 }

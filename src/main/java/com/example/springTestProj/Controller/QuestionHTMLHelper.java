@@ -1,20 +1,62 @@
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Entities.QuestionEntities.*;
-import javafx.css.Match;
+import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
+import com.example.springTestProj.Service.TestService;
+import javafx.scene.web.WebEngine;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Component
 public class QuestionHTMLHelper {
 
-   // public static String getHTML(String )
+    public static WebEngine engine;
+    private final TestService testService;
+    private final ShortAnswerQService shortAnswerQService;
 
-    public void addShortAnswerHTML(ShortAnswerQuestion shortAnswerQuestion, String file){
+    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService) {
+        this.testService = testService;
+        this.shortAnswerQService = shortAnswerQService;
+    }
+
+    // public static String getHTML(String )
+
+    public static File createNewFile(String testName) throws IOException {
+        String path = "src\\main\\resources\\generatedTests\\";
+        File templateFile = new File(path + "template.html");
+        File newFile = new File(path + testName);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy template file
+
+        String htmlString = Files.readString(Path.of(newFile.getPath()));
+        testName = testName.replace(".html", "");
+        htmlString = htmlString.replace("$testName", testName);
+        PrintWriter pwr = new PrintWriter(path + testName);
+        pwr.println(htmlString);
+        pwr.close();
+        return  newFile;
+    }
+
+
+
+    public void addShortAnswerHTML(ShortAnswerQuestion shortAnswerQuestion, String file) throws IOException {
+        String path = "src\\main\\resources\\generatedTests\\";
+        File templateFile = new File(file);
+        File newFile = new File(file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        String htmlString = Files.readString(newFile.toPath());
+        String multiChoiceSect = "<section id=\"MultiChoice\">";
+        String endMCSect = "</section>";
+        int sectLength = multiChoiceSect.length();
+        int startSAIndex = htmlString.indexOf(multiChoiceSect);
+        int endSAIndex = htmlString.indexOf(endMCSect);
+        String replaceThis = htmlString.substring(startSAIndex - sectLength , endSAIndex);  // inbetween section tags. need to be copied and appended to
+
+        htmlString = htmlString.replace(replaceThis, htmlString);
         try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b);) {
 
             p.println("<hr />" + "\n"
@@ -32,6 +74,20 @@ public class QuestionHTMLHelper {
             i.printStackTrace();
         }
     }
+
+    /**
+     * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
+     */
+    public void updateSections(){
+        Test thisTest = testService.returnThisTest();
+        String essayQs = thisTest.getEssayQ();
+        String[] arrStr = essayQs.split(",");
+        for(String id : arrStr){
+
+        }
+
+    }
+
     public void addMultiChoiceHTML(MultiChoiceQuestion multiChoiceQuestion, String file){
         String questionContent = multiChoiceQuestion.getQuestionContent();
         String qAnswers = multiChoiceQuestion.getFalseAnswer();
