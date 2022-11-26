@@ -189,25 +189,13 @@ public class QuestionHTMLHelper {
         for ( Map.Entry<String, String> keyVal: shuffledTermAndDef.entrySet()) {
             matchCount++;
             addHTML = addHTML + (
-                    "<style>\n" +
-                            "/* Create two equal columns that floats next to each other */\n" +
-                            ".column {\n" +
-                            "  float: left;\n" +
-                            "  padding: 10px;\n" +
-                            "}" +
-                    "        .tab {\n" +
-                    "            display: inline-block;\n" +
-                    "            margin-left: 40px;\n" +
-                    "        }\n" +
-                    "    </style>" +
-                   // "<div class=\"row\">" + "<p>" +  +
-
                     "<div class=\"row\">\n" +
                             "  <div class=\"column\">\n" +
-                            "    <p>"+ matchCount + "   " + keyVal.getKey() + ":_____" + "</p>\n" +
+                            "    <p>"+ matchCount + ".   " + keyVal.getKey() + ":_____" + "</p>\n" +
                             "  </div>\n" +
                             "  <div class=\"column\">\n" +
                             "    <p>" +  "&emsp;" + keyVal.getValue() + "</p>\n" +
+                            "  </div>\n" +
                             "  </div>\n"
             );
         }

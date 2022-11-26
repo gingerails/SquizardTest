@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <p style='text-align:center'><span style='font-size:36px'><strong>$testName</strong></span></p>
+    <style>
+        /* Create two equal columns that floats next to each other */
+        .column {
+            float: left;
+            padding: 10px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
     <!--    <title>$title</title>-->
 </head>
 <body>
