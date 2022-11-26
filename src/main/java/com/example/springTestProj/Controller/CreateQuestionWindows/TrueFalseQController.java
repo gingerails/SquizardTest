@@ -104,6 +104,9 @@ public class TrueFalseQController implements ControlDialogBoxes {
            String correctAnswer = "False";
            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
            checkFieldsAndAddQuestion(trueFalseQuestion);
+           Test currentTest = getCurrentTestSectionInfo();
+           String testFile = currentTest.getTestName();
+           addHTML(path+testFile);
            stage.close();
        } else if (isTrueCheckBox.isSelected()&& !questionContent.getText().isBlank()) {
            String question = questionContent.getText();

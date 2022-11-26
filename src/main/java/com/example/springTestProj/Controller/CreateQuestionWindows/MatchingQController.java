@@ -81,7 +81,8 @@ public class MatchingQController implements ControlDialogBoxes {
 
         Term.setCellValueFactory(new PropertyValueFactory<>("Term"));
         correctAnswer.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
-      
+        data.clear();
+        table.refresh();
         this.addRow.setOnAction(actionEvent -> {
             if (termF.getText().isEmpty() || answerF.getText().isEmpty()) {
                 error.setText("ERROR: Term and/or Answer is blank");
@@ -108,7 +109,6 @@ public class MatchingQController implements ControlDialogBoxes {
             }
 
             stage.close();
-            //add(path+"test.html");
         });
     }
 

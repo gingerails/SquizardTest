@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -164,10 +161,6 @@ public class QuestionHTMLHelper {
         getReplacement(newFile, addHTML, htmlString, TrueFalseSect, endTFSect, sectLength);
     }
 
-    public static <K, V> Map<K, V> zipToMap(ArrayList<K> keys, ArrayList<V> values) {
-        return IntStream.range(0, keys.size()).boxed()
-                .collect(Collectors.toMap(keys::get, values::get));
-    }
 
     public void updateMatchingHTML(Test thisTest, String file)  throws IOException{
         File templateFile = new File(file);
@@ -195,16 +188,34 @@ public class QuestionHTMLHelper {
         Map<String, String> shuffledTermAndDef = zipToMap(terms, termDefinitions); // Key-value pair for term and def. Use for answer key
         for ( Map.Entry<String, String> keyVal: shuffledTermAndDef.entrySet()) {
             matchCount++;
-            addHTML = addHTML + ("<div class=\"row\">" + "\n" +
-                    "<div class=\"column\">" + "\n" +
-                    "<p>" + matchCount + "   " + keyVal.getKey() + ":_____" +
-                    "\t\t" + keyVal.getValue() + "</p>" + "\n");
+            addHTML = addHTML + (
+                    "<style>\n" +
+                            "/* Create two equal columns that floats next to each other */\n" +
+                            ".column {\n" +
+                            "  float: left;\n" +
+                            "  padding: 10px;\n" +
+                            "}" +
+                    "        .tab {\n" +
+                    "            display: inline-block;\n" +
+                    "            margin-left: 40px;\n" +
+                    "        }\n" +
+                    "    </style>" +
+                   // "<div class=\"row\">" + "<p>" +  +
+
+                    "<div class=\"row\">\n" +
+                            "  <div class=\"column\">\n" +
+                            "    <p>"+ matchCount + "   " + keyVal.getKey() + ":_____" + "</p>\n" +
+                            "  </div>\n" +
+                            "  <div class=\"column\">\n" +
+                            "    <p>" +  "&emsp;" + keyVal.getValue() + "</p>\n" +
+                            "  </div>\n"
+            );
         }
         String htmlString = Files.readString(newFile.toPath());
-        String TrueFalseSect = "<section id=\"TrueFalse\">";
+        String matchingSect = "<section id=\"Matching\">";
         String endTFSect = "</section>";
-        int sectLength = TrueFalseSect.length();
-        getReplacement(newFile, addHTML, htmlString, TrueFalseSect, endTFSect, sectLength);
+        int sectLength = matchingSect.length();
+        getReplacement(newFile, addHTML, htmlString, matchingSect, endTFSect, sectLength);
     }
 
     public void updateMultiChoiceHTML(Test thisTest, String file)  throws IOException{
@@ -212,30 +223,43 @@ public class QuestionHTMLHelper {
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
-        int tfCount = 0;
-        String addHTML = "<h1> True / False: </h1>";
-        String trueFalseQIDs = thisTest.getTrueFalseQ();
-        String[] trueFalseArrStr = trueFalseQIDs.split(",");
-        String[] trueFalseQuestions = Arrays.copyOfRange(trueFalseArrStr, 1, trueFalseArrStr.length);
+        int mcCount = 0;
+        String addHTML = "<h1> Multiple Choice: </h1>";
+        String multiChoiceQs = thisTest.getMultiChoiceQ().replace("[","").replace("]","");
+        String[] multiChoiceArrStr = multiChoiceQs.split(",");
+        String[] trueFalseQuestions = Arrays.copyOfRange(multiChoiceArrStr, 1, multiChoiceArrStr.length);
 
         for(String id : trueFalseQuestions){
-            tfCount++;
-            TrueFalseQuestion trueFalseQuestion = trueFalseQService.findQuestionByID(id);
-            String questionContent = trueFalseQuestion.getQuestionContent();
-            String correctAnswer = trueFalseQuestion.getCorrectAnswer();
-            addHTML = addHTML + ("<p><strong>" + tfCount + ". "
+            ArrayList<String> possibleAnswers = new ArrayList<>();
+            mcCount++;
+            MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.findQuestionByID(id);
+            String questionContent = multiChoiceQuestion.getQuestionContent();
+            String correctAnswer = multiChoiceQuestion.getCorrectAnswer();
+            String falseAnswersList = multiChoiceQuestion.getFalseAnswer();
+            String[] falseAnswers = falseAnswersList.split(",");
+            for (String answ: falseAnswers) {
+                possibleAnswers.add(answ);
+            }
+            Collections.shuffle(possibleAnswers);
+            addHTML = addHTML + ("<p><strong>" + mcCount + ".  "
                     +  questionContent + "</strong></p>" + "\n"
-                    + "<p> T: ____ </p>" + "\n"
-                    + "<p> F: ____ </p>" + "\n");
+                    + "<p> a: " + possibleAnswers.get(0)  +"</p>" + "\n"
+                    + "<p> b: " + possibleAnswers.get(1)  +"</p>" + "\n"
+                    + "<p> c: " + possibleAnswers.get(2)  +"</p>" + "\n"
+                    + "<p> d: " + possibleAnswers.get(3)  +"</p>" + "\n");
         }
 
         String htmlString = Files.readString(newFile.toPath());
-        String TrueFalseSect = "<section id=\"TrueFalse\">";
+        String multiChoiceSect = "<section id=\"MultiChoice\">";
         String endTFSect = "</section>";
-        int sectLength = TrueFalseSect.length();
-        getReplacement(newFile, addHTML, htmlString, TrueFalseSect, endTFSect, sectLength);
+        int sectLength = multiChoiceSect.length();
+        getReplacement(newFile, addHTML, htmlString, multiChoiceSect, endTFSect, sectLength);
     }
 
+    public static <K, V> Map<K, V> zipToMap(ArrayList<K> keys, ArrayList<V> values) {
+        return IntStream.range(0, keys.size()).boxed()
+                .collect(Collectors.toMap(keys::get, values::get));
+    }
 
     /**
      * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
