@@ -94,7 +94,9 @@ public class addMCController implements ControlDialogBoxes {
             
         });
         this.apply.setOnAction(actionEvent -> {
+                    
             stage.close();
+           
             
         });
         populateData();

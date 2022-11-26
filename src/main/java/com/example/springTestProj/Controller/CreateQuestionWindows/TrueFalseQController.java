@@ -31,6 +31,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final TrueFalseQService trueFalseQService;
+    private final TestMakerController testMakerController;
     private final QuestionHTMLHelper questionHTMLHelper;
     private final TestService testService;
     private Stage stage;
@@ -61,12 +62,13 @@ public class TrueFalseQController implements ControlDialogBoxes {
     private Label error;
 
     public String path="src\\main\\resources\\generatedTests\\";
-    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, QuestionHTMLHelper questionHTMLHelper, TestService testService) {
+    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, QuestionHTMLHelper questionHTMLHelper, TestService testService,TestMakerController testMakerController) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.trueFalseQService = trueFalseQService;
         this.questionHTMLHelper = questionHTMLHelper;
         this.testService = testService;
+        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -100,6 +102,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
            String correctAnswer = "False";
            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
            checkFieldsAndAddQuestion(trueFalseQuestion);
+           testMakerController.refresh();
            stage.close();
        } else if (isTrueCheckBox.isSelected()&& !questionContent.getText().isBlank()) {
            String question = questionContent.getText();
@@ -109,6 +112,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
            addHTML(trueFalseQuestion, path+testFile);
+           testMakerController.refresh();
            stage.close();
        }
        else{

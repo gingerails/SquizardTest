@@ -22,6 +22,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private Stage stage;
+    private final TestMakerController testMakerController;
     @FXML
     private Button add;
 
@@ -35,9 +36,10 @@ public class FillinBlankQController implements ControlDialogBoxes {
     public String path="src\\main\\resources\\generatedTests\\";
     //public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
 
-    public FillinBlankQController(UserService userService, FxWeaver fxWeaver) {
+    public FillinBlankQController(UserService userService, FxWeaver fxWeaver,TestMakerController testMakerController) {
         this.userService = userService;
         this.fxWeaver = fxWeaver;
+        this.testMakerController = testMakerController;
     }
 
     @FXML

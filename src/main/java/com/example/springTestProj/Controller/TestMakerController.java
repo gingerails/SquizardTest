@@ -20,7 +20,17 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editSAController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editTFController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
+import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.QuestionService.MatchingQService;
+import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
+import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
+import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedWriter;
@@ -40,6 +50,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -60,12 +72,18 @@ public class TestMakerController implements ControlSwitchScreen {
 
     private final UserService userService;
     private final TestService testService;
+    private final MultiChoiceQService multiChoiceQService;
+    private final MatchingQService matchingQService;
+     private final EssayQuestionService essayQuestionService;
+     private final ShortAnswerQService shortAnswerQService;
+     private final TrueFalseQService trueFalseQService;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
     @FXML
     private WebView viewer;
     public static WebEngine engine;
+    public static int refresh=0;
     @FXML
     private VBox mainVbox;
     @FXML
@@ -84,6 +102,7 @@ public class TestMakerController implements ControlSwitchScreen {
     private Button editE;
     @FXML
     private Button editTF;
+    
     @FXML
     private Button addTF;
     @FXML
@@ -142,12 +161,28 @@ public class TestMakerController implements ControlSwitchScreen {
 
 
     
-    public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver) {
+    public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver,MultiChoiceQService multiChoiceQService,MatchingQService matchingQService,EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService,TrueFalseQService trueFalseQService) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
+        this.multiChoiceQService = multiChoiceQService;
+        this.matchingQService = matchingQService;
+        this.essayQuestionService = essayQuestionService;
+        this.shortAnswerQService = shortAnswerQService;
+        this.trueFalseQService=trueFalseQService;
+        
     }
+    public void refresh()
+            {
+        
+                addMCText();
+                addTFText();
+                addSAText();
+                addEText();
+                addFIBText();
+                addMText();
 
+            }
     @FXML
     public void initialize() throws IOException {
         Test currentTest = testService.returnThisTest();
@@ -159,7 +194,7 @@ public class TestMakerController implements ControlSwitchScreen {
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());
 
-        addMCText();
+        
         addTFText();
         addSAText();
         addEText();
@@ -330,10 +365,10 @@ public class TestMakerController implements ControlSwitchScreen {
                     = fxWeaver.load(questionOrderingController.class);
             QuestionOrderingControllerAndView.getController().show(getCurrentStage());
     }
-    public void refresh()
-    {
-        engine.reload();
-    }
+   // public void refresh()
+    //{
+    //   engine.reload();
+    //}
     
     public void pickQuestion() throws IOException {
         String qType = (String) questionType.getValue();
@@ -383,99 +418,240 @@ public class TestMakerController implements ControlSwitchScreen {
      */
     public void addMCText()
     {
-        mcListArray.add("Question: "+"question"+"\n"
-                +"Choice 1: "+"choice"+"\n"
-                +"Choice 2: "+"choice"+"\n"
-                +"Choice 3: "+"choice"+"\n"
-                +"Choice 4: "+"choice"+"\n"
-                +"Answer: "+"answer"+"\n"
-                +"Sections: "+"sections"+"\n"
-                +"Material: "+"material"+"\n"
-                +"Comment: "+"comment"+"\n"
-                +"Grading Instructions: "+"instructions"+"\n"
+      
         
-        );
+        try{
+        Test currentTest = testService.returnThisTest();
+        String mcQid = currentTest.getMultiChoiceQ();
+        
+        String[] arrStr = mcQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
+        mcList.getItems().clear();
+        
+        List<MultiChoiceQuestion> mQuestions = multiChoiceQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
+
+                MultiChoiceQuestion eq = multiChoiceQService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                String questionCorrect = eq.getCorrectAnswer();
+                String questionFalse = eq.getFalseAnswer();
+                //System.out.println("A:    " + questionAnswer);
+                mcListArray.addAll("Question: "+questionContent+"\n"
+                +"Correct Answer: "+questionCorrect+"\n"
+                +"Wrong Answers: "+questionFalse+"\n"
+                );
+            }
+        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
         mcList.setItems(mcListArray);
+        
+        }
+        catch(NullPointerException e)
+        {
+            
+        }
     }
      public void addFIBText()
     {
-        fibListArray.add("Question: "+"question"+"\n"
-                +"Choice 1: "+"choice"+"\n"
-                +"Choice 2: "+"choice"+"\n"
-                +"Choice 3: "+"choice"+"\n"
-                +"Choice 4: "+"choice"+"\n"
-                +"Answer: "+"answer"+"\n"
-                +"Sections: "+"sections"+"\n"
-                +"Material: "+"material"+"\n"
-                +"Comment: "+"comment"+"\n"
-                +"Grading Instructions: "+"instructions"+"\n"
+          
+        /*try{
+        Test currentTest = testService.returnThisTest();
+        String mcQid = currentTest.getMultiChoiceQ();
+        
+        String[] arrStr = mcQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
+        fibList.getItems().clear();
+        
+        List<MultiChoiceQuestion> mQuestions = multiChoiceQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
 
-        );
+                MultiChoiceQuestion eq = multiChoiceQService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                String questionCorrect = eq.getCorrectAnswer();
+                String questionFalse = eq.getFalseAnswer();
+                //System.out.println("A:    " + questionAnswer);
+                fibListArray.addAll("Question: "+questionContent+"\n"
+                +"Correct Answer: "+questionCorrect+"\n"
+                +"Wrong Answers: "+questionFalse+"\n"
+                );
+            }
+        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
         fibList.setItems(fibListArray);
+        
+        }
+        catch(NullPointerException e)
+        {
+            
+        }*/
     }
     public void addMText()
     {
-        mListArray.add("Question: "+"question"+"\n"
-                +"Choice 1: "+"choice"+"\n"
-                +"Choice 2: "+"choice"+"\n"
-                +"Choice 3: "+"choice"+"\n"
-                +"Choice 4: "+"choice"+"\n"
-                +"Answer: "+"answer"+"\n"
-                +"Sections: "+"sections"+"\n"
-                +"Material: "+"material"+"\n"
-                +"Comment: "+"comment"+"\n"
-                +"Grading Instructions: "+"instructions"+"\n"
+       
+        
+          
+        try{
+        Test currentTest = testService.returnThisTest();
+        String mQid = currentTest.getMatchingQ();
+        
+        String[] arrStr = mQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
+        mList.getItems().clear();
+        
+        List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
 
-        );
+                MatchingQuestion eq = matchingQService.findQuestionByID(id);
+                String questionContent = eq.getTerm();
+                String questionCorrect = eq.getCorrectAnswer();
+                
+                //System.out.println("A:    " + questionAnswer);
+                mListArray.addAll("Term: "+questionContent
+                +" Answer: "+questionCorrect+"\n"
+                
+                );
+            }
+        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
         mList.setItems(mListArray);
+        
+        }
+        catch(NullPointerException e)
+        {
+            
+        }
     }
     public void addEText()
     {
-        eListArray.add("Question: "+"question"+"\n"
-                +"Choice 1: "+"choice"+"\n"
-                +"Choice 2: "+"choice"+"\n"
-                +"Choice 3: "+"choice"+"\n"
-                +"Choice 4: "+"choice"+"\n"
-                +"Answer: "+"answer"+"\n"
-                +"Sections: "+"sections"+"\n"
-                +"Material: "+"material"+"\n"
-                +"Comment: "+"comment"+"\n"
-                +"Grading Instructions: "+"instructions"+"\n"
+        
+        
+          
+        try{
+        Test currentTest = testService.returnThisTest();
+        String mQid = currentTest.getEssayQ();
+        
+        String[] arrStr = mQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
+        eList.getItems().clear();
+        
+        List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
 
-        );
+                EssayQuestion eq = essayQuestionService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                String questionCorrect = eq.getCorrectAnswer();
+                
+                //System.out.println("A:    " + questionAnswer);
+                eListArray.addAll("Question: "+questionContent+"\n"
+                +"Answer: "+questionCorrect+"\n"
+                
+                );
+            }
+        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
         eList.setItems(eListArray);
+        
+        }
+        catch(NullPointerException e)
+        {
+            
+        }
     }
     public void addSAText()
     {
-        saListArray.add("Question: "+"question"+"\n"
-                +"Choice 1: "+"choice"+"\n"
-                +"Choice 2: "+"choice"+"\n"
-                +"Choice 3: "+"choice"+"\n"
-                +"Choice 4: "+"choice"+"\n"
-                +"Answer: "+"answer"+"\n"
-                +"Sections: "+"sections"+"\n"
-                +"Material: "+"material"+"\n"
-                +"Comment: "+"comment"+"\n"
-                +"Grading Instructions: "+"instructions"+"\n"
+        try{
+        Test currentTest = testService.returnThisTest();
+        String mQid = currentTest.getShortAnswerQ();
+        
+        String[] arrStr = mQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
+        saList.getItems().clear();
+        
+        List<ShortAnswerQuestion> eQuestions = shortAnswerQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
 
-        );
+                ShortAnswerQuestion eq = shortAnswerQService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                String questionCorrect = eq.getCorrectAnswer();
+                
+                //System.out.println("A:    " + questionAnswer);
+                saListArray.addAll("Question: "+questionContent+"\n"
+                +"Answer: "+questionCorrect+"\n"
+                
+                );
+            }
+        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
         saList.setItems(saListArray);
+        
+        }
+        catch(NullPointerException e)
+        {
+            
+        }
     }
     public void addTFText()
     {
-        tfListArray.add("Question: "+"question"+"\n"
-                +"Choice 1: "+"choice"+"\n"
-                +"Choice 2: "+"choice"+"\n"
-                +"Choice 3: "+"choice"+"\n"
-                +"Choice 4: "+"choice"+"\n"
-                +"Answer: "+"answer"+"\n"
-                +"Sections: "+"sections"+"\n"
-                +"Material: "+"material"+"\n"
-                +"Comment: "+"comment"+"\n"
-                +"Grading Instructions: "+"instructions"+"\n"
+        try{
+        Test currentTest = testService.returnThisTest();
+        String mQid = currentTest.getTrueFalseQ();
+        
+        String[] arrStr = mQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
+        tfList.getItems().clear();
+        
+        List<TrueFalseQuestion> eQuestions = trueFalseQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
 
-        );
+                TrueFalseQuestion eq = trueFalseQService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                String questionCorrect = eq.getCorrectAnswer();
+                
+                //System.out.println("A:    " + questionAnswer);
+                tfListArray.addAll("Question: "+questionContent+"\n"
+                +"Answer: "+questionCorrect+"\n"
+                
+                );
+            }
+        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
         tfList.setItems(tfListArray);
+        
+        }
+        catch(NullPointerException e)
+        {
+            
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.Test;
@@ -30,6 +31,7 @@ public class MatchingQController implements ControlDialogBoxes {
     private final UserService userService;
     private final TestService testService;
     private final MatchingQService matchingQService;
+    private final TestMakerController testMakerController;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -62,11 +64,12 @@ public class MatchingQController implements ControlDialogBoxes {
     public String path="src\\main\\resources\\";
     private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
-    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, FxWeaver fxWeaver) {
+    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, FxWeaver fxWeaver,TestMakerController testMakerController) {
         this.userService = userService;
         this.testService = testService;
         this.matchingQService = matchingQService;
         this.fxWeaver = fxWeaver;
+        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -94,7 +97,8 @@ public class MatchingQController implements ControlDialogBoxes {
             for (MatchingQuestion question : data){
                 createQuestion(question);
             }
-
+            testMakerController.refresh();
+            table.refresh();
             stage.close();
             //add(path+"test.html");
         });

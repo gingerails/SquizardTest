@@ -41,6 +41,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
     private final QuestionHTMLHelper questionHTMLHelper;
+    private final TestMakerController testMakerController;
 
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -70,12 +71,13 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     public String path="src\\main\\resources\\generatedTests\\";
 
-    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {
+    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver,TestMakerController testMakerController) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
         this.questionHTMLHelper = questionHTMLHelper;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
+        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -105,6 +107,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             Test currentTest = getCurrentTestSectionInfo();
             String testName = currentTest.getTestName();
             addHTML(essayQuestion, path + testName);
+            testMakerController.refresh();
             stage.close();
         } else{
             error.setText("Error: Must have question and answer!");

@@ -1,6 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
@@ -29,6 +30,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private final TestService testService;
     private final MultiChoiceQService multiChoiceQService;
     private final QuestionHTMLHelper questionHTMLHelper;
+    private final TestMakerController testMakerController;
     private Stage stage;
 
     @FXML
@@ -63,12 +65,13 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private Label error;
 
     public String path="src\\main\\resources\\generatedTests\\";
-    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, QuestionHTMLHelper questionHTMLHelper) {
+    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, QuestionHTMLHelper questionHTMLHelper,TestMakerController testMakerController) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.multiChoiceQService = multiChoiceQService;
         this.questionHTMLHelper = questionHTMLHelper;
+        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -120,6 +123,9 @@ public class MultiChoiceQController implements ControlDialogBoxes {
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
            addHTML(multiChoiceQuestion, path+testFile);
+           //test
+           //TestMakerController i = new TestMakerController().refresh();
+           testMakerController.refresh();
            stage.close();
        }
     }
