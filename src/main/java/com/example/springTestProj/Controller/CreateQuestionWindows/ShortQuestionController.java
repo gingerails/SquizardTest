@@ -1,6 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
@@ -27,6 +28,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final QuestionHTMLHelper questionHTMLHelper;
+    private final TestMakerController testMakerController;
     private final TestService testService;
     private Stage stage;
 
@@ -58,11 +60,12 @@ public class ShortQuestionController implements ControlDialogBoxes {
     public String path = "src\\main\\resources\\generatedTests\\";
 
 
-    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestService testService) {
+    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.questionHTMLHelper = questionHTMLHelper;
+        this.testMakerController = testMakerController;
         this.testService = testService;
     }
 
@@ -100,6 +103,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
             addHTML(path+testFile);
+            testMakerController.refresh();
             stage.close();
         }
     }

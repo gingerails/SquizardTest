@@ -1,8 +1,8 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
-import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.TestService;
@@ -29,6 +29,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final TestService testService;
     private final MultiChoiceQService multiChoiceQService;
+    private final TestMakerController testMakerController;
     private final QuestionHTMLHelper questionHTMLHelper;
     private Stage stage;
 
@@ -64,11 +65,12 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private Label error;
 
     public String path="src\\main\\resources\\generatedTests\\";
-    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, QuestionHTMLHelper questionHTMLHelper) {
+    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, TestMakerController testMakerController, QuestionHTMLHelper questionHTMLHelper) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.multiChoiceQService = multiChoiceQService;
+        this.testMakerController = testMakerController;
         this.questionHTMLHelper = questionHTMLHelper;
     }
 
@@ -125,6 +127,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
            addHTML(path+testFile);
+           testMakerController.refresh();
            stage.close();
        }
     }

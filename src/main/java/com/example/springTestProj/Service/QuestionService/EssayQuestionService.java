@@ -29,9 +29,6 @@ public class EssayQuestionService {
     public List<EssayQuestion> readQuestions(){
         return essayQRepository.findAll();
     }
-    public EssayQuestion findQuestionByID(String id){
-        return essayQRepository.findByQuestionID(id);
-    }
 
     public EssayQuestion findQuestionByID(String id){
         return essayQRepository.findByQuestionID(id);

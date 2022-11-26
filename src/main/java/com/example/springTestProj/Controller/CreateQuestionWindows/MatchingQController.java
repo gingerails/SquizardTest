@@ -1,6 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
+import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MatchingQService;
@@ -33,6 +34,7 @@ public class MatchingQController implements ControlDialogBoxes {
     private final TestService testService;
     private final MatchingQService matchingQService;
     private final QuestionHTMLHelper questionHTMLHelper;
+    private final TestMakerController testMakerController;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -65,11 +67,12 @@ public class MatchingQController implements ControlDialogBoxes {
     public String path="src\\main\\resources\\generatedTests\\";
     private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
-    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {
+    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, FxWeaver fxWeaver) {
         this.userService = userService;
         this.testService = testService;
         this.matchingQService = matchingQService;
         this.questionHTMLHelper = questionHTMLHelper;
+        this.testMakerController = testMakerController;
         this.fxWeaver = fxWeaver;
     }
 
@@ -104,6 +107,7 @@ public class MatchingQController implements ControlDialogBoxes {
             String testFile = currentTest.getTestName();
             try {
                 addHTML(path+testFile);
+       //         testMakerController.refresh();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

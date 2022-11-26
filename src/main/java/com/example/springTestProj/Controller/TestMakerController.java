@@ -83,11 +83,10 @@ public class TestMakerController implements ControlSwitchScreen {
      private final TrueFalseQService trueFalseQService;
     private final FxWeaver fxWeaver;
     private Stage stage;
-
-    @FXML
-    private WebView viewer;
     public static WebEngine engine;
     public static int refresh=0;
+    @FXML
+    private WebView viewer;
     @FXML
     private VBox mainVbox;
     @FXML
@@ -97,63 +96,42 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private Button publish;
     @FXML
-    private TextField mcP;
-    @FXML
-    private TextField mP;
-    @FXML
-    private TextField tfP;
-    @FXML
-    private TextField eP;
-    @FXML
-    private TextField saP;
-    @FXML
-    private TextField fibP;
+    private TextField mcP, mP, tfP, eP, saP, fibP;
     @FXML
     private ComboBox questionType;
     @FXML 
     private MenuBar menuBar;
+    @FXML
+    private Label error;
 
     @FXML
     private ListView<String> mcList;
-
     private static final ObservableList<String> mcListArray = FXCollections
             .observableArrayList();
-
     @FXML
     private ListView<String> fibList;
-
     private static final ObservableList<String> fibListArray = FXCollections
             .observableArrayList();
-
     @FXML
     private ListView<String> tfList;
-
     private static final ObservableList<String> tfListArray = FXCollections
             .observableArrayList();
-
     @FXML
     private ListView<String> eList;
-
     private static final ObservableList<String> eListArray = FXCollections
             .observableArrayList();
-
      @FXML
     private ListView<String> saList;
-
     private static final ObservableList<String> saListArray = FXCollections
             .observableArrayList();
-
      @FXML
     private ListView<String> mList;
-
     private static final ObservableList<String> mListArray = FXCollections
             .observableArrayList();
-
     public String path = "src\\main\\resources\\generatedTests\\";
 
 
 
-    
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver,MultiChoiceQService multiChoiceQService,MatchingQService matchingQService,EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService,TrueFalseQService trueFalseQService) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
@@ -165,29 +143,44 @@ public class TestMakerController implements ControlSwitchScreen {
         this.trueFalseQService=trueFalseQService;
 
     }
+
     public void refresh()
     {
 
-        addMCText();
-        addTFText();
-        addSAText();
-        addEText();
-        addFIBText();
-        addMText();
+        engine.reload(); //  reload html
 
+        // This checks to see if the current test even has
+        // questions of those types.
+        // Avoids unnecessary code execution
+        Test thisTest = testService.returnThisTest();
+        if(thisTest.getEssayQ() != null){
+            addEText();
+        }
+        if(thisTest.getShortAnswerQ() != null){
+            addSAText();
+        }
+        if(thisTest.getTrueFalseQ() != null){
+            addTFText();
+        }
+        if(thisTest.getMatchingQ() != null){
+            addMText();
+        }
+        if(thisTest.getMultiChoiceQ() != null){
+            addMCText();
+        }
+//        if(thisTest.getFIBQ() != null){
+//            addFIBText();
+//        }
     }
+
     @FXML
     public void initialize() throws IOException {
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
         File f = QuestionHTMLHelper.createNewFile(testName);
 
-      //  File f = new File(path + testName);
-       // createTest(path + testName, testName);
-        //webviewer
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());
-
 
         addTFText();
         addSAText();
@@ -202,16 +195,15 @@ public class TestMakerController implements ControlSwitchScreen {
                 "True/False",
                 "Short Answer"
         );
+
         this.add.setOnAction(actionEvent -> {
             try {
-                //System.out.print("essay Question");
                 pickQuestion();
-
             } catch (IOException ex) {
                 Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         });
+
         this.publish.setOnAction(actionEvent -> {
             String getmc=mcP.getText();
             String getm=mP.getText();
@@ -233,90 +225,42 @@ public class TestMakerController implements ControlSwitchScreen {
 
         });
          this.addMC.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                addMCScene();
-
-
-        });
+              addMCScene();
+            });
          this.editMC.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                editMCScene();
-
-
-        });
-          this.editM.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                editMScene();
-
-
-        });
-            this.editFIB.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                editFIBScene();
-
-
-        });
-            this.editTF.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                editTFScene();
-
-
-        });
+              editMCScene();
+            });
+         this.editM.setOnAction(actionEvent -> {
+             editMScene();
+            });
+        this.editFIB.setOnAction(actionEvent -> {
+            editFIBScene();
+             });
+        this.editTF.setOnAction(actionEvent -> {
+            editTFScene();
+             });
          this.editE.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                editEScene();
-
-
-        });
+              editEScene();
+             });
          this.editSA.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                editSAScene();
-
-
-        });
+              editSAScene();
+            });
          this.addM.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                addMScene();
-
-
-        });
-
+              addMScene();
+             });
          this.addTF.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                addTFScene();
-
-
-        });
+              addTFScene();
+            });
           this.addSA.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                addSAScene();
-
-
-        });
+              addSAScene();
+            });
           this.addE.setOnAction(actionEvent -> {
-
-                //System.out.print("essay Question");
-                addEScene();
-
-
-        });
+              addEScene();
+            });
           this.addFIB.setOnAction(actionEvent -> {
 
-                //System.out.print("essay Question");
-                addFIBScene();
-
-
-        });
+              addFIBScene();
+            });
         this.publish.setOnAction(actionEvent -> {
 
            // publish(path + testName);
@@ -380,11 +324,7 @@ public class TestMakerController implements ControlSwitchScreen {
                     = fxWeaver.load(questionOrderingController.class);
             QuestionOrderingControllerAndView.getController().show(getCurrentStage());
     }
-//    public void refresh()
-//    {
-//        engine.reload();
-//    }
-    
+
     public void pickQuestion() throws IOException {
         String qType = (String) questionType.getValue();
         System.out.println(qType);
@@ -394,7 +334,6 @@ public class TestMakerController implements ControlSwitchScreen {
             FxControllerAndView<EssayQuestionController, VBox> essayQuestionControllerAndView
                     = fxWeaver.load(EssayQuestionController.class);
             essayQuestionControllerAndView.getController().show(getCurrentStage());
-
         }
         if ("Multiple Choice".equals(qType) == true) {
             System.out.println("Multiple Choice");
@@ -433,8 +372,6 @@ public class TestMakerController implements ControlSwitchScreen {
      */
     public void addMCText()
     {
-
-
         try{
         Test currentTest = testService.returnThisTest();
         String mcQid = currentTest.getMultiChoiceQ();
@@ -512,9 +449,6 @@ public class TestMakerController implements ControlSwitchScreen {
     }
     public void addMText()
     {
-
-
-
         try{
         Test currentTest = testService.returnThisTest();
         String mQid = currentTest.getMatchingQ();
@@ -526,8 +460,6 @@ public class TestMakerController implements ControlSwitchScreen {
         mList.getItems().clear();
 
         List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
-
-
             for (String id : arrStrM) {
 
                 MatchingQuestion eq = matchingQService.findQuestionByID(id);
@@ -540,11 +472,9 @@ public class TestMakerController implements ControlSwitchScreen {
 
                 );
             }
-
         //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
 
         mList.setItems(mListArray);
-
         }
         catch(NullPointerException e)
         {
@@ -553,9 +483,6 @@ public class TestMakerController implements ControlSwitchScreen {
     }
     public void addEText()
     {
-
-
-
         try{
         Test currentTest = testService.returnThisTest();
         String mQid = currentTest.getEssayQ();

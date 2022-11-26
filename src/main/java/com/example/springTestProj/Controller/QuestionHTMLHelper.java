@@ -213,7 +213,7 @@ public class QuestionHTMLHelper {
 
         int mcCount = 0;
         String addHTML = "<h1> Multiple Choice: </h1>";
-        String multiChoiceQs = thisTest.getMultiChoiceQ().replace("[","").replace("]","");
+        String multiChoiceQs = thisTest.getMultiChoiceQ();
         String[] multiChoiceArrStr = multiChoiceQs.split(",");
         String[] trueFalseQuestions = Arrays.copyOfRange(multiChoiceArrStr, 1, multiChoiceArrStr.length);
 
@@ -223,7 +223,7 @@ public class QuestionHTMLHelper {
             MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.findQuestionByID(id);
             String questionContent = multiChoiceQuestion.getQuestionContent();
             String correctAnswer = multiChoiceQuestion.getCorrectAnswer();
-            String falseAnswersList = multiChoiceQuestion.getFalseAnswer();
+            String falseAnswersList = multiChoiceQuestion.getFalseAnswer().replace("[","").replace("]","");
             String[] falseAnswers = falseAnswersList.split(",");
             for (String answ: falseAnswers) {
                 possibleAnswers.add(answ);

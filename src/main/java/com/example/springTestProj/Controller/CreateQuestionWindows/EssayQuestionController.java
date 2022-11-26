@@ -12,10 +12,9 @@ import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,6 +40,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
     private final QuestionHTMLHelper questionHTMLHelper;
+    private final TestMakerController testMakerController;
 
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -70,10 +70,11 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     public String path="src\\main\\resources\\generatedTests\\";
 
-    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {
+    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, FxWeaver fxWeaver) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
         this.questionHTMLHelper = questionHTMLHelper;
+        this.testMakerController = testMakerController;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
@@ -109,6 +110,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             Test currentTest = getCurrentTestSectionInfo();
             String testName = currentTest.getTestName();
             addHTML(path + testName);
+            testMakerController.refresh();
             stage.close();
         } else{
             error.setText("Error: Must have question and answer!");
