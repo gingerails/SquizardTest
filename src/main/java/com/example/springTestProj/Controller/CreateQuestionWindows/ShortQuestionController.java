@@ -79,7 +79,6 @@ public class ShortQuestionController implements ControlDialogBoxes {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            stage.close();
         });
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
@@ -100,7 +99,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(shortAnswerQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
-            addHTML(shortAnswerQuestion, path+testFile);
+            addHTML(path+testFile);
             stage.close();
         }
     }
@@ -129,7 +128,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     }
 
-    public void addHTML(ShortAnswerQuestion shortAnswerQuestion, String file) throws IOException {
+    public void addHTML(String file) throws IOException {
         //questionHTMLHelper.addShortAnswerHTML(shortAnswerQuestion, file);
         questionHTMLHelper.updateSections(file);
     }

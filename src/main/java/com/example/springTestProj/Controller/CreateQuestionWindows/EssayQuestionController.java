@@ -85,7 +85,11 @@ public class EssayQuestionController implements ControlDialogBoxes {
         stage.setScene(new Scene(essayQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
-            createQuestion();
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         this.answerGraphicButton.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
@@ -96,7 +100,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     }
 
-    public void createQuestion(){
+    public void createQuestion() throws IOException {
         if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
             String question = questionTextField.getText();
             String answer = answerTextField.getText();
@@ -104,7 +108,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(essayQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testName = currentTest.getTestName();
-            addHTML(essayQuestion, path + testName);
+            addHTML(path + testName);
             stage.close();
         } else{
             error.setText("Error: Must have question and answer!");
@@ -159,7 +163,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
 
-  public void addHTML(EssayQuestion essayQuestion, String file) {
-    questionHTMLHelper.addEssayHTML(essayQuestion, file);
+  public void addHTML( String file) throws IOException {
+    questionHTMLHelper.updateSections(file);
   }
 }

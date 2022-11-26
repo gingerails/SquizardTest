@@ -1,7 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
-import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.TestService;
@@ -22,6 +22,8 @@ import org.springframework.stereotype.Component;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 
 @Component
 @FxmlView("/matchingQ.fxml")
@@ -30,6 +32,7 @@ public class MatchingQController implements ControlDialogBoxes {
     private final UserService userService;
     private final TestService testService;
     private final MatchingQService matchingQService;
+    private final QuestionHTMLHelper questionHTMLHelper;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -62,10 +65,11 @@ public class MatchingQController implements ControlDialogBoxes {
     public String path="src\\main\\resources\\";
     private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
-    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, FxWeaver fxWeaver) {
+    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {
         this.userService = userService;
         this.testService = testService;
         this.matchingQService = matchingQService;
+        this.questionHTMLHelper = questionHTMLHelper;
         this.fxWeaver = fxWeaver;
     }
 
@@ -93,6 +97,14 @@ public class MatchingQController implements ControlDialogBoxes {
 
             for (MatchingQuestion question : data){
                 createQuestion(question);
+            }
+            // update HTML
+            Test currentTest = getCurrentTestSectionInfo();
+            String testFile = currentTest.getTestName();
+            try {
+                addHTML(path+testFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 
             stage.close();
@@ -146,6 +158,10 @@ public class MatchingQController implements ControlDialogBoxes {
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
+    }
+
+    public void addHTML(String file) throws IOException {
+        questionHTMLHelper.updateSections(file);
     }
     
 

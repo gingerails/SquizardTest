@@ -2,9 +2,8 @@ package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Entities.QuestionEntities.*;
 import com.example.springTestProj.Entities.Test;
-import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
+import com.example.springTestProj.Service.QuestionService.*;
 import com.example.springTestProj.Service.TestService;
-import javafx.scene.web.WebEngine;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -17,13 +16,21 @@ public class QuestionHTMLHelper {
 
     private final TestService testService;
     private final ShortAnswerQService shortAnswerQService;
+    private final EssayQuestionService essayQuestionService;
+    private final MultiChoiceQService multiChoiceQService;
+    private final MatchingQService matchingQService;
+    private final TrueFalseQService trueFalseQService;
     private final TestMakerController testMakerController;
 
     public static String path = "src\\main\\resources\\generatedTests\\";
 
-    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, TestMakerController testMakerController) {
+    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, TestMakerController testMakerController) {
         this.testService = testService;
         this.shortAnswerQService = shortAnswerQService;
+        this.essayQuestionService = essayQuestionService;
+        this.multiChoiceQService = multiChoiceQService;
+        this.matchingQService = matchingQService;
+        this.trueFalseQService = trueFalseQService;
         this.testMakerController = testMakerController;
     }
 
@@ -44,20 +51,47 @@ public class QuestionHTMLHelper {
     }
 
 
-    public void getShortAnswerHTML(String file, String addHTML)  throws IOException{
+    /**
+     * I know this is huge and should be made reusable. Very nasty code :(
+     * @param thisTest
+     * @param file
+     * @throws IOException
+     */
+    public void updateShortAnswerHTML(Test thisTest, String file)  throws IOException{
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        int shortAnsCount = 0;
+        String addHTML = "<h1>Short Answer: </h1>";
+        String shortAQIDs = thisTest.getShortAnswerQ();
+        String[] shortAStr = shortAQIDs.split(",");
+        String[] shortAnswers = Arrays.copyOfRange(shortAStr, 1, shortAStr.length);
+
+        for(String id : shortAnswers){
+            shortAnsCount++;
+            ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.findQuestionByID(id);
+            String questionContent = shortAnswerQuestion.getQuestionContent();
+            String correctAnswer = shortAnswerQuestion.getCorrectAnswer();
+            addHTML = addHTML + ("<p><strong>" + shortAnsCount + ". "
+                    +  questionContent + "</strong></p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n");
+        }
 
         String htmlString = Files.readString(newFile.toPath());
         String shortAnswerSect = "<section id=\"ShortAnswer\">";
         String endMCSect = "</section>";
         int sectLength = shortAnswerSect.length();
-        int startSAIndex = htmlString.indexOf(shortAnswerSect);
-        int endSAIndex = htmlString.indexOf(endMCSect);
-        String shortAnswerHTML = htmlString.substring(startSAIndex + sectLength , endSAIndex);  // inbetween section tags. need to be copied and appended to
+        getReplacement(newFile, addHTML, htmlString, shortAnswerSect, endMCSect, sectLength);
+    }
 
-        htmlString = htmlString.replace(shortAnswerHTML, addHTML);
+    public void getReplacement(File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength) throws FileNotFoundException {
+        int startIndex = htmlString.indexOf(startSection);
+        int endIndex = htmlString.indexOf(endMCSect, startIndex);
+        String replaceHTML = htmlString.substring(startIndex + sectLength , endIndex);  // inbetween section tags. need to be copied and appended to
+
+        htmlString = htmlString.replace(replaceHTML, addHTML);
         PrintWriter printWriter = new PrintWriter(newFile);
         printWriter.println(htmlString);
         printWriter.close();
@@ -65,31 +99,49 @@ public class QuestionHTMLHelper {
         testMakerController.refresh();
     }
 
-    /**
-     * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
-     */
-    public void updateSections(String file) throws IOException {
-        Test thisTest = testService.returnThisTest();
-        String shortAQIDs = thisTest.getShortAnswerQ();
-        String[] shortAStr = shortAQIDs.split(",");
-        String[] shortAnswers = Arrays.copyOfRange(shortAStr, 1, shortAStr.length);
+    public void updateEssayHTML(Test thisTest, String file)  throws IOException{
+        File templateFile = new File(file);
+        File newFile = new File(file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
-        int shortAnsCount = 0;
-        String shortAnsQuestionsHTML = "";
-        for(String id : shortAnswers){
+        int essayCount = 0;
+        String addHTML = "<h1>Essay: </h1>";
+        String essayQIDs = thisTest.getEssayQ();
+        String[] essayArrStr = essayQIDs.split(",");
+        String[] essayQuestions = Arrays.copyOfRange(essayArrStr, 1, essayArrStr.length);
 
-            shortAnsCount++;
-            ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.findQuestionByID(id);
-            String questionContent = shortAnswerQuestion.getQuestionContent();
-            String correctAnswer = shortAnswerQuestion.getCorrectAnswer();
-            shortAnsQuestionsHTML = shortAnsQuestionsHTML + (shortAnsCount + "." + "\n"
-                    + "<p><strong>Short Answer: " + questionContent + "</strong></p>" + "\n"
+        for(String id : essayQuestions){
+            essayCount++;
+            EssayQuestion essayQuestion = essayQuestionService.findQuestionByID(id);
+            String questionContent = essayQuestion.getQuestionContent();
+            String correctAnswer = essayQuestion.getCorrectAnswer();
+            addHTML = addHTML + ("<p><strong>" + essayCount + ". "
+                    +  questionContent + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n");
         }
-        getShortAnswerHTML(file, shortAnsQuestionsHTML);
+
+        String htmlString = Files.readString(newFile.toPath());
+        String EssaySect = "<section id=\"Essay\">";
+        String endEssaySect = "</section>";
+        int sectLength = EssaySect.length();
+        getReplacement(newFile, addHTML, htmlString, EssaySect, endEssaySect, sectLength);
+    }
+
+    /**
+     * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
+     */
+    public void updateSections(String file) throws IOException {
+        Test thisTest = testService.returnThisTest();
+        if(thisTest.getEssayQ() != null){
+            updateEssayHTML(thisTest, file);
+
+        }
+        if(thisTest.getShortAnswerQ() != null){
+            updateShortAnswerHTML(thisTest, file);
+        }
 
     }
 

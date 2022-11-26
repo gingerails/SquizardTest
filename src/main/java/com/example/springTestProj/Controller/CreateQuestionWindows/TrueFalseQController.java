@@ -76,7 +76,11 @@ public class TrueFalseQController implements ControlDialogBoxes {
         stage.setScene(new Scene(tfQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
-            createQuestion();
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
@@ -92,7 +96,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     }
 
 
-    public void createQuestion() {
+    public void createQuestion() throws IOException {
 
         System.out.println("Add PRSSEDDDD");
        if (isFalseCheckBox.isSelected() && !questionContent.getText().isBlank()){
@@ -108,7 +112,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(trueFalseQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(trueFalseQuestion, path+testFile);
+           addHTML(path+testFile);
            stage.close();
        }
        else{
@@ -153,8 +157,8 @@ public class TrueFalseQController implements ControlDialogBoxes {
     }
 
 
-    public void addHTML(TrueFalseQuestion trueFalseQuestion, String file) {
-        questionHTMLHelper.addTrueFalseHTML(trueFalseQuestion, file);
+    public void addHTML(String file) throws IOException {
+        questionHTMLHelper.updateSections(file);
     }
 
 }
