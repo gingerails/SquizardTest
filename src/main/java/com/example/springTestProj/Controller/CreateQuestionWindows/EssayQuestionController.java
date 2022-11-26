@@ -41,7 +41,6 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
     private final QuestionHTMLHelper questionHTMLHelper;
-    private final TestMakerController testMakerController;
 
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -71,13 +70,12 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     public String path="src\\main\\resources\\generatedTests\\";
 
-    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver,TestMakerController testMakerController) {
+    public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
         this.questionHTMLHelper = questionHTMLHelper;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -87,7 +85,11 @@ public class EssayQuestionController implements ControlDialogBoxes {
         stage.setScene(new Scene(essayQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
-            createQuestion();
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         this.answerGraphicButton.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
@@ -98,7 +100,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     }
 
-    public void createQuestion(){
+    public void createQuestion() throws IOException {
         if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
             String question = questionTextField.getText();
             String answer = answerTextField.getText();
@@ -106,8 +108,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(essayQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testName = currentTest.getTestName();
-            addHTML(essayQuestion, path + testName);
-            testMakerController.refresh();
+            addHTML(path + testName);
             stage.close();
         } else{
             error.setText("Error: Must have question and answer!");
@@ -162,7 +163,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
 
-  public void addHTML(EssayQuestion essayQuestion, String file) {
-    questionHTMLHelper.addEssayHTML(essayQuestion, file);
+  public void addHTML( String file) throws IOException {
+    questionHTMLHelper.updateSections(file);
   }
 }

@@ -31,7 +31,6 @@ public class TrueFalseQController implements ControlDialogBoxes {
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final TrueFalseQService trueFalseQService;
-    private final TestMakerController testMakerController;
     private final QuestionHTMLHelper questionHTMLHelper;
     private final TestService testService;
     private Stage stage;
@@ -62,13 +61,12 @@ public class TrueFalseQController implements ControlDialogBoxes {
     private Label error;
 
     public String path="src\\main\\resources\\generatedTests\\";
-    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, QuestionHTMLHelper questionHTMLHelper, TestService testService,TestMakerController testMakerController) {
+    public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, QuestionHTMLHelper questionHTMLHelper, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.trueFalseQService = trueFalseQService;
         this.questionHTMLHelper = questionHTMLHelper;
         this.testService = testService;
-        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -78,7 +76,11 @@ public class TrueFalseQController implements ControlDialogBoxes {
         stage.setScene(new Scene(tfQuestionBox));
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
-            createQuestion();
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
@@ -94,7 +96,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     }
 
 
-    public void createQuestion() {
+    public void createQuestion() throws IOException {
 
         System.out.println("Add PRSSEDDDD");
        if (isFalseCheckBox.isSelected() && !questionContent.getText().isBlank()){
@@ -102,7 +104,9 @@ public class TrueFalseQController implements ControlDialogBoxes {
            String correctAnswer = "False";
            TrueFalseQuestion trueFalseQuestion = trueFalseQService.createTFQuestion(question, correctAnswer);
            checkFieldsAndAddQuestion(trueFalseQuestion);
-           testMakerController.refresh();
+           Test currentTest = getCurrentTestSectionInfo();
+           String testFile = currentTest.getTestName();
+           addHTML(path+testFile);
            stage.close();
        } else if (isTrueCheckBox.isSelected()&& !questionContent.getText().isBlank()) {
            String question = questionContent.getText();
@@ -111,8 +115,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(trueFalseQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(trueFalseQuestion, path+testFile);
-           testMakerController.refresh();
+           addHTML(path+testFile);
            stage.close();
        }
        else{
@@ -157,8 +160,8 @@ public class TrueFalseQController implements ControlDialogBoxes {
     }
 
 
-    public void addHTML(TrueFalseQuestion trueFalseQuestion, String file) {
-        questionHTMLHelper.addTrueFalseHTML(trueFalseQuestion, file);
+    public void addHTML(String file) throws IOException {
+        questionHTMLHelper.updateSections(file);
     }
 
 }

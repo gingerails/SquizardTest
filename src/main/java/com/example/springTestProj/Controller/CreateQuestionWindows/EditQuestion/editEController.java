@@ -122,25 +122,25 @@ public class editEController implements ControlDialogBoxes {
 
     private void initializeListeners() {
     // drag from left to right
-    list.setOnDragDetected(new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        if (list.getSelectionModel().getSelectedItem() == null) {
-          return;
-        }
+        list.setOnDragDetected(new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            if (list.getSelectionModel().getSelectedItem() == null) {
+              return;
+            }
 
-        Dragboard dragBoard = list.startDragAndDrop(TransferMode.MOVE);
-        ClipboardContent content = new ClipboardContent();
-        content.putString(list.getSelectionModel().getSelectedItem());
-        dragBoard.setContent(content);
-      }
-    });
+            Dragboard dragBoard = list.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(list.getSelectionModel().getSelectedItem());
+            dragBoard.setContent(content);
+          }
+        });
 
-    list2.setOnDragOver(new EventHandler<DragEvent>() {
-      @Override
-      public void handle(DragEvent dragEvent) {
-        dragEvent.acceptTransferModes(TransferMode.MOVE);
-      }
+        list2.setOnDragOver(new EventHandler<DragEvent>() {
+          @Override
+          public void handle(DragEvent dragEvent) {
+            dragEvent.acceptTransferModes(TransferMode.MOVE);
+          }
     });
 
     list2.setOnDragDropped(new EventHandler<DragEvent>() {

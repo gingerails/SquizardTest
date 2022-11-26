@@ -1,6 +1,5 @@
 package com.example.springTestProj.Service.QuestionService;
 
-import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Repository.QuestionRepositories.ShortAnswerQRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,8 @@ public class ShortAnswerQService {
     public List<ShortAnswerQuestion> readQuestions(){
         return shortAnswerQRepository.findAll();
     }
-      public ShortAnswerQuestion findQuestionByID(String id){
+
+    public ShortAnswerQuestion findQuestionByID(String id){
         return shortAnswerQRepository.findByQuestionID(id);
     }
 

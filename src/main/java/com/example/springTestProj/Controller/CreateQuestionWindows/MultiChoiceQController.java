@@ -1,7 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
-import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
@@ -19,6 +18,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @Component
@@ -30,7 +30,6 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private final TestService testService;
     private final MultiChoiceQService multiChoiceQService;
     private final QuestionHTMLHelper questionHTMLHelper;
-    private final TestMakerController testMakerController;
     private Stage stage;
 
     @FXML
@@ -65,13 +64,12 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private Label error;
 
     public String path="src\\main\\resources\\generatedTests\\";
-    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, QuestionHTMLHelper questionHTMLHelper,TestMakerController testMakerController) {
+    public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, QuestionHTMLHelper questionHTMLHelper) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.multiChoiceQService = multiChoiceQService;
         this.questionHTMLHelper = questionHTMLHelper;
-        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -82,7 +80,11 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             //stage.close();
-            createQuestion();
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         
         this.addAnswerGraphic.setOnAction(actionEvent -> {
@@ -101,7 +103,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
 
 
-    public void createQuestion() {
+    public void createQuestion() throws IOException {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
        if (choice1Field.getText().isBlank() ||
@@ -122,10 +124,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(multiChoiceQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(multiChoiceQuestion, path+testFile);
-           //test
-           //TestMakerController i = new TestMakerController().refresh();
-           testMakerController.refresh();
+           addHTML(path+testFile);
            stage.close();
        }
     }
@@ -164,7 +163,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
         return currentTest;
     }
-    public void addHTML(MultiChoiceQuestion multiChoiceQuestion, String file) {
-        questionHTMLHelper.addMultiChoiceHTML(multiChoiceQuestion, file);
+    public void addHTML(String file) throws IOException {
+        questionHTMLHelper.updateSections(file);
     }
 }

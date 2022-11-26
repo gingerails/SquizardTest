@@ -1,8 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
-import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.TestService;
@@ -23,6 +22,8 @@ import org.springframework.stereotype.Component;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 
 @Component
 @FxmlView("/matchingQ.fxml")
@@ -31,7 +32,7 @@ public class MatchingQController implements ControlDialogBoxes {
     private final UserService userService;
     private final TestService testService;
     private final MatchingQService matchingQService;
-    private final TestMakerController testMakerController;
+    private final QuestionHTMLHelper questionHTMLHelper;
     private final FxWeaver fxWeaver;
     private Stage stage;
 
@@ -61,15 +62,15 @@ public class MatchingQController implements ControlDialogBoxes {
     @FXML private TableColumn<MatchingQuestion, String> Term;
     @FXML private TableColumn<MatchingQuestion, String> correctAnswer;
 
-    public String path="src\\main\\resources\\";
+    public String path="src\\main\\resources\\generatedTests\\";
     private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
-    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, FxWeaver fxWeaver,TestMakerController testMakerController) {
+    public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {
         this.userService = userService;
         this.testService = testService;
         this.matchingQService = matchingQService;
+        this.questionHTMLHelper = questionHTMLHelper;
         this.fxWeaver = fxWeaver;
-        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -80,7 +81,8 @@ public class MatchingQController implements ControlDialogBoxes {
 
         Term.setCellValueFactory(new PropertyValueFactory<>("Term"));
         correctAnswer.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
-      
+        data.clear();
+        table.refresh();
         this.addRow.setOnAction(actionEvent -> {
             if (termF.getText().isEmpty() || answerF.getText().isEmpty()) {
                 error.setText("ERROR: Term and/or Answer is blank");
@@ -97,10 +99,16 @@ public class MatchingQController implements ControlDialogBoxes {
             for (MatchingQuestion question : data){
                 createQuestion(question);
             }
-            testMakerController.refresh();
-            table.refresh();
+            // update HTML
+            Test currentTest = getCurrentTestSectionInfo();
+            String testFile = currentTest.getTestName();
+            try {
+                addHTML(path+testFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             stage.close();
-            //add(path+"test.html");
         });
     }
 
@@ -151,6 +159,10 @@ public class MatchingQController implements ControlDialogBoxes {
         stage.show();
         this.stage.centerOnScreen();
     }
-    
+
+    public void addHTML(String file) throws IOException {
+        questionHTMLHelper.updateSections(file);
+    }
+
 
 }

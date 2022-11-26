@@ -1,7 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
-import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
@@ -18,6 +17,8 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 @FxmlView("/shortAnswerQ.fxml")
 public class ShortQuestionController implements ControlDialogBoxes {
@@ -26,7 +27,6 @@ public class ShortQuestionController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final QuestionHTMLHelper questionHTMLHelper;
-    private final TestMakerController testMakerController;
     private final TestService testService;
     private Stage stage;
 
@@ -58,13 +58,12 @@ public class ShortQuestionController implements ControlDialogBoxes {
     public String path = "src\\main\\resources\\generatedTests\\";
 
 
-    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestService testService,TestMakerController testMakerController) {
+    public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.questionHTMLHelper = questionHTMLHelper;
         this.testService = testService;
-        this.testMakerController = testMakerController;
     }
 
     @FXML
@@ -75,8 +74,11 @@ public class ShortQuestionController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             //stage.close();
-            createQuestion();
-            stage.close();
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
@@ -84,7 +86,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
         });
     }
 
-    public void createQuestion() {
+    public void createQuestion() throws IOException {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
         if (answerField.getText().isBlank() || questionContent.getText().isBlank()) {
@@ -97,10 +99,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(shortAnswerQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
-            addHTML(shortAnswerQuestion, path+testFile);
-            testMakerController.refresh();
+            addHTML(path+testFile);
             stage.close();
-            
         }
     }
 
@@ -128,8 +128,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     }
 
-    public void addHTML(ShortAnswerQuestion shortAnswerQuestion, String file) {
-        questionHTMLHelper.addShortAnswerHTML(shortAnswerQuestion, file);
+    public void addHTML(String file) throws IOException {
+        questionHTMLHelper.updateSections(file);
     }
 
     /**

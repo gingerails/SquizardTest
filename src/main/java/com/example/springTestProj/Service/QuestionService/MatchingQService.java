@@ -34,4 +34,8 @@ public class MatchingQService {
         return matchingQRepository.findByQuestionID(id);
     }
 
+    public MatchingQuestion findQuestionByID(String id){
+        return matchingQRepository.findByQuestionID(id);
+    }
+
 }
