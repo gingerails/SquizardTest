@@ -56,8 +56,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -102,7 +104,8 @@ public class TestMakerController implements ControlSwitchScreen {
     private Button editE;
     @FXML
     private Button editTF;
-    
+    @FXML
+    private Label error;
     @FXML
     private Button addTF;
     @FXML
@@ -115,6 +118,18 @@ public class TestMakerController implements ControlSwitchScreen {
     private Button addSA;
     @FXML
     private Button publish;
+    @FXML
+    private TextField mcP;
+    @FXML
+    private TextField mP;
+    @FXML
+    private TextField tfP;
+    @FXML
+    private TextField eP;
+    @FXML
+    private TextField saP;
+    @FXML
+    private TextField fibP;
     @FXML
     private ComboBox questionType;
     @FXML 
@@ -216,6 +231,26 @@ public class TestMakerController implements ControlSwitchScreen {
             } catch (IOException ex) {
                 Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+        });
+        this.publish.setOnAction(actionEvent -> {
+            String getmc=mcP.getText();
+            String getm=mP.getText();
+            String getfib=fibP.getText();
+            String gete=eP.getText();
+            String getsa=saP.getText();
+            String gettf=tfP.getText();
+            System.out.println(getmc);
+            if("".equals(getmc)||"".equals(getm)||"".equals(getfib)||"".equals(gete)||"".equals(getsa)||"".equals(gettf))
+                {
+                    System.out.println("a");
+
+                    error.setText("Error: One or More Voint Values not Assigned");
+                }
+            else
+                {
+                    System.out.println("eeeeeeeeeeeeee");
+                }
 
         });
          this.addMC.setOnAction(actionEvent -> {
