@@ -130,7 +130,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
     }
 
     public void addHTML(ShortAnswerQuestion shortAnswerQuestion, String file) throws IOException {
-        questionHTMLHelper.addShortAnswerHTML(shortAnswerQuestion, file);
+        //questionHTMLHelper.addShortAnswerHTML(shortAnswerQuestion, file);
+        questionHTMLHelper.updateSections(file);
     }
 
     /**

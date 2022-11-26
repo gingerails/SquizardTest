@@ -10,30 +10,33 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 @Component
 public class QuestionHTMLHelper {
 
-    public static WebEngine engine;
     private final TestService testService;
     private final ShortAnswerQService shortAnswerQService;
+    private final TestMakerController testMakerController;
 
-    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService) {
+    public static String path = "src\\main\\resources\\generatedTests\\";
+
+    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, TestMakerController testMakerController) {
         this.testService = testService;
         this.shortAnswerQService = shortAnswerQService;
+        this.testMakerController = testMakerController;
     }
 
     // public static String getHTML(String )
 
     public static File createNewFile(String testName) throws IOException {
-        String path = "src\\main\\resources\\generatedTests\\";
         File templateFile = new File(path + "template.html");
         File newFile = new File(path + testName);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy template file
 
         String htmlString = Files.readString(Path.of(newFile.getPath()));
-        testName = testName.replace(".html", "");
-        htmlString = htmlString.replace("$testName", testName);
+        String displayName = testName.replace(".html", "");
+        htmlString = htmlString.replace("$testName", displayName);
         PrintWriter pwr = new PrintWriter(path + testName);
         pwr.println(htmlString);
         pwr.close();
@@ -41,50 +44,52 @@ public class QuestionHTMLHelper {
     }
 
 
-
-    public void addShortAnswerHTML(ShortAnswerQuestion shortAnswerQuestion, String file) throws IOException {
-        String path = "src\\main\\resources\\generatedTests\\";
+    public void getShortAnswerHTML(String file, String addHTML)  throws IOException{
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
         String htmlString = Files.readString(newFile.toPath());
-        String multiChoiceSect = "<section id=\"MultiChoice\">";
+        String shortAnswerSect = "<section id=\"ShortAnswer\">";
         String endMCSect = "</section>";
-        int sectLength = multiChoiceSect.length();
-        int startSAIndex = htmlString.indexOf(multiChoiceSect);
+        int sectLength = shortAnswerSect.length();
+        int startSAIndex = htmlString.indexOf(shortAnswerSect);
         int endSAIndex = htmlString.indexOf(endMCSect);
-        String replaceThis = htmlString.substring(startSAIndex - sectLength , endSAIndex);  // inbetween section tags. need to be copied and appended to
+        String shortAnswerHTML = htmlString.substring(startSAIndex + sectLength , endSAIndex);  // inbetween section tags. need to be copied and appended to
 
-        htmlString = htmlString.replace(replaceThis, htmlString);
-        try (FileWriter f = new FileWriter(file, true); BufferedWriter b = new BufferedWriter(f); PrintWriter p = new PrintWriter(b);) {
+        htmlString = htmlString.replace(shortAnswerHTML, addHTML);
+        PrintWriter printWriter = new PrintWriter(newFile);
+        printWriter.println(htmlString);
+        printWriter.close();
 
-            p.println("<hr />" + "\n"
-                    + "<p><strong>Short Answer: " + shortAnswerQuestion.getQuestionContent() + "</strong></p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n"
-                    + "<p>&nbsp;</p>" + "\n");
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-            //engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+        testMakerController.refresh();
     }
 
     /**
      * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
      */
-    public void updateSections(){
+    public void updateSections(String file) throws IOException {
         Test thisTest = testService.returnThisTest();
-        String essayQs = thisTest.getEssayQ();
-        String[] arrStr = essayQs.split(",");
-        for(String id : arrStr){
+        String shortAQIDs = thisTest.getShortAnswerQ();
+        String[] shortAStr = shortAQIDs.split(",");
+        String[] shortAnswers = Arrays.copyOfRange(shortAStr, 1, shortAStr.length);
 
+        int shortAnsCount = 0;
+        String shortAnsQuestionsHTML = "";
+        for(String id : shortAnswers){
+
+            shortAnsCount++;
+            ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.findQuestionByID(id);
+            String questionContent = shortAnswerQuestion.getQuestionContent();
+            String correctAnswer = shortAnswerQuestion.getCorrectAnswer();
+            shortAnsQuestionsHTML = shortAnsQuestionsHTML + (shortAnsCount + "." + "\n"
+                    + "<p><strong>Short Answer: " + questionContent + "</strong></p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n");
         }
+        getShortAnswerHTML(file, shortAnsQuestionsHTML);
 
     }
 
