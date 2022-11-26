@@ -62,7 +62,7 @@ public class MatchingQController implements ControlDialogBoxes {
     @FXML private TableColumn<MatchingQuestion, String> Term;
     @FXML private TableColumn<MatchingQuestion, String> correctAnswer;
 
-    public String path="src\\main\\resources\\";
+    public String path="src\\main\\resources\\generatedTests\\";
     private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
     public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver) {

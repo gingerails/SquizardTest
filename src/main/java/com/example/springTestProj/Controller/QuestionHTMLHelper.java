@@ -9,7 +9,12 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class QuestionHTMLHelper {
@@ -130,6 +135,108 @@ public class QuestionHTMLHelper {
         getReplacement(newFile, addHTML, htmlString, EssaySect, endEssaySect, sectLength);
     }
 
+    public void updateTrueFalseHTML(Test thisTest, String file)  throws IOException{
+        File templateFile = new File(file);
+        File newFile = new File(file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        int tfCount = 0;
+        String addHTML = "<h1> True / False: </h1>";
+        String trueFalseQIDs = thisTest.getTrueFalseQ();
+        String[] trueFalseArrStr = trueFalseQIDs.split(",");
+        String[] trueFalseQuestions = Arrays.copyOfRange(trueFalseArrStr, 1, trueFalseArrStr.length);
+
+        for(String id : trueFalseQuestions){
+            tfCount++;
+            TrueFalseQuestion trueFalseQuestion = trueFalseQService.findQuestionByID(id);
+            String questionContent = trueFalseQuestion.getQuestionContent();
+            String correctAnswer = trueFalseQuestion.getCorrectAnswer();
+            addHTML = addHTML + ("<p><strong>" + tfCount + ". "
+                    +  questionContent + "</strong></p>" + "\n"
+                    + "<p> T: ____ </p>" + "\n"
+                    + "<p> F: ____ </p>" + "\n");
+        }
+
+        String htmlString = Files.readString(newFile.toPath());
+        String TrueFalseSect = "<section id=\"TrueFalse\">";
+        String endTFSect = "</section>";
+        int sectLength = TrueFalseSect.length();
+        getReplacement(newFile, addHTML, htmlString, TrueFalseSect, endTFSect, sectLength);
+    }
+
+    public static <K, V> Map<K, V> zipToMap(ArrayList<K> keys, ArrayList<V> values) {
+        return IntStream.range(0, keys.size()).boxed()
+                .collect(Collectors.toMap(keys::get, values::get));
+    }
+
+    public void updateMatchingHTML(Test thisTest, String file)  throws IOException{
+        File templateFile = new File(file);
+        File newFile = new File(file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        int matchCount = 0;
+        String addHTML = "<h1> Matching: </h1>";
+        String matchQIDs = thisTest.getMatchingQ();
+        String[] matchingArrStr = matchQIDs.split(",");
+        String[] matchingQuestions = Arrays.copyOfRange(matchingArrStr, 1, matchingArrStr.length);
+
+        ArrayList<String> termDefinitions = new ArrayList<>();
+        ArrayList<String> terms = new ArrayList<>();
+        for(String id : matchingQuestions){
+            MatchingQuestion matchingQuestion = matchingQService.findQuestionByID(id);
+            String questionContent = matchingQuestion.getTerm();
+            String correctAnswer = matchingQuestion.getCorrectAnswer();
+            termDefinitions.add(correctAnswer);
+            terms.add(questionContent);
+        }
+        Map<String, String> termAndDef = zipToMap(terms, termDefinitions); // Key-value pair for term and def. Use for answer key
+        Collections.shuffle(termDefinitions);
+        Collections.shuffle(terms);
+        Map<String, String> shuffledTermAndDef = zipToMap(terms, termDefinitions); // Key-value pair for term and def. Use for answer key
+        for ( Map.Entry<String, String> keyVal: shuffledTermAndDef.entrySet()) {
+            matchCount++;
+            addHTML = addHTML + ("<div class=\"row\">" + "\n" +
+                    "<div class=\"column\">" + "\n" +
+                    "<p>" + matchCount + "   " + keyVal.getKey() + ":_____" +
+                    "\t\t" + keyVal.getValue() + "</p>" + "\n");
+        }
+        String htmlString = Files.readString(newFile.toPath());
+        String TrueFalseSect = "<section id=\"TrueFalse\">";
+        String endTFSect = "</section>";
+        int sectLength = TrueFalseSect.length();
+        getReplacement(newFile, addHTML, htmlString, TrueFalseSect, endTFSect, sectLength);
+    }
+
+    public void updateMultiChoiceHTML(Test thisTest, String file)  throws IOException{
+        File templateFile = new File(file);
+        File newFile = new File(file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        int tfCount = 0;
+        String addHTML = "<h1> True / False: </h1>";
+        String trueFalseQIDs = thisTest.getTrueFalseQ();
+        String[] trueFalseArrStr = trueFalseQIDs.split(",");
+        String[] trueFalseQuestions = Arrays.copyOfRange(trueFalseArrStr, 1, trueFalseArrStr.length);
+
+        for(String id : trueFalseQuestions){
+            tfCount++;
+            TrueFalseQuestion trueFalseQuestion = trueFalseQService.findQuestionByID(id);
+            String questionContent = trueFalseQuestion.getQuestionContent();
+            String correctAnswer = trueFalseQuestion.getCorrectAnswer();
+            addHTML = addHTML + ("<p><strong>" + tfCount + ". "
+                    +  questionContent + "</strong></p>" + "\n"
+                    + "<p> T: ____ </p>" + "\n"
+                    + "<p> F: ____ </p>" + "\n");
+        }
+
+        String htmlString = Files.readString(newFile.toPath());
+        String TrueFalseSect = "<section id=\"TrueFalse\">";
+        String endTFSect = "</section>";
+        int sectLength = TrueFalseSect.length();
+        getReplacement(newFile, addHTML, htmlString, TrueFalseSect, endTFSect, sectLength);
+    }
+
+
     /**
      * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
      */
@@ -137,104 +244,21 @@ public class QuestionHTMLHelper {
         Test thisTest = testService.returnThisTest();
         if(thisTest.getEssayQ() != null){
             updateEssayHTML(thisTest, file);
-
         }
         if(thisTest.getShortAnswerQ() != null){
             updateShortAnswerHTML(thisTest, file);
         }
-
-    }
-
-    public void addMultiChoiceHTML(MultiChoiceQuestion multiChoiceQuestion, String file){
-        String questionContent = multiChoiceQuestion.getQuestionContent();
-        String qAnswers = multiChoiceQuestion.getFalseAnswer();
-        String[] answersList = qAnswers
-                .replace("[", "")
-                .replace("]", "")
-                .split(",");
-
-        String answ1 = answersList[0];
-        String answ2 = answersList[1];
-        String answ3 = answersList[2];
-        String answ4 = answersList[3];
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-
-            p.println("<hr />" + "\n"
-                    +"<p><span style='font-size:16px'><strong>"+questionContent+"</strong></span></p>"+"\n"
-
-                    +"<p><span style='font-size:16px'>a. "+answ1+"</span></p>"+"\n"
-
-                    +"<p><span style='font-size:16px'>b. "+answ2+"</span></p>"+"\n"
-
-                    +"<p><span style='font-size:16px'>c. "+answ3+"</span></p>"+"\n"
-
-                    +"<p><span style='font-size:16px'>d. "+answ4+"</span></p>"+"\n"
-            );
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
+        if(thisTest.getTrueFalseQ() != null){
+            updateTrueFalseHTML(thisTest, file);
         }
-    }
-    public void addEssayHTML(EssayQuestion essayQuestion, String file){
-      try (FileWriter f = new FileWriter(file, true);
-           BufferedWriter b = new BufferedWriter(f);
-           PrintWriter p = new PrintWriter(b)) {
-
-       p.println("<hr />" + "\n"
-               + "<p><strong>Essay: " + essayQuestion.getQuestionContent() + "</strong></p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n"
-               + "<p>&nbsp;</p>" + "\n");
-       b.close();
-       p.close();
-       f.close();
-       TestMakerController.engine.reload();
-      } catch (IOException i) {
-       i.printStackTrace();
-      }
-
-    }
-    public void addMatchingHTML(MatchingQuestion matchingQuestion, String file){
-
-    }
-    public void addTrueFalseHTML(TrueFalseQuestion trueFalseQuestion, String file){
-        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-
-            p.println("<hr />" + "\n"
-                    +"<p><span style='font-size:16px'><strong>T/F: </strong></span></p>"+"\n"
-                    +"<p>"+trueFalseQuestion.getQuestionContent()+" ______</p>"+"\n"
-            );
-            b.close();
-            p.close();
-            f.close();
-            TestMakerController.engine.reload();
-        } catch (IOException i) {
-            i.printStackTrace();
+        if(thisTest.getMatchingQ() != null){
+            updateMatchingHTML(thisTest, file);
         }
+        if(thisTest.getMultiChoiceQ() != null){
+            updateMultiChoiceHTML(thisTest, file);
+        }
+
+
     }
 
 }
