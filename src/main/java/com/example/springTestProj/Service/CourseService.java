@@ -3,20 +3,22 @@ package com.example.springTestProj.Service;
 import com.example.springTestProj.Entities.CompositeKeys.CoursesPrimaryKey;
 import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Repository.CourseRepository;
-import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CourseService {
-    @Autowired
-    CourseRepository courseRepository;
 
+    private final CourseRepository courseRepository;
+    private final UserService userService;
+
+    public CourseService(CourseRepository courseRepository, UserService userService) {
+        this.courseRepository = courseRepository;
+        this.userService = userService;
+    }
 
     public void saveCourseToRepository(Courses courses){
         courseRepository.save(courses);
@@ -26,6 +28,7 @@ public class CourseService {
         String courseID = String.valueOf(UUID.randomUUID());
         CoursesPrimaryKey coursesPrimaryKey = new CoursesPrimaryKey(courseID, courseNumber);
         Courses newCourse = new Courses(coursesPrimaryKey);
+        newCourse.setCreatorId(userService.returnCurrentUserID());
 
         return newCourse;
     }

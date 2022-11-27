@@ -141,6 +141,7 @@ public class MatchingQController implements ControlDialogBoxes {
             String instructions =  gradingInstructions.getText();
             matchingQuestion.setGradingInstruction(instructions);
         }
+        matchingQuestion.setCreatorId(userService.returnCurrentUserID());
         matchingQService.saveQuestionToRepository(matchingQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addMatchingQuestion(currentTest, matchingQuestion);// also save to test using test service

@@ -3,7 +3,6 @@ package com.example.springTestProj.Service;
 import com.example.springTestProj.Entities.*;
 import com.example.springTestProj.Entities.QuestionEntities.*;
 import com.example.springTestProj.Repository.TestsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +11,17 @@ import java.util.*;
 @Service
 public class TestService {
 
-    @Autowired
-    TestsRepository testsRepository;
+//    @Autowired
+//    TestsRepository testsRepository;
+    private final TestsRepository testsRepository;
+    private final UserService userService;
 
     Test currentTest;
+
+    public TestService(TestsRepository testsRepository, UserService userService) {
+        this.testsRepository = testsRepository;
+        this.userService = userService;
+    }
 
     // functions needed:
 
@@ -27,6 +33,7 @@ public class TestService {
         Date dateCreated = new Date();
         String testUUID = String.valueOf(UUID.randomUUID());
         Test newTest = new Test(testUUID, dateCreated, testName, sectionUUID);
+        newTest.setCreatorId(userService.returnCurrentUserID());
         currentTest = newTest;
 
         return newTest;

@@ -140,7 +140,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             String instructions =  instructionTextField.getText();
             essayQuestion.setGradingInstruction(instructions);
         }
-
+        essayQuestion.setCreatorId(userService.returnCurrentUserID());
         essayQuestionService.saveQuestionToRepository(essayQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addEQuestion(currentTest, essayQuestion);// also save to test using test service

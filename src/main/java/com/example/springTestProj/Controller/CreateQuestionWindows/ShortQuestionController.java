@@ -126,6 +126,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             String instructions = gradingInstructions.getText();
             shortAnswerQuestion.setGradingInstruction(instructions);
         }
+        shortAnswerQuestion.setCreatorId(userService.returnCurrentUserID());
         shortAnswerQService.saveQuestionToRepository(shortAnswerQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addShortAnswerQ(currentTest, shortAnswerQuestion);

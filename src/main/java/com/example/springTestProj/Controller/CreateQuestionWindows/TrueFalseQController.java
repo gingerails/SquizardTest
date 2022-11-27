@@ -145,6 +145,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
             trueFalseQuestion.setGradingInstruction(instructions);
         }
 
+        trueFalseQuestion.setCreatorId(userService.returnCurrentUserID());
         trueFalseQService.saveQuestionToRepository(trueFalseQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addTFQuestion(currentTest, trueFalseQuestion);// also save to test using test service

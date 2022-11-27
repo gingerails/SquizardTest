@@ -150,6 +150,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
             String instructions =  gradingInstructions.getText();
             multiChoiceQuestion.setGradingInstruction(instructions);
         }
+        multiChoiceQuestion.setCreatorId(userService.returnCurrentUserID());
         multiChoiceQService.saveQuestionToRepository(multiChoiceQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addMCQuestion(currentTest, multiChoiceQuestion);// also save to test using test service

@@ -46,7 +46,7 @@ public class CreateTestController implements ControlSwitchScreen {
     @FXML
     private VBox mainVbox;
     @FXML
-    private Button createTest;
+    private Button createTest, backButton;
     @FXML
     private ComboBox section;
     @FXML
@@ -75,17 +75,20 @@ public class CreateTestController implements ControlSwitchScreen {
         getCoursesInfo();
         
         this.createTest.setOnAction(actionEvent -> {
-            //System.out.print("create button pressed");
-
             if(name.getText()!=".html"&&classes.getValue()!=null&&section.getValue()!=null)
-                {
-                    saveTest();
-                    loadTestMaker();
-                }
-            else
-                {
-                    error.setText("ERROR: One or more items not selected.");
-                }
+            {
+                saveTest();
+                loadTestMaker();
+            }
+             else
+            {
+                error.setText("ERROR: One or more items not selected.");
+            }
+        });
+        this.backButton.setOnAction(actionEvent -> {
+            FxControllerAndView<MainController, VBox> mainControllerAndView =
+                    fxWeaver.load(MainController.class);
+            mainControllerAndView.getController().show(getCurrentStage());
         });
         this.classes.setOnAction(actionEvent -> {
            getSectionInfo();
@@ -153,6 +156,9 @@ public class CreateTestController implements ControlSwitchScreen {
             testSection.setTest(addedTests);
             sectionService.addTestToSection(testSection);
         }
+
+    }
+    public void goBackToMainScreen(){
 
     }
     public void getSectionInfo()
