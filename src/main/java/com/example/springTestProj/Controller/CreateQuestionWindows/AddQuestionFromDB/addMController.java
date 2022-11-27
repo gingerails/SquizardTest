@@ -86,7 +86,9 @@ public class addMController implements ControlDialogBoxes {
     }
 
     public void initialize() {
-       // repopulateData();
+       //This keeps the selected question from being re-added to the box
+        leftList.clear();
+        // repopulateData();
         initializeListeners();
         
         this.select.setOnAction(actionEvent -> {

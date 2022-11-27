@@ -87,6 +87,8 @@ public class addEController implements ControlDialogBoxes {
 
     @FXML
     public void initialize() {
+        //This keeps the selected question from being re-added to the box
+        leftList.clear();
        // repopulateData();
         initializeListeners();
         
