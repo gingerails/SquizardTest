@@ -34,6 +34,8 @@ public class EssayQuestion {
     private String gradingInstruction;
     @Column(name = "class_average")
     private Double classAverage;
+    @Column(name = "creator_id")
+    private String creatorId;
     
 
     public EssayQuestion() {

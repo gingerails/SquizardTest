@@ -23,6 +23,8 @@ public class Feedback {
     private String className;
     @Column(name = "test_length")
     private Double testLength;
+    @Column(name = "creator_id")
+    private String creatorId;
 
 
     public Feedback() {

@@ -41,6 +41,9 @@ public class Test {
     private String testHTML;
     @Column(name = "test_key_html")
     private String testKeyHTML;
+    @Column(name = "creator_id")
+    private String creatorId;
+
 
     public Test(String testUUID, String sectionUUID) {
         this.testUUID = testUUID;
