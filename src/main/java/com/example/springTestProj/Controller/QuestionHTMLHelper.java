@@ -36,8 +36,6 @@ public class QuestionHTMLHelper {
         this.testMakerController = testMakerController;
     }
 
-    // public static String getHTML(String )
-
     public static File createNewFile(String testName) throws IOException {
         File templateFile = new File(path + "template.html");
         File newFile = new File(path + testName);
@@ -51,7 +49,6 @@ public class QuestionHTMLHelper {
         pwr.close();
         return  newFile;
     }
-
 
     /**
      * I know this is huge and should be made reusable. Very nasty code :(
@@ -269,8 +266,9 @@ public class QuestionHTMLHelper {
         if(thisTest.getMultiChoiceQ() != null){
             updateMultiChoiceHTML(thisTest, file);
         }
-
-
     }
 
+    public void addPoints(){
+
+    }
 }

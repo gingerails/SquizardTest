@@ -49,7 +49,12 @@ public class TestService {
         return testsRepository.findByTestUUID(testID);
     }
 
-
+    public List<Test> findAllTests() {
+        return testsRepository.findAll();
+    }
+    public List<Test> findAllTestsByUser(String creatorID) {
+        return testsRepository.findAllByCreatorId(creatorID);
+    }
     public Test returnThisTest(){
         return currentTest;
     }
@@ -138,9 +143,7 @@ public class TestService {
         currentTest = test; // update current test
     }
 
-    public List<Test> findAllTests() {
-        return testsRepository.findAll();
-    }
+
 
 
 

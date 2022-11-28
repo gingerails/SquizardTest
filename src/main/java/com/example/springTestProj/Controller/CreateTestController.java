@@ -26,9 +26,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 /**
  * FXML Controller class
  *
@@ -57,31 +59,27 @@ public class CreateTestController implements ControlSwitchScreen {
     private CheckBox analytic;
     @FXML
     private Label error;
-   
 
-   
+
     public CreateTestController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, SectionService sectionService) {
         //System.out.println("Create Test Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.courseService=courseService;
+        this.courseService = courseService;
         this.testService = testService;
         this.sectionService = sectionService;
     }
-    
+
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         getCoursesInfo();
-        
+
         this.createTest.setOnAction(actionEvent -> {
-            if(name.getText()!=".html"&&classes.getValue()!=null&&section.getValue()!=null)
-            {
+            if (name.getText() != ".html" && classes.getValue() != null && section.getValue() != null) {
                 saveTest();
                 loadTestMaker();
-            }
-             else
-            {
+            } else {
                 error.setText("ERROR: One or more items not selected.");
             }
         });
@@ -91,7 +89,7 @@ public class CreateTestController implements ControlSwitchScreen {
             mainControllerAndView.getController().show(getCurrentStage());
         });
         this.classes.setOnAction(actionEvent -> {
-           getSectionInfo();
+            getSectionInfo();
         });
 //
     }
@@ -119,30 +117,30 @@ public class CreateTestController implements ControlSwitchScreen {
                 = fxWeaver.load(TestMakerController.class);
         testMakerControllerAndView.getController().show(getCurrentStage());
     }
-     public void getCoursesInfo()
-    {
-       classes.getItems().clear();
-       List<Courses> dropdownCourseList = courseService.readCourses();
+
+    public void getCoursesInfo() {
+        classes.getItems().clear();
+        List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
 
-                String statementString = course.getCoursesPrimaryKey().getCourseNum();
-                //System.out.println(statementString);
-                
-                classes.getItems().addAll(statementString);
+            String statementString = course.getCoursesPrimaryKey().getCourseNum();
+            //System.out.println(statementString);
+
+            classes.getItems().addAll(statementString);
         }
     }
-    public void saveTest()
-    {
-        String fileName=name.getText()+".html";
-        String className=(String) classes.getValue();
-        String sectionName=(String) section.getValue();
+
+    public void saveTest() {
+        String fileName = name.getText() + ".html";
+        String className = (String) classes.getValue();
+        String sectionName = (String) section.getValue();
 
         Courses selectedCourse = courseService.returnCourseByCourseNum(className);
         String courseID = selectedCourse.getCoursesPrimaryKey().getCoursesUUID();
 
-        if(sectionName == "ALL"){
+        if (sectionName == "ALL") {
             List<Section> allSections = sectionService.findCourseSections(courseID);
-        } else{
+        } else {
             Section testSection = sectionService.returnSectionBySectionAndCourseID(sectionName, courseID);
             String sectionUUID = testSection.getSectionPrimaryKey().getSectionUUID();
 
@@ -158,11 +156,8 @@ public class CreateTestController implements ControlSwitchScreen {
         }
 
     }
-    public void goBackToMainScreen(){
 
-    }
-    public void getSectionInfo()
-    {
+    public void getSectionInfo() {
         section.getItems().clear();
         section.getItems().addAll("ALL");
 
@@ -178,19 +173,18 @@ public class CreateTestController implements ControlSwitchScreen {
 
                 //System.out.println("1."+course.getCoursesPrimaryKey().getCourseNum());
                 //System.out.println("2."+classes.getValue());
-                if(course.getCoursesPrimaryKey().getCourseNum().equals(classes.getValue()))
-                {
-                String statementString = currentSection;
-                //System.out.println(currentSection);
-                //System.out.println(statementString);
-                section.getItems().addAll(statementString);
-               //System.out.println(course.getCoursesPrimaryKey().getCourseNum());
+                if (course.getCoursesPrimaryKey().getCourseNum().equals(classes.getValue())) {
+                    String statementString = currentSection;
+                    //System.out.println(currentSection);
+                    //System.out.println(statementString);
+                    section.getItems().addAll(statementString);
+                    //System.out.println(course.getCoursesPrimaryKey().getCourseNum());
                 }
-                
+
             }
-        
+
+        }
     }
-}
 }
 
 
