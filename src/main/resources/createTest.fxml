@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainVbox" prefHeight="264.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateTestController">
+<VBox fx:id="mainVbox" prefHeight="304.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateTestController">
     <children>
         <AnchorPane id="AnchorPane" prefHeight="233.0" prefWidth="414.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
             <children>
@@ -27,7 +27,6 @@
                 <ComboBox fx:id="section" layoutX="130.0" layoutY="174.0" prefHeight="26.0" prefWidth="110.0" />
                 <Label layoutX="91.0" layoutY="137.0" text="Class:" AnchorPane.rightAnchor="291.4" />
                 <Label layoutX="79.0" layoutY="178.0" text="Section:" AnchorPane.rightAnchor="291.4" />
-            <Label fx:id="error" layoutX="62.0" layoutY="248.0" prefHeight="18.0" prefWidth="296.0" style="-fx-text-fill: #FF0000;" />
             <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false">
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
@@ -42,5 +41,6 @@
             </Button>
             </children>
         </AnchorPane>
+      <Label fx:id="error" prefHeight="18.0" prefWidth="419.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" translateY="15.0" />
     </children>
 </VBox>

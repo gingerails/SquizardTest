@@ -7,6 +7,7 @@ import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Service.FeedbackService;
 import com.example.springTestProj.Service.SectionService;
 import com.example.springTestProj.Controller.MainController;
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -155,6 +156,11 @@ public class AddCourseController implements ControlSwitchScreen {
             String commaSeparatedUsingCollect = sectionsArrayList.stream().collect(Collectors.joining(","));
             newCourse.setSections(commaSeparatedUsingCollect);
             courseService.saveCourseToRepository(newCourse);
+        }
+        String[] arr = null;
+        arr = section.split(",");
+        for (int i = 0; i < arr.length; i++) {
+            new File("src/main/resources/" + course + "/" + arr[i]).mkdirs();
         }
 
     }

@@ -24,7 +24,8 @@ public class QuestionHTMLHelper {
     private final TrueFalseQService trueFalseQService;
     private final TestMakerController testMakerController;
 
-    public static String path = "src\\main\\resources\\generatedTests\\";
+    public static String path = "src\\main\\resources\\";
+    public static String pathTo = "";
 
     public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, TestMakerController testMakerController) {
         this.testService = testService;
@@ -37,27 +38,67 @@ public class QuestionHTMLHelper {
     }
 
     public static File createNewFile(String testName) throws IOException {
-        File templateFile = new File(path + "template.html");
-        File newFile = new File(path + testName);
+        
+        String cSection="";
+        String cClass="";
+        int count =0;
+        //need to check current section and class
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(
+					"temp.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+                            
+				System.out.println(line);
+				// read next line
+                                if(count==0)
+                                {
+                                    cClass=line;
+                                }
+                                if(count==1)
+                                {
+                                    cSection=line;
+                                }
+				line = reader.readLine();
+                                count++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+                
+                //Files.deleteIfExists(Paths.get("temp.txt"));
+        System.out.println(cClass+" "+cSection);
+        
+        pathTo = path+cClass+"\\" +cSection+"\\";
+        
+        
+        
+        
+        
+        File templateFile = new File(path+ "template.html");
+        File newFile = new File(pathTo + testName);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy template file
 
         // Test Key
         File keyTemplateFile = new File(path + "KEY_template.html");
-        File testKeyFile = new File(path + "KEY_" + testName);
+        File testKeyFile = new File(pathTo + "KEY_" + testName);
         Files.copy(keyTemplateFile.toPath(), testKeyFile.toPath()); // copy template file
 
         String htmlString = Files.readString(Path.of(newFile.getPath()));
         String displayName = testName.replace(".html", "");
         String testHtmlString = htmlString.replace("$testName", displayName);
 
-        PrintWriter pwrTest = new PrintWriter(path + testName);
+        PrintWriter pwrTest = new PrintWriter(pathTo + testName);
         pwrTest.println(testHtmlString);
         pwrTest.close();
 
         htmlString = Files.readString(Path.of(testKeyFile.getPath()));
 
         String keyHtmlString = htmlString.replace("$testName", " KEY " + displayName + " KEY ");
-        PrintWriter pwrKey = new PrintWriter(path + "KEY_" + testName);
+        PrintWriter pwrKey = new PrintWriter(pathTo + "KEY_" + testName);
         pwrKey.println(keyHtmlString);
         pwrKey.close();
         return  newFile;
@@ -78,7 +119,7 @@ public class QuestionHTMLHelper {
         String keyReplaceHTML = keyHtmlString.substring(keyStartIndex + sectLength , keyEndIndex);  // inbetween section tags. need to be copied and appended to
 
         String thisKeyHtmlString = keyHtmlString.replace(keyReplaceHTML, answerHTML);
-        PrintWriter keyPrintWriter = new PrintWriter(path + "KEY_" + testFile);
+        PrintWriter keyPrintWriter = new PrintWriter(pathTo + "KEY_" + testFile);
         keyPrintWriter.println(thisKeyHtmlString);
         keyPrintWriter.close();
 
