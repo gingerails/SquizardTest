@@ -194,7 +194,7 @@ public class MainController implements ControlSwitchScreen {
         }
         ArrayList<Long> testsByTime = new ArrayList<Long>();
         allTestsByUser.sort(Comparator.comparing(Test::getDateCreated));    // sort tests by creation date. oldest to youngest
-
+        Collections.reverse(allTestsByUser);        // most recent tests first now
         int childNodeCount = 0;
         // go through the first 7 tests and make button for them
         for (Test test : allTestsByUser) {
