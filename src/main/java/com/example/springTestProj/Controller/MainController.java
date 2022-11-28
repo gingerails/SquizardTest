@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.example.springTestProj.Controller;
+
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.CourseService;
@@ -12,12 +13,16 @@ import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.io.File;
+import java.net.URL;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,72 +46,70 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/Main.fxml")
 public class MainController implements ControlSwitchScreen {
-    
+
     CourseRepository courseRepository;
-    
+
     private final CourseService courseService;
     private final UserService userService;
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
-
+    public static String path = "src\\main\\resources\\generatedTests\\";
     @FXML
     private VBox mainVbox;
     @FXML
     private Button addTest;
     @FXML
-    private Button preview1, preview2, preview3, preview4;
+    private Button preview1, preview2, preview3, preview4, preview5, preview6, preview7, preview8;
     @FXML
-    private Button recent1, recent2, recent3, recent4;
+    private Button recent1, recent2, recent3, recent4, recent5, recent6, recent7, recent8;
+    @FXML
+    private Button edit1, edit2, edit3, edit4, edit5, edit6, edit7, edit8;
+    @FXML
+    private Group test1group, test2group, test3group, test4group, test5group, test6group, test7group, test8group;
     @FXML
     private Button addCourseButton;
-    @FXML 
+    @FXML
     private ComboBox displayClass;
     @FXML
     private Pane recentsPane;
-    
-   
-   
+
+
     public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
-        this.courseService=courseService;
+        this.courseService = courseService;
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
     }
 
-    public void getDatabaseCourses()
-    {
+    public void getDatabaseCourses() {
         displayClass.getItems().clear();
         List<Courses> dropdownCourseList = courseService.readCourses();
         for (Courses course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
-            if(course.getSections()==null)
-            {
-                sectionsAsString="";
+            if (course.getSections() == null) {
+                sectionsAsString = "";
             }
             String[] sectionsList = sectionsAsString.split(",");
             ArrayList<String> displayList = new ArrayList<>();
-            for (String currentSection: sectionsList) {
-                
-               
+            for (String currentSection : sectionsList) {
                 String statementString = course.getCoursesPrimaryKey().getCourseNum() + " " + currentSection;
                 System.out.println(currentSection);
                 System.out.println(statementString);
-                
+
                 displayClass.getItems().addAll(statementString);
- 
             }
         }
-        
+
     }
 
     @FXML
-    public void initialize () {
-        recentsPane.setVisible(false);
+    public void initialize() {
         getDatabaseCourses();
-        showExistingTests();
+        showExistingTests(userService.returnCurrentUserID());
+
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
@@ -115,11 +118,8 @@ public class MainController implements ControlSwitchScreen {
             //getDatabaseCourses();
             initialize();
         });
-        this.preview1.setOnAction(actionEvent -> {
-            loadpreview("/website.html");
-        });
 
-        
+
     }
 
     @Override
@@ -140,34 +140,38 @@ public class MainController implements ControlSwitchScreen {
     }
 
     /**
-     *  gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
+     * gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
      */
-    
-   
-   
+
+
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
                 fxWeaver.load(CreateTestController.class);
         createTestControllerAndView.getController().show(getCurrentStage());
     }
-     public void loadpreview(String name) {
-         Stage nstage= new Stage();
-         
-         WebView browser = new WebView();
-         WebEngine engine = browser.getEngine();
-         URL url = this.getClass().getResource(name);
-         engine.load(url.toString());  
-         
 
-         StackPane sp = new StackPane();
-         sp.getChildren().add(browser);
+    public void loadpreview(String name) {
+        Stage nstage = new Stage();
 
-         Scene root = new Scene(sp);
+        WebView browser = new WebView();
+        WebEngine engine = browser.getEngine();
+        File f = new File(name);
+//        URL url = this.getClass().getResource(name);
+        engine.load(f.toURI().toString());
 
-         nstage.setScene(root);
-         nstage.show();
+//        engine.load(url.toString());
+
+
+        StackPane sp = new StackPane();
+        sp.getChildren().add(browser);
+
+        Scene root = new Scene(sp);
+
+        nstage.setScene(root);
+        nstage.show();
     }
+
     public void loadAddCourseScreen() {
         FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
                 fxWeaver.load(AddCourseController.class);
@@ -178,25 +182,42 @@ public class MainController implements ControlSwitchScreen {
      * for the test preview - go through the existing tests
      * get their htmls
      */
-    public void showExistingTests(){
-        List<Test> allTests = testService.findAllTests();
+    public void showExistingTests(String userID) {
 
+        List<Test> allTestsByUser = testService.findAllTestsByUser(userID);
+        ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
+        ArrayList<Button> previewButtons = new ArrayList<>(Arrays.asList(this.preview1, this.preview2, this.preview3, this.preview4, this.preview5, this.preview6, this.preview7, this.preview8));
+        ArrayList<Button> editButtons = new ArrayList<>(Arrays.asList(this.edit1, this.edit2, this.edit3, this.edit4, this.edit5, this.edit6, this.edit7, this.edit8));
 
-        for (Test test : allTests) {
-            String testName = test.getTestName();
-
-            //String essayQs = test.getEssayQ();
-          //  String[] arrStr = essayQs.split(",");
-           // for (String id:arrStr) {
-           //     System.out.println(id);
-           //     if
-
-            //}
-//
-//
-//
-//
+        for (Node node : previewGroups) {
+            node.setVisible(false);
         }
+        ArrayList<Long> testsByTime = new ArrayList<Long>();
+        allTestsByUser.sort(Comparator.comparing(Test::getDateCreated));    // sort tests by creation date. oldest to youngest
+        Collections.reverse(allTestsByUser);        // most recent tests first now
+        int childNodeCount = 0;
+        // go through the first 7 tests and make button for them
+        for (Test test : allTestsByUser) {
+            Node thisGroup = previewGroups.get(childNodeCount);
+            Button thisPreviewButton = previewButtons.get(childNodeCount);
+            Button thisEditButton = editButtons.get(childNodeCount);
+            String testName = test.getTestName();
+            thisGroup.setVisible(true);
+            thisPreviewButton.setOnAction(actionEvent -> {
+                loadpreview(path + testName);
+            });
+            Long dateCreated = (test.getDateCreated().getTime() / 1000);
+            childNodeCount++;
+            if (childNodeCount >= 7) {
+                break;
+            }
+
+        }
+
+//        Node thisGroup = previewGroups.get(childNodeCount);
+
+//
+
     }
 
 }

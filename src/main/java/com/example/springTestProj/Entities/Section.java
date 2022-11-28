@@ -21,6 +21,8 @@ public class Section {
 
     @Column(name = "tests")
     private String test;
+    @Column(name = "creator_id")
+    private String creatorId;
 
     public Section() {
 

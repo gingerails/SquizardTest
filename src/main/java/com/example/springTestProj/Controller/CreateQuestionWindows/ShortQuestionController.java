@@ -102,7 +102,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(shortAnswerQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
-            addHTML(path+testFile);
+            addHTML(path + testFile, path + "KEY_" + testFile);
             testMakerController.refresh();
             stage.close();
         }
@@ -126,14 +126,15 @@ public class ShortQuestionController implements ControlDialogBoxes {
             String instructions = gradingInstructions.getText();
             shortAnswerQuestion.setGradingInstruction(instructions);
         }
+        shortAnswerQuestion.setCreatorId(userService.returnCurrentUserID());
         shortAnswerQService.saveQuestionToRepository(shortAnswerQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addShortAnswerQ(currentTest, shortAnswerQuestion);
 
     }
 
-    public void addHTML(String file) throws IOException {
-        questionHTMLHelper.updateSections(file);
+    public void addHTML(String file, String keyFile) throws IOException {
+        questionHTMLHelper.updateSections(file, keyFile);
     }
 
     /**

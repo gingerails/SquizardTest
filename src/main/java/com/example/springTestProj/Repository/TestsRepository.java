@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface TestsRepository extends JpaRepository<Test, String> {
@@ -20,6 +21,7 @@ public interface TestsRepository extends JpaRepository<Test, String> {
 
 
     Test findByTestUUID(String testID);
+    List<Test> findAllByCreatorId(String creatorID);
 
 //    User findUsersByUsernameAndPassword(String username, String password);
 //

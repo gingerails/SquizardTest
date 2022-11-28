@@ -23,6 +23,8 @@ public class Courses {
     CoursesPrimaryKey coursesPrimaryKey;
     @Column(name = "sections")
     private String sections;
+    @Column(name = "creator_id")
+    private String creatorId;
 
     public Courses() {
 

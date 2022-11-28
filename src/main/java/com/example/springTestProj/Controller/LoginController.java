@@ -1,5 +1,6 @@
 package com.example.springTestProj.Controller;
 
+import com.example.springTestProj.Entities.User;
 import com.example.springTestProj.Service.UserService;
 import java.awt.Color;
 import static java.awt.Color.RED;
@@ -99,12 +100,14 @@ public class LoginController implements ControlSwitchScreen {
      */
     public void verify() {
         System.out.println("Verifying User...");
-        String Username = usrField.getText();
-        String Password = passField.getText();
-        if(userService.returnUser(Username, Password) != null) //needs to talk to database and veify the username and passwords
+        String username = usrField.getText();
+        String password = passField.getText();
+        if(userService.returnUser(username, password) != null) //needs to talk to database and veify the username and passwords
         {
             System.out.println("Found User!");
             Stage currentStage = getCurrentStage();
+            User thisUser = userService.returnUser(username, password);
+            userService.setCurrentUser(thisUser);
             FxControllerAndView<MainController, VBox> mainMenuControllerAndView =
                   fxWeaver.load(MainController.class);
             mainMenuControllerAndView.getController().show(currentStage);

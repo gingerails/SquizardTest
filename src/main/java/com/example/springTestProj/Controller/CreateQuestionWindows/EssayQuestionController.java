@@ -109,7 +109,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(essayQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testName = currentTest.getTestName();
-            addHTML(path + testName);
+            addHTML(path + testName, path + "KEY_" + testName);
             testMakerController.refresh();
             stage.close();
         } else{
@@ -140,7 +140,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             String instructions =  instructionTextField.getText();
             essayQuestion.setGradingInstruction(instructions);
         }
-
+        essayQuestion.setCreatorId(userService.returnCurrentUserID());
         essayQuestionService.saveQuestionToRepository(essayQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addEQuestion(currentTest, essayQuestion);// also save to test using test service
@@ -165,7 +165,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
 
-  public void addHTML( String file) throws IOException {
-    questionHTMLHelper.updateSections(file);
+  public void addHTML( String file, String keyFile) throws IOException {
+    questionHTMLHelper.updateSections(file, keyFile);
   }
 }

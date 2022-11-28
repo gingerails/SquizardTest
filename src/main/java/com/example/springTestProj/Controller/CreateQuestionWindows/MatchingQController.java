@@ -106,8 +106,10 @@ public class MatchingQController implements ControlDialogBoxes {
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
             try {
-                addHTML(path+testFile);
-       //         testMakerController.refresh();
+                addHTML(path + testFile, path + "KEY_" + testFile);
+
+
+                //         testMakerController.refresh();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -141,6 +143,7 @@ public class MatchingQController implements ControlDialogBoxes {
             String instructions =  gradingInstructions.getText();
             matchingQuestion.setGradingInstruction(instructions);
         }
+        matchingQuestion.setCreatorId(userService.returnCurrentUserID());
         matchingQService.saveQuestionToRepository(matchingQuestion);
         Test currentTest = getCurrentTestSectionInfo();
         testService.addMatchingQuestion(currentTest, matchingQuestion);// also save to test using test service
@@ -164,8 +167,8 @@ public class MatchingQController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
-    public void addHTML(String file) throws IOException {
-        questionHTMLHelper.updateSections(file);
+    public void addHTML(String file, String keyFile) throws IOException {
+        questionHTMLHelper.updateSections(file, keyFile);
     }
 
 

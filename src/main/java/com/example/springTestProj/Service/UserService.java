@@ -23,6 +23,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    User currentUser;
+
     public void saveUserToRepository(User user){
         userRepository.save(user);
         System.out.println("User saved?");
@@ -36,6 +38,19 @@ public class UserService {
         return newUser;
     }
 
+    public User returnCurrentUser(){
+        return currentUser;
+    }
+    public String returnCurrentUserID(){
+        return currentUser.getUserID();
+    }
+    public void setCurrentUser(User thisUser){
+        currentUser = thisUser;
+    }
+
+    public User returnUserById(String id){
+        return userRepository.findByUserID(id);
+    }
 
     public List<User> readUsers(){
         return userRepository.findAll();
