@@ -106,8 +106,10 @@ public class MatchingQController implements ControlDialogBoxes {
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
             try {
-                addHTML(path+testFile);
-       //         testMakerController.refresh();
+                addHTML(path + testFile, path + "KEY_" + testFile);
+
+
+                //         testMakerController.refresh();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -165,8 +167,8 @@ public class MatchingQController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
-    public void addHTML(String file) throws IOException {
-        questionHTMLHelper.updateSections(file);
+    public void addHTML(String file, String keyFile) throws IOException {
+        questionHTMLHelper.updateSections(file, keyFile);
     }
 
 

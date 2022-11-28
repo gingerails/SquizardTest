@@ -316,16 +316,22 @@ public class TestMakerController implements ControlSwitchScreen {
         File templateFile = new File(path + file);
         File newFile = new File(path + file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        File keyTemplateFile = new File(path + "KEY_" + file);
+        File newKeyFile = new File(path + "KEY_" + file);
+        Files.copy(keyTemplateFile.toPath(), newKeyFile.toPath()); // copy current version of file
+
         // String addPointsSect
-        String htmlString = Files.readString(newFile.toPath());
+        String keyHtmlString = Files.readString(newKeyFile.toPath());
+        String testHtmlString = Files.readString(newFile.toPath());
         String startSect = "<div id = \"" + divID + "\">";
         String endSect = "</div>";
         int sectLength = startSect.length();
         String addedHTML = "(" + points + " points per question)" ;
-        getReplacement(newFile, addedHTML, htmlString, startSect, endSect, sectLength);
+        getReplacement(newFile, addedHTML, testHtmlString, startSect, endSect, sectLength, keyHtmlString);
     }
 
-    public void getReplacement(File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength) throws FileNotFoundException {
+    public void getReplacement(File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
         String replaceHTML = htmlString.substring(startIndex + sectLength , endIndex);  // inbetween section tags. need to be copied and appended to
@@ -334,6 +340,15 @@ public class TestMakerController implements ControlSwitchScreen {
         PrintWriter printWriter = new PrintWriter(newFile);
         printWriter.println(htmlString);
         printWriter.close();
+
+        int keyStartIndex = keyHtmlString.indexOf(startSection);
+        int keyEndIndex = keyHtmlString.indexOf(endMCSect, keyStartIndex);
+        String keyReplaceHTML = keyHtmlString.substring(keyStartIndex + sectLength , keyEndIndex);  // inbetween section tags. need to be copied and appended to
+
+        keyHtmlString = keyHtmlString.replace(keyReplaceHTML, addHTML);
+        PrintWriter keyPrintWriter = new PrintWriter(newFile);
+        keyPrintWriter.println(keyHtmlString);
+        keyPrintWriter.close();
 
         engine.reload(); //  reload html
     }

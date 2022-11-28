@@ -126,7 +126,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(multiChoiceQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(path+testFile);
+           addHTML(path + testFile, path + "KEY_" + testFile);
            testMakerController.refresh();
            stage.close();
        }
@@ -167,7 +167,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
         return currentTest;
     }
-    public void addHTML(String file) throws IOException {
-        questionHTMLHelper.updateSections(file);
+    public void addHTML(String file, String keyFile) throws IOException {
+        questionHTMLHelper.updateSections(file, keyFile);
     }
 }

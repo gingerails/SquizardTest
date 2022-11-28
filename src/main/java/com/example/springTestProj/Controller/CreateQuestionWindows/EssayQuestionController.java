@@ -109,7 +109,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(essayQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testName = currentTest.getTestName();
-            addHTML(path + testName);
+            addHTML(path + testName, path + "KEY_" + testName);
             testMakerController.refresh();
             stage.close();
         } else{
@@ -165,7 +165,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     }
 
 
-  public void addHTML( String file) throws IOException {
-    questionHTMLHelper.updateSections(file);
+  public void addHTML( String file, String keyFile) throws IOException {
+    questionHTMLHelper.updateSections(file, keyFile);
   }
 }

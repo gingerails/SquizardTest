@@ -106,7 +106,8 @@ public class TrueFalseQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(trueFalseQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(path+testFile);
+           addHTML(path + testFile, path + "KEY_" + testFile);
+
            testMakerController.refresh();
            stage.close();
        } else if (isTrueCheckBox.isSelected()&& !questionContent.getText().isBlank()) {
@@ -116,7 +117,8 @@ public class TrueFalseQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(trueFalseQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(path+testFile);
+           addHTML(path + testFile, path + "KEY_" + testFile);
+
            testMakerController.refresh();
            stage.close();
        }
@@ -163,8 +165,8 @@ public class TrueFalseQController implements ControlDialogBoxes {
     }
 
 
-    public void addHTML(String file) throws IOException {
-        questionHTMLHelper.updateSections(file);
+    public void addHTML(String file, String keyFile) throws IOException {
+        questionHTMLHelper.updateSections(file, keyFile);
     }
 
 }
