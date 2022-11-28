@@ -328,10 +328,10 @@ public class TestMakerController implements ControlSwitchScreen {
         String endSect = "</div>";
         int sectLength = startSect.length();
         String addedHTML = "(" + points + " points per question)" ;
-        getReplacement(newFile, addedHTML, testHtmlString, startSect, endSect, sectLength, keyHtmlString);
+        getReplacement(newFile, newKeyFile, addedHTML, testHtmlString, startSect, endSect, sectLength, keyHtmlString);
     }
 
-    public void getReplacement(File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String keyHtmlString) throws FileNotFoundException {
+    public void getReplacement(File newFile, File newKeyFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
         String replaceHTML = htmlString.substring(startIndex + sectLength , endIndex);  // inbetween section tags. need to be copied and appended to
@@ -346,7 +346,7 @@ public class TestMakerController implements ControlSwitchScreen {
         String keyReplaceHTML = keyHtmlString.substring(keyStartIndex + sectLength , keyEndIndex);  // inbetween section tags. need to be copied and appended to
 
         keyHtmlString = keyHtmlString.replace(keyReplaceHTML, addHTML);
-        PrintWriter keyPrintWriter = new PrintWriter(newFile);
+        PrintWriter keyPrintWriter = new PrintWriter(newKeyFile);
         keyPrintWriter.println(keyHtmlString);
         keyPrintWriter.close();
 
