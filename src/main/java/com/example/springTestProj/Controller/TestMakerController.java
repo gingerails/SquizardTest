@@ -48,7 +48,10 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -80,6 +83,7 @@ public class TestMakerController implements ControlSwitchScreen {
     private final ShortAnswerQService shortAnswerQService;
     private final TrueFalseQService trueFalseQService;
     private final FxWeaver fxWeaver;
+
     private Stage stage;
     public static WebEngine engine;
     public static int refresh = 0;
@@ -201,24 +205,12 @@ public class TestMakerController implements ControlSwitchScreen {
 
         this.publish.setOnAction(actionEvent -> {
 
-            setPoints();
-            // commented out because some tests might not have all question types
-//            String getmc = mcP.getText();
-//            String getm = mP.getText();
-//            String getfib = fibP.getText();
-//            String gete = eP.getText();
-//            String getsa = saP.getText();
-//            String gettf = tfP.getText();
-//            System.out.println(getmc);
-//            if ("".equals(getmc) || "".equals(getm) || "".equals(getfib) || "".equals(gete) || "".equals(getsa) || "".equals(gettf)) {
-//                System.out.println("a");
-//
-//                error.setText("Error: One or More Point Values not Assigned");
-//            } else if (!getmc.matches("(0|[1-9]\\d*)") || !getm.matches("(0|[1-9]\\d*)") || !getfib.matches("(0|[1-9]\\d*)") || !gete.matches("(0|[1-9]\\d*)") || !getsa.matches("(0|[1-9]\\d*)") || !gettf.matches("(0|[1-9]\\d*)")) {
-//                error.setText("Error: Points must be digit values only");
-//            } else {
-//                setPoints();
-//            }
+            try {
+                setPoints();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         });
         this.addMC.setOnAction(actionEvent -> {
             addMCScene();
@@ -278,7 +270,11 @@ public class TestMakerController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
-    public void setPoints() {
+    /**
+     * sets points in HTML by replacing divs with points
+     * @throws IOException
+     */
+    public void setPoints() throws IOException {
         Test thisTest = testService.returnThisTest();
         String testFile = thisTest.getTestName();
 
@@ -290,36 +286,58 @@ public class TestMakerController implements ControlSwitchScreen {
         String trueFalsePoints = tfP.getText();
 
         if(thisTest.getEssayQ() != null){
-            if (!"".equals(essayPoints) && !essayPoints.matches("(0|[1-9]\\d*)")){
-               // addHTML(path+testFile);
+            if (!"".equals(essayPoints) && essayPoints.matches("(0|[1-9]\\d*)")){
+                 addHTML(testFile, "essayPoints", essayPoints);
             }
         }
         if(thisTest.getShortAnswerQ() != null){
-            if (!"".equals(shortAnsPoints) && !shortAnsPoints.matches("(0|[1-9]\\d*)")){
-
+            if (!"".equals(shortAnsPoints) && (shortAnsPoints.matches("(0|[1-9]\\d*)"))){
+                addHTML(testFile, "saPoints", shortAnsPoints);
             }
         }
         if(thisTest.getTrueFalseQ() != null){
-            if (!"".equals(trueFalsePoints) && !trueFalsePoints.matches("(0|[1-9]\\d*)")){
-
+            if (!"".equals(trueFalsePoints) && trueFalsePoints.matches("(0|[1-9]\\d*)")){
+                addHTML(testFile, "tfPoints", trueFalsePoints);
             }
         }
         if(thisTest.getMatchingQ() != null){
-            if (!"".equals(matchPoints) && !matchPoints.matches("(0|[1-9]\\d*)")){
-
+            if (!"".equals(matchPoints) && matchPoints.matches("(0|[1-9]\\d*)")){
+                addHTML(testFile, "matchPoints", matchPoints);
             }
         }
         if(thisTest.getMultiChoiceQ() != null){
-            if (!"".equals(mcPoints) && !mcPoints.matches("(0|[1-9]\\d*)")){
-
+            if (!"".equals(mcPoints) && mcPoints.matches("(0|[1-9]\\d*)")){
+                addHTML(testFile, "mcPoints", mcPoints);
             }
         }
-
-
-
-
-
     }
+
+    public void addHTML(String file, String divID, String points) throws IOException {
+        File templateFile = new File(path + file);
+        File newFile = new File(path + file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+        // String addPointsSect
+        String htmlString = Files.readString(newFile.toPath());
+        String startSect = "<div id = \"" + divID + "\">";
+        String endSect = "</div>";
+        int sectLength = startSect.length();
+        String addedHTML = "(" + points + " points per question)" ;
+        getReplacement(newFile, addedHTML, htmlString, startSect, endSect, sectLength);
+    }
+
+    public void getReplacement(File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength) throws FileNotFoundException {
+        int startIndex = htmlString.indexOf(startSection);
+        int endIndex = htmlString.indexOf(endMCSect, startIndex);
+        String replaceHTML = htmlString.substring(startIndex + sectLength , endIndex);  // inbetween section tags. need to be copied and appended to
+
+        htmlString = htmlString.replace(replaceHTML, addHTML);
+        PrintWriter printWriter = new PrintWriter(newFile);
+        printWriter.println(htmlString);
+        printWriter.close();
+
+        engine.reload(); //  reload html
+    }
+
 
 
 //    public void createTest(String file, String testName) throws IOException {

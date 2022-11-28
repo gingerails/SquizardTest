@@ -62,7 +62,8 @@ public class QuestionHTMLHelper {
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
         int shortAnsCount = 0;
-        String addHTML = "<h1>Short Answer: </h1>";
+        String addHTML = "<h1>Short Answer </h1>"
+                + "<div id = \"saPoints\"> <div id=\"lazyinsert1\"></div> </div>\n";
         String shortAQIDs = thisTest.getShortAnswerQ();
         String[] shortAStr = shortAQIDs.split(",");
         String[] shortAnswers = Arrays.copyOfRange(shortAStr, 1, shortAStr.length);
@@ -104,7 +105,8 @@ public class QuestionHTMLHelper {
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
         int essayCount = 0;
-        String addHTML = "<h1>Essay: </h1>";
+        String addHTML = "<h1>Essay </h1>"
+                + "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
         String essayQIDs = thisTest.getEssayQ();
         String[] essayArrStr = essayQIDs.split(",");
         String[] essayQuestions = Arrays.copyOfRange(essayArrStr, 1, essayArrStr.length);
@@ -135,7 +137,8 @@ public class QuestionHTMLHelper {
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
         int tfCount = 0;
-        String addHTML = "<h1> True / False: </h1>";
+        String addHTML = "<h1> True / False </h1>"
+                + "<div id = \"tfPoints\"> <div id=\"lazyinsert3\"></div> </div>\n";
         String trueFalseQIDs = thisTest.getTrueFalseQ();
         String[] trueFalseArrStr = trueFalseQIDs.split(",");
         String[] trueFalseQuestions = Arrays.copyOfRange(trueFalseArrStr, 1, trueFalseArrStr.length);
@@ -165,7 +168,8 @@ public class QuestionHTMLHelper {
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
         int matchCount = 0;
-        String addHTML = "<h1> Matching: </h1>";
+        String addHTML = "<h1> Matching </h1>"
+                + "<div id = \"matchPoints\"> <div id=\"lazyinsert4\"></div> </div>\n";
         String matchQIDs = thisTest.getMatchingQ();
         String[] matchingArrStr = matchQIDs.split(",");
         String[] matchingQuestions = Arrays.copyOfRange(matchingArrStr, 1, matchingArrStr.length);
@@ -209,7 +213,9 @@ public class QuestionHTMLHelper {
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
 
         int mcCount = 0;
-        String addHTML = "<h1> Multiple Choice: </h1>";
+        String addHTML = "<h1> Multiple Choice </h1>"
+                + "<div id = \"mcPoints\"> <div id=\"lazyinsert5\"></div> </div>\n";
+
         String multiChoiceQs = thisTest.getMultiChoiceQ();
         String[] multiChoiceArrStr = multiChoiceQs.split(",");
         String[] trueFalseQuestions = Arrays.copyOfRange(multiChoiceArrStr, 1, multiChoiceArrStr.length);
