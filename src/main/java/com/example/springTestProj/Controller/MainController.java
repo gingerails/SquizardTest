@@ -121,6 +121,7 @@ public class MainController implements ControlSwitchScreen {
          for (Node node : previewGroups) {
             node.setVisible(false);
         }
+        // this.displayClass.setOnIn
          this.enter.setOnAction(actionEvent -> {
             setClassandSectionn();
             showExistingTests(userService.returnCurrentUserID());
@@ -196,7 +197,7 @@ public class MainController implements ControlSwitchScreen {
     {
         int token=0;
 //        System.out.println("Test stuff:"+displayClass.getValue().toString());
-        if(displayClass.getValue().toString().equals("")==false)
+        if(displayClass.getValue().equals(null) || displayClass.getValue().toString().equals("")==false)
         {
         String getDis = (String) displayClass.getValue();
         String parts[] = getDis.split(" ");
