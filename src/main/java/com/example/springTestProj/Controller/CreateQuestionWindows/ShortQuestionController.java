@@ -1,5 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import static com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController.path;
+import static com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController.pathTo;
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
@@ -7,6 +9,8 @@ import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -57,8 +61,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public String path = "src\\main\\resources\\generatedTests\\";
-
+    public static String path = "src\\main\\resources\\";
+    public static String pathTo = "";
 
     public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, TestService testService) {
         this.fxWeaver = fxWeaver;
@@ -71,6 +75,44 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     @FXML
     public void initialize() {
+         String cSection="";
+        String cClass="";
+        int count =0;
+        //need to check current section and class
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(
+					"temp.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+                            
+				System.out.println(line);
+				// read next line
+                                if(count==0)
+                                {
+                                    cClass=line;
+                                }
+                                if(count==1)
+                                {
+                                    cSection=line;
+                                }
+				line = reader.readLine();
+                                count++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+                
+                //Files.deleteIfExists(Paths.get("temp.txt"));
+        System.out.println(cClass+" "+cSection);
+        
+        pathTo = path+cClass+"\\" +cSection+"\\";
+        
+        
+
+        
         this.stage = new Stage();
         stage.setTitle("Add Short Answer Question");
         stage.setScene(new Scene(shortQuestionBox));
@@ -102,7 +144,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(shortAnswerQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
-            addHTML(path + testFile, path + "KEY_" + testFile);
+            addHTML(pathTo + testFile, pathTo + "KEY_" + testFile);
             testMakerController.refresh();
             stage.close();
         }

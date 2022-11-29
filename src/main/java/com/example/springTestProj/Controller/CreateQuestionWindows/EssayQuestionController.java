@@ -6,12 +6,16 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
+import static com.example.springTestProj.Controller.QuestionHTMLHelper.path;
+import static com.example.springTestProj.Controller.QuestionHTMLHelper.pathTo;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import java.io.IOException;
 
@@ -68,7 +72,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
     @FXML
     private Label error;
 
-    public String path="src\\main\\resources\\generatedTests\\";
+     public static String path = "src\\main\\resources\\";
+    public static String pathTo = "";
 
     public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, FxWeaver fxWeaver) {
         this.testService = testService;
@@ -81,6 +86,43 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
     @FXML
     public void initialize () {
+        String cSection="";
+        String cClass="";
+        int count =0;
+        //need to check current section and class
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(
+					"temp.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+                            
+				System.out.println(line);
+				// read next line
+                                if(count==0)
+                                {
+                                    cClass=line;
+                                }
+                                if(count==1)
+                                {
+                                    cSection=line;
+                                }
+				line = reader.readLine();
+                                count++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+                
+                //Files.deleteIfExists(Paths.get("temp.txt"));
+        System.out.println(cClass+" "+cSection);
+        
+        pathTo = path+cClass+"\\" +cSection+"\\";
+        
+        
+        
         this.stage = new Stage();
         stage.setTitle("Add Essay Question");
         stage.setScene(new Scene(essayQuestionBox));
@@ -109,7 +151,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             checkFieldsAndAddQuestion(essayQuestion);
             Test currentTest = getCurrentTestSectionInfo();
             String testName = currentTest.getTestName();
-            addHTML(path + testName, path + "KEY_" + testName);
+            addHTML(pathTo + testName, pathTo + "KEY_" + testName);
             testMakerController.refresh();
             stage.close();
         } else{

@@ -12,6 +12,9 @@ import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Service.SectionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -26,6 +29,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -73,21 +78,40 @@ public class CreateTestController implements ControlSwitchScreen {
 
     @FXML
     public void initialize() {
+        
         getCoursesInfo();
 
+        //System.out.println("Test SECTIONS: " +testUUIDs);
         this.createTest.setOnAction(actionEvent -> {
-            if (name.getText() != ".html" && classes.getValue() != null && section.getValue() != null) {
-                saveTest();
-                loadTestMaker();
+            //System.out.print("create button pressed");
+
+            int check = 0;
+            String tName=name.getText();
+            if(tName.equals("")==false)
+                {
+            if (classes.getValue() != null && section.getValue() != null) {
+
+                if (new File("src\\main\\resources\\" + (String) classes.getValue() + "\\" + (String) section.getValue() + "\\" + name.getText() + ".html").exists() == true) {
+                    error.setText("ERROR: Test already exists");
+                } else {
+                    try {
+                        saveTest();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(CreateTestController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    loadTestMaker();
+                }
             } else {
-                error.setText("ERROR: One or more items not selected.");
+                error.setText("ERROR: One or more items not selected");
             }
+                }
+            else
+                {
+                    error.setText("ERROR: Name can not be blank");
+                }
         });
-        this.backButton.setOnAction(actionEvent -> {
-            FxControllerAndView<MainController, VBox> mainControllerAndView =
-                    fxWeaver.load(MainController.class);
-            mainControllerAndView.getController().show(getCurrentStage());
-        });
+
         this.classes.setOnAction(actionEvent -> {
             getSectionInfo();
         });
@@ -130,7 +154,7 @@ public class CreateTestController implements ControlSwitchScreen {
         }
     }
 
-    public void saveTest() {
+    public void saveTest() throws FileNotFoundException {
         String fileName = name.getText() + ".html";
         String className = (String) classes.getValue();
         String sectionName = (String) section.getValue();
@@ -154,6 +178,16 @@ public class CreateTestController implements ControlSwitchScreen {
             testSection.setTest(addedTests);
             sectionService.addTestToSection(testSection);
         }
+         //make a temp file to get data later
+        // Open the file.
+        PrintWriter out = new PrintWriter("temp.txt"); // Step 2
+
+        // Write the name of four oceans to the file
+        out.println((String) classes.getValue());   // Step 3
+        out.println((String) section.getValue());
+
+        // Close the file.
+        out.close();  // Step 4*/
 
     }
 

@@ -1,5 +1,7 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.path;
+import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.pathTo;
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
@@ -7,6 +9,8 @@ import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,7 +68,8 @@ public class MatchingQController implements ControlDialogBoxes {
     @FXML private TableColumn<MatchingQuestion, String> Term;
     @FXML private TableColumn<MatchingQuestion, String> correctAnswer;
 
-    public String path="src\\main\\resources\\generatedTests\\";
+     public static String path = "src\\main\\resources\\";
+    public static String pathTo = "";
     private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
     public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, FxWeaver fxWeaver) {
@@ -78,6 +83,46 @@ public class MatchingQController implements ControlDialogBoxes {
 
     @FXML
     public void initialize () {
+        String cSection="";
+        String cClass="";
+        int count =0;
+        //need to check current section and class
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(
+					"temp.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+                            
+				System.out.println(line);
+				// read next line
+                                if(count==0)
+                                {
+                                    cClass=line;
+                                }
+                                if(count==1)
+                                {
+                                    cSection=line;
+                                }
+				line = reader.readLine();
+                                count++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+                
+                //Files.deleteIfExists(Paths.get("temp.txt"));
+        System.out.println(cClass+" "+cSection);
+        
+        pathTo = path+cClass+"\\" +cSection+"\\";
+        
+        
+        
+        
+        
+        
         this.stage = new Stage();
         stage.setTitle("Add MatchingQuestion Question");
         stage.setScene(new Scene(mQuestionBox));
@@ -106,7 +151,7 @@ public class MatchingQController implements ControlDialogBoxes {
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
             try {
-                addHTML(path + testFile, path + "KEY_" + testFile);
+                addHTML(pathTo + testFile, pathTo + "KEY_" + testFile);
 
 
                 //         testMakerController.refresh();

@@ -33,6 +33,7 @@ import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedReader;
 
 import java.io.File;
 
@@ -49,6 +50,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -130,7 +132,8 @@ public class TestMakerController implements ControlSwitchScreen {
     private ListView<String> mList;
     private static final ObservableList<String> mListArray = FXCollections
             .observableArrayList();
-    public String path = "src\\main\\resources\\generatedTests\\";
+    public String path = "src\\main\\resources\\";
+    public String pathTo="";
 
 
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService, TrueFalseQService trueFalseQService ) {
@@ -176,7 +179,49 @@ public class TestMakerController implements ControlSwitchScreen {
     public void initialize() throws IOException {
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
+        
+        String cSection="";
+        String cClass="";
+        int count =0;
+        //need to check current section and class
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(
+					"temp.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+                            
+				System.out.println(line);
+				// read next line
+                                if(count==0)
+                                {
+                                    cClass=line;
+                                }
+                                if(count==1)
+                                {
+                                    cSection=line;
+                                }
+				line = reader.readLine();
+                                count++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+                
+                //Files.deleteIfExists(Paths.get("temp.txt"));
+        System.out.println(cClass+" "+cSection);
+        
+        path = path+"\\"+cClass+"\\" +cSection+"\\";
+                
+        File g = new File(path+ testName);
         File f = QuestionHTMLHelper.createNewFile(testName);
+
+        //createTest(path + testName, testName);
+        //webviewer
+        
+        
 
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());

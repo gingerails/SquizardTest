@@ -1,8 +1,12 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import static com.example.springTestProj.Controller.QuestionHTMLHelper.path;
+import static com.example.springTestProj.Controller.QuestionHTMLHelper.pathTo;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Service.UserService;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,7 +37,8 @@ public class FillinBlankQController implements ControlDialogBoxes {
     @FXML
     private TextField questionField;
 
-    public String path="src\\main\\resources\\generatedTests\\";
+     public static String path = "src\\main\\resources\\";
+    public static String pathTo = "";
     //public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
 
     public FillinBlankQController(UserService userService, FxWeaver fxWeaver,TestMakerController testMakerController) {
@@ -44,6 +49,43 @@ public class FillinBlankQController implements ControlDialogBoxes {
 
     @FXML
     public void initialize() {
+        String cSection="";
+        String cClass="";
+        int count =0;
+        //need to check current section and class
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(
+					"temp.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+                            
+				System.out.println(line);
+				// read next line
+                                if(count==0)
+                                {
+                                    cClass=line;
+                                }
+                                if(count==1)
+                                {
+                                    cSection=line;
+                                }
+				line = reader.readLine();
+                                count++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+                
+                //Files.deleteIfExists(Paths.get("temp.txt"));
+        System.out.println(cClass+" "+cSection);
+        
+        pathTo = path+cClass+"\\" +cSection+"\\";
+        
+        
+        
         this.stage = new Stage();
         stage.setTitle("Add Fill-in-Blank Question");
         stage.setScene(new Scene(fillInBlankBox));
@@ -61,7 +103,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
         this.add.setOnAction(actionEvent -> {
             //System.out.print("Add question button pressed");
             stage.close();
-            addHTML(path+"test.html");
+            addHTML(pathTo+"test.html");
         });
     }
 
