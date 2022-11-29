@@ -13,6 +13,7 @@ import com.example.springTestProj.Entities.Courses;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
+
 import java.io.BufferedReader;
 
 import java.io.File;
@@ -61,13 +62,13 @@ public class MainController implements ControlSwitchScreen {
     private final FxWeaver fxWeaver;
     private Stage stage;
     public static String path = "src\\main\\resources";
-    public int counter=0;
+    public int counter = 0;
     @FXML
     private VBox mainVbox;
     @FXML
     private Button addTest;
     @FXML
-    private Label name1,name2,name3,name4,name5,name6,name7;
+    private Label name1, name2, name3, name4, name5, name6, name7, name8;
     @FXML
     private Button preview1, preview2, preview3, preview4, preview5, preview6, preview7, preview8;
     @FXML
@@ -117,49 +118,58 @@ public class MainController implements ControlSwitchScreen {
 
     @FXML
     public void initialize() {
-         ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
-         for (Node node : previewGroups) {
+//        showExistingTests(userService.returnCurrentUserID());
+        ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
+        for (Node node : previewGroups) {
             node.setVisible(false);
         }
-        // this.displayClass.setOnIn
-         this.enter.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
+      //  setClassandSectionn();
+
+//        // this.displayClass.setOnIn
+//        this.enter.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
         getDatabaseCourses();
+
+        this.displayClass.setOnAction(actionEvent -> {
+            setClassandSectionn();
+            showExistingTests(userService.returnCurrentUserID());
+
+        });
         //showExistingTests(userService.returnCurrentUserID());
-        this.preview1.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview2.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview3.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview4.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview5.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview6.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview7.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview8.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
+//        this.preview1.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
+//        this.preview2.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
+//        this.preview3.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
+//        this.preview4.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
+//        this.preview5.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
+//        this.preview6.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
+//        this.preview7.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
+//        this.preview8.setOnAction(actionEvent -> {
+//            setClassandSectionn();
+//            showExistingTests(userService.returnCurrentUserID());
+//        });
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
@@ -193,28 +203,25 @@ public class MainController implements ControlSwitchScreen {
      * gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
      */
 
-    public void setClassandSectionn()
-    {
-        int token=0;
+    public void setClassandSectionn() {
+        int token = 0;
 //        System.out.println("Test stuff:"+displayClass.getValue().toString());
-        if(displayClass.getValue().equals(null) || displayClass.getValue().toString().equals("")==false)
-        {
-        String getDis = (String) displayClass.getValue();
-        String parts[] = getDis.split(" ");
-        for(String part: parts) {
-            if(token==0)
-            {
-                getC=part;
-                token++;
-            }
-            if(token==1)
-            {
-                getS=part;
+        if (displayClass.getValue().equals(null) || displayClass.getValue().toString().equals("") == false) {
+            String getDis = (String) displayClass.getValue();
+            String parts[] = getDis.split(" ");
+            for (String part : parts) {
+                if (token == 0) {
+                    getC = part;
+                    token++;
+                }
+                if (token == 1) {
+                    getS = part;
+                }
             }
         }
-        }
-        System.out.println("cc:"+getC+" "+getS);
+        System.out.println("cc:" + getC + " " + getS);
     }
+
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
@@ -254,17 +261,18 @@ public class MainController implements ControlSwitchScreen {
      * get their htmls
      */
     public void showExistingTests(String userID) {
-        
-        int token =0;
+
+        int token = 0;
 
         List<Test> allTestsByUser = testService.findAllTestsByUser(userID);
         ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
         ArrayList<Button> previewButtons = new ArrayList<>(Arrays.asList(this.preview1, this.preview2, this.preview3, this.preview4, this.preview5, this.preview6, this.preview7, this.preview8));
         ArrayList<Button> editButtons = new ArrayList<>(Arrays.asList(this.edit1, this.edit2, this.edit3, this.edit4, this.edit5, this.edit6, this.edit7, this.edit8));
+        ArrayList<Label> labels = new ArrayList<>(Arrays.asList(this.name1, this.name2, this.name3, this.name4, this.name5, this.name6, this.name7, this.name8));
 
         for (Node node : previewGroups) {
             node.setVisible(false);
-            
+
         }
         ArrayList<Long> testsByTime = new ArrayList<Long>();
         allTestsByUser.sort(Comparator.comparing(Test::getDateCreated));    // sort tests by creation date. oldest to youngest
@@ -275,56 +283,23 @@ public class MainController implements ControlSwitchScreen {
             Node thisGroup = previewGroups.get(childNodeCount);
             Button thisPreviewButton = previewButtons.get(childNodeCount);
             Button thisEditButton = editButtons.get(childNodeCount);
+            Label thisLabel = labels.get(childNodeCount);
             String testName = test.getTestName();
-            String tempName=testName.replace(".html","");
-            if(testName.equals(".html")==false)
-            {
-            thisGroup.setVisible(true);
-            
-           thisPreviewButton.setOnAction(new EventHandler<ActionEvent>() {
-               @Override
-               public void handle(ActionEvent actionEvent) {
-                    
-                    loadpreview(path+"\\"+getC+"\\"+getS+"\\"+ testName);
-                    
+            String tempName = testName.replace(".html", "");
+
+            thisLabel.setText(tempName);
+
+            if (!testName.equals(".html")) {
+                thisGroup.setVisible(true);
+
+                thisPreviewButton.setOnAction(actionEvent -> {
+                    loadpreview(path + "\\" + getC + "\\" + getS + "\\" + testName);
+                });
+                Long dateCreated = (test.getDateCreated().getTime() / 1000);
+                childNodeCount++;
+                if (childNodeCount >= 7) {
+                    break;
                 }
-            });
-                    if(counter==0)
-                    {
-                        name1.setText(tempName);
-                    }
-                    if(counter==1)
-                    {
-                        name2.setText(tempName);
-                    }
-                    if(counter==3)
-                    {
-                        name3.setText(tempName);
-                    }
-                    if(counter==4)
-                    {
-                        name4.setText(tempName);
-                    }
-                    if(counter==5)
-                    {
-                        name5.setText(tempName);
-                    }
-                    if(counter==6)
-                    {
-                        name6.setText(tempName);
-                    }
-                    if(counter==7)
-                    {
-                        name7.setText(tempName);
-                    }
-                    
-                    //loadpreview(path+"\\"+getC+"\\"+getS+"\\"+ testName);
-                    counter=counter +1;
-            Long dateCreated = (test.getDateCreated().getTime() / 1000);
-            childNodeCount++;
-            if (childNodeCount >= 7) {
-                break;
-            }
             }
         }
 
