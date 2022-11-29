@@ -115,6 +115,9 @@ public class CreateTestController implements ControlSwitchScreen {
         this.classes.setOnAction(actionEvent -> {
             getSectionInfo();
         });
+        this.backButton.setOnAction(actionEvent -> {
+            loadMainScreen();
+        });
 //
     }
 
@@ -140,6 +143,12 @@ public class CreateTestController implements ControlSwitchScreen {
         FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView
                 = fxWeaver.load(TestMakerController.class);
         testMakerControllerAndView.getController().show(getCurrentStage());
+    }
+    public void loadMainScreen() {
+        Stage currentStage = getCurrentStage();
+        FxControllerAndView<MainController, VBox> mainControllerAndView
+                = fxWeaver.load(MainController.class);
+        mainControllerAndView.getController().show(getCurrentStage());
     }
 
     public void getCoursesInfo() {
