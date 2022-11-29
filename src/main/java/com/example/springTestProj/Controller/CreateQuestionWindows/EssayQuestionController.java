@@ -29,8 +29,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -89,10 +87,10 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
      public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
-    public File gF=null;
-    
-   String cSection="";
-   String cClass="";
+    public File ag=null;
+    public File qg=null;
+    String cSection="";
+    String cClass="";
     public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, FxWeaver fxWeaver) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
@@ -143,17 +141,12 @@ public class EssayQuestionController implements ControlDialogBoxes {
         this.stage = new Stage();
         stage.setTitle("Add Essay Question");
         stage.setScene(new Scene(essayQuestionBox));
-        this.add.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.print("Add question button pressed");
-                try {
-                    createQuestion();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                
-                
+        this.add.setOnAction(actionEvent -> {
+            System.out.print("Add question button pressed");
+            try {
+                createQuestion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
         this.answerGraphicButton.setOnAction(actionEvent -> {
@@ -162,7 +155,11 @@ public class EssayQuestionController implements ControlDialogBoxes {
             } catch (IOException ex) {
                 Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            aG.setText(gF.getName());
+            try {
+                getG(ag,aG);
+            } catch (IOException ex) {
+                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         });
         this.questionGraphicButton.setOnAction(actionEvent -> {
@@ -171,10 +168,27 @@ public class EssayQuestionController implements ControlDialogBoxes {
             } catch (IOException ex) {
                 Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            qG.setText(gF.getName());
+            try {
+                getG(qg,qG);
+            } catch (IOException ex) {
+                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
     }
+   public void checkAttachmentFile()
+   {
+       Path pathA=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest());
+       if(Files.exists(pathA))
+       {
+       
+       }
+       else
+       {
+           new File(pathA.toString()).mkdirs();
+       }
+
+   }
    public File getFiles()
    {
        FileChooser file = new FileChooser();  
@@ -188,7 +202,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
    }
    public void copyandFile() throws FileNotFoundException, IOException
    {
-       
+       String cSection="";
+        String cClass="";
         int count =0;
         //need to check current section and class
         BufferedReader reader;
@@ -218,19 +233,51 @@ public class EssayQuestionController implements ControlDialogBoxes {
 
        //String src = getFiles().toString();
        //String dest = path +"\\" +cClass + "\\" + cSection;
-        gF = getFiles();
-
-        try {
-            Path src = Paths.get(gF.toString());
-            File f = new File(gF.getName());
-            String v = f.getName();
-            Path dest = Paths.get(path + "\\" + cClass + "\\" + cSection + "\\" + v);
-            Files.copy(src, dest);
-        } catch (IOException ex) {
-            Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+      
+   }
+   public void getG(File ga, Label l) throws IOException
+   {
+      ga=getFiles();
+      Path src=Paths.get(ga.toString());
+      File f = new File(ga.getName());
+      String v=f.getName();
+      
+      Path dest=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest()+"\\"+v);
+      
+     
+       if(Files.exists(dest))
+       {
+           error.setText("Error: Cant have a duplicate attachment on test");
+       }
+       else
+       {
+           l.setText(v);
+           checkAttachmentFile();
+           Files.copy(src,dest);
+       }
+   }
+   public void getGA(File ga) throws IOException
+   {
+      ga=getFiles();
+      Path src=Paths.get(ga.toString());
+      File f = new File(ga.getName());
+      String v=f.getName();
+      
+      Path dest=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest()+"\\"+v);
+      
+     
+       if(Files.exists(dest))
+       {
+           error.setText("Error: Cant have a duplicate attachment on test");
+       }
+       else
+       {
+           aG.setText(v);
+           checkAttachmentFile();
+           Files.copy(src,dest);
+       }
+   }
+   
     public void createQuestion() throws IOException {
         if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
             String question = questionTextField.getText();
