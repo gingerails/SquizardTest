@@ -164,7 +164,12 @@ public class MultiChoiceQController implements ControlDialogBoxes {
                questionContent.getText().isBlank()){
            System.out.println("SOMETHING WAS LEFT BLANK");
            error.setText("Error: Must fill out each choice, question and answer!");
-       } else{
+       }
+       if(choice1Field.getText().equals(answerTextField.getText())==false&&choice2Field.getText().equals(answerTextField.getText())==false&&choice3Field.getText().equals(answerTextField.getText())==false&&choice4Field.getText().equals(answerTextField.getText())==false)
+       {
+           error.setText("Error: Answer is not a choice");
+       }
+        else{
            String question = questionContent.getText();
            String correctAnswer = answerTextField.getText();
            String[] falseAnswers = {choice1Field.getText(),choice2Field.getText(),choice3Field.getText(),choice4Field.getText()};

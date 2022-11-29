@@ -78,7 +78,7 @@ public class CreateTestController implements ControlSwitchScreen {
 
     @FXML
     public void initialize() {
-        ;
+        
         getCoursesInfo();
 
         //System.out.println("Test SECTIONS: " +testUUIDs);
@@ -86,7 +86,10 @@ public class CreateTestController implements ControlSwitchScreen {
             //System.out.print("create button pressed");
 
             int check = 0;
-            if (name.getText() != ".html" && classes.getValue() != null && section.getValue() != null) {
+            String tName=name.getText();
+            if(tName.equals("")==false)
+                {
+            if (classes.getValue() != null && section.getValue() != null) {
 
                 if (new File("src\\main\\resources\\" + (String) classes.getValue() + "\\" + (String) section.getValue() + "\\" + name.getText() + ".html").exists() == true) {
                     error.setText("ERROR: Test already exists");
@@ -100,8 +103,13 @@ public class CreateTestController implements ControlSwitchScreen {
                     loadTestMaker();
                 }
             } else {
-                error.setText("ERROR: One or more items not selected.");
+                error.setText("ERROR: One or more items not selected");
             }
+                }
+            else
+                {
+                    error.setText("ERROR: Name can not be blank");
+                }
         });
 
         this.classes.setOnAction(actionEvent -> {

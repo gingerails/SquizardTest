@@ -132,8 +132,8 @@ public class TestMakerController implements ControlSwitchScreen {
     private ListView<String> mList;
     private static final ObservableList<String> mListArray = FXCollections
             .observableArrayList();
-    public String path = "src\\main\\resources";
-    //public String pathTo="";
+    public String path = "src\\main\\resources\\";
+    public String pathTo="";
 
 
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService, TrueFalseQService trueFalseQService ) {
