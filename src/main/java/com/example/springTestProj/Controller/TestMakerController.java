@@ -252,6 +252,7 @@ public class TestMakerController implements ControlSwitchScreen {
 
             try {
                 setPoints();
+                goToMainScreen();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -398,34 +399,11 @@ public class TestMakerController implements ControlSwitchScreen {
         engine.reload(); //  reload html
     }
 
-
-
-//    public void createTest(String file, String testName) throws IOException {
-//        String setup = "<!DOCTYPE html>" + "\n"
-//                + "<html>" + "\n"
-//                + "<p style='text-align:center'><span style='font-size:36px'><strong>" + testName + "</strong></span></p>" + "\n";
-//        String Title = "";
-//        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-//        writer.write(setup);
-//
-//        writer.close();
-//
-//    }
-
-
-//    public void publish(String file) {
-//        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-//
-//            p.println("</html>");
-//            b.close();
-//            p.close();
-//            f.close();
-//            engine.reload();
-//        } catch (IOException i) {
-//            i.printStackTrace();
-//        }
-//
-//    }
+    public void goToMainScreen(){
+        FxControllerAndView<MainController, VBox> mainControllerAndView
+                = fxWeaver.load(MainController.class);
+        mainControllerAndView.getController().show(getCurrentStage());
+    }
 
     public void Qorder() {
         System.out.println("Qorder");
