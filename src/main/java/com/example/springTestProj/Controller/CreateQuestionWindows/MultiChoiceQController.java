@@ -154,14 +154,16 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 
 
     public void createQuestion() throws IOException {
+        String c1=choice1Field.getText();
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
-       if (choice1Field.getText().isBlank() ||
+       if (c1.length()==0 ||
                choice2Field.getText().isBlank() ||
-               choice3Field.getText().isBlank() ||
-               choice4Field.getText().isBlank() ||
-               answerTextField.getText().isBlank() ||
-               questionContent.getText().isBlank()){
+               choice3Field.getText().equals("") ||
+               choice4Field.getText().isEmpty() ||
+               answerTextField.getText().equals("") ||
+               questionContent.getText().equals(""))
+       {
            System.out.println("SOMETHING WAS LEFT BLANK");
            error.setText("Error: Must fill out each choice, question and answer!");
        }

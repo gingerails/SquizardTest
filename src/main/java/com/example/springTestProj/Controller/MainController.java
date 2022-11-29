@@ -10,7 +10,9 @@ import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Entities.Courses;
+import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.SectionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedReader;
@@ -19,7 +21,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
@@ -54,6 +61,7 @@ public class MainController implements ControlSwitchScreen {
 
     CourseRepository courseRepository;
 
+    private final SectionService sectionService;
     private final CourseService courseService;
     private final UserService userService;
     private final TestService testService;
@@ -61,7 +69,7 @@ public class MainController implements ControlSwitchScreen {
     private final FxWeaver fxWeaver;
     private Stage stage;
     public static String path = "src\\main\\resources";
-    public int counter=0;
+    
     @FXML
     private VBox mainVbox;
     @FXML
@@ -79,19 +87,20 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Button addCourseButton;
     @FXML
-    private ComboBox displayClass;
+    private ComboBox displayClass,findTestCb;
     @FXML
     private Pane recentsPane;
     public String getC = "";
     public String getS = "";
 
 
-    public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, EssayQuestionService essayQuestionService) {
+    public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, EssayQuestionService essayQuestionService,SectionService sectionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.courseService = courseService;
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
+        this.sectionService=sectionService;
     }
 
     public void getDatabaseCourses() {
@@ -121,43 +130,44 @@ public class MainController implements ControlSwitchScreen {
          for (Node node : previewGroups) {
             node.setVisible(false);
         }
-         this.enter.setOnAction(actionEvent -> {
+        this.displayClass.setOnAction(actionEvent -> {
             setClassandSectionn();
+            setFindTests();
             showExistingTests(userService.returnCurrentUserID());
         });
         getDatabaseCourses();
         //showExistingTests(userService.returnCurrentUserID());
         this.preview1.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+            //showExistingTests(userService.returnCurrentUserID());
         });
         this.preview2.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+           // showExistingTests(userService.returnCurrentUserID());
         });
         this.preview3.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+           //showExistingTests(userService.returnCurrentUserID());
         });
         this.preview4.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+            //showExistingTests(userService.returnCurrentUserID());
         });
         this.preview5.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+            //showExistingTests(userService.returnCurrentUserID());
         });
         this.preview6.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+            //showExistingTests(userService.returnCurrentUserID());
         });
         this.preview7.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+            //showExistingTests(userService.returnCurrentUserID());
         });
         this.preview8.setOnAction(actionEvent -> {
             setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+           // showExistingTests(userService.returnCurrentUserID());
         });
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
@@ -178,6 +188,20 @@ public class MainController implements ControlSwitchScreen {
         return currentStage;
     }
 
+    public void setFindTests() {
+        File folder = new File(path+"\\"+getC+"\\"+getS);
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            
+            if (listOfFiles[i].isFile()) {
+                System.out.println("File " + listOfFiles[i].getName());
+                findTestCb.getItems().addAll(listOfFiles[i].getName());
+            } else if (listOfFiles[i].isDirectory()) {
+                System.out.println("Directory " + listOfFiles[i].getName());
+            }
+        }
+    }
     @Override
     public void show(Stage thisStage) {
         this.stage = thisStage;
@@ -255,7 +279,11 @@ public class MainController implements ControlSwitchScreen {
     public void showExistingTests(String userID) {
         
         int token =0;
-
+       
+        
+        Section allTestbySectionandUser = sectionService.findTestbyUserSection(userID, "01");
+        System.out.println(allTestbySectionandUser);
+        
         List<Test> allTestsByUser = testService.findAllTestsByUser(userID);
         ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
         ArrayList<Button> previewButtons = new ArrayList<>(Arrays.asList(this.preview1, this.preview2, this.preview3, this.preview4, this.preview5, this.preview6, this.preview7, this.preview8));
@@ -269,13 +297,24 @@ public class MainController implements ControlSwitchScreen {
         allTestsByUser.sort(Comparator.comparing(Test::getDateCreated));    // sort tests by creation date. oldest to youngest
         Collections.reverse(allTestsByUser);        // most recent tests first now
         int childNodeCount = 0;
+        
+        
+        int counter=0;
         // go through the first 7 tests and make button for them
         for (Test test : allTestsByUser) {
+            
+            Path pathTo=Paths.get(path+"\\"+getC+"\\"+getS+"\\"+test.getTestName());
+            System.out.println(pathTo);
+            if(Files.exists(pathTo)==true)
+            {  
+            String tempName=pathTo.toString().replace(path+"\\"+getC+"\\"+getS+"\\", "");
+            tempName=tempName.replace(".html","");
+            
             Node thisGroup = previewGroups.get(childNodeCount);
             Button thisPreviewButton = previewButtons.get(childNodeCount);
             Button thisEditButton = editButtons.get(childNodeCount);
             String testName = test.getTestName();
-            String tempName=testName.replace(".html","");
+            //String tempName=testName.replace(".html","");
             if(testName.equals(".html")==false)
             {
             thisGroup.setVisible(true);
@@ -326,7 +365,7 @@ public class MainController implements ControlSwitchScreen {
             }
             }
         }
-
+        }
 //        Node thisGroup = previewGroups.get(childNodeCount);
 
 //
