@@ -75,9 +75,9 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Group test1group, test2group, test3group, test4group, test5group, test6group, test7group, test8group;
     @FXML
-    private Button addCourseButton;
+    private Button addCourseButton,searchB;
     @FXML
-    private ComboBox displayClass,search;
+    private ComboBox displayClass,bar;
     @FXML
     private Pane recentsPane;
     
@@ -150,7 +150,19 @@ public class MainController implements ControlSwitchScreen {
     }
     public void setSearch()
     {
-        
+        File folder = new File(path+"\\"+getC+"\\"+getS);
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            
+            if (listOfFiles[i].isFile()) {
+               // if(StringUtils.contains(, "common task"))
+                System.out.println("File " + listOfFiles[i].getName());
+                bar.getItems().addAll(listOfFiles[i].getName());
+            } else if (listOfFiles[i].isDirectory()) {
+                System.out.println("Directory " + listOfFiles[i].getName());
+            }
+        }
     }
     // Because I am calling the tests by user and section
     // instead this ends up not being used. I am keeping it in

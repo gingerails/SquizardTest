@@ -17,9 +17,9 @@
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="736.0" prefWidth="1548.0" VBox.vgrow="ALWAYS">
             <children>
-            <Pane id="greenFilter" fx:id="search" layoutX="-1.0" layoutY="23.0" prefHeight="1063.0" prefWidth="1928.0" styleClass="panebg">
+            <Pane id="greenFilter" fx:id="search" layoutX="-8.0" layoutY="23.0" prefHeight="1063.0" prefWidth="1928.0" styleClass="panebg" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <ComboBox layoutX="366.0" layoutY="10.0" prefHeight="25.0" prefWidth="724.0" styleClass="buttons" />
+                  <ComboBox fx:id="bar" layoutX="366.0" layoutY="10.0" prefHeight="25.0" prefWidth="724.0" styleClass="buttons" />
                </children></Pane>
                 <Button fx:id="addTest" layoutX="28.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="buttonAdd" text="+">
                     <font>
@@ -30,8 +30,8 @@
                <font>
                   <Font name="System Bold" size="20.0" />
                </font></Label>
-                <Label layoutX="1319.0" layoutY="38.0" text="Class/Section:" AnchorPane.rightAnchor="155.4000000000001" />
-                <Button fx:id="addCourseButton" layoutX="1502.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="+" AnchorPane.rightAnchor="21.200000000000045" />
+                <Label layoutX="1701.6" layoutY="38.0" text="Class/Section:" AnchorPane.bottomAnchor="1030.8000000000002" AnchorPane.rightAnchor="144.8000000000001" AnchorPane.topAnchor="38.0" />
+                <Button fx:id="addCourseButton" layoutX="1879.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="+" AnchorPane.bottomAnchor="1027.8000000000002" AnchorPane.rightAnchor="16.200000000000045" AnchorPane.topAnchor="33.0" />
                 <Button layoutX="191.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="MC&#10;TF&#10;Essay&#10;Short&#10;Match&#10;">
                     <font>
                         <Font size="10.0" />
@@ -47,8 +47,8 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <ComboBox fx:id="displayClass" layoutX="1399.0" layoutY="33.0" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #95a87b;" AnchorPane.rightAnchor="53.0" />
-              <MenuBar layoutY="-2.0" prefHeight="26.0" prefWidth="1929.0" style="-fx-background-color: #95a87b;">
+                <ComboBox fx:id="displayClass" layoutX="1399.0" layoutY="33.0" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #95a87b;" AnchorPane.bottomAnchor="1027.0" AnchorPane.rightAnchor="45.799999999999955" AnchorPane.topAnchor="33.0" />
+              <MenuBar layoutY="-2.0" prefHeight="26.0" prefWidth="1920.0" style="-fx-background-color: #95a87b;">
                   <menus>
                       <Menu mnemonicParsing="false" text="File">
                           <items>
@@ -87,7 +87,7 @@
                       </Menu>
                   </menus>
               </MenuBar>
-            <Button layoutX="1096.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Search" />
+            <Button fx:id="searchB" layoutX="1096.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Search" />
             <Pane fx:id="recentsPane" layoutX="14.0" layoutY="296.0" prefHeight="555.0" prefWidth="1667.0">
                <children>
                   <Group fx:id="test1group">
@@ -193,17 +193,17 @@
                   </Label>
                </children>
             </Pane>
-            <Label alignment="CENTER" layoutX="181.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 1">
+            <Label alignment="CENTER" layoutX="194.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 1">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="345.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 2">
+            <Label alignment="CENTER" layoutX="359.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 2">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="512.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 3">
+            <Label alignment="CENTER" layoutX="524.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 3">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
