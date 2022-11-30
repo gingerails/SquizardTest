@@ -300,73 +300,64 @@ public class MainController implements ControlSwitchScreen {
         // go through the first 7 tests and make button for them
         for (Test test : allTestsByUser) {
             //josh
-            Path pathTo=Paths.get(path+"\\"+getC+"\\"+getS+"\\"+test.getTestName());
+            Path pathTo = Paths.get(path + "\\" + getC + "\\" + getS + "\\" + test.getTestName());
             System.out.println(pathTo);
-            if(Files.exists(pathTo)==true)
-            {
-            String tempName=pathTo.toString().replace(path+"\\"+getC+"\\"+getS+"\\", "");
-            tempName=tempName.replace(".html","");
-            //josh
-            Node thisGroup = previewGroups.get(childNodeCount);
-            Button thisPreviewButton = previewButtons.get(childNodeCount);
-            Button thisEditButton = editButtons.get(childNodeCount);
-            String testName = test.getTestName();
-            String tempName=testName.replace(".html","");
-            if(testName.equals(".html")==false)
-            {
-            thisGroup.setVisible(true);
-            
-           thisPreviewButton.setOnAction(new EventHandler<ActionEvent>() {
-               @Override
-               public void handle(ActionEvent actionEvent) {
-                    
-                    loadpreview(path+"\\"+getC+"\\"+getS+"\\"+ testName);
-                    
-                }
-            });
-                    if(counter==0)
-                    {
+            if (Files.exists(pathTo) == true) {
+                String tempName = pathTo.toString().replace(path + "\\" + getC + "\\" + getS + "\\", "");
+                tempName = tempName.replace(".html", "");
+                //josh
+                Node thisGroup = previewGroups.get(childNodeCount);
+                Button thisPreviewButton = previewButtons.get(childNodeCount);
+                Button thisEditButton = editButtons.get(childNodeCount);
+                String testName = test.getTestName();
+                //String tempName = testName.replace(".html", "");
+                if (testName.equals(".html") == false) {
+                    thisGroup.setVisible(true);
+
+                    thisPreviewButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+
+                            loadpreview(path + "\\" + getC + "\\" + getS + "\\" + testName);
+
+                        }
+                    });
+                    if (counter == 0) {
                         name1.setText(tempName);
                     }
-                    if(counter==1)
-                    {
+                    if (counter == 1) {
                         name2.setText(tempName);
                     }
-                    if(counter==3)
-                    {
+                    if (counter == 3) {
                         name3.setText(tempName);
                     }
-                    if(counter==4)
-                    {
+                    if (counter == 4) {
                         name4.setText(tempName);
                     }
-                    if(counter==5)
-                    {
+                    if (counter == 5) {
                         name5.setText(tempName);
                     }
-                    if(counter==6)
-                    {
+                    if (counter == 6) {
                         name6.setText(tempName);
                     }
-                    if(counter==7)
-                    {
+                    if (counter == 7) {
                         name7.setText(tempName);
                     }
-                    
+
                     //loadpreview(path+"\\"+getC+"\\"+getS+"\\"+ testName);
-                    counter=counter +1;
-            Long dateCreated = (test.getDateCreated().getTime() / 1000);
-            childNodeCount++;
-            if (childNodeCount >= 7) {
-                break;
+                    counter = counter + 1;
+                    Long dateCreated = (test.getDateCreated().getTime() / 1000);
+                    childNodeCount++;
+                    if (childNodeCount >= 7) {
+                        break;
+                    }
+                }
             }
-            }
-        }
 
 //        Node thisGroup = previewGroups.get(childNodeCount);
 
 //
-
+        }
     }
 
 }
