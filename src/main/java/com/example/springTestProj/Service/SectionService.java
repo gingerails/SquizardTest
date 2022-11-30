@@ -53,5 +53,9 @@ public class SectionService {
     public List<Section> findCourseSections(String courseID){
         return sectionRepository.findSectionsByCourseUUID(courseID);
     }
+    public Section findTestbyUserSection(String userID,String section)
+    {
+        return sectionRepository.findBySectionPrimaryKeySectionUUIDAndCreatorId(userID,section);
+    }
 
 }
