@@ -162,19 +162,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
             }
 
         });
-        this.questionGraphicButton.setOnAction(actionEvent -> {
-            try {
-                copyandFile();
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                getG(qg,qG);
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-
+      
     }
    public void checkAttachmentFile()
    {

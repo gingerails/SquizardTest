@@ -1,5 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.path;
 import static com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController.path;
 import static com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController.pathTo;
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
@@ -10,6 +11,8 @@ import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -23,6 +26,12 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.stage.FileChooser;
 
 @Component
 @FxmlView("/shortAnswerQ.fxml")
@@ -59,11 +68,14 @@ public class ShortQuestionController implements ControlDialogBoxes {
     @FXML
     private TextField answerField;
     @FXML
-    private Label error;
+    private Label error,aL;
 
     public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
-
+    public File ag=null;
+    public File qg=null;
+    String cSection="";
+    String cClass="";
     public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -128,9 +140,97 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
         this.addAnswerGraphic.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
+             try {
+                copyandFile();
+            } catch (IOException ex) {
+                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                getG(ag,aL);
+            } catch (IOException ex) {
+                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
+    public void checkAttachmentFile()
+   {
+       Path pathA=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest());
+       if(Files.exists(pathA))
+       {
+       
+       }
+       else
+       {
+           new File(pathA.toString()).mkdirs();
+       }
 
+   }
+   public File getFiles()
+   {
+       FileChooser file = new FileChooser();  
+        file.setTitle("Open");  
+                //System.out.println(pic.getId());
+                Stage fStage = new Stage();
+        File file1 = file.showOpenDialog(fStage);  
+        System.out.println(file1);  
+        return file1;
+       
+   }
+   public void copyandFile() throws FileNotFoundException, IOException
+   {
+      
+        int count =0;
+        //need to check current section and class
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(
+					"temp.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+                            
+				System.out.println(line);
+				// read next line
+                                if(count==0)
+                                {
+                                    cClass=line;
+                                }
+                                if(count==1)
+                                {
+                                    cSection=line;
+                                }
+				line = reader.readLine();
+                                count++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+       //String src = getFiles().toString();
+       //String dest = path +"\\" +cClass + "\\" + cSection;
+      
+   }
+   public void getG(File ga, Label l) throws IOException
+   {
+      ga=getFiles();
+      Path src=Paths.get(ga.toString());
+      File f = new File(ga.getName());
+      String v=f.getName();
+      
+      Path dest=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest()+"\\"+v);
+      
+     
+       if(Files.exists(dest))
+       {
+           error.setText("Error: Cant have a duplicate attachment on test");
+       }
+       else
+       {
+           l.setText(v);
+           checkAttachmentFile();
+           Files.copy(src,dest);
+       }
+   }
     public void createQuestion() throws IOException {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
