@@ -59,6 +59,10 @@ public class TestService {
         return currentTest;
     }
 
+    public void setCurrentTest(Test test){
+        currentTest = test;
+    }
+
     /**
      * update test object by adding tf question
      * @param test

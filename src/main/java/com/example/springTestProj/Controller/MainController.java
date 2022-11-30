@@ -5,33 +5,20 @@
  */
 package com.example.springTestProj.Controller;
 
-import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.CourseService;
 import com.example.springTestProj.Repository.CourseRepository;
 import com.example.springTestProj.Entities.Courses;
-import com.example.springTestProj.Entities.Section;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
 import com.example.springTestProj.Service.SectionService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
-import java.io.BufferedReader;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -61,21 +48,24 @@ public class MainController implements ControlSwitchScreen {
 
     CourseRepository courseRepository;
 
-    private final SectionService sectionService;
     private final CourseService courseService;
+    private final SectionService sectionService;
     private final UserService userService;
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
     private final FxWeaver fxWeaver;
     private Stage stage;
     public static String path = "src\\main\\resources";
-    public int counter=0;
+
+    // idk abt this but w/e
+    private Section selectedSection;
+    private Courses selectedCourse;
     @FXML
     private VBox mainVbox;
     @FXML
     private Button addTest;
     @FXML
-    private Label name1,name2,name3,name4,name5,name6,name7;
+    private Label name1, name2, name3, name4, name5, name6, name7, name8;
     @FXML
     private Button preview1, preview2, preview3, preview4, preview5, preview6, preview7, preview8;
     @FXML
@@ -87,7 +77,7 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Button addCourseButton;
     @FXML
-    private ComboBox displayClass,findTestCb;
+    private ComboBox displayClass;
     @FXML
     private Pane recentsPane;
     public String getC = "";
@@ -130,44 +120,14 @@ public class MainController implements ControlSwitchScreen {
          for (Node node : previewGroups) {
             node.setVisible(false);
         }
+
+        getDatabaseCourses();
+
         this.displayClass.setOnAction(actionEvent -> {
             setClassandSectionn();
-            setFindTests();
+//            setFindTests();
             showExistingTests(userService.returnCurrentUserID());
-        });
-        getDatabaseCourses();
-        //showExistingTests(userService.returnCurrentUserID());
-        this.preview1.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview2.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview3.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview4.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview5.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview6.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview7.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
-        });
-        this.preview8.setOnAction(actionEvent -> {
-            setClassandSectionn();
-            showExistingTests(userService.returnCurrentUserID());
+
         });
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
@@ -188,20 +148,23 @@ public class MainController implements ControlSwitchScreen {
         return currentStage;
     }
 
-    public void setFindTests() {
-        File folder = new File(path+"\\"+getC+"\\"+getS);
-        File[] listOfFiles = folder.listFiles();
-
-        for (int i = 0; i < listOfFiles.length; i++) {
-
-            if (listOfFiles[i].isFile()) {
-                System.out.println("File " + listOfFiles[i].getName());
-                findTestCb.getItems().addAll(listOfFiles[i].getName());
-            } else if (listOfFiles[i].isDirectory()) {
-                System.out.println("Directory " + listOfFiles[i].getName());
-            }
-        }
-    }
+    // Because I am calling the tests by user and section
+    // instead this ends up not being used. I am keeping it in
+    // just in case the code needs to be reused otherwise
+//    public void setFindTests() {
+//        File folder = new File(path+"\\"+getC+"\\"+getS);
+//        File[] listOfFiles = folder.listFiles();
+//
+//        for (int i = 0; i < listOfFiles.length; i++) {
+//
+//            if (listOfFiles[i].isFile()) {
+//                System.out.println("File " + listOfFiles[i].getName());
+//                findTestCb.getItems().addAll(listOfFiles[i].getName());
+//            } else if (listOfFiles[i].isDirectory()) {
+//                System.out.println("Directory " + listOfFiles[i].getName());
+//            }
+//        }
+//    }
     @Override
     public void show(Stage thisStage) {
         this.stage = thisStage;
@@ -216,28 +179,27 @@ public class MainController implements ControlSwitchScreen {
      * gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
      */
 
-    public void setClassandSectionn()
-    {
-        int token=0;
+    public void setClassandSectionn() {
+        int token = 0;
 //        System.out.println("Test stuff:"+displayClass.getValue().toString());
-        if(displayClass.getValue().equals(null) || displayClass.getValue().toString().equals("")==false)
-        {
-        String getDis = (String) displayClass.getValue();
-        String parts[] = getDis.split(" ");
-        for(String part: parts) {
-            if(token==0)
-            {
-                getC=part;
-                token++;
-            }
-            if(token==1)
-            {
-                getS=part;
+        if (displayClass.getValue().equals(null) || displayClass.getValue().toString().equals("") == false) {
+            String getDis = (String) displayClass.getValue();
+            String parts[] = getDis.split(" ");
+            for (String part : parts) {
+                if (token == 0) {
+                    getC = part;
+                    selectedCourse = courseService.returnCourseByCourseNum(part);
+                    token++;
+                }
+                if (token == 1) {
+                    getS = part;
+                    selectedSection = sectionService.returnSectionBySectionAndCourseID(getS, selectedCourse.getCoursesPrimaryKey().getCoursesUUID());
+                }
             }
         }
-        }
-        System.out.println("cc:"+getC+" "+getS);
+        System.out.println("cc:" + getC + " " + getS);
     }
+
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
@@ -277,75 +239,57 @@ public class MainController implements ControlSwitchScreen {
      * get their htmls
      */
     public void showExistingTests(String userID) {
-        
-        int token =0;
 
-        // josh
-        Section allTestbySectionandUser = sectionService.findTestbyUserSection(userID, "01");
-        System.out.println(allTestbySectionandUser);
-        // j
-        List<Test> allTestsByUser = testService.findAllTestsByUser(userID);
+        int token = 0;
         ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
-        ArrayList<Button> previewButtons = new ArrayList<>(Arrays.asList(this.preview1, this.preview2, this.preview3, this.preview4, this.preview5, this.preview6, this.preview7, this.preview8));
-        ArrayList<Button> editButtons = new ArrayList<>(Arrays.asList(this.edit1, this.edit2, this.edit3, this.edit4, this.edit5, this.edit6, this.edit7, this.edit8));
 
         for (Node node : previewGroups) {
             node.setVisible(false);
-            
+
         }
-        ArrayList<Long> testsByTime = new ArrayList<Long>();
-        allTestsByUser.sort(Comparator.comparing(Test::getDateCreated));    // sort tests by creation date. oldest to youngest
-        Collections.reverse(allTestsByUser);        // most recent tests first now
-        int childNodeCount = 0;
-        // go through the first 7 tests and make button for them
-        for (Test test : allTestsByUser) {
-            //josh
-            Path pathTo = Paths.get(path + "\\" + getC + "\\" + getS + "\\" + test.getTestName());
-            System.out.println(pathTo);
-            if (Files.exists(pathTo) == true) {
-                String tempName = pathTo.toString().replace(path + "\\" + getC + "\\" + getS + "\\", "");
-                tempName = tempName.replace(".html", "");
-                //josh
+      //  List<Test> allTestsByUser = testService.findAllTestsByUser(userID);
+        ArrayList<Test> allTestsBySection = new ArrayList<>();
+        String testsBySectionStr = selectedSection.getTest();
+        if(testsBySectionStr != null){
+            String[] testIDArrStr= testsBySectionStr.split(",");
+            String[] testIDs= Arrays.copyOfRange(testIDArrStr, 1, testIDArrStr.length);
+            // for each test id, search repo for it and add to the testbyuserandsection list
+            for(String testID: testIDs){
+                Test thisTest = testService.returnTestByTestID(testID);
+                allTestsBySection.add(thisTest);
+            }
+
+            ArrayList<Button> previewButtons = new ArrayList<>(Arrays.asList(this.preview1, this.preview2, this.preview3, this.preview4, this.preview5, this.preview6, this.preview7, this.preview8));
+            ArrayList<Button> editButtons = new ArrayList<>(Arrays.asList(this.edit1, this.edit2, this.edit3, this.edit4, this.edit5, this.edit6, this.edit7, this.edit8));
+            ArrayList<Label> labels = new ArrayList<>(Arrays.asList(this.name1, this.name2, this.name3, this.name4, this.name5, this.name6, this.name7, this.name8));
+
+            ArrayList<Long> testsByTime = new ArrayList<Long>();
+            allTestsBySection.sort(Comparator.comparing(Test::getDateCreated));    // sort tests by creation date. oldest to youngest
+            Collections.reverse(allTestsBySection);        // most recent tests first now
+            int childNodeCount = 0;
+            // go through the first 7 tests and make button for them
+            for (Test test : allTestsBySection) {
                 Node thisGroup = previewGroups.get(childNodeCount);
                 Button thisPreviewButton = previewButtons.get(childNodeCount);
                 Button thisEditButton = editButtons.get(childNodeCount);
+                Label thisLabel = labels.get(childNodeCount);
                 String testName = test.getTestName();
-                //String tempName = testName.replace(".html", "");
-                if (testName.equals(".html") == false) {
+                String tempName = testName.replace(".html", "");
+
+                thisLabel.setText(tempName);
+
+                if (!testName.equals(".html")) {
                     thisGroup.setVisible(true);
-
-                    thisPreviewButton.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-
-                            loadpreview(path + "\\" + getC + "\\" + getS + "\\" + testName);
-
-                        }
+                    thisEditButton.setOnAction(actionEvent -> {
+                        testService.setCurrentTest(test);
+                        FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView =
+                                fxWeaver.load(TestMakerController.class);
+                        testMakerControllerAndView.getController().show(getCurrentStage());
                     });
-                    if (counter == 0) {
-                        name1.setText(tempName);
-                    }
-                    if (counter == 1) {
-                        name2.setText(tempName);
-                    }
-                    if (counter == 3) {
-                        name3.setText(tempName);
-                    }
-                    if (counter == 4) {
-                        name4.setText(tempName);
-                    }
-                    if (counter == 5) {
-                        name5.setText(tempName);
-                    }
-                    if (counter == 6) {
-                        name6.setText(tempName);
-                    }
-                    if (counter == 7) {
-                        name7.setText(tempName);
-                    }
 
-                    //loadpreview(path+"\\"+getC+"\\"+getS+"\\"+ testName);
-                    counter = counter + 1;
+                    thisPreviewButton.setOnAction(actionEvent -> {
+                        loadpreview(path + "\\" + getC + "\\" + getS + "\\" + testName);
+                    });
                     Long dateCreated = (test.getDateCreated().getTime() / 1000);
                     childNodeCount++;
                     if (childNodeCount >= 7) {
@@ -353,11 +297,9 @@ public class MainController implements ControlSwitchScreen {
                     }
                 }
             }
-
-//        Node thisGroup = previewGroups.get(childNodeCount);
-
-//
         }
+
+
     }
 
 }
