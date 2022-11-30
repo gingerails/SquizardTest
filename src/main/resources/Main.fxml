@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainVbox" prefHeight="736.0" prefWidth="1548.0" styleClass="bodybg" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.MainController">
+<VBox fx:id="mainVbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="bodybg" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.MainController">
     <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="710.0" prefWidth="1226.0" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="736.0" prefWidth="1548.0" VBox.vgrow="ALWAYS">
             <children>
-            <Pane layoutX="-1.0" layoutY="23.0" prefHeight="713.0" prefWidth="1548.0" styleClass="panebg" />
+            <Pane id="greenFilter" layoutX="-1.0" layoutY="23.0" prefHeight="1063.0" prefWidth="1928.0" styleClass="panebg" />
                 <Button fx:id="addTest" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="+">
                     <font>
                         <Font name="System Bold" size="56.0" />
@@ -46,7 +46,7 @@
                     </font>
                 </Button>
                 <ComboBox fx:id="displayClass" layoutX="1399.0" layoutY="33.0" prefHeight="26.0" prefWidth="96.0" AnchorPane.rightAnchor="53.0" />
-              <MenuBar layoutY="-2.0" prefHeight="26.0" prefWidth="1548.0" style="-fx-background-color: #95a87b;">
+              <MenuBar layoutY="-2.0" prefHeight="26.0" prefWidth="1929.0" style="-fx-background-color: #95a87b;">
                   <menus>
                       <Menu mnemonicParsing="false" text="File">
                           <items>
@@ -87,7 +87,7 @@
               </MenuBar>
             <Button layoutX="1096.0" layoutY="33.0" mnemonicParsing="false" text="Search" />
             <TextField layoutX="460.0" layoutY="33.0" prefHeight="26.0" prefWidth="628.0" />
-            <Pane fx:id="recentsPane" layoutX="14.0" layoutY="296.0" prefHeight="430.0" prefWidth="1438.0">
+            <Pane fx:id="recentsPane" layoutX="14.0" layoutY="296.0" prefHeight="555.0" prefWidth="1667.0">
                <children>
                   <Group fx:id="test1group">
                      <children>

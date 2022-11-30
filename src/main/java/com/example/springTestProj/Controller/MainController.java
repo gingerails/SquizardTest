@@ -243,15 +243,10 @@ public class MainController implements ControlSwitchScreen {
                 allTestsBySection.add(thisTest);
             }
 
-
             ArrayList<Button> previewButtons = new ArrayList<>(Arrays.asList(this.preview1, this.preview2, this.preview3, this.preview4, this.preview5, this.preview6, this.preview7, this.preview8));
             ArrayList<Button> editButtons = new ArrayList<>(Arrays.asList(this.edit1, this.edit2, this.edit3, this.edit4, this.edit5, this.edit6, this.edit7, this.edit8));
             ArrayList<Label> labels = new ArrayList<>(Arrays.asList(this.name1, this.name2, this.name3, this.name4, this.name5, this.name6, this.name7, this.name8));
 
-//            for (Node node : previewGroups) {
-//                node.setVisible(false);
-//
-//            }
             ArrayList<Long> testsByTime = new ArrayList<Long>();
             allTestsBySection.sort(Comparator.comparing(Test::getDateCreated));    // sort tests by creation date. oldest to youngest
             Collections.reverse(allTestsBySection);        // most recent tests first now
@@ -269,6 +264,12 @@ public class MainController implements ControlSwitchScreen {
 
                 if (!testName.equals(".html")) {
                     thisGroup.setVisible(true);
+                    thisEditButton.setOnAction(actionEvent -> {
+                        testService.setCurrentTest(test);
+                        FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView =
+                                fxWeaver.load(TestMakerController.class);
+                        testMakerControllerAndView.getController().show(getCurrentStage());
+                    });
 
                     thisPreviewButton.setOnAction(actionEvent -> {
                         loadpreview(path + "\\" + getC + "\\" + getS + "\\" + testName);

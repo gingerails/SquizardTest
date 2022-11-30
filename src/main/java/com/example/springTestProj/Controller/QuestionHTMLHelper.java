@@ -77,15 +77,20 @@ public class QuestionHTMLHelper {
         
         
         
-        
         File templateFile = new File(path+ "template.html");
         File newFile = new File(pathTo + testName);
-        Files.copy(templateFile.toPath(), newFile.toPath()); // copy template file
+        if(!newFile.exists()){
+            Files.copy(templateFile.toPath(), newFile.toPath()); // copy template file
+
+        }
 
         // Test Key
         File keyTemplateFile = new File(path + "KEY_template.html");
         File testKeyFile = new File(pathTo + "KEY_" + testName);
-        Files.copy(keyTemplateFile.toPath(), testKeyFile.toPath()); // copy template file
+        if(!testKeyFile.exists()){
+            Files.copy(keyTemplateFile.toPath(), testKeyFile.toPath()); // copy template file
+        }
+
 
         String htmlString = Files.readString(Path.of(newFile.getPath()));
         String displayName = testName.replace(".html", "");
