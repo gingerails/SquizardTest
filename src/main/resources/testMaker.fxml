@@ -12,7 +12,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
@@ -23,7 +22,7 @@
     <children>
 <AnchorPane id="AnchorPane" prefHeight="727.0" prefWidth="992.0" style="-fx-background-color: aebd99;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <SplitPane dividerPositions="0.7962062256809338" layoutX="112.0" layoutY="284.0" prefHeight="727.0" prefWidth="992.0" style="-fx-background-color: aebd99;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.5656797331109258" layoutX="112.0" layoutY="284.0" prefHeight="727.0" prefWidth="992.0" style="-fx-background-color: aebd99;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="726.0" prefWidth="994.0" style="-fx-background-color: aebd99;">
                <children>
@@ -33,8 +32,7 @@
                         <Font name="Arial Bold" size="12.0" />
                      </font>
                   </Button>
-                        <Button layoutX="729.0" layoutY="30.0" mnemonicParsing="false" text="Random" />
-                        <Pane layoutX="596.0" prefHeight="748.0" prefWidth="935.0" style="-fx-background-color: aebd99;" />
+                        <Button layoutX="1269.0" layoutY="31.0" mnemonicParsing="false" text="Random" AnchorPane.rightAnchor="194.2" />
                         <ScrollPane hbarPolicy="ALWAYS" layoutY="63.0" prefHeight="662.0" prefWidth="1317.0" style="-fx-background-color: aebd99;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="940.0" prefWidth="606.0" style="-fx-background-color: aebd99;">
@@ -76,7 +74,6 @@
                                     <Label layoutX="657.0" layoutY="620.0" text="Pts Each:" />
                                     <TextField fx:id="eP" layoutX="705.0" layoutY="764.0" prefHeight="26.0" prefWidth="66.0" />
                                     <Label layoutX="657.0" layoutY="768.0" text="Pts Each:" />
-                                    <Label fx:id="error" alignment="CENTER" layoutX="283.0" layoutY="806.0" prefHeight="18.0" prefWidth="730.0" style="-fx-text-fill: #FF0000;" text="khgljhgjkhgkkjhg" />
                                  </children>
                               </AnchorPane>
                           </content>
@@ -85,7 +82,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="314.0" style="-fx-background-color: aebd99;">
                      <children>
-                        <WebView fx:id="viewer" layoutX="3.0" layoutY="26.0" prefHeight="254.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.999975585937477" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0000244140625227" AnchorPane.topAnchor="26.0" />
+                        <WebView fx:id="viewer" layoutX="3.0" layoutY="26.0" prefHeight="697.0" prefWidth="382.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="26.0" />
                      </children></AnchorPane>
         </items>
       </SplitPane>
@@ -95,7 +92,7 @@
             <items>
               <MenuItem mnemonicParsing="false" text="Import" />
                         <MenuItem mnemonicParsing="false" text="Export" />
-                        <MenuItem fx:id="print" mnemonicParsing="false" text="Print" />
+                        <MenuItem fx:id="print" mnemonicParsing="false" onAction="#printT" text="Print" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -109,12 +106,17 @@
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
+                  <Menu fx:id="e" mnemonicParsing="false" onAction="#exit" text="Exit">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Exit Application" />
+                    </items>
+                  </Menu>
         </menus>
       </MenuBar>
    </children>
 </AnchorPane>
       <Button fx:id="publish" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" text="Publish" />
-      <Label text="Diagnostics:" translateY="-10.0">
+      <Label text="Diagnostics:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -126,11 +128,12 @@
          <padding>
             <Insets left="5.0" />
          </padding></Label>
-      <Label layoutX="10.0" layoutY="781.0" text="Time Taken:" translateY="25.0">
+      <Label layoutX="10.0" layoutY="781.0" text="Time Taken:" translateY="20.0">
          <padding>
             <Insets left="5.0" />
          </padding></Label>
       <TextField prefHeight="26.0" prefWidth="699.0" scaleX="0.1" translateX="-475.0" translateY="-40.0" VBox.vgrow="NEVER" />
       <TextField prefHeight="26.0" scaleX="0.1" translateX="-475.0" translateY="-25.0" VBox.vgrow="NEVER" />
+      <Label fx:id="error" alignment="CENTER" prefHeight="18.0" prefWidth="730.0" style="-fx-text-fill: #FF0000;" />
 </children>
 </VBox>

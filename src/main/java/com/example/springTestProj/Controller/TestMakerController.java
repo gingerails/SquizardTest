@@ -62,6 +62,8 @@ import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
@@ -233,7 +235,7 @@ public class TestMakerController implements ControlSwitchScreen {
         questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
-                "MatchingQuestion",
+                "Matching Question",
                 "Fill in Blank",
                 "True/False",
                 "Short Answer"
@@ -358,6 +360,16 @@ public class TestMakerController implements ControlSwitchScreen {
         }
     }
 
+    public void printT()
+    {
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            engine.print(job);
+            job.endJob();
+        }
+    }
+
+
     public void addHTML(String file, String divID, String points) throws IOException {
         File templateFile = new File(path + file);
         File newFile = new File(path + file);
@@ -408,6 +420,11 @@ public class TestMakerController implements ControlSwitchScreen {
                 = fxWeaver.load(MainController.class);
         mainControllerAndView.getController().show(getCurrentStage());
     }
+    public void exit()
+    {
+        
+        stage.close();
+    }
 
     public void Qorder() {
         System.out.println("Qorder");
@@ -433,7 +450,7 @@ public class TestMakerController implements ControlSwitchScreen {
             McQuestionControllerAndView.getController().show(getCurrentStage());
         }
         if ("MatchingQuestion".equals(qType) == true) {
-            System.out.println("MatchingQuestion");
+            System.out.println("Matching Question");
             FxControllerAndView<MatchingQController, VBox> mQuestionControllerAndView =
                     fxWeaver.load(MatchingQController.class);
             mQuestionControllerAndView.getController().show(getCurrentStage());

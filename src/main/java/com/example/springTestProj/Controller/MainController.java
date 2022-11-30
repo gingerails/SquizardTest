@@ -117,6 +117,7 @@ public class MainController implements ControlSwitchScreen {
 
     @FXML
     public void initialize() {
+        
          ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
          for (Node node : previewGroups) {
             node.setVisible(false);
@@ -132,6 +133,9 @@ public class MainController implements ControlSwitchScreen {
         });
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
+        });
+        this.searchB.setOnAction(actionEvent -> {
+            searchEdit();
         });
         this.addCourseButton.setOnAction((ActionEvent actionEvent) -> {
             loadAddCourseScreen();
@@ -150,6 +154,7 @@ public class MainController implements ControlSwitchScreen {
     }
     public void setSearch()
     {
+        bar.getItems().clear();
         File folder = new File(path+"\\"+getC+"\\"+getS);
         File[] listOfFiles = folder.listFiles();
 
@@ -157,8 +162,10 @@ public class MainController implements ControlSwitchScreen {
             
             if (listOfFiles[i].isFile()) {
                // if(StringUtils.contains(, "common task"))
+               if(listOfFiles[i].getName().contains("KEY_")==false){
                 System.out.println("File " + listOfFiles[i].getName());
-                bar.getItems().addAll(listOfFiles[i].getName());
+                bar.getItems().addAll(listOfFiles[i].getName().replaceAll(".html", ""));
+               }
             } else if (listOfFiles[i].isDirectory()) {
                 System.out.println("Directory " + listOfFiles[i].getName());
             }
@@ -254,6 +261,27 @@ public class MainController implements ControlSwitchScreen {
      * for the test preview - go through the existing tests
      * get their htmls
      */
+    public void searchEdit()
+    {
+         for (Test test : testService.findAllTestsByUser(userService.returnCurrentUserID())) {
+               
+                String testName = test.getTestName();
+                String tempName = testName.replace(".html", "");
+
+               // thisLabel.setText(tempName);
+
+                if (!testName.equals(".html")&&bar.getValue().equals(tempName)) {
+                    
+                    
+                        testService.setCurrentTest(test);
+                        FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView =
+                                fxWeaver.load(TestMakerController.class);
+                        testMakerControllerAndView.getController().show(getCurrentStage());
+                    
+
+                }
+            }
+    }
     public void showExistingTests(String userID) {
 
         int token = 0;
