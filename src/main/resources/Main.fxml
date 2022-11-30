@@ -29,7 +29,7 @@
                   <Font name="System Bold" size="20.0" />
                </font></Label>
                 <Label layoutX="1319.0" layoutY="38.0" text="Class/Section:" AnchorPane.rightAnchor="155.4000000000001" />
-                <Button fx:id="addCourseButton" layoutX="1502.0" layoutY="33.0" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="21.200000000000045" />
+                <Button fx:id="addCourseButton" layoutX="1502.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="+" AnchorPane.rightAnchor="21.200000000000045" />
                 <Button layoutX="177.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="MC&#10;TF&#10;Essay&#10;Short&#10;Match&#10;">
                     <font>
                         <Font size="10.0" />
@@ -45,7 +45,7 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <ComboBox fx:id="displayClass" layoutX="1399.0" layoutY="33.0" prefHeight="26.0" prefWidth="96.0" AnchorPane.rightAnchor="53.0" />
+                <ComboBox fx:id="displayClass" layoutX="1399.0" layoutY="33.0" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #95a87b;" AnchorPane.rightAnchor="53.0" />
               <MenuBar layoutY="-2.0" prefHeight="26.0" prefWidth="1929.0" style="-fx-background-color: #95a87b;">
                   <menus>
                       <Menu mnemonicParsing="false" text="File">
@@ -85,7 +85,7 @@
                       </Menu>
                   </menus>
               </MenuBar>
-            <Button layoutX="1096.0" layoutY="33.0" mnemonicParsing="false" text="Search" />
+            <Button layoutX="1096.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Search" />
             <TextField layoutX="460.0" layoutY="33.0" prefHeight="26.0" prefWidth="628.0" />
             <Pane fx:id="recentsPane" layoutX="14.0" layoutY="296.0" prefHeight="555.0" prefWidth="1667.0">
                <children>
@@ -96,9 +96,9 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview1" layoutX="38.0" layoutY="111.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                        <Button fx:id="preview1" layoutX="38.0" layoutY="111.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
                         <Label fx:id="name1" alignment="CENTER" layoutX="59.0" layoutY="76.0" prefHeight="17.0" prefWidth="90.0" text="test" textAlignment="RIGHT" translateX="-30.0" />
-                        <Button fx:id="edit1" layoutX="57.0" layoutY="154.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="edit1" layoutX="57.0" layoutY="154.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" styleClass="buttons" stylesheets="@Style.css" text="Edit" />
                      </children>
                   </Group>
                   <Group fx:id="test2group" layoutX="10.0" layoutY="10.0">
@@ -108,8 +108,8 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview2" layoutX="200.0" layoutY="102.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
-                        <Button fx:id="edit2" layoutX="218.0" layoutY="141.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="preview2" layoutX="200.0" layoutY="102.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
+                        <Button fx:id="edit2" layoutX="218.0" layoutY="141.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" styleClass="buttons" text="Edit" />
                         <Label fx:id="name2" alignment="CENTER" layoutX="222.0" layoutY="65.0" prefWidth="90.0" text="Test1" textAlignment="CENTER" translateX="-30.0" />
                      </children>
                   </Group>
@@ -120,9 +120,9 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview3" layoutX="358.0" layoutY="88.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                        <Button fx:id="preview3" layoutX="358.0" layoutY="88.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
                         <Label fx:id="name3" alignment="CENTER" layoutX="381.0" layoutY="54.0" prefWidth="90.0" text="Test1" translateX="-30.0" />
-                        <Button fx:id="edit3" layoutX="377.0" layoutY="128.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="edit3" layoutX="377.0" layoutY="128.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Edit" />
                      </children>
                   </Group>
                   <Group fx:id="test4group" layoutX="20.0" layoutY="20.0">
@@ -132,8 +132,8 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview4" layoutX="535.0" layoutY="87.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
-                        <Button fx:id="edit4" layoutX="554.0" layoutY="128.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="preview4" layoutX="535.0" layoutY="87.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
+                        <Button fx:id="edit4" layoutX="554.0" layoutY="128.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Edit" />
                         <Label fx:id="name4" alignment="CENTER" layoutX="558.0" layoutY="51.0" prefWidth="90.0" text="Test1" translateX="-30.0" />
                      </children>
                   </Group>
@@ -144,8 +144,8 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview5" layoutX="894.0" layoutY="93.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
-                        <Button fx:id="edit5" layoutX="912.0" layoutY="132.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="preview5" layoutX="894.0" layoutY="93.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
+                        <Button fx:id="edit5" layoutX="912.0" layoutY="132.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Edit" />
                         <Label fx:id="name5" alignment="CENTER" layoutX="916.0" layoutY="56.0" prefWidth="90.0" text="Test1" translateX="-30.0" />
                      </children>
                   </Group>
@@ -156,9 +156,9 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview6" layoutX="1055.0" layoutY="80.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                        <Button fx:id="preview6" layoutX="1055.0" layoutY="80.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
                         <Label fx:id="name6" alignment="CENTER" layoutX="1078.0" layoutY="46.0" prefWidth="90.0" text="Test1" translateX="-30.0" />
-                        <Button fx:id="edit6" layoutX="1074.0" layoutY="120.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="edit6" layoutX="1074.0" layoutY="120.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Edit" />
                      </children>
                   </Group>
                   <Group fx:id="test7group" layoutX="30.0" layoutY="30.0">
@@ -168,8 +168,8 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview7" layoutX="700.0" layoutY="79.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
-                        <Button fx:id="edit7" layoutX="719.0" layoutY="120.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="preview7" layoutX="700.0" layoutY="79.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
+                        <Button fx:id="edit7" layoutX="719.0" layoutY="120.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Edit" />
                         <Label fx:id="name7" alignment="CENTER" layoutX="723.0" layoutY="43.0" prefWidth="90.0" text="Test1" translateX="-30.0" />
                      </children>
                   </Group>
@@ -180,9 +180,9 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button fx:id="preview8" layoutX="1213.0" layoutY="70.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Preview" />
+                        <Button fx:id="preview8" layoutX="1213.0" layoutY="70.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" styleClass="buttons" stylesheets="@Style.css" text="Preview" />
                         <Label fx:id="name8" alignment="CENTER" layoutX="1236.0" layoutY="36.0" prefWidth="90.0" text="Test1" translateX="-30.0" />
-                        <Button fx:id="edit8" layoutX="1232.0" layoutY="110.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="edit8" layoutX="1232.0" layoutY="110.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Edit" />
                      </children>
                   </Group>
                   <Label text="Recents">

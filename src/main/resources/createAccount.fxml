@@ -11,11 +11,11 @@
 
 <!--  ADD LATER      stylesheets="@Style.css"-->
 
-<VBox fx:id="createAccountVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="276.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateAccountController">
-   <Separator orientation="VERTICAL" prefHeight="200.0" />
+<VBox fx:id="createAccountVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="276.0" style="-fx-background-color: aebd99;" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateAccountController">
+   <Separator orientation="VERTICAL" prefHeight="200.0" style="-fx-background-color: aebd99;" />
    <VBox>
       <children>
-         <Label alignment="TOP_CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="86.0" prefWidth="622.0" snapToPixel="false" text="Create Account" textAlignment="CENTER">
+         <Label alignment="TOP_CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="86.0" prefWidth="622.0" snapToPixel="false" style="-fx-background-color: aebd99;" text="Create Account" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="34.0" />
             </font>
@@ -23,13 +23,13 @@
          <Label text="Username:" />
       </children>
    </VBox>
-   <TextField fx:id="usrField" accessibleText="usrField" prefHeight="15.0" prefWidth="238.0" />
+   <TextField fx:id="usrField" accessibleText="usrField" prefHeight="25.0" prefWidth="232.0" style="-fx-background-color: e1e6e2;" />
    <Label text="Password:" />
-   <TextField fx:id="passField" accessibleText="passField" />
-   <HBox prefHeight="28.0" prefWidth="276.0">
+   <TextField fx:id="passField" accessibleText="passField" style="-fx-background-color: e1e6e2;" />
+   <HBox prefHeight="28.0" prefWidth="276.0" style="-fx-background-color: aebd99;">
       <children>
-            <Button fx:id="button" graphicTextGap="0.0" prefHeight="25.0" prefWidth="183.0" text="Create" />
-         <Separator prefWidth="200.0" />
+            <Button fx:id="button" graphicTextGap="0.0" prefHeight="25.0" prefWidth="183.0" styleClass="buttons" stylesheets="@Style.css" text="Create" />
+         <Separator prefWidth="200.0" style="-fx-background-color: aebd99;" />
          <Hyperlink fx:id="existingAccountLink" prefHeight="23.0" prefWidth="274.0" text="Login to Existing Account" />
       </children>
    </HBox>
