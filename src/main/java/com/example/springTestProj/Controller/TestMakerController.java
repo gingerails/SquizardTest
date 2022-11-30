@@ -207,7 +207,7 @@ public class TestMakerController implements ControlSwitchScreen {
             e.printStackTrace();
         }
 
-
+        path = "src\\main\\resources\\";
         //Files.deleteIfExists(Paths.get("temp.txt"));
         System.out.println(cClass + " " + cSection);
 
@@ -361,11 +361,15 @@ public class TestMakerController implements ControlSwitchScreen {
     public void addHTML(String file, String divID, String points) throws IOException {
         File templateFile = new File(path + file);
         File newFile = new File(path + file);
-        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+        if(!newFile.exists()){
+            Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+        }
 
         File keyTemplateFile = new File(path + "KEY_" + file);
         File newKeyFile = new File(path + "KEY_" + file);
-        Files.copy(keyTemplateFile.toPath(), newKeyFile.toPath()); // copy current version of file
+        if(!newKeyFile.exists()){
+            Files.copy(keyTemplateFile.toPath(), newKeyFile.toPath()); // copy current version of file
+        }
 
         // String addPointsSect
         String keyHtmlString = Files.readString(newKeyFile.toPath());

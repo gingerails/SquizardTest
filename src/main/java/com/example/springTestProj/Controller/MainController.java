@@ -69,7 +69,7 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Button preview1, preview2, preview3, preview4, preview5, preview6, preview7, preview8;
     @FXML
-    private Button recent1, recent2, recent3, recent4, recent5, recent6, recent7, recent8, enter;
+    private Button recent1, recent2, recent3, recent4, recent5, recent6, recent7, recent8;
     @FXML
     private Button edit1, edit2, edit3, edit4, edit5, edit6, edit7, edit8;
     @FXML
