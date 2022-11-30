@@ -77,9 +77,10 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Button addCourseButton;
     @FXML
-    private ComboBox displayClass;
+    private ComboBox displayClass,search;
     @FXML
     private Pane recentsPane;
+    
     public String getC = "";
     public String getS = "";
 
@@ -127,7 +128,7 @@ public class MainController implements ControlSwitchScreen {
             setClassandSectionn();
 //            setFindTests();
             showExistingTests(userService.returnCurrentUserID());
-
+            setSearch();
         });
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
@@ -147,7 +148,10 @@ public class MainController implements ControlSwitchScreen {
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
-
+    public void setSearch()
+    {
+        
+    }
     // Because I am calling the tests by user and section
     // instead this ends up not being used. I am keeping it in
     // just in case the code needs to be reused otherwise

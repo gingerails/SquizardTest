@@ -8,7 +8,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -18,10 +17,13 @@
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="736.0" prefWidth="1548.0" VBox.vgrow="ALWAYS">
             <children>
-            <Pane id="greenFilter" layoutX="-1.0" layoutY="23.0" prefHeight="1063.0" prefWidth="1928.0" styleClass="panebg" />
-                <Button fx:id="addTest" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="+">
+            <Pane id="greenFilter" fx:id="search" layoutX="-1.0" layoutY="23.0" prefHeight="1063.0" prefWidth="1928.0" styleClass="panebg">
+               <children>
+                  <ComboBox layoutX="366.0" layoutY="10.0" prefHeight="25.0" prefWidth="724.0" styleClass="buttons" />
+               </children></Pane>
+                <Button fx:id="addTest" layoutX="28.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="buttonAdd" text="+">
                     <font>
-                        <Font name="System Bold" size="56.0" />
+                        <Font name="Britannic Bold" size="96.0" />
                     </font>
                 </Button>
                 <Label layoutX="14.0" layoutY="44.0" text="Create a New Test">
@@ -30,17 +32,17 @@
                </font></Label>
                 <Label layoutX="1319.0" layoutY="38.0" text="Class/Section:" AnchorPane.rightAnchor="155.4000000000001" />
                 <Button fx:id="addCourseButton" layoutX="1502.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="+" AnchorPane.rightAnchor="21.200000000000045" />
-                <Button layoutX="177.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="MC&#10;TF&#10;Essay&#10;Short&#10;Match&#10;">
+                <Button layoutX="191.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="MC&#10;TF&#10;Essay&#10;Short&#10;Match&#10;">
                     <font>
                         <Font size="10.0" />
                     </font>
                 </Button>
-                <Button layoutX="341.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7">
+                <Button layoutX="355.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button layoutX="507.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7">
+                <Button layoutX="521.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -86,7 +88,6 @@
                   </menus>
               </MenuBar>
             <Button layoutX="1096.0" layoutY="33.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Search" />
-            <TextField layoutX="460.0" layoutY="33.0" prefHeight="26.0" prefWidth="628.0" />
             <Pane fx:id="recentsPane" layoutX="14.0" layoutY="296.0" prefHeight="555.0" prefWidth="1667.0">
                <children>
                   <Group fx:id="test1group">
@@ -193,6 +194,16 @@
                </children>
             </Pane>
             <Label alignment="CENTER" layoutX="181.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 1">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="345.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 2">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="512.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 3">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
