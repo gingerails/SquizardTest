@@ -8,7 +8,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -18,9 +17,9 @@
     <children>
         <AnchorPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
             <children>
-                <Button fx:id="addCourseButton" layoutX="1283.0" layoutY="33.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="29.0" style="-fx-background-color: #95a87b;" text="+" AnchorPane.rightAnchor="607.4000000000001" />
+                <Button fx:id="addCourseButton" layoutX="1283.0" layoutY="35.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="29.0" style="-fx-background-color: #95a87b;" text="+" AnchorPane.rightAnchor="607.4000000000001" />
             <ComboBox fx:id="bar" layoutX="377.0" layoutY="33.0" prefHeight="30.0" prefWidth="711.0" styleClass="buttons" />
-                <Button fx:id="addTest" layoutX="25.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="buttonAdd" text="+">
+                <Button fx:id="addTest" layoutX="16.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="buttonAdd" text="+">
                     <font>
                         <Font name="Britannic Bold" size="96.0" />
                     </font>
@@ -29,57 +28,32 @@
                <font>
                   <Font name="System Bold" size="20.0" />
                </font></Label>
-                <Button layoutX="198.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="MC&#10;Match&#10;TF&#10;Essay&#10;Short&#10;&#10;">
+                <Button layoutX="185.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="MC&#10;Match&#10;TF&#10;Essay&#10;Short&#10;&#10;">
                     <font>
                         <Font size="10.0" />
                     </font>
                 </Button>
-                <Button layoutX="362.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="TF&#10;MC&#10;Match&#10;Short &#10;Essay&#10;">
+                <Button layoutX="353.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="TF&#10;MC&#10;Match&#10;Short &#10;Essay&#10;">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button layoutX="535.0" layoutY="76.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="Match&#10;TF&#10;MC&#10;Short&#10;Essay">
+                <Button layoutX="524.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="Match&#10;TF&#10;MC&#10;Short&#10;Essay">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <ComboBox fx:id="displayClass" layoutX="1155.0" layoutY="35.0" prefHeight="26.0" prefWidth="122.0" promptText="Select Course" style="-fx-background-color: #95a87b;" AnchorPane.rightAnchor="643.0" />
+                <ComboBox fx:id="displayClass" layoutX="1154.6" layoutY="36.0" prefHeight="26.0" prefWidth="122.0" promptText="Select Course" style="-fx-background-color: #95a87b;" AnchorPane.rightAnchor="643.0" />
               <MenuBar layoutY="-2.0" prefHeight="26.0" prefWidth="1920.0" style="-fx-background-color: #95a87b;">
                   <menus>
-                      <Menu mnemonicParsing="false" text="File">
+                      <Menu mnemonicParsing="false" text="Exit">
                           <items>
-                              <MenuItem mnemonicParsing="false" text="New" />
-                              <MenuItem mnemonicParsing="false" text="Open…" />
-                              <Menu mnemonicParsing="false" text="Open Recent" />
-                              <SeparatorMenuItem mnemonicParsing="false" />
-                              <MenuItem mnemonicParsing="false" text="Close" />
-                              <MenuItem mnemonicParsing="false" text="Save" />
-                              <MenuItem mnemonicParsing="false" text="Save As…" />
-                              <MenuItem mnemonicParsing="false" text="Revert" />
-                              <SeparatorMenuItem mnemonicParsing="false" />
-                              <MenuItem mnemonicParsing="false" text="Preferences…" />
-                              <SeparatorMenuItem mnemonicParsing="false" />
-                              <MenuItem mnemonicParsing="false" text="Quit" />
-                          </items>
-                      </Menu>
-                      <Menu mnemonicParsing="false" text="Edit">
-                          <items>
-                              <MenuItem mnemonicParsing="false" text="Undo" />
-                              <MenuItem mnemonicParsing="false" text="Redo" />
-                              <SeparatorMenuItem mnemonicParsing="false" />
-                              <MenuItem mnemonicParsing="false" text="Cut" />
-                              <MenuItem mnemonicParsing="false" text="Copy" />
-                              <MenuItem mnemonicParsing="false" text="Paste" />
-                              <MenuItem mnemonicParsing="false" text="Delete" />
-                              <SeparatorMenuItem mnemonicParsing="false" />
-                              <MenuItem mnemonicParsing="false" text="Select All" />
-                              <MenuItem mnemonicParsing="false" text="Unselect All" />
+                              <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit Application" />
                           </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Help">
                           <items>
-                              <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                              <MenuItem mnemonicParsing="false" text="Manual" />
                           </items>
                       </Menu>
                   </menus>
@@ -183,7 +157,7 @@
                         <Button fx:id="edit8" layoutX="1232.0" layoutY="110.0" mnemonicParsing="false" style="-fx-background-color: #95a87b;" text="Edit" translateX="-22.0" />
                      </children>
                   </Group>
-                  <Label layoutX="14.0" layoutY="5.0" text="Recents">
+                  <Label layoutX="14.0" layoutY="9.0" text="Recents">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -193,17 +167,17 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Pane>
-            <Label alignment="CENTER" layoutX="201.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 1">
+            <Label alignment="CENTER" layoutX="190.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 1">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="364.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 2">
+            <Label alignment="CENTER" layoutX="357.0" layoutY="87.0" prefHeight="26.0" prefWidth="122.0" text="Template 2">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="538.0" layoutY="88.0" prefHeight="26.0" prefWidth="122.0" text="Template 3">
+            <Label alignment="CENTER" layoutX="528.0" layoutY="87.0" prefHeight="26.0" prefWidth="122.0" text="Template 3">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>

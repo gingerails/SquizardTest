@@ -114,10 +114,16 @@ public class MainController implements ControlSwitchScreen {
         }
 
     }
-
+    public void exit()
+    {
+        
+        stage.close();
+    }
     @FXML
     public void initialize() {
+        //Stage currentStage = getCurrentStage();
         
+
          ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
          for (Node node : previewGroups) {
             node.setVisible(false);
@@ -194,6 +200,8 @@ public class MainController implements ControlSwitchScreen {
         stage.setScene(new Scene(mainVbox));
         System.out.println("Showing main screen");
         stage.show();
+        this.stage.setMaximized(false);
+
         this.stage.setMaximized(true);
         this.stage.centerOnScreen();
     }
