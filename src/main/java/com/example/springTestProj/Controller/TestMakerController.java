@@ -301,7 +301,7 @@ public class TestMakerController implements ControlSwitchScreen {
 
     @Override
     public Stage getCurrentStage() {
-        Node node = add.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
+        Node node = menuBar.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
