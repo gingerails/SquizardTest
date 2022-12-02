@@ -19,6 +19,7 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editMController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editSAController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editTFController;
+import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.path;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
@@ -55,6 +56,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,6 +73,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 
 /**
  * FXML Controller class
@@ -101,7 +105,7 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private Button addTF, addE, addM, addFIB, addSA;
     @FXML
-    private Button publish;
+    private Button publish,ref,addRef;
     @FXML
     private TextField mcP, mP, tfP, eP, saP, fibP;
     @FXML
@@ -109,7 +113,7 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private MenuBar menuBar;
     @FXML
-    private Label error;
+    private Label error,refL;
 
     @FXML
     private ListView<String> mcList;
@@ -137,7 +141,8 @@ public class TestMakerController implements ControlSwitchScreen {
             .observableArrayList();
     public String path = "src\\main\\resources\\";
     public String pathTo = "";
-
+    public File ag=null;
+    public File qg=null;
 
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService, TrueFalseQService trueFalseQService) {
         this.testService = testService;
@@ -248,7 +253,15 @@ public class TestMakerController implements ControlSwitchScreen {
                 Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        this.ref.setOnAction(actionEvent -> {
+            addReference();
+                        try {
+                getG(ag,refL);
+            } catch (IOException ex) {
+                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
+        });
         this.publish.setOnAction(actionEvent -> {
 
             try {
@@ -259,6 +272,7 @@ public class TestMakerController implements ControlSwitchScreen {
             }
 
         });
+         
         this.addMC.setOnAction(actionEvent -> {
             addMCScene();
         });
@@ -368,8 +382,54 @@ public class TestMakerController implements ControlSwitchScreen {
             job.endJob();
         }
     }
-
-
+    public File getFiles()
+   {
+       FileChooser file = new FileChooser();  
+        file.setTitle("Open");  
+                //System.out.println(pic.getId());
+                Stage fStage = new Stage();
+        File file1 = file.showOpenDialog(fStage);  
+        System.out.println(file1);  
+        return file1;
+       
+   }
+     public void getG(File ga, Label l) throws IOException
+   {
+      ga=getFiles();
+      Path src=Paths.get(ga.toString());
+      File f = new File(ga.getName());
+      String v=f.getName();
+      
+      Test currentTest = testService.returnThisTest();
+      String testName = currentTest.getTestName();
+      
+      Path dest=Paths.get(path+"\\reference\\"+testName+"\\"+v);
+      
+     
+       if(Files.exists(dest))
+       {
+           error.setText("Error: Cant have a duplicate attachment on test");
+       }
+       else
+       {
+           l.setText(v);
+           //checkAttachmentFile();
+           Files.copy(src,dest);
+           this.refresh();
+       }
+   }
+    public void addReference()
+    {
+        Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        
+        File ref=new File(path+"\\reference\\"+testName);
+        if(ref.exists()==false)
+        {
+        ref.mkdirs();
+        }
+        
+    }
     public void addHTML(String file, String divID, String points) throws IOException {
         File templateFile = new File(path + file);
         File newFile = new File(path + file);
