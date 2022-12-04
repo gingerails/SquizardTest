@@ -20,6 +20,7 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editSAController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editTFController;
 import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.path;
+import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.pathTo;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
@@ -143,6 +144,8 @@ public class TestMakerController implements ControlSwitchScreen {
     public String pathTo = "";
     public File ag=null;
     public File qg=null;
+    public Path src;
+    public Path dest;
 
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService, TrueFalseQService trueFalseQService) {
         this.testService = testService;
@@ -260,6 +263,16 @@ public class TestMakerController implements ControlSwitchScreen {
             } catch (IOException ex) {
                 Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
             }
+                   
+        });
+        this.addRef.setOnAction(actionEvent -> {
+                QuestionHTMLHelper gH=new QuestionHTMLHelper(testService, shortAnswerQService,essayQuestionService, multiChoiceQService, matchingQService,trueFalseQService,this);
+            try {
+                gH.updateSections(path + testName, path + "KEY_" + testName);
+            } catch (IOException ex) {
+                Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            
 
         });
         this.publish.setOnAction(actionEvent -> {
@@ -395,6 +408,8 @@ public class TestMakerController implements ControlSwitchScreen {
    }
      public void getG(File ga, Label l) throws IOException
    {
+       String extension="";
+       
       ga=getFiles();
       Path src=Paths.get(ga.toString());
       File f = new File(ga.getName());
@@ -402,22 +417,19 @@ public class TestMakerController implements ControlSwitchScreen {
       
       Test currentTest = testService.returnThisTest();
       String testName = currentTest.getTestName();
-      
-      Path dest=Paths.get(path+"\\reference\\"+testName+"\\"+v);
-      
+   
      
-       if(Files.exists(dest))
-       {
-           error.setText("Error: Cant have a duplicate attachment on test");
-       }
-       else
-       {
+      Path dest=Paths.get(path+"\\reference\\"+testName+"\\"+"ref.png");
+      
+      Files.deleteIfExists(dest);
+       
            l.setText(v);
            //checkAttachmentFile();
            Files.copy(src,dest);
-           this.refresh();
+           
+           //this.refresh();
        }
-   }
+   
     public void addReference()
     {
         Test currentTest = testService.returnThisTest();

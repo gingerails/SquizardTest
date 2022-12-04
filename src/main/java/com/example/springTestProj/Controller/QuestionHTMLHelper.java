@@ -109,6 +109,8 @@ public class QuestionHTMLHelper {
         return  newFile;
     }
 
+    
+
     public void getReplacement(String testFile, File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String answerHTML, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
@@ -411,7 +413,9 @@ public class QuestionHTMLHelper {
                 addHTML = "<h1>Reference </h1>\n";
                         //+ "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
 
-                addHTML = addHTML + ("<img src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" alt=\"reference\" width=\"300\" height=\"300\"");
+                addHTML = addHTML + ("<iframe src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" frameborder=\"0\" \n" +
+"         style=\"overflow:hidden; \n" +
+"         display:block; position: absolute; height: 1123px; width: 794px\"");
             }
         }
 
