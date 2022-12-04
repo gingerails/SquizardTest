@@ -15,10 +15,12 @@ import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 
 import javafx.scene.paint.Color;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -41,9 +43,11 @@ import javafx.util.Callback;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+
 import java.awt.image.ColorModel;
 import java.util.Arrays;
 import java.util.List;
+
 import org.yaml.snakeyaml.util.ArrayUtils;
 
 @Component
@@ -56,7 +60,7 @@ public class editEController implements ControlDialogBoxes {
     private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
-    
+
     private Stage stage;
 
     @FXML
@@ -80,10 +84,10 @@ public class editEController implements ControlDialogBoxes {
             .observableArrayList();
 
     public String path = "src\\main\\resources\\";
-    
+
     public String types;
 
-    public editEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,EssayQuestionService essayQuestionService) {
+    public editEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService, EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
@@ -93,20 +97,20 @@ public class editEController implements ControlDialogBoxes {
     }
 
     @FXML
-    public void initialize() {  
-        
+    public void initialize() {
+
         //repopulateData();
         initializeListeners();
-        
+
         this.reset.setOnAction(actionEvent -> {
             types();
             repopulateData();
-            
-            
+
+
         });
         this.apply.setOnAction(actionEvent -> {
             stage.close();
-            
+
         });
         repopulateData();
         this.stage = new Stage();
@@ -121,55 +125,54 @@ public class editEController implements ControlDialogBoxes {
     }
 
     private void initializeListeners() {
-    // drag from left to right
+        // drag from left to right
         list.setOnDragDetected(new EventHandler<MouseEvent>() {
-          @Override
-          public void handle(MouseEvent event) {
-            if (list.getSelectionModel().getSelectedItem() == null) {
-              return;
-            }
+            @Override
+            public void handle(MouseEvent event) {
+                if (list.getSelectionModel().getSelectedItem() == null) {
+                    return;
+                }
 
-            Dragboard dragBoard = list.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
-            content.putString(list.getSelectionModel().getSelectedItem());
-            dragBoard.setContent(content);
-          }
+                Dragboard dragBoard = list.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putString(list.getSelectionModel().getSelectedItem());
+                dragBoard.setContent(content);
+            }
         });
 
         list2.setOnDragOver(new EventHandler<DragEvent>() {
-          @Override
-          public void handle(DragEvent dragEvent) {
-            dragEvent.acceptTransferModes(TransferMode.MOVE);
-          }
-    });
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.MOVE);
+            }
+        });
 
-    list2.setOnDragDropped(new EventHandler<DragEvent>() {
-      @Override
-      public void handle(DragEvent dragEvent) {
-        String player = dragEvent.getDragboard().getString();
-        list2.getItems().addAll(player);
-        leftList.remove(player);
-        list.setItems(leftList);
-        dragEvent.setDropCompleted(true);
-      }
-    });
+        list2.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                String player = dragEvent.getDragboard().getString();
+                list2.getItems().addAll(player);
+                leftList.remove(player);
+                list.setItems(leftList);
+                dragEvent.setDropCompleted(true);
+            }
+        });
     }
 
-    private void repopulateData()
-    {
-        try{
-        Test currentTest = testService.returnThisTest();
-        String essayQid = currentTest.getEssayQ();
-        
-        String[] arrStr = essayQid.split(",");
-        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
-        
-        
-        list.getItems().clear();
-        list2.getItems().clear();
-        List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
-        
-        
+    private void repopulateData() {
+        try {
+            Test currentTest = testService.returnThisTest();
+            String essayQid = currentTest.getEssayQ();
+
+            String[] arrStr = essayQid.split(",");
+            String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+
+
+            list.getItems().clear();
+            list2.getItems().clear();
+            List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
+
+
             for (String id : arrStrM) {
 
                 EssayQuestion eq = essayQuestionService.findQuestionByID(id);
@@ -177,25 +180,22 @@ public class editEController implements ControlDialogBoxes {
                 //System.out.println("A:    " + questionAnswer);
                 leftList.addAll(questionContent);
             }
-        
-        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-        
-        list.setItems(leftList);
-        list2.setItems(rightList);
-        }
-        catch(NullPointerException e)
-        {
+
+            //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+
+            list.setItems(leftList);
+            list2.setItems(rightList);
+        } catch (NullPointerException e) {
             error.setText("ERROR: No Questions");
         }
-        
+
     }
-    
-    private void types()
-    {
-        
-        types=list2.getItems().toString();
+
+    private void types() {
+
+        types = list2.getItems().toString();
         System.out.println(types);
     }
 
-   
+
 }
