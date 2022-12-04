@@ -413,9 +413,7 @@ public class QuestionHTMLHelper {
                 addHTML = "<h1>Reference </h1>\n";
                         //+ "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
 
-                addHTML = addHTML + ("<iframe src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" frameborder=\"0\" \n" +
-"         style=\"overflow:hidden; \n" +
-"         display:block; position: absolute; height: 1123px; width: 794px\"");
+                addHTML = addHTML + ("<iframe src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" ");
             }
         }
 
@@ -456,10 +454,10 @@ public class QuestionHTMLHelper {
         if(thisTest.getMultiChoiceQ() != null){
             updateMultiChoiceHTML(thisTest, file, keyFile);
         }
-        if(checkRef.exists())
-        {
-        updateReferenceHTML(thisTest, file, keyFile);
-        }
+       // if(checkRef.exists())
+       // {
+       // updateReferenceHTML(thisTest, file, keyFile);
+        //}
     }
 
     public void generateTestKey(String file) throws  IOException{

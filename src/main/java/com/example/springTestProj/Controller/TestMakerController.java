@@ -521,7 +521,7 @@ public class TestMakerController implements ControlSwitchScreen {
                     fxWeaver.load(MultiChoiceQController.class);
             McQuestionControllerAndView.getController().show(getCurrentStage());
         }
-        if ("MatchingQuestion".equals(qType) == true) {
+        if ("Matching Question".equals(qType) == true) {
             System.out.println("Matching Question");
             FxControllerAndView<MatchingQController, VBox> mQuestionControllerAndView =
                     fxWeaver.load(MatchingQController.class);
