@@ -289,7 +289,9 @@ public class MainController implements ControlSwitchScreen {
 
                     thisPreviewButton.setOnAction(actionEvent -> {
                         loadpreview(path + "\\" + getC + "\\" + getS + "\\" + testName);
+                        loadpreview(path + "\\" + getC + "\\" + getS + "\\" + "KEY_" + testName);
                     });
+
                     Long dateCreated = (test.getDateCreated().getTime() / 1000);
                     childNodeCount++;
                     if (childNodeCount >= 7) {
