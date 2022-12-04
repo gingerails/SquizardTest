@@ -109,6 +109,8 @@ public class QuestionHTMLHelper {
         return  newFile;
     }
 
+    
+
     public void getReplacement(String testFile, File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String answerHTML, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
@@ -385,6 +387,47 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, multiChoiceSect, endTFSect, sectLength, answerHTML, keyHtmlString);
     }
 
+    
+    public void updateReferenceHTML(Test thisTest, String file, String keyFile)  throws IOException{
+        File templateFile = new File(file);
+        File newFile = new File(file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        File keyTemplateFile = new File(keyFile);
+        File newKeyFile = new File(keyFile);
+        Files.copy(keyTemplateFile.toPath(), newKeyFile.toPath()); // copy current version of file
+        String keyHtmlString = Files.readString(newKeyFile.toPath());
+
+        Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        
+        File path = new File(pathTo+"\\reference\\"+testName);
+
+        String addHTML="";
+        File[] files = path.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isFile()) { //this line weeds out other directories/folders
+                System.out.println("FILES PHOTO:"+files[i].getName());
+                
+                
+                addHTML = "<h1>Reference </h1>\n";
+                        //+ "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
+
+                addHTML = addHTML + ("<iframe src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" frameborder=\"0\" \n" +
+"         style=\"overflow:hidden; \n" +
+"         display:block; position: absolute; height: 1123px; width: 794px\"");
+            }
+        }
+
+        String htmlString = Files.readString(newFile.toPath());
+        String RefSect = "<section id=\"Reference\">";
+        String endRefSect = "</section>";
+        int sectLength = RefSect.length();
+        String answerHTML = "";
+        getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, RefSect, endRefSect, sectLength, answerHTML, keyHtmlString);
+}
+    
+    
     public static <K, V> Map<K, V> zipToMap(ArrayList<K> keys, ArrayList<V> values) {
         return IntStream.range(0, keys.size()).boxed()
                 .collect(Collectors.toMap(keys::get, values::get));
@@ -394,6 +437,9 @@ public class QuestionHTMLHelper {
      * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
      */
     public void updateSections(String file, String keyFile) throws IOException {
+        File checkRef=new File(pathTo+"\\reference\\");
+        
+        
         Test thisTest = testService.returnThisTest();
         if(thisTest.getEssayQ() != null){
             updateEssayHTML(thisTest, file, keyFile);
@@ -409,6 +455,10 @@ public class QuestionHTMLHelper {
         }
         if(thisTest.getMultiChoiceQ() != null){
             updateMultiChoiceHTML(thisTest, file, keyFile);
+        }
+        if(checkRef.exists())
+        {
+        updateReferenceHTML(thisTest, file, keyFile);
         }
     }
 

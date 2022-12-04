@@ -75,11 +75,12 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Group test1group, test2group, test3group, test4group, test5group, test6group, test7group, test8group;
     @FXML
-    private Button addCourseButton;
+    private Button addCourseButton,searchB;
     @FXML
-    private ComboBox displayClass;
+    private ComboBox displayClass,bar;
     @FXML
     private Pane recentsPane;
+    
     public String getC = "";
     public String getS = "";
 
@@ -113,9 +114,16 @@ public class MainController implements ControlSwitchScreen {
         }
 
     }
-
+    public void exit()
+    {
+        
+        stage.close();
+    }
     @FXML
     public void initialize() {
+        //Stage currentStage = getCurrentStage();
+        
+
          ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
          for (Node node : previewGroups) {
             node.setVisible(false);
@@ -127,10 +135,13 @@ public class MainController implements ControlSwitchScreen {
             setClassandSectionn();
 //            setFindTests();
             showExistingTests(userService.returnCurrentUserID());
-
+            setSearch();
         });
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
+        });
+        this.searchB.setOnAction(actionEvent -> {
+            searchEdit();
         });
         this.addCourseButton.setOnAction((ActionEvent actionEvent) -> {
             loadAddCourseScreen();
@@ -147,7 +158,25 @@ public class MainController implements ControlSwitchScreen {
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
+    public void setSearch()
+    {
+        bar.getItems().clear();
+        File folder = new File(path+"\\"+getC+"\\"+getS);
+        File[] listOfFiles = folder.listFiles();
 
+        for (int i = 0; i < listOfFiles.length; i++) {
+            
+            if (listOfFiles[i].isFile()) {
+               // if(StringUtils.contains(, "common task"))
+               if(listOfFiles[i].getName().contains("KEY_")==false){
+                System.out.println("File " + listOfFiles[i].getName());
+                bar.getItems().addAll(listOfFiles[i].getName().replaceAll(".html", ""));
+               }
+            } else if (listOfFiles[i].isDirectory()) {
+                System.out.println("Directory " + listOfFiles[i].getName());
+            }
+        }
+    }
     // Because I am calling the tests by user and section
     // instead this ends up not being used. I am keeping it in
     // just in case the code needs to be reused otherwise
@@ -171,6 +200,8 @@ public class MainController implements ControlSwitchScreen {
         stage.setScene(new Scene(mainVbox));
         System.out.println("Showing main screen");
         stage.show();
+        this.stage.setMaximized(false);
+
         this.stage.setMaximized(true);
         this.stage.centerOnScreen();
     }
@@ -238,6 +269,27 @@ public class MainController implements ControlSwitchScreen {
      * for the test preview - go through the existing tests
      * get their htmls
      */
+    public void searchEdit()
+    {
+         for (Test test : testService.findAllTestsByUser(userService.returnCurrentUserID())) {
+               
+                String testName = test.getTestName();
+                String tempName = testName.replace(".html", "");
+
+               // thisLabel.setText(tempName);
+
+                if (!testName.equals(".html")&&bar.getValue().equals(tempName)) {
+                    
+                    
+                        testService.setCurrentTest(test);
+                        FxControllerAndView<TestMakerController, VBox> testMakerControllerAndView =
+                                fxWeaver.load(TestMakerController.class);
+                        testMakerControllerAndView.getController().show(getCurrentStage());
+                    
+
+                }
+            }
+    }
     public void showExistingTests(String userID) {
 
         int token = 0;

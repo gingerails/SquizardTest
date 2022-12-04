@@ -145,7 +145,9 @@ public class CreateTestController implements ControlSwitchScreen {
         testMakerControllerAndView.getController().show(getCurrentStage());
     }
     public void loadMainScreen() {
-        Stage currentStage = getCurrentStage();
+       //
+       Stage currentStage = getCurrentStage();
+        //currentStage.setMaximized(true);
         FxControllerAndView<MainController, VBox> mainControllerAndView
                 = fxWeaver.load(MainController.class);
         mainControllerAndView.getController().show(getCurrentStage());

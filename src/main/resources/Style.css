@@ -27,6 +27,21 @@ and open the template in the editor.
             linear-gradient(#b0cca1 0%, #c2dcb0 20%, #819d57 80%, #cde8a9 100%);
     -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
 }
+.buttonAdd{
+     -fx-background-color: 
+        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+        linear-gradient(#0b280b, #223b15),
+        linear-gradient(#c4d9b7 0%, #def1d1 20%, #a2b776 80%, #cde8a9 100%),
+        linear-gradient(#c4d9b7 0%, #def1d1 20%, #a2b776 80%, #cde8a9 100%);
+    -fx-background-insets: 0,1,4,5;
+    -fx-background-radius: 9,8,5,4;
+    -fx-padding: 15 30 15 30;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
+}
 .win7{
  -fx-background-color: 
         linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),

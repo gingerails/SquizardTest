@@ -19,6 +19,8 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editMController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editSAController;
 import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.editTFController;
+import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.path;
+import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.pathTo;
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
@@ -55,6 +57,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -62,12 +66,15 @@ import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 
 /**
  * FXML Controller class
@@ -99,7 +106,7 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private Button addTF, addE, addM, addFIB, addSA;
     @FXML
-    private Button publish;
+    private Button publish,ref,addRef;
     @FXML
     private TextField mcP, mP, tfP, eP, saP, fibP;
     @FXML
@@ -107,7 +114,7 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private MenuBar menuBar;
     @FXML
-    private Label error;
+    private Label error,refL;
 
     @FXML
     private ListView<String> mcList;
@@ -135,7 +142,10 @@ public class TestMakerController implements ControlSwitchScreen {
             .observableArrayList();
     public String path = "src\\main\\resources\\";
     public String pathTo = "";
-
+    public File ag=null;
+    public File qg=null;
+    public Path src;
+    public Path dest;
 
     public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService, TrueFalseQService trueFalseQService) {
         this.testService = testService;
@@ -233,7 +243,7 @@ public class TestMakerController implements ControlSwitchScreen {
         questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
-                "MatchingQuestion",
+                "Matching Question",
                 "Fill in Blank",
                 "True/False",
                 "Short Answer"
@@ -246,7 +256,25 @@ public class TestMakerController implements ControlSwitchScreen {
                 Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        this.ref.setOnAction(actionEvent -> {
+            addReference();
+                        try {
+                getG(ag,refL);
+            } catch (IOException ex) {
+                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                   
+        });
+        this.addRef.setOnAction(actionEvent -> {
+                QuestionHTMLHelper gH=new QuestionHTMLHelper(testService, shortAnswerQService,essayQuestionService, multiChoiceQService, matchingQService,trueFalseQService,this);
+            try {
+                gH.updateSections(path + testName, path + "KEY_" + testName);
+            } catch (IOException ex) {
+                Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            
 
+        });
         this.publish.setOnAction(actionEvent -> {
 
             try {
@@ -257,6 +285,7 @@ public class TestMakerController implements ControlSwitchScreen {
             }
 
         });
+         
         this.addMC.setOnAction(actionEvent -> {
             addMCScene();
         });
@@ -299,7 +328,7 @@ public class TestMakerController implements ControlSwitchScreen {
 
     @Override
     public Stage getCurrentStage() {
-        Node node = add.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
+        Node node = menuBar.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
@@ -358,6 +387,61 @@ public class TestMakerController implements ControlSwitchScreen {
         }
     }
 
+    public void printT()
+    {
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            engine.print(job);
+            job.endJob();
+        }
+    }
+    public File getFiles()
+   {
+       FileChooser file = new FileChooser();  
+        file.setTitle("Open");  
+                //System.out.println(pic.getId());
+                Stage fStage = new Stage();
+        File file1 = file.showOpenDialog(fStage);  
+        System.out.println(file1);  
+        return file1;
+       
+   }
+     public void getG(File ga, Label l) throws IOException
+   {
+       String extension="";
+       
+      ga=getFiles();
+      Path src=Paths.get(ga.toString());
+      File f = new File(ga.getName());
+      String v=f.getName();
+      
+      Test currentTest = testService.returnThisTest();
+      String testName = currentTest.getTestName();
+   
+     
+      Path dest=Paths.get(path+"\\reference\\"+testName+"\\"+"ref.png");
+      
+      Files.deleteIfExists(dest);
+       
+           l.setText(v);
+           //checkAttachmentFile();
+           Files.copy(src,dest);
+           
+           //this.refresh();
+       }
+   
+    public void addReference()
+    {
+        Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        
+        File ref=new File(path+"\\reference\\"+testName);
+        if(ref.exists()==false)
+        {
+        ref.mkdirs();
+        }
+        
+    }
     public void addHTML(String file, String divID, String points) throws IOException {
         File templateFile = new File(path + file);
         File newFile = new File(path + file);
@@ -408,6 +492,11 @@ public class TestMakerController implements ControlSwitchScreen {
                 = fxWeaver.load(MainController.class);
         mainControllerAndView.getController().show(getCurrentStage());
     }
+    public void exit()
+    {
+        
+        stage.close();
+    }
 
     public void Qorder() {
         System.out.println("Qorder");
@@ -433,7 +522,7 @@ public class TestMakerController implements ControlSwitchScreen {
             McQuestionControllerAndView.getController().show(getCurrentStage());
         }
         if ("MatchingQuestion".equals(qType) == true) {
-            System.out.println("MatchingQuestion");
+            System.out.println("Matching Question");
             FxControllerAndView<MatchingQController, VBox> mQuestionControllerAndView =
                     fxWeaver.load(MatchingQController.class);
             mQuestionControllerAndView.getController().show(getCurrentStage());
