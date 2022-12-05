@@ -22,18 +22,21 @@ public class QuestionHTMLHelper {
     private final MultiChoiceQService multiChoiceQService;
     private final MatchingQService matchingQService;
     private final TrueFalseQService trueFalseQService;
+    private final FillinBlankQService fillinBlankQService;
+
     private final TestMakerController testMakerController;
 
     public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
 
-    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, TestMakerController testMakerController) {
+    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService, TestMakerController testMakerController) {
         this.testService = testService;
         this.shortAnswerQService = shortAnswerQService;
         this.essayQuestionService = essayQuestionService;
         this.multiChoiceQService = multiChoiceQService;
         this.matchingQService = matchingQService;
         this.trueFalseQService = trueFalseQService;
+        this.fillinBlankQService = fillinBlankQService;
         this.testMakerController = testMakerController;
     }
 
@@ -216,6 +219,49 @@ public class QuestionHTMLHelper {
                     + "<p>&nbsp;</p>" + "\n");
             if(essayQuestion.getGradingInstruction() != ""){
                 gradingInstructions = "<p style=\"color:blue;\"> Grading Instructions: " + essayQuestion.getGradingInstruction() + "</p>\n";
+            }
+            answerHTML = gradingInstructions + addHTML + "<p style=\"color:red;\"> Correct Answer: " + correctAnswer + "</p>\n";
+        }
+
+        String htmlString = Files.readString(newFile.toPath());
+        String EssaySect = "<section id=\"Essay\">";
+        String endEssaySect = "</section>";
+        int sectLength = EssaySect.length();
+        getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, EssaySect, endEssaySect, sectLength, answerHTML, keyHtmlString);
+    }
+
+    public void updateFIBHTML(Test thisTest, String file, String keyFile)  throws IOException{
+        File templateFile = new File(file);
+        File newFile = new File(file);
+        Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
+
+        File keyTemplateFile = new File(keyFile);
+        File newKeyFile = new File(keyFile);
+        Files.copy(keyTemplateFile.toPath(), newKeyFile.toPath()); // copy current version of file
+        String keyHtmlString = Files.readString(newKeyFile.toPath());
+
+        int fibCount = 0;
+        String addHTML = "<h1>Fill in Blank </h1>"
+                + "<div id = \"fibPoints\"> <div id=\"lazyinsert8\"></div> </div>\n";
+        String fibQIDs = thisTest.getFillBlankQ();
+        String[] fibArrStr = fibQIDs.split(",");
+        String[] fibQuestions = Arrays.copyOfRange(fibArrStr, 1, fibArrStr.length);
+
+        String answerHTML = "";
+        String gradingInstructions = "";
+        for(String id : fibQuestions){
+            fibCount++;
+            FillinBlankQuestion fillinBlankQuestion = fillinBlankQService.findQuestionByID(id);
+            String questionContent = fillinBlankQuestion.getQuestionContent();
+            String correctAnswer = fillinBlankQuestion.getCorrectAnswer();
+            addHTML = addHTML + ("<p><strong>" + fibCount + ". "
+                    +  questionContent + "</strong></p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n"
+                    + "<p>&nbsp;</p>" + "\n");
+            if(fillinBlankQuestion.getGradingInstruction() != ""){
+                gradingInstructions = "<p style=\"color:blue;\"> Grading Instructions: " + fillinBlankQuestion.getGradingInstruction() + "</p>\n";
             }
             answerHTML = gradingInstructions + addHTML + "<p style=\"color:red;\"> Correct Answer: " + correctAnswer + "</p>\n";
         }
@@ -454,14 +500,18 @@ public class QuestionHTMLHelper {
         if(thisTest.getMultiChoiceQ() != null){
             updateMultiChoiceHTML(thisTest, file, keyFile);
         }
+        if(thisTest.getFillBlankQ() != null){
+            updateFIBHTML(thisTest, file, keyFile);
+        }
        // if(checkRef.exists())
        // {
        // updateReferenceHTML(thisTest, file, keyFile);
         //}
     }
 
-    public void generateTestKey(String file) throws  IOException{
 
-
-    }
 }
+//    public void generateTestKey(String file) throws  IOException{
+//
+//
+//    }

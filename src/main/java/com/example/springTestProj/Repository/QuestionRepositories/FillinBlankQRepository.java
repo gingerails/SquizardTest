@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FillinBlankQRepository extends JpaRepository<FillinBlankQuestion, String> {
+    FillinBlankQuestion findByQuestionID(String id);
 }

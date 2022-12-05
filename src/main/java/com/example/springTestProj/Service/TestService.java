@@ -134,8 +134,15 @@ public class TestService {
         return test;
     }
 
-    public void addFIBQuestion(FillinBlankQuestion fillinBlankQuestion){
+    public Test addFIBQuestion(Test test, FillinBlankQuestion fillinBlankQuestion){
+        String fibID = fillinBlankQuestion.getQuestionID();
+        String fibSection = test.getFillBlankQ();
+        fibSection = fibSection + "," + fibID;
+        test.setFillBlankQ(fibSection);
 
+        addQuestionToExistingTestAndSave(test);     // call this un every addQuestion method
+
+        return test;
     }
 
     @Transactional
