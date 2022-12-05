@@ -116,7 +116,7 @@ public class QuestionHTMLHelper {
     }
 
     
-  
+    
     public void getReplacement(String testFile, File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String answerHTML, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
@@ -139,7 +139,20 @@ public class QuestionHTMLHelper {
         testMakerController.refresh();
     }
 
-
+    public void Randomize(String[] arr)
+    {
+        //randomize array
+		Random rand = new Random();
+		
+		for (int i = 0; i < arr.length; i++) {
+			int randomIndexToSwap = rand.nextInt(arr.length);
+			String temp = arr[randomIndexToSwap];
+			arr[randomIndexToSwap] = arr[i];
+			arr[i] = temp;
+		}
+		System.out.println(Arrays.toString(arr));
+        
+    }
     /**
      * I know this is huge and should be made reusable. Very nasty code :(
      *
@@ -164,6 +177,11 @@ public class QuestionHTMLHelper {
         String shortAQIDs = thisTest.getShortAnswerQ();
         String[] shortAStr = shortAQIDs.split(",");
         String[] shortAnswers = Arrays.copyOfRange(shortAStr, 1, shortAStr.length);
+        
+        if(TestMakerController.randSAQ==true)
+        {
+        Randomize(shortAnswers);
+        }
 
         String answerHTML = "";
         String gradingInstructions = "";
@@ -205,7 +223,13 @@ public class QuestionHTMLHelper {
                 + "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
         String essayQIDs = thisTest.getEssayQ();
         String[] essayArrStr = essayQIDs.split(",");
+        
         String[] essayQuestions = Arrays.copyOfRange(essayArrStr, 1, essayArrStr.length);
+ 
+        if(TestMakerController.randEQ==true)
+        {
+        Randomize(essayQuestions);
+        }
 
         String answerHTML = "";
         String gradingInstructions = "";
@@ -250,6 +274,11 @@ public class QuestionHTMLHelper {
         String trueFalseQIDs = thisTest.getTrueFalseQ();
         String[] trueFalseArrStr = trueFalseQIDs.split(",");
         String[] trueFalseQuestions = Arrays.copyOfRange(trueFalseArrStr, 1, trueFalseArrStr.length);
+        
+        if(TestMakerController.randTF==true)
+        {
+        Randomize(trueFalseQuestions);
+        }
 
         String answerHTML = "";
         String gradingInstructions = "";
@@ -292,6 +321,11 @@ public class QuestionHTMLHelper {
         String matchQIDs = thisTest.getMatchingQ();
         String[] matchingArrStr = matchQIDs.split(",");
         String[] matchingQuestions = Arrays.copyOfRange(matchingArrStr, 1, matchingArrStr.length);
+        
+        if(TestMakerController.randMQ==true)
+        {
+        Randomize(matchingQuestions);
+        }
 
         ArrayList<String> termDefinitions = new ArrayList<>();
         ArrayList<String> terms = new ArrayList<>();
@@ -357,6 +391,11 @@ public class QuestionHTMLHelper {
         String multiChoiceQs = thisTest.getMultiChoiceQ();
         String[] multiChoiceArrStr = multiChoiceQs.split(",");
         String[] multiChoiceQuestions = Arrays.copyOfRange(multiChoiceArrStr, 1, multiChoiceArrStr.length);
+        
+        if(TestMakerController.randMCQ==true)
+        {
+        Randomize(multiChoiceQuestions);
+        }
 
         String answerHTML = "";
         String gradingInstructions = "";
@@ -464,7 +503,9 @@ public class QuestionHTMLHelper {
      * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
      */
     public void updateSections(String file, String keyFile) throws IOException {
-        File checkRef=new File(pathTo+"\\reference\\");
+        Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        File checkRef=new File(pathTo+"//reference//"+testName);
         
         
         Test thisTest = testService.returnThisTest();
@@ -483,8 +524,10 @@ public class QuestionHTMLHelper {
         if(thisTest.getMultiChoiceQ() != null){
             updateMultiChoiceHTML(thisTest, file, keyFile);
         }
-      
+       if(checkRef.listFiles()!=null)
+       {
         updateReferenceHTML(thisTest, file, keyFile);
+       }
         //}
     }
 

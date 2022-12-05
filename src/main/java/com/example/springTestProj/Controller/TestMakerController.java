@@ -68,6 +68,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
@@ -97,6 +98,12 @@ public class TestMakerController implements ControlSwitchScreen {
     private Stage stage;
     public static WebEngine engine;
     public static int refresh = 0;
+    public static boolean randEQ = false;
+    public static boolean randTF = false;
+    public static boolean randMQ = false;
+    public static boolean randMCQ = false;
+    public static boolean randSAQ = false;
+    public static boolean randFIBQ = false;
     @FXML
     private WebView viewer;
     @FXML
@@ -115,6 +122,8 @@ public class TestMakerController implements ControlSwitchScreen {
     private MenuBar menuBar;
     @FXML
     private Label error,refL;
+    @FXML
+    private CheckBox mcRand,fibRand,tfRand,matchingRand,saRand,essayRand;
 
     @FXML
     private ListView<String> mcList;
@@ -193,6 +202,136 @@ public class TestMakerController implements ControlSwitchScreen {
         String cSection = "";
         String cClass = "";
         int count = 0;
+        
+        this.saRand.setOnAction(actionEvent -> {
+
+            if (saRand.isSelected()) {
+
+                randSAQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randSAQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+         this.essayRand.setOnAction(actionEvent -> {
+
+            if (essayRand.isSelected()) {
+
+                randEQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randEQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+          this.mcRand.setOnAction(actionEvent -> {
+
+            if (mcRand.isSelected()) {
+
+                randMCQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randMCQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+           this.matchingRand.setOnAction(actionEvent -> {
+
+            if (mcRand.isSelected()) {
+
+                randMQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randMQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+            this.fibRand.setOnAction(actionEvent -> {
+
+            if (fibRand.isSelected()) {
+
+                randFIBQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randFIBQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+             this.tfRand.setOnAction(actionEvent -> {
+
+            if (tfRand.isSelected()) {
+
+                randTF = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randTF = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        
         //need to check current section and class
         BufferedReader reader;
         try {
