@@ -1,8 +1,6 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
-import static com.example.springTestProj.Controller.CreateQuestionWindows.EssayQuestionController.path;
-import static com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController.path;
-import static com.example.springTestProj.Controller.CreateQuestionWindows.MatchingQController.pathTo;
+
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;

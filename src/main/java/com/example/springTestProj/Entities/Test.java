@@ -37,6 +37,8 @@ public class Test {
     private String matchingQ;
     @Column(name = "essay_q_ids")
     private String essayQ;
+    @Column(name = "fill_blank_q_ids")
+    private String fillBlankQ;
     @Column(name = "test_html")
     private String testHTML;
     @Column(name = "test_key_html")

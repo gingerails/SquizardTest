@@ -111,18 +111,11 @@ public class MatchingQController implements ControlDialogBoxes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
-                
                 //Files.deleteIfExists(Paths.get("temp.txt"));
         System.out.println(cClass+" "+cSection);
         
         pathTo = path+cClass+"\\" +cSection+"\\";
-        
-        
-        
-        
-        
-        
+
         this.stage = new Stage();
         stage.setTitle("Add MatchingQuestion Question");
         stage.setScene(new Scene(mQuestionBox));

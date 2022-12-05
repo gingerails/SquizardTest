@@ -17,9 +17,9 @@ public class FillinBlankQuestion {
     @Column(name = "question_id")
     private String questionID;
     @Column(name = "question_content")
-    private String qContent;
+    private String questionContent;
     @Column(name = "question_graphic")
-    private String qGraphic;
+    private String questionGraphic;
     @Column(name = "correct_answer")
     private String correctAnswer;
     @Column(name = "answer_graphic")
@@ -43,6 +43,12 @@ public class FillinBlankQuestion {
 
     public FillinBlankQuestion(String questionID) {
         this.questionID = questionID;
+    }
+
+    public FillinBlankQuestion(String questionID, String questionContent, String correctAnswer) {
+        this.questionID = questionID;
+        this.questionContent = questionContent;
+        this.correctAnswer = correctAnswer;
     }
 
     @Override
