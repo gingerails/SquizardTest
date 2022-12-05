@@ -257,6 +257,9 @@ public class TestMakerController implements ControlSwitchScreen {
             }
         });
         this.ref.setOnAction(actionEvent -> {
+            File df=new File(path+"\\reference\\"+testName);
+            deleteFolder(df);
+            
             addReference();
                         try {
                 getG(ag,refL);
@@ -406,6 +409,19 @@ public class TestMakerController implements ControlSwitchScreen {
         return file1;
        
    }
+    public static void deleteFolder(File folder) {
+    File[] files = folder.listFiles();
+    if(files!=null) { //some JVMs return null for empty dirs
+        for(File f: files) {
+            if(f.isDirectory()) {
+                deleteFolder(f);
+            } else {
+                f.delete();
+            }
+        }
+    }
+    folder.delete();
+}
      public void getG(File ga, Label l) throws IOException
    {
        String extension="";
@@ -419,7 +435,7 @@ public class TestMakerController implements ControlSwitchScreen {
       String testName = currentTest.getTestName();
    
      
-      Path dest=Paths.get(path+"\\reference\\"+testName+"\\"+"ref.png");
+      Path dest=Paths.get(path+"\\reference\\"+testName+"\\"+v);
       
       Files.deleteIfExists(dest);
        

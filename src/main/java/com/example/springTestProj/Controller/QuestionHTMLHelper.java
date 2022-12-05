@@ -4,6 +4,7 @@ import com.example.springTestProj.Entities.QuestionEntities.*;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.*;
 import com.example.springTestProj.Service.TestService;
+import java.awt.image.BufferedImage;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -12,6 +13,11 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 
 @Component
 public class QuestionHTMLHelper {
@@ -110,7 +116,7 @@ public class QuestionHTMLHelper {
     }
 
     
-
+  
     public void getReplacement(String testFile, File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String answerHTML, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
@@ -405,24 +411,47 @@ public class QuestionHTMLHelper {
 
         String addHTML="";
         File[] files = path.listFiles();
+        
+         for (int i = 0; i < files.length; i++) {
+        String extension = FilenameUtils.getExtension(files[i].getName());
+               System.out.println(extension);
+               if(extension.equals("pdf"))
+               {
+                   generateImageFromPDF(path+"\\"+files[i].getName(),"png");
+                   File delFile=new File(path+"\\"+files[i].getName());
+                   delFile.delete();
+               }
+         }
+        
+        
+        
+        files = path.listFiles();
+        if(path.listFiles()==null)
+        {
+            System.out.println("no phototsS");
+        }
+        else{
+            //if(files[i].getName().getFileExtension())
+            addHTML = "<h1>Reference </h1>\n";
         for (int i = 0; i < files.length; i++) {
-            if (files[i].isFile()) { //this line weeds out other directories/folders
+            
                 System.out.println("FILES PHOTO:"+files[i].getName());
                 
                 
-                addHTML = "<h1>Reference </h1>\n";
+                //addHTML = "<h1>Reference </h1>\n";
                         //+ "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
 
-                addHTML = addHTML + ("<iframe src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" ");
-            }
+                addHTML = addHTML + ("<img src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" width=\"100%\" height=\"100%\">");
+    
         }
-
-        String htmlString = Files.readString(newFile.toPath());
+         String htmlString = Files.readString(newFile.toPath());
         String RefSect = "<section id=\"Reference\">";
         String endRefSect = "</section>";
         int sectLength = RefSect.length();
         String answerHTML = "";
+        
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, RefSect, endRefSect, sectLength, answerHTML, keyHtmlString);
+        }
 }
     
     
@@ -454,9 +483,8 @@ public class QuestionHTMLHelper {
         if(thisTest.getMultiChoiceQ() != null){
             updateMultiChoiceHTML(thisTest, file, keyFile);
         }
-       // if(checkRef.exists())
-       // {
-       // updateReferenceHTML(thisTest, file, keyFile);
+      
+        updateReferenceHTML(thisTest, file, keyFile);
         //}
     }
 
@@ -464,4 +492,17 @@ public class QuestionHTMLHelper {
 
 
     }
+    private void generateImageFromPDF(String filename, String extension) throws IOException {
+    Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        PDDocument document = PDDocument.load(new File(filename));
+    PDFRenderer pdfRenderer = new PDFRenderer(document);
+    for (int page = 0; page < document.getNumberOfPages(); ++page) {
+        BufferedImage bim = pdfRenderer.renderImageWithDPI(
+          page, 300, ImageType.RGB);
+        ImageIOUtil.writeImage(
+          bim, String.format(pathTo+"//reference//"+testName+"//"+"pdf-%d.%s", page + 1, extension), 300);
+    }
+    document.close();
+}
 }
