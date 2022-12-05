@@ -105,12 +105,9 @@ public class editEController implements ControlDialogBoxes {
         this.reset.setOnAction(actionEvent -> {
             types();
             repopulateData();
-
-
         });
         this.apply.setOnAction(actionEvent -> {
             stage.close();
-
         });
         repopulateData();
         this.stage = new Stage();
