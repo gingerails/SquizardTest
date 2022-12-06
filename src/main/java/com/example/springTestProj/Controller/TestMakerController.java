@@ -22,6 +22,7 @@ import com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion.
 
 import com.example.springTestProj.Controller.CreateQuestionWindows.questionOrderingController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.FillinBlankQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
@@ -186,6 +187,9 @@ public class TestMakerController implements ControlSwitchScreen {
         }
         if (thisTest.getMultiChoiceQ() != null) {
             addMCText();
+        }
+         if (thisTest.getFillBlankQ() != null) {
+            addFIBText();
         }
 //        if(thisTest.getFIBQ() != null){
 //            addFIBText();
@@ -373,6 +377,7 @@ public class TestMakerController implements ControlSwitchScreen {
         addEText();
         addFIBText();
         addMText();
+        addMCText();
         questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
@@ -737,29 +742,30 @@ public class TestMakerController implements ControlSwitchScreen {
 
     public void addFIBText() {
 
-        /*try{
+        try{
         Test currentTest = testService.returnThisTest();
-        String mcQid = currentTest.getMultiChoiceQ();
+        String fibQid = currentTest.getFillBlankQ();
 
-        String[] arrStr = mcQid.split(",");
+        String[] arrStr = fibQid.split(",");
         String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
 
 
         fibList.getItems().clear();
 
-        List<MultiChoiceQuestion> mQuestions = multiChoiceQService.readQuestions();
+        List<FillinBlankQuestion> fibQuestions = fillinBlankQService.readQuestions();
 
 
             for (String id : arrStrM) {
 
-                MultiChoiceQuestion eq = multiChoiceQService.findQuestionByID(id);
+                FillinBlankQuestion eq = fillinBlankQService.findQuestionByID(id);
                 String questionContent = eq.getQuestionContent();
+                System.out.println("FIB Q content: " + questionContent);
+                
                 String questionCorrect = eq.getCorrectAnswer();
-                String questionFalse = eq.getFalseAnswer();
+              
                 //System.out.println("A:    " + questionAnswer);
                 fibListArray.addAll("Question: "+questionContent+"\n"
                 +"Correct Answer: "+questionCorrect+"\n"
-                +"Wrong Answers: "+questionFalse+"\n"
                 );
             }
 
@@ -771,7 +777,7 @@ public class TestMakerController implements ControlSwitchScreen {
         catch(NullPointerException e)
         {
 
-        }*/
+        }
     }
 
     public void addMText() {
