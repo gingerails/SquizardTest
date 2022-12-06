@@ -4,6 +4,7 @@ import com.example.springTestProj.Entities.QuestionEntities.*;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.*;
 import com.example.springTestProj.Service.TestService;
+import java.awt.image.BufferedImage;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -12,6 +13,11 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 
 @Component
 public class QuestionHTMLHelper {
@@ -41,48 +47,44 @@ public class QuestionHTMLHelper {
     }
 
     public static File createNewFile(String testName) throws IOException {
-        
-        String cSection="";
-        String cClass="";
-        int count =0;
+
+        String cSection = "";
+        String cClass = "";
+        int count = 0;
         //need to check current section and class
         BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(
-					"temp.txt"));
-			String line = reader.readLine();
-			while (line != null) {
-                            
-				System.out.println(line);
-				// read next line
-                                if(count==0)
-                                {
-                                    cClass=line;
-                                }
-                                if(count==1)
-                                {
-                                    cSection=line;
-                                }
-				line = reader.readLine();
-                                count++;
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	
-                
-                //Files.deleteIfExists(Paths.get("temp.txt"));
-        System.out.println(cClass+" "+cSection);
-        
-        pathTo = path+cClass+"\\" +cSection+"\\";
-        
-        
-        
-        
-        File templateFile = new File(path+ "template.html");
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "temp.txt"));
+            String line = reader.readLine();
+            while (line != null) {
+
+                System.out.println(line);
+                // read next line
+                if (count == 0) {
+                    cClass = line;
+                }
+                if (count == 1) {
+                    cSection = line;
+                }
+                line = reader.readLine();
+                count++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //Files.deleteIfExists(Paths.get("temp.txt"));
+        System.out.println(cClass + " " + cSection);
+
+        pathTo = path + cClass + "\\" + cSection + "\\";
+
+
+        File templateFile = new File(path + "template.html");
         File newFile = new File(pathTo + testName);
-        if(!newFile.exists()){
+        if (!newFile.exists()) {
             Files.copy(templateFile.toPath(), newFile.toPath()); // copy template file
 
         }
@@ -90,7 +92,7 @@ public class QuestionHTMLHelper {
         // Test Key
         File keyTemplateFile = new File(path + "KEY_template.html");
         File testKeyFile = new File(pathTo + "KEY_" + testName);
-        if(!testKeyFile.exists()){
+        if (!testKeyFile.exists()) {
             Files.copy(keyTemplateFile.toPath(), testKeyFile.toPath()); // copy template file
         }
 
@@ -109,15 +111,14 @@ public class QuestionHTMLHelper {
         PrintWriter pwrKey = new PrintWriter(pathTo + "KEY_" + testName);
         pwrKey.println(keyHtmlString);
         pwrKey.close();
-        return  newFile;
+        return newFile;
     }
 
-    
 
     public void getReplacement(String testFile, File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String answerHTML, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
-        String replaceHTML = htmlString.substring(startIndex + sectLength , endIndex);  // inbetween section tags. need to be copied and appended to
+        String replaceHTML = htmlString.substring(startIndex + sectLength, endIndex);  // inbetween section tags. need to be copied and appended to
 
         String testHtmlString = htmlString.replace(replaceHTML, addHTML);
         PrintWriter testPrintWriter = new PrintWriter(newFile);
@@ -126,7 +127,7 @@ public class QuestionHTMLHelper {
 
         int keyStartIndex = keyHtmlString.indexOf(startSection);
         int keyEndIndex = keyHtmlString.indexOf(endMCSect, keyStartIndex);
-        String keyReplaceHTML = keyHtmlString.substring(keyStartIndex + sectLength , keyEndIndex);  // inbetween section tags. need to be copied and appended to
+        String keyReplaceHTML = keyHtmlString.substring(keyStartIndex + sectLength, keyEndIndex);  // inbetween section tags. need to be copied and appended to
 
         String thisKeyHtmlString = keyHtmlString.replace(keyReplaceHTML, answerHTML);
         PrintWriter keyPrintWriter = new PrintWriter(pathTo + "KEY_" + testFile);
@@ -136,6 +137,19 @@ public class QuestionHTMLHelper {
         testMakerController.refresh();
     }
 
+    public void Randomize(String[] arr) {
+        //randomize array
+        Random rand = new Random();
+
+        for (int i = 0; i < arr.length; i++) {
+            int randomIndexToSwap = rand.nextInt(arr.length);
+            String temp = arr[randomIndexToSwap];
+            arr[randomIndexToSwap] = arr[i];
+            arr[i] = temp;
+        }
+        System.out.println(Arrays.toString(arr));
+
+    }
 
     /**
      * I know this is huge and should be made reusable. Very nasty code :(
@@ -145,7 +159,7 @@ public class QuestionHTMLHelper {
      * @param keyFile
      * @throws IOException
      */
-    public void updateShortAnswerHTML(Test thisTest, String file, String keyFile)  throws IOException{
+    public void updateShortAnswerHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
@@ -162,18 +176,22 @@ public class QuestionHTMLHelper {
         String[] shortAStr = shortAQIDs.split(",");
         String[] shortAnswers = Arrays.copyOfRange(shortAStr, 1, shortAStr.length);
 
+        if (TestMakerController.randSAQ == true) {
+            Randomize(shortAnswers);
+        }
+
         String answerHTML = "";
         String gradingInstructions = "";
-        for(String id : shortAnswers){
+        for (String id : shortAnswers) {
             shortAnsCount++;
             ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.findQuestionByID(id);
             String questionContent = shortAnswerQuestion.getQuestionContent();
             String correctAnswer = shortAnswerQuestion.getCorrectAnswer();
             addHTML = addHTML + ("<p><strong>" + shortAnsCount + ". "
-                    +  questionContent + "</strong></p>" + "\n"
+                    + questionContent + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n");
-            if(shortAnswerQuestion.getGradingInstruction() != ""){
+            if (shortAnswerQuestion.getGradingInstruction() != "") {
                 gradingInstructions = "<p style=\"color:blue;\"> Grading Instructions: " + shortAnswerQuestion.getGradingInstruction() + "</p>\n";
             }
             answerHTML = gradingInstructions + addHTML + "<p style=\"color:red;\"> Correct Answer: " + correctAnswer + "</p>\n";
@@ -187,7 +205,7 @@ public class QuestionHTMLHelper {
     }
 
 
-    public void updateEssayHTML(Test thisTest, String file, String keyFile)  throws IOException{
+    public void updateEssayHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
@@ -204,20 +222,24 @@ public class QuestionHTMLHelper {
         String[] essayArrStr = essayQIDs.split(",");
         String[] essayQuestions = Arrays.copyOfRange(essayArrStr, 1, essayArrStr.length);
 
+        if (TestMakerController.randEQ == true) {
+            Randomize(essayQuestions);
+        }
+
         String answerHTML = "";
         String gradingInstructions = "";
-        for(String id : essayQuestions){
+        for (String id : essayQuestions) {
             essayCount++;
             EssayQuestion essayQuestion = essayQuestionService.findQuestionByID(id);
             String questionContent = essayQuestion.getQuestionContent();
             String correctAnswer = essayQuestion.getCorrectAnswer();
             addHTML = addHTML + ("<p><strong>" + essayCount + ". "
-                    +  questionContent + "</strong></p>" + "\n"
+                    + questionContent + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n");
-            if(essayQuestion.getGradingInstruction() != ""){
+            if (essayQuestion.getGradingInstruction() != "") {
                 gradingInstructions = "<p style=\"color:blue;\"> Grading Instructions: " + essayQuestion.getGradingInstruction() + "</p>\n";
             }
             answerHTML = gradingInstructions + addHTML + "<p style=\"color:red;\"> Correct Answer: " + correctAnswer + "</p>\n";
@@ -230,7 +252,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, EssaySect, endEssaySect, sectLength, answerHTML, keyHtmlString);
     }
 
-    public void updateFIBHTML(Test thisTest, String file, String keyFile)  throws IOException{
+    public void updateFIBHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
@@ -249,18 +271,18 @@ public class QuestionHTMLHelper {
 
         String answerHTML = "";
         String gradingInstructions = "";
-        for(String id : fibQuestions){
+        for (String id : fibQuestions) {
             fibCount++;
             FillinBlankQuestion fillinBlankQuestion = fillinBlankQService.findQuestionByID(id);
             String questionContent = fillinBlankQuestion.getQuestionContent();
             String correctAnswer = fillinBlankQuestion.getCorrectAnswer();
             addHTML = addHTML + ("<p><strong>" + fibCount + ". "
-                    +  questionContent + "</strong></p>" + "\n"
+                    + questionContent + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n");
-            if(fillinBlankQuestion.getGradingInstruction() != ""){
+            if (fillinBlankQuestion.getGradingInstruction() != "") {
                 gradingInstructions = "<p style=\"color:blue;\"> Grading Instructions: " + fillinBlankQuestion.getGradingInstruction() + "</p>\n";
             }
             answerHTML = gradingInstructions + addHTML + "<p style=\"color:red;\"> Correct Answer: " + correctAnswer + "</p>\n";
@@ -273,7 +295,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, EssaySect, endEssaySect, sectLength, answerHTML, keyHtmlString);
     }
 
-    public void updateTrueFalseHTML(Test thisTest, String file, String keyFile)  throws IOException{
+    public void updateTrueFalseHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
@@ -291,18 +313,22 @@ public class QuestionHTMLHelper {
         String[] trueFalseArrStr = trueFalseQIDs.split(",");
         String[] trueFalseQuestions = Arrays.copyOfRange(trueFalseArrStr, 1, trueFalseArrStr.length);
 
+        if (TestMakerController.randTF == true) {
+            Randomize(trueFalseQuestions);
+        }
+
         String answerHTML = "";
         String gradingInstructions = "";
-        for(String id : trueFalseQuestions){
+        for (String id : trueFalseQuestions) {
             tfCount++;
             TrueFalseQuestion trueFalseQuestion = trueFalseQService.findQuestionByID(id);
             String questionContent = trueFalseQuestion.getQuestionContent();
             String correctAnswer = trueFalseQuestion.getCorrectAnswer();
             addHTML = addHTML + ("<p><strong>" + tfCount + ". "
-                    +  questionContent + "</strong></p>" + "\n"
+                    + questionContent + "</strong></p>" + "\n"
                     + "<p> T: ____ </p>" + "\n"
                     + "<p> F: ____ </p>" + "\n");
-            if(trueFalseQuestion.getGradingInstruction() != ""){
+            if (trueFalseQuestion.getGradingInstruction() != "") {
                 gradingInstructions = "<p style=\"color:blue;\"> Grading Instructions: " + trueFalseQuestion.getGradingInstruction() + "</p>\n";
             }
             answerHTML = gradingInstructions + addHTML + "<p style=\"color:red;\"> Correct Answer: " + correctAnswer + "</p>\n";
@@ -316,7 +342,7 @@ public class QuestionHTMLHelper {
     }
 
 
-    public void updateMatchingHTML(Test thisTest, String file, String keyFile)  throws IOException{
+    public void updateMatchingHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
@@ -333,9 +359,13 @@ public class QuestionHTMLHelper {
         String[] matchingArrStr = matchQIDs.split(",");
         String[] matchingQuestions = Arrays.copyOfRange(matchingArrStr, 1, matchingArrStr.length);
 
+        if (TestMakerController.randMQ == true) {
+            Randomize(matchingQuestions);
+        }
+
         ArrayList<String> termDefinitions = new ArrayList<>();
         ArrayList<String> terms = new ArrayList<>();
-        for(String id : matchingQuestions){
+        for (String id : matchingQuestions) {
             MatchingQuestion matchingQuestion = matchingQService.findQuestionByID(id);
             String questionContent = matchingQuestion.getTerm();
             String correctAnswer = matchingQuestion.getCorrectAnswer();
@@ -346,15 +376,15 @@ public class QuestionHTMLHelper {
         Collections.shuffle(termDefinitions);
         Collections.shuffle(terms);
         Map<String, String> shuffledTermAndDef = zipToMap(terms, termDefinitions); // Key-value pair for term and def. Use for answer key
-        for ( Map.Entry<String, String> keyVal: shuffledTermAndDef.entrySet()) {
+        for (Map.Entry<String, String> keyVal : shuffledTermAndDef.entrySet()) {
             matchCount++;
             addHTML = addHTML + (
                     "<div class=\"row\">\n" +
                             "  <div class=\"column\">\n" +
-                            "    <p>"+ matchCount + ".   " + keyVal.getKey() + ":_____" + "</p>\n" +
+                            "    <p>" + matchCount + ".   " + keyVal.getKey() + ":_____" + "</p>\n" +
                             "  </div>\n" +
                             "  <div class=\"column\">\n" +
-                            "    <p>" +  "&emsp;" + keyVal.getValue() + "</p>\n" +
+                            "    <p>" + "&emsp;" + keyVal.getValue() + "</p>\n" +
                             "  </div>\n" +
                             "  </div>\n"
             );
@@ -362,7 +392,7 @@ public class QuestionHTMLHelper {
 
         String answerHTML = addHTML;
 
-        for ( Map.Entry<String, String> keyVal: termAndDef.entrySet()) {
+        for (Map.Entry<String, String> keyVal : termAndDef.entrySet()) {
             answerHTML = answerHTML + ("<p style=\"color:red;\"> Correct Answer: " +
                     "<div class=\"row\">\n" +
                     "  <div class=\"column\">\n" +
@@ -380,7 +410,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, matchingSect, endTFSect, sectLength, answerHTML, keyHtmlString);
     }
 
-    public void updateMultiChoiceHTML(Test thisTest, String file, String keyFile)  throws IOException{
+    public void updateMultiChoiceHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
@@ -398,27 +428,31 @@ public class QuestionHTMLHelper {
         String[] multiChoiceArrStr = multiChoiceQs.split(",");
         String[] multiChoiceQuestions = Arrays.copyOfRange(multiChoiceArrStr, 1, multiChoiceArrStr.length);
 
+        if (TestMakerController.randMCQ == true) {
+            Randomize(multiChoiceQuestions);
+        }
+
         String answerHTML = "";
         String gradingInstructions = "";
-        for(String id : multiChoiceQuestions){
+        for (String id : multiChoiceQuestions) {
             ArrayList<String> possibleAnswers = new ArrayList<>();
             mcCount++;
             MultiChoiceQuestion multiChoiceQuestion = multiChoiceQService.findQuestionByID(id);
             String questionContent = multiChoiceQuestion.getQuestionContent();
             String correctAnswer = multiChoiceQuestion.getCorrectAnswer();
-            String falseAnswersList = multiChoiceQuestion.getFalseAnswer().replace("[","").replace("]","");
+            String falseAnswersList = multiChoiceQuestion.getFalseAnswer().replace("[", "").replace("]", "");
             String[] falseAnswers = falseAnswersList.split(",");
-            for (String answ: falseAnswers) {
+            for (String answ : falseAnswers) {
                 possibleAnswers.add(answ);
             }
             Collections.shuffle(possibleAnswers);
             addHTML = addHTML + ("<p><strong>" + mcCount + ".  "
-                    +  questionContent + "</strong></p>" + "\n"
-                    + "<p> a: " + possibleAnswers.get(0)  +"</p>" + "\n"
-                    + "<p> b: " + possibleAnswers.get(1)  +"</p>" + "\n"
-                    + "<p> c: " + possibleAnswers.get(2)  +"</p>" + "\n"
-                    + "<p> d: " + possibleAnswers.get(3)  +"</p>" + "\n");
-            if(multiChoiceQuestion.getGradingInstruction() != ""){
+                    + questionContent + "</strong></p>" + "\n"
+                    + "<p> a: " + possibleAnswers.get(0) + "</p>" + "\n"
+                    + "<p> b: " + possibleAnswers.get(1) + "</p>" + "\n"
+                    + "<p> c: " + possibleAnswers.get(2) + "</p>" + "\n"
+                    + "<p> d: " + possibleAnswers.get(3) + "</p>" + "\n");
+            if (multiChoiceQuestion.getGradingInstruction() != "") {
                 gradingInstructions = "<p style=\"color:blue;\"> Grading Instructions: " + multiChoiceQuestion.getGradingInstruction() + "</p>\n";
             }
             answerHTML = gradingInstructions + addHTML + "<p style=\"color:red;\"> Correct Answer: " + correctAnswer + "</p>\n";
@@ -433,8 +467,8 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, multiChoiceSect, endTFSect, sectLength, answerHTML, keyHtmlString);
     }
 
-    
-    public void updateReferenceHTML(Test thisTest, String file, String keyFile)  throws IOException{
+
+    public void updateReferenceHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
         Files.copy(templateFile.toPath(), newFile.toPath()); // copy current version of file
@@ -446,32 +480,51 @@ public class QuestionHTMLHelper {
 
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
-        
-        File path = new File(pathTo+"\\reference\\"+testName);
 
-        String addHTML="";
+        File path = new File(pathTo + "\\reference\\" + testName);
+
+        String addHTML = "";
         File[] files = path.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].isFile()) { //this line weeds out other directories/folders
-                System.out.println("FILES PHOTO:"+files[i].getName());
-                
-                
-                addHTML = "<h1>Reference </h1>\n";
-                        //+ "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
 
-                addHTML = addHTML + ("<iframe src=\"reference\\"+testName+"\\"+ files[i].getName() +"\" ");
+        for (int i = 0; i < files.length; i++) {
+            String extension = FilenameUtils.getExtension(files[i].getName());
+            System.out.println(extension);
+            if (extension.equals("pdf")) {
+                generateImageFromPDF(path + "\\" + files[i].getName(), "png");
+                File delFile = new File(path + "\\" + files[i].getName());
+                delFile.delete();
             }
         }
 
-        String htmlString = Files.readString(newFile.toPath());
-        String RefSect = "<section id=\"Reference\">";
-        String endRefSect = "</section>";
-        int sectLength = RefSect.length();
-        String answerHTML = "";
-        getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, RefSect, endRefSect, sectLength, answerHTML, keyHtmlString);
-}
-    
-    
+
+        files = path.listFiles();
+        if (path.listFiles() == null) {
+            System.out.println("no phototsS");
+        } else {
+            //if(files[i].getName().getFileExtension())
+            addHTML = "<h1>Reference </h1>\n";
+            for (int i = 0; i < files.length; i++) {
+
+                System.out.println("FILES PHOTO:" + files[i].getName());
+
+
+                //addHTML = "<h1>Reference </h1>\n";
+                //+ "<div id = \"essayPoints\"> <div id=\"lazyinsert2\"></div> </div>\n";
+
+                addHTML = addHTML + ("<img src=\"reference\\" + testName + "\\" + files[i].getName() + "\" width=\"100%\" height=\"100%\">");
+
+            }
+            String htmlString = Files.readString(newFile.toPath());
+            String RefSect = "<section id=\"Reference\">";
+            String endRefSect = "</section>";
+            int sectLength = RefSect.length();
+            String answerHTML = "";
+
+            getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, RefSect, endRefSect, sectLength, answerHTML, keyHtmlString);
+        }
+    }
+
+
     public static <K, V> Map<K, V> zipToMap(ArrayList<K> keys, ArrayList<V> values) {
         return IntStream.range(0, keys.size()).boxed()
                 .collect(Collectors.toMap(keys::get, values::get));
@@ -481,37 +534,51 @@ public class QuestionHTMLHelper {
      * Once a question is added or removed, we will re-read the questions from the repo and put them in the html
      */
     public void updateSections(String file, String keyFile) throws IOException {
-        File checkRef=new File(pathTo+"\\reference\\");
-        
-        
+        Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        File checkRef = new File(pathTo + "//reference//" + testName);
+
+
         Test thisTest = testService.returnThisTest();
-        if(thisTest.getEssayQ() != null){
+        if (thisTest.getEssayQ() != null) {
             updateEssayHTML(thisTest, file, keyFile);
         }
-        if(thisTest.getShortAnswerQ() != null){
+        if (thisTest.getShortAnswerQ() != null) {
             updateShortAnswerHTML(thisTest, file, keyFile);
         }
-        if(thisTest.getTrueFalseQ() != null){
+        if (thisTest.getTrueFalseQ() != null) {
             updateTrueFalseHTML(thisTest, file, keyFile);
         }
-        if(thisTest.getMatchingQ() != null){
+        if (thisTest.getMatchingQ() != null) {
             updateMatchingHTML(thisTest, file, keyFile);
         }
-        if(thisTest.getMultiChoiceQ() != null){
+        if (thisTest.getMultiChoiceQ() != null) {
             updateMultiChoiceHTML(thisTest, file, keyFile);
         }
-        if(thisTest.getFillBlankQ() != null){
+        if (thisTest.getFillBlankQ() != null) {
             updateFIBHTML(thisTest, file, keyFile);
         }
-       // if(checkRef.exists())
-       // {
-       // updateReferenceHTML(thisTest, file, keyFile);
+        // if(checkRef.exists())
+        // {
+        // updateReferenceHTML(thisTest, file, keyFile);
+        if (checkRef.listFiles() != null) {
+            updateReferenceHTML(thisTest, file, keyFile);
+        }
         //}
     }
 
 
+    private void generateImageFromPDF(String filename, String extension) throws IOException {
+    Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        PDDocument document = PDDocument.load(new File(filename));
+    PDFRenderer pdfRenderer = new PDFRenderer(document);
+    for (int page = 0; page < document.getNumberOfPages(); ++page) {
+        BufferedImage bim = pdfRenderer.renderImageWithDPI(
+          page, 300, ImageType.RGB);
+        ImageIOUtil.writeImage(
+          bim, String.format(pathTo+"//reference//"+testName+"//"+"pdf-%d.%s", page + 1, extension), 300);
+    }
+    document.close();
 }
-//    public void generateTestKey(String file) throws  IOException{
-//
-//
-//    }
+}

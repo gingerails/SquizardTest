@@ -62,6 +62,7 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.print.PrinterJob;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
@@ -93,6 +94,12 @@ public class TestMakerController implements ControlSwitchScreen {
     private Stage stage;
     public static WebEngine engine;
     public static int refresh = 0;
+    public static boolean randEQ = false;
+    public static boolean randTF = false;
+    public static boolean randMQ = false;
+    public static boolean randMCQ = false;
+    public static boolean randSAQ = false;
+    public static boolean randFIBQ = false;
     @FXML
     private WebView viewer;
     @FXML
@@ -110,7 +117,9 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private MenuBar menuBar;
     @FXML
-    private Label error, refL;
+    private Label error,refL;
+    @FXML
+    private CheckBox mcRand,fibRand,tfRand,matchingRand,saRand,essayRand;
 
     @FXML
     private ListView<String> mcList;
@@ -190,6 +199,136 @@ public class TestMakerController implements ControlSwitchScreen {
         String cSection = "";
         String cClass = "";
         int count = 0;
+
+        this.saRand.setOnAction(actionEvent -> {
+
+            if (saRand.isSelected()) {
+
+                randSAQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randSAQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+         this.essayRand.setOnAction(actionEvent -> {
+
+            if (essayRand.isSelected()) {
+
+                randEQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randEQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+          this.mcRand.setOnAction(actionEvent -> {
+
+            if (mcRand.isSelected()) {
+
+                randMCQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randMCQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+           this.matchingRand.setOnAction(actionEvent -> {
+
+            if (mcRand.isSelected()) {
+
+                randMQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randMQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+            this.fibRand.setOnAction(actionEvent -> {
+
+            if (fibRand.isSelected()) {
+
+                randFIBQ = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randFIBQ = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+             this.tfRand.setOnAction(actionEvent -> {
+
+            if (tfRand.isSelected()) {
+
+                randTF = true;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                randTF = false;
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, this);
+                try {
+                    gH.updateSections(path + testName, path + "KEY_" + testName);
+                } catch (IOException ex) {
+                    Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+
         //need to check current section and class
         BufferedReader reader;
         try {
@@ -251,6 +390,9 @@ public class TestMakerController implements ControlSwitchScreen {
             }
         });
         this.ref.setOnAction(actionEvent -> {
+            File df=new File(path+"\\reference\\"+testName);
+            deleteFolder(df);
+
             addReference();
             try {
                 getG(ag, refL);
@@ -279,7 +421,7 @@ public class TestMakerController implements ControlSwitchScreen {
             }
 
         });
-
+         
         this.addMC.setOnAction(actionEvent -> {
             addMCScene();
         });
@@ -317,9 +459,6 @@ public class TestMakerController implements ControlSwitchScreen {
             addFIBScene();
         });
 
-        this.randomizeQuestionsButton.setOnAction(actionEvent -> {
-            randomizeQuestions();
-        });
 
     }
 
@@ -384,29 +523,8 @@ public class TestMakerController implements ControlSwitchScreen {
         }
     }
 
-    public void randomizeQuestions(){
-        Test thisTest = testService.returnThisTest();
-        String testFile = thisTest.getTestName();
-
-        if (thisTest.getEssayQ() != null) {
-
-
-        }
-        if (thisTest.getShortAnswerQ() != null) {
-
-        }
-        if (thisTest.getTrueFalseQ() != null) {
-
-        }
-        if (thisTest.getMatchingQ() != null) {
-
-        }
-        if (thisTest.getMultiChoiceQ() != null) {
-
-        }
-    }
-
-    public void printT() {
+    public void printT()
+    {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
             engine.print(job);
@@ -422,42 +540,57 @@ public class TestMakerController implements ControlSwitchScreen {
         File file1 = file.showOpenDialog(fStage);
         System.out.println(file1);
         return file1;
-
-    }
-
-    public void getG(File ga, Label l) throws IOException {
-        String extension = "";
-
-        ga = getFiles();
-        Path src = Paths.get(ga.toString());
-        File f = new File(ga.getName());
-        String v = f.getName();
-
-        Test currentTest = testService.returnThisTest();
-        String testName = currentTest.getTestName();
-
-        Path dest = Paths.get(path + "\\reference\\" + testName + "\\" + "ref.png");
-
-        Files.deleteIfExists(dest);
-
-        l.setText(v);
-        //checkAttachmentFile();
-        Files.copy(src, dest);
-
-        //this.refresh();
-    }
-
-    public void addReference() {
-        Test currentTest = testService.returnThisTest();
-        String testName = currentTest.getTestName();
-
-        File ref = new File(path + "\\reference\\" + testName);
-        if (ref.exists() == false) {
-            ref.mkdirs();
+       
+   }
+    public static void deleteFolder(File folder) {
+    File[] files = folder.listFiles();
+    if(files!=null) { //some JVMs return null for empty dirs
+        for(File f: files) {
+            if(f.isDirectory()) {
+                deleteFolder(f);
+            } else {
+                f.delete();
+            }
         }
-
     }
+    folder.delete();
+}
+     public void getG(File ga, Label l) throws IOException
+   {
+       String extension="";
 
+      ga=getFiles();
+      Path src=Paths.get(ga.toString());
+      File f = new File(ga.getName());
+      String v=f.getName();
+
+      Test currentTest = testService.returnThisTest();
+      String testName = currentTest.getTestName();
+
+
+      Path dest=Paths.get(path+"\\reference\\"+testName+"\\"+v);
+      
+      Files.deleteIfExists(dest);
+       
+           l.setText(v);
+           //checkAttachmentFile();
+           Files.copy(src,dest);
+           
+           //this.refresh();
+       }
+   
+    public void addReference()
+    {
+        Test currentTest = testService.returnThisTest();
+        String testName = currentTest.getTestName();
+        
+        File ref=new File(path+"\\reference\\"+testName);
+        if(ref.exists()==false)
+        {
+        ref.mkdirs();
+        }
+        
+    }
     public void addHTML(String file, String divID, String points) throws IOException {
         File templateFile = new File(path + file);
         File newFile = new File(path + file);
@@ -508,9 +641,9 @@ public class TestMakerController implements ControlSwitchScreen {
                 = fxWeaver.load(MainController.class);
         mainControllerAndView.getController().show(getCurrentStage());
     }
-
-    public void exit() {
-
+    public void exit()
+    {
+        
         stage.close();
     }
 
