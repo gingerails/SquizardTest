@@ -299,10 +299,10 @@ public class QuestionHTMLHelper {
         }
 
         String htmlString = Files.readString(newFile.toPath());
-        String EssaySect = "<section id=\"Essay\">";
+        String fibSect = "<section id=\"FillInBlank\">";
         String endEssaySect = "</section>";
-        int sectLength = EssaySect.length();
-        getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, EssaySect, endEssaySect, sectLength, answerHTML, keyHtmlString);
+        int sectLength = fibSect.length();
+        getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, fibSect, endEssaySect, sectLength, answerHTML, keyHtmlString);
     }
 
     public void updateTrueFalseHTML(Test thisTest, String file, String keyFile) throws IOException {
