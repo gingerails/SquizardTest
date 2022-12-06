@@ -46,6 +46,16 @@ public class QuestionHTMLHelper {
         this.testMakerController = testMakerController;
     }
 
+//    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService) {
+//        this.testService = testService;
+//        this.shortAnswerQService = shortAnswerQService;
+//        this.essayQuestionService = essayQuestionService;
+//        this.multiChoiceQService = multiChoiceQService;
+//        this.matchingQService = matchingQService;
+//        this.trueFalseQService = trueFalseQService;
+//        this.fillinBlankQService = fillinBlankQService;
+//    }
+
     public static File createNewFile(String testName) throws IOException {
 
         String cSection = "";
