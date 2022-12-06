@@ -1,9 +1,16 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
+import com.example.springTestProj.Controller.MainController;
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.QuestionService.FillinBlankQService;
+import com.example.springTestProj.Service.QuestionService.MatchingQService;
+import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
+import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
 
@@ -35,16 +42,34 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang3.StringUtils;
 
 @Component
 @FxmlView("/questionOrdering.fxml")
 public class questionOrderingController implements ControlDialogBoxes {
 
     private final UserService userService;
-    private final FxWeaver fxWeaver;
-    private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
+    private final MultiChoiceQService multiChoiceQService;
+    private final MatchingQService matchingQService;
+    private final EssayQuestionService essayQuestionService;
+    private final ShortAnswerQService shortAnswerQService;
+    private final TrueFalseQService trueFalseQService;
+    private final FillinBlankQService fillinBlankQService;
+    private final TestMakerController testMakerController;
+    
+    private final MainController mainController;
+    private final FxWeaver fxWeaver;
+    private final QuestionHTMLHelper questionHTMLHelper;
     private Stage stage;
+    public static String ordering="";
 
     @FXML
     private VBox questionOrderingBox;
@@ -52,7 +77,8 @@ public class questionOrderingController implements ControlDialogBoxes {
     private ListView<String> list;
     @FXML
     private ListView<String> list2;
-    
+    @FXML
+    private Label error;
     @FXML
     private Button reset;
     @FXML
@@ -68,12 +94,24 @@ public class questionOrderingController implements ControlDialogBoxes {
     public String path = "src\\main\\resources\\";
     
     public String types;
+    
+    
+    
+    
 
-    public questionOrderingController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService) {
+    public questionOrderingController(MainController mainController,UserService userService,TestMakerController testMakerController,FillinBlankQService fillinBlankQService, FxWeaver fxWeaver,MatchingQService matchingQService,EssayQuestionService essayQuestionService,TrueFalseQService trueFalseQService, MultiChoiceQService multiChoiceQService,ShortAnswerQService shortAnswerQService, TestService testService,QuestionHTMLHelper questionHTMLHelper) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
+        this.questionHTMLHelper = questionHTMLHelper;
+        this.multiChoiceQService = multiChoiceQService;
+        this.matchingQService = matchingQService;
+        this.essayQuestionService = essayQuestionService;
+        this.trueFalseQService = trueFalseQService;
+        this.fillinBlankQService = fillinBlankQService;
+        this.testMakerController = testMakerController;
+        this.mainController = mainController;
     }
 
     @FXML
@@ -87,10 +125,112 @@ public class questionOrderingController implements ControlDialogBoxes {
 
         });
         this.apply.setOnAction(actionEvent -> {
+            
+            List<String> numbers = list2.getItems();
+            ordering = String.join(",", numbers);
+            String[] order=ordering.split("[,]",0);
+            
+            int counter = 0;
+            for (int i = 0; i < order.length; i++) {
+                if (order[i] != null) {
+                    counter++;
+                }
+            }
+            if(counter!=6)
+                {
+                    error.setText(" ERROR: Not all elements dragged");
+                }
+                else{
+            Test currentTest = testService.returnThisTest();
+            String testName = currentTest.getTestName();
+            //file as string
+            String data="";
+            try
+                {
+                    data=new String(Files.readAllBytes(Paths.get(QuestionHTMLHelper.pathTo+testName)));
+                } catch (IOException ex) {
+                Logger.getLogger(questionOrderingController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            String Body= StringUtils.substringBetween(data,"<!body>", "</body>");
+            String Match = StringUtils.substringBetween(data,"<section id=\"Matching\">", "</section>");
+            String Tf= StringUtils.substringBetween(data,"<section id=\"TrueFalse\">", "</section>");
+            String Mc= StringUtils.substringBetween(data,"<section id=\"MultiChoice\">", "</section>");
+            String Fib= StringUtils.substringBetween(data,"<section id=\"FillInBlank\">", "</section>");
+            String Short= StringUtils.substringBetween(data,"<section id=\"ShortAnswer\">", "</section>");
+            String Essay= StringUtils.substringBetween(data,"<section id=\"Essay\">", "</section>");
+            String matchT="<section id=\"Matching\">";
+            String tfT="<section id=\"TrueFalse\">";
+            String mcT="<section id=\"MultiChoice\">";
+            String fibT="<section id=\"FillInBlank\">";
+            String shortT="<section id=\"ShortAnswer\">";
+            String essayT="<section id=\"Essay\">";
+            String end="</section>";
+            
+            String reorder="<!body>\n";
+            for (String myStr : order) {
+                
+                data=data.replace(Body, "");
+                //System.out.println(myStr);
+                
+                if(myStr.equals("Multiple Choice"))
+                {
+                    reorder=reorder+mcT+Mc+end;
+                }
+                if(myStr.equals("Fill in the Blank"))
+                {
+                    reorder=reorder+fibT+Fib+end;
+                }
+                if(myStr.equals("Matching"))
+                {
+                    reorder=reorder+matchT+Match+end;
+                }
+                if(myStr.equals("True/False"))
+                {
+                    reorder=reorder+tfT+Tf+end;
+                }
+                if(myStr.equals("Short Answer"))
+                {
+                    reorder=reorder+shortT+Short+end;
+                }
+                if(myStr.equals("Essay"))
+                {
+                    reorder=reorder+essayT+Essay+end;
+                }
+            }
+            
+           data=data.replace("<!body>", reorder);
+            
+            Path pathTo
+            = Paths.get(QuestionHTMLHelper.pathTo+testName);
+            //code where we edit html
+             // Try block to check for exceptions
+        try {
+            // Now calling Files.writeString() method
+            // with path , content & standard charsets
+            Files.writeString(pathTo, data,
+                              StandardCharsets.UTF_8);
+        }
+ 
+        // Catch block to handle the exception
+        catch (IOException ex) {
+            // Print messqage exception occurred as
+            // invalid. directory local path is passed
+            System.out.print("Invalid Path");
+        }
+            
+        QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, testMakerController, mainController);
+            try {
+                gH.updateSections(path + testName, path + "KEY_" + testName);
+            } catch (IOException ex) {
+                Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
+            }    
+            TestMakerController.engine.reload();
             stage.close();
-
+            }
         });
-        populateData();
+        repopulateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
         stage.setScene(new Scene(questionOrderingBox));

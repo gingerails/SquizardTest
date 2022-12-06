@@ -89,6 +89,8 @@ public class TestMakerController implements ControlSwitchScreen {
     private final ShortAnswerQService shortAnswerQService;
     private final TrueFalseQService trueFalseQService;
     private final FillinBlankQService fillinBlankQService;
+    
+    private final MainController mainController;
 
     private final FxWeaver fxWeaver;
 
@@ -153,7 +155,7 @@ public class TestMakerController implements ControlSwitchScreen {
     public Path src;
     public Path dest;
 
-    public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService) {
+    public TestMakerController(UserService userService, TestService testService, FxWeaver fxWeaver, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, EssayQuestionService essayQuestionService, ShortAnswerQService shortAnswerQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService,MainController mainController) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -163,6 +165,7 @@ public class TestMakerController implements ControlSwitchScreen {
         this.shortAnswerQService = shortAnswerQService;
         this.trueFalseQService = trueFalseQService;
         this.fillinBlankQService = fillinBlankQService;
+        this.mainController = mainController;
     }
 
     public void refresh() {
@@ -209,7 +212,7 @@ public class TestMakerController implements ControlSwitchScreen {
             if (saRand.isSelected()) {
 
                 randSAQ = true;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this,mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -217,7 +220,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 }
             } else {
                 randSAQ = false;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -231,7 +234,7 @@ public class TestMakerController implements ControlSwitchScreen {
             if (essayRand.isSelected()) {
 
                 randEQ = true;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -239,7 +242,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 }
             } else {
                 randEQ = false;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -252,7 +255,7 @@ public class TestMakerController implements ControlSwitchScreen {
             if (mcRand.isSelected()) {
 
                 randMCQ = true;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this,mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -260,7 +263,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 }
             } else {
                 randMCQ = false;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -273,7 +276,7 @@ public class TestMakerController implements ControlSwitchScreen {
             if (mcRand.isSelected()) {
 
                 randMQ = true;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this,mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -281,7 +284,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 }
             } else {
                 randMQ = false;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -294,7 +297,7 @@ public class TestMakerController implements ControlSwitchScreen {
             if (fibRand.isSelected()) {
 
                 randFIBQ = true;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -302,7 +305,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 }
             } else {
                 randFIBQ = false;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -315,7 +318,7 @@ public class TestMakerController implements ControlSwitchScreen {
             if (tfRand.isSelected()) {
 
                 randTF = true;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -323,7 +326,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 }
             } else {
                 randTF = false;
-                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+                QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
                 try {
                     gH.updateSections(path + testName, path + "KEY_" + testName);
                 } catch (IOException ex) {
@@ -407,7 +410,7 @@ public class TestMakerController implements ControlSwitchScreen {
 
         });
         this.addRef.setOnAction(actionEvent -> {
-            QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this);
+            QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
             try {
                 gH.updateSections(path + testName, path + "KEY_" + testName);
             } catch (IOException ex) {
@@ -759,10 +762,10 @@ public class TestMakerController implements ControlSwitchScreen {
 
                 FillinBlankQuestion eq = fillinBlankQService.findQuestionByID(id);
                 String questionContent = eq.getQuestionContent();
-                System.out.println("FIB Q content: " + questionContent);
+                questionContent= questionContent.replace("/?/", "______________________");
                 
                 String questionCorrect = eq.getCorrectAnswer();
-              
+  
                 //System.out.println("A:    " + questionAnswer);
                 fibListArray.addAll("Question: "+questionContent+"\n"
                 +"Correct Answer: "+questionCorrect+"\n"
@@ -813,6 +816,8 @@ public class TestMakerController implements ControlSwitchScreen {
     }
 
     public void addEText() {
+        
+        System.out.println(eList.getSelectionModel().getSelectedItems());
         try {
             Test currentTest = testService.returnThisTest();
             String mQid = currentTest.getEssayQ();
@@ -833,8 +838,8 @@ public class TestMakerController implements ControlSwitchScreen {
                 String questionCorrect = eq.getCorrectAnswer();
 
                 //System.out.println("A:    " + questionAnswer);
-                eListArray.addAll("Question: " + questionContent + "\n"
-                        + "Answer: " + questionCorrect + "\n"
+                eListArray.addAll(questionContent
+                       
 
                 );
             }
@@ -848,6 +853,8 @@ public class TestMakerController implements ControlSwitchScreen {
         }
     }
 
+    
+
     public void addSAText() {
         try {
             Test currentTest = testService.returnThisTest();
@@ -856,11 +863,9 @@ public class TestMakerController implements ControlSwitchScreen {
             String[] arrStr = mQid.split(",");
             String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
 
-
             saList.getItems().clear();
 
             List<ShortAnswerQuestion> eQuestions = shortAnswerQService.readQuestions();
-
 
             for (String id : arrStrM) {
 
@@ -871,12 +876,10 @@ public class TestMakerController implements ControlSwitchScreen {
                 //System.out.println("A:    " + questionAnswer);
                 saListArray.addAll("Question: " + questionContent + "\n"
                         + "Answer: " + questionCorrect + "\n"
-
                 );
             }
 
             //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-
             saList.setItems(saListArray);
 
         } catch (NullPointerException e) {
@@ -892,11 +895,9 @@ public class TestMakerController implements ControlSwitchScreen {
             String[] arrStr = mQid.split(",");
             String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
 
-
             tfList.getItems().clear();
 
             List<TrueFalseQuestion> eQuestions = trueFalseQService.readQuestions();
-
 
             for (String id : arrStrM) {
 

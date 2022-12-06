@@ -19,7 +19,7 @@
             <children>
                 <Button fx:id="addCourseButton" layoutX="1283.0" layoutY="35.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="29.0" style="-fx-background-color: #95a87b;" text="+" AnchorPane.rightAnchor="607.4000000000001" />
             <ComboBox fx:id="bar" layoutX="377.0" layoutY="33.0" prefHeight="30.0" prefWidth="711.0" styleClass="buttons" />
-                <Button fx:id="addTest" layoutX="16.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="buttonAdd" text="+">
+                <Button fx:id="addTest" layoutX="22.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="buttonAdd" text="+">
                     <font>
                         <Font name="Britannic Bold" size="96.0" />
                     </font>
@@ -28,17 +28,17 @@
                <font>
                   <Font name="System Bold" size="20.0" />
                </font></Label>
-                <Button layoutX="185.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="MC&#10;Match&#10;TF&#10;Essay&#10;Short&#10;&#10;">
+                <Button fx:id="temp1" layoutX="185.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="FIB&#10;MC&#10;Match&#10;TF&#10;Short&#10;Essay&#10;&#10;">
                     <font>
                         <Font size="10.0" />
                     </font>
                 </Button>
-                <Button layoutX="353.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="TF&#10;MC&#10;Match&#10;Short &#10;Essay&#10;">
+                <Button fx:id="temp2" layoutX="353.0" layoutY="74.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="TF&#10;FIB&#10;MC&#10;Match&#10;Short &#10;Essay&#10;">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button layoutX="524.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="Match&#10;TF&#10;MC&#10;Short&#10;Essay">
+                <Button fx:id="temp3" layoutX="524.0" layoutY="75.0" mnemonicParsing="false" prefHeight="181.0" prefWidth="129.0" styleClass="win7" text="Match&#10;TF&#10;MC&#10;FIB&#10;Short&#10;Essay">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>

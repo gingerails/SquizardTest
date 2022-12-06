@@ -75,7 +75,7 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     private Group test1group, test2group, test3group, test4group, test5group, test6group, test7group, test8group;
     @FXML
-    private Button addCourseButton,searchB;
+    private Button addCourseButton,searchB,temp1,temp2,temp3;
     @FXML
     private ComboBox displayClass,bar;
     @FXML
@@ -83,8 +83,10 @@ public class MainController implements ControlSwitchScreen {
     
     public String getC = "";
     public String getS = "";
-
-
+    public static boolean template1 = false;
+    public static boolean template2 = false;
+    public static boolean template3 = false;
+    
     public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, EssayQuestionService essayQuestionService,SectionService sectionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -122,7 +124,9 @@ public class MainController implements ControlSwitchScreen {
     @FXML
     public void initialize() {
         //Stage currentStage = getCurrentStage();
-        
+        template1 = false;
+        template2 = false;
+        template3 = false;
 
          ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
          for (Node node : previewGroups) {
@@ -142,6 +146,18 @@ public class MainController implements ControlSwitchScreen {
         });
         this.searchB.setOnAction(actionEvent -> {
             searchEdit();
+        });
+        this.temp1.setOnAction(actionEvent -> {
+            template1=true;
+            loadAddTestScreen();
+        });
+        this.temp2.setOnAction(actionEvent -> {
+            template2=true;
+            loadAddTestScreen();
+        });
+        this.temp3.setOnAction(actionEvent -> {
+            template3=true;
+            loadAddTestScreen();
         });
         this.addCourseButton.setOnAction((ActionEvent actionEvent) -> {
             loadAddCourseScreen();

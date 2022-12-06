@@ -31,11 +31,12 @@ public class QuestionHTMLHelper {
     private final FillinBlankQService fillinBlankQService;
 
     private final TestMakerController testMakerController;
-
+    private final MainController mainController;
+    
     public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
 
-    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService, TestMakerController testMakerController) {
+    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService, TestMakerController testMakerController,MainController mainController) {
         this.testService = testService;
         this.shortAnswerQService = shortAnswerQService;
         this.essayQuestionService = essayQuestionService;
@@ -44,6 +45,7 @@ public class QuestionHTMLHelper {
         this.trueFalseQService = trueFalseQService;
         this.fillinBlankQService = fillinBlankQService;
         this.testMakerController = testMakerController;
+        this.mainController = mainController;
     }
 
 //    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService) {
@@ -92,7 +94,25 @@ public class QuestionHTMLHelper {
         pathTo = path + cClass + "\\" + cSection + "\\";
 
 
-        File templateFile = new File(path + "template.html");
+        String templateFileName="template.html";
+        
+        if(MainController.template1==true)
+        {
+           templateFileName= "template1.html";
+        }
+         if(MainController.template2==true)
+        {
+           templateFileName= "template2.html";
+            
+        }
+          if(MainController.template3==true)
+        {
+          templateFileName= "template3.html";
+        }
+        
+        System.out.println("template choice: "+ templateFileName);
+          
+        File templateFile = new File(path + templateFileName);
         File newFile = new File(pathTo + testName);
         if (!newFile.exists()) {
             Files.copy(templateFile.toPath(), newFile.toPath()); // copy template file
@@ -289,6 +309,7 @@ public class QuestionHTMLHelper {
             fibCount++;
             FillinBlankQuestion fillinBlankQuestion = fillinBlankQService.findQuestionByID(id);
             String questionContent = fillinBlankQuestion.getQuestionContent();
+            questionContent= questionContent.replace("/?/", "______________________");
             String correctAnswer = fillinBlankQuestion.getCorrectAnswer();
             addHTML = addHTML + ("<p><strong>" + fibCount + ". "
                     + questionContent + "</strong></p>" + "\n"
