@@ -46,6 +46,9 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
 
+//SAME functions and functionality as editEController
+//look at other file for functionalit and comments for functions
+
 @Component
 @FxmlView("/FIBOrdering.fxml")
 public class editFIBController implements ControlDialogBoxes {
@@ -166,9 +169,7 @@ public class editFIBController implements ControlDialogBoxes {
     {
         list.getItems().clear();
         list2.getItems().clear();
-       
-        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-        
+               
         list.setItems(leftList);
         list2.setItems(rightList);
     }

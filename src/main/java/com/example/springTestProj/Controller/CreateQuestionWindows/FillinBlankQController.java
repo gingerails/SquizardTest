@@ -26,9 +26,11 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+//This class controls the FIB screen and adds fib to db
 @Component
 @FxmlView("/fillinBlankQ.fxml")
 public class FillinBlankQController implements ControlDialogBoxes {
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final TestService testService;
     private final FillinBlankQService fillinBlankQService;
@@ -38,26 +40,11 @@ public class FillinBlankQController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private Stage stage;
     @FXML
-    private Button add;
-
+    private Button add,addGraphicButton;
     @FXML
-    private Button addGraphicButton;
-    @FXML
-    private TextField referenceSection;
-    @FXML
-    private TextField questionContent;
-    @FXML
-    private TextField referenceMaterial;
-    @FXML
-    private TextField instructorComment;
-    @FXML
-    private TextField gradingInstructions;
-    @FXML
-    private TextField answerField;
+    private TextField referenceSection,questionContent,questionField,referenceMaterial,instructorComment,answerField,gradingInstructions;
     @FXML
     private VBox fillInBlankBox;
-    @FXML
-    private TextField questionField;
     @FXML
     private Label error,aL;
 
@@ -67,8 +54,8 @@ public class FillinBlankQController implements ControlDialogBoxes {
     public File qg=null;
     String cSection="";
     String cClass="";
-    //public FibQuestionController(UserService userService, FxWeaver fxWeaver) {
-
+    
+    //constructor
     public FillinBlankQController(UserService userService, TestService testService, FillinBlankQService fillinBlankQService, QuestionHTMLHelper questionHTMLHelper, FxWeaver fxWeaver, TestMakerController testMakerController) {
         this.userService = userService;
         this.testService = testService;
@@ -78,6 +65,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
         this.testMakerController = testMakerController;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize() {
         String cSection="";
@@ -110,18 +98,17 @@ public class FillinBlankQController implements ControlDialogBoxes {
 		}
 	
                 
-                //Files.deleteIfExists(Paths.get("temp.txt"));
         System.out.println(cClass+" "+cSection);
         
         pathTo = path+cClass+"\\" +cSection+"\\";
-
+        
+        //window setup
         this.stage = new Stage();
         stage.setTitle("Add Fill-in-Blank Question");
         stage.setScene(new Scene(fillInBlankBox));
 
+        //controls add button
         this.add.setOnAction(actionEvent -> {
-            System.out.print("Add question button pressed");
-            //stage.close();
             try {
                 createQuestion();
             } catch (IOException e) {
@@ -131,6 +118,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
         });
     }
 
+    //checks if attachment file exists
     public void checkAttachmentFile()
     {
         Path pathA= Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest());
@@ -144,17 +132,20 @@ public class FillinBlankQController implements ControlDialogBoxes {
         }
 
     }
+    
+    //get files with popup file selection window
     public File getFiles()
     {
         FileChooser file = new FileChooser();
         file.setTitle("Open");
-        //System.out.println(pic.getId());
         Stage fStage = new Stage();
         File file1 = file.showOpenDialog(fStage);
         System.out.println(file1);
         return file1;
 
     }
+    
+    //copy contents  of section and course to temp file
     public void copyandFile() throws FileNotFoundException, IOException
     {
 
@@ -184,11 +175,9 @@ public class FillinBlankQController implements ControlDialogBoxes {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //String src = getFiles().toString();
-        //String dest = path +"\\" +cClass + "\\" + cSection;
-
     }
+    
+    //checks duplication on attachment files
     public void getG(File ga, Label l) throws IOException
     {
         ga=getFiles();
@@ -207,9 +196,12 @@ public class FillinBlankQController implements ControlDialogBoxes {
         {
             l.setText(v);
             checkAttachmentFile();
+            //copy file and relocate
             Files.copy(src,dest);
         }
     }
+    
+    // create question adn puts in HTML files. it grabs all textfield data to put in HTML
     public void createQuestion() throws IOException {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
@@ -229,6 +221,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
         }
     }
 
+    //grabs field items and adds to database
     public void checkFieldsAndAddQuestion(FillinBlankQuestion fillinBlankQuestion) {
 
         if (!referenceMaterial.getText().isBlank()) {
@@ -254,6 +247,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
 
     }
 
+    //refreshes html
     public void addHTML(String file, String keyFile) throws IOException {
         questionHTMLHelper.updateSections(file, keyFile);
     }
@@ -269,29 +263,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
         return currentTest;
     }
 
-
-//    public void oldaddHTML(String file) {
-//        String question=questionField.getText();
-//        String rs=question.replace("/?/"," __________________ ");
-//        // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
-//
-//        try ( FileWriter f = new FileWriter(file, true);  BufferedWriter b = new BufferedWriter(f);  PrintWriter p = new PrintWriter(b);) {
-//
-//            p.println("<hr />" + "\n"
-//                   +"<p><strong>Fill in the Blanks</strong></p>"+"\n"
-//
-//                   +"<p>"+rs+"</p>"+"\n"
-//            );
-//            b.close();
-//            p.close();
-//            f.close();
-//            TestMakerController.engine.reload();
-//        } catch (IOException i) {
-//            i.printStackTrace();
-//        }
-//
-//    }
-
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         stage.show();

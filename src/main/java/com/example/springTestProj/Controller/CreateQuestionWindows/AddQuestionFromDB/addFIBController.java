@@ -2,10 +2,12 @@ package com.example.springTestProj.Controller.CreateQuestionWindows.AddQuestionF
 
 import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
+import com.example.springTestProj.Entities.QuestionEntities.FillinBlankQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.FillinBlankQService;
 import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
@@ -42,6 +44,7 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
 
+//controls add db fib
 @Component
 @FxmlView("/addFIB.fxml")
 public class addFIBController implements ControlDialogBoxes {
@@ -50,7 +53,8 @@ public class addFIBController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final MatchingQService matchingQService;
-
+    private final FillinBlankQService fillinBlankQService;
+    
     private final TestService testService;
     private Stage stage;
 
@@ -66,9 +70,7 @@ public class addFIBController implements ControlDialogBoxes {
     private Button apply;
     @FXML
     private Label selection;
-    
 
-    //private ObservableList<String> types;
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
@@ -77,29 +79,35 @@ public class addFIBController implements ControlDialogBoxes {
     
     public String types;
 
-    public addFIBController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService) {
+    public addFIBController(UserService userService, FillinBlankQService fillinBlankQService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
         this.matchingQService = matchingQService;
+        this.fillinBlankQService =  fillinBlankQService;
     }
 
+    //initializes all buttons and window
     public void initialize() {
        //This keeps the selected question from being re-added to the box
         leftList.clear();
-       // repopulateData();
         initializeListeners();
         
+        //controls select btn
         this.select.setOnAction(actionEvent -> {
             item=list.getSelectionModel().getSelectedItem();
             selection.setText("ADD: "+item);
             
         });
+        
+        //controls apply btn
         this.apply.setOnAction(actionEvent -> {
             stage.close();
             
         });
+        
+        //window setup
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
@@ -117,18 +125,18 @@ public class addFIBController implements ControlDialogBoxes {
     
     }
 
-    
+    //populates data
     private void populateData() {
-    /*    List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
-        for(MatchingQuestion q : mQuestions){
-            String termContent = q.getTerm();
+        List<FillinBlankQuestion> fibQuestions = fillinBlankQService.readQuestions();
+        for(FillinBlankQuestion q : fibQuestions){
+            String Content = q.getQuestionContent();
             String answerContent = q.getCorrectAnswer();
            //System.out.println("Q:    " + questionContent);
             //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(termContent+" "+answerContent);
+            leftList.addAll(Content+" "+answerContent);
         } 
         
-*/
+
         list.setItems(leftList);
         
     }

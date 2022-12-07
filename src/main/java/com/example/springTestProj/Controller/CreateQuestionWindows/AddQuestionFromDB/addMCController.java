@@ -40,10 +40,11 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
 
+//controls add to test from db
 @Component
 @FxmlView("/addMC.fxml")
 public class addMCController implements ControlDialogBoxes {
-
+    //variable setup
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
@@ -56,8 +57,6 @@ public class addMCController implements ControlDialogBoxes {
     private VBox MCVBox;
     @FXML
     private ListView<String> list;
-    
-    
     @FXML
     private Button select;
     @FXML
@@ -65,8 +64,6 @@ public class addMCController implements ControlDialogBoxes {
     @FXML
     private Label selection;
     
-
-    //private ObservableList<String> types;
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
@@ -75,6 +72,7 @@ public class addMCController implements ControlDialogBoxes {
     
     public String types;
 
+    //contrsuctor
     public addMCController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MultiChoiceQService multiChoiceQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -83,6 +81,7 @@ public class addMCController implements ControlDialogBoxes {
         this.multiChoiceQService = multiChoiceQService;
     }
 
+    //controls btns and setup
     @FXML
     public void initialize() {
         //This keeps the selected question from being re-added to the box
@@ -95,11 +94,9 @@ public class addMCController implements ControlDialogBoxes {
             selection.setText("ADD: "+item);
             
         });
-        this.apply.setOnAction(actionEvent -> {
-                    
+        this.apply.setOnAction(actionEvent -> {         
             stage.close();
-           
-            
+
         });
         populateData();
         this.stage = new Stage();
@@ -118,7 +115,7 @@ public class addMCController implements ControlDialogBoxes {
     
     }
 
-    
+    //populates data
     private void populateData() {
         //MultiChoiceQService mcService=new MultiChoiceQService();
         List<MultiChoiceQuestion> mcQuestions = multiChoiceQService.readQuestions();
@@ -129,9 +126,6 @@ public class addMCController implements ControlDialogBoxes {
             //System.out.println("A:    " + questionAnswer);
             leftList.addAll(questionContent);
         } 
-
-        
-
         list.setItems(leftList);
         
     }

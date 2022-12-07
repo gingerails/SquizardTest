@@ -33,10 +33,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 
+//This class controls the multichoice question screen and adds it to db
 @Component
 @FxmlView("/multiChoiceQ.fxml")
 public class MultiChoiceQController implements ControlDialogBoxes {
-
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final TestService testService;
@@ -46,33 +47,11 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private Button add;
+    private Button add,addAnswerGraphic,addQuestionGraphicButton,qG;
     @FXML
     private VBox mcQuestionBox;
     @FXML
-    private Button addAnswerGraphic;
-    @FXML
-    private Button addQuestionGraphicButton,qG;
-    @FXML
-    private TextField referenceSection;
-    @FXML
-    private TextField questionContent;
-    @FXML
-    private TextField referenceMaterial;
-    @FXML
-    private TextField instructorComment;
-    @FXML
-    private TextField gradingInstructions;
-    @FXML
-    private TextField choice1Field;
-    @FXML
-    private TextField choice2Field;
-    @FXML
-    private TextField choice3Field;
-    @FXML
-    private TextField choice4Field;
-    @FXML
-    private TextField answerTextField;
+    private TextField referenceSection,choice1Field,answerTextField,choice4Field,choice3Field,choice2Field,questionContent,referenceMaterial,instructorComment,gradingInstructions;
     @FXML
     private Label error,gL;
 
@@ -82,6 +61,8 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     public File qg=null;
     String cSection="";
     String cClass="";
+    
+    //constructor
     public MultiChoiceQController(UserService userService, FxWeaver fxWeaver, TestService testService, MultiChoiceQService multiChoiceQService, TestMakerController testMakerController, QuestionHTMLHelper questionHTMLHelper) {
         this.testService = testService;
         this.fxWeaver = fxWeaver;
@@ -91,6 +72,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         this.questionHTMLHelper = questionHTMLHelper;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize () {
 
@@ -121,21 +103,15 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 			e.printStackTrace();
 		}
 	
-                
-                //Files.deleteIfExists(Paths.get("temp.txt"));
-        System.out.println(cClass+" "+cSection);
         
         pathTo = path+cClass+"\\" +cSection+"\\";
-        
-        
-        
-        
-        
-        
-        
+
+        //setup for window
         this.stage = new Stage();
         stage.setTitle("Add Multiple Choice Question");
         stage.setScene(new Scene(mcQuestionBox));
+        
+        //controls add button
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             //stage.close();
@@ -146,6 +122,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
             }
         });
         
+        //controls add graphic button
         this.qG.setOnAction(actionEvent -> {
             System.out.print("Add graphic button pushed");
              try {
@@ -163,14 +140,14 @@ public class MultiChoiceQController implements ControlDialogBoxes {
                 
     }
 
-
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
     }
 
-
+    //checks if attachment already exists
     public void checkAttachmentFile()
    {
        Path pathA=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest());
@@ -184,6 +161,8 @@ public class MultiChoiceQController implements ControlDialogBoxes {
        }
 
    }
+    
+   //get files with popup file selection window
    public File getFiles()
    {
        FileChooser file = new FileChooser();
@@ -195,6 +174,8 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         return file1;
 
    }
+   
+   //copy contents  of section and course to temp file
    public void copyandFile() throws FileNotFoundException, IOException
    {
 
@@ -225,10 +206,9 @@ public class MultiChoiceQController implements ControlDialogBoxes {
 			e.printStackTrace();
 		}
 
-       //String src = getFiles().toString();
-       //String dest = path +"\\" +cClass + "\\" + cSection;
-
    }
+   
+    //checks duplication on attachment files
    public void getG(File ga, Label l) throws IOException
    {
       ga=getFiles();
@@ -251,6 +231,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
        }
    }
 
+     // create question adn puts in HTML files. it grabs all textfield data to put in HTML
     public void createQuestion() throws IOException {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
@@ -281,6 +262,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         }
     }
 
+    //grabs field items and adds to database
     public void checkFieldsAndAddQuestion(MultiChoiceQuestion multiChoiceQuestion) {
 
         if (!referenceMaterial.getText().isBlank()) {
@@ -317,6 +299,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
         return currentTest;
     }
 
+    //refreshes html
     public void addHTML(String file, String keyFile) throws IOException {
         questionHTMLHelper.updateSections(file, keyFile);
     }

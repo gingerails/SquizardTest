@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
 public class PrimaryStageInitializer implements ApplicationListener<StageReadyEvent> {
 
     private final FxWeaver fxWeaver;
-
+    //This  function initializes fx weaver for the login screen
+    //FX Weaver is a Supportive tooling for using JavaFX together with Spring
     @Autowired
     public PrimaryStageInitializer(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
     }
-
+    //This  function iniitilizing and loads the login screen
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
         Stage stage = event.stage;

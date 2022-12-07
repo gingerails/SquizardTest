@@ -19,9 +19,10 @@ import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 
+//This class controls the HTML editing
 @Component
 public class QuestionHTMLHelper {
-
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final TestService testService;
     private final ShortAnswerQService shortAnswerQService;
     private final EssayQuestionService essayQuestionService;
@@ -36,6 +37,7 @@ public class QuestionHTMLHelper {
     public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
 
+    //contructor
     public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService, TestMakerController testMakerController,MainController mainController) {
         this.testService = testService;
         this.shortAnswerQService = shortAnswerQService;
@@ -48,16 +50,7 @@ public class QuestionHTMLHelper {
         this.mainController = mainController;
     }
 
-//    public QuestionHTMLHelper(TestService testService, ShortAnswerQService shortAnswerQService, EssayQuestionService essayQuestionService, MultiChoiceQService multiChoiceQService, MatchingQService matchingQService, TrueFalseQService trueFalseQService, FillinBlankQService fillinBlankQService) {
-//        this.testService = testService;
-//        this.shortAnswerQService = shortAnswerQService;
-//        this.essayQuestionService = essayQuestionService;
-//        this.multiChoiceQService = multiChoiceQService;
-//        this.matchingQService = matchingQService;
-//        this.trueFalseQService = trueFalseQService;
-//        this.fillinBlankQService = fillinBlankQService;
-//    }
-
+    //creates new key and test file from templates
     public static File createNewFile(String testName) throws IOException {
 
         String cSection = "";
@@ -87,13 +80,12 @@ public class QuestionHTMLHelper {
             e.printStackTrace();
         }
 
-
-        //Files.deleteIfExists(Paths.get("temp.txt"));
+   
         System.out.println(cClass + " " + cSection);
 
         pathTo = path + cClass + "\\" + cSection + "\\";
 
-
+        //load which template to copy and gets info from the template button on main screen
         String templateFileName="template.html";
         
         if(MainController.template1==true)
@@ -110,8 +102,7 @@ public class QuestionHTMLHelper {
           templateFileName= "template3.html";
         }
         
-        System.out.println("template choice: "+ templateFileName);
-          
+        //creates test html
         File templateFile = new File(path + templateFileName);
         File newFile = new File(pathTo + testName);
         if (!newFile.exists()) {
@@ -119,7 +110,7 @@ public class QuestionHTMLHelper {
 
         }
 
-        // Test Key
+        // creates Test Key
         File keyTemplateFile = new File(path + "KEY_template.html");
         File testKeyFile = new File(pathTo + "KEY_" + testName);
         if (!testKeyFile.exists()) {
@@ -144,12 +135,13 @@ public class QuestionHTMLHelper {
         return newFile;
     }
 
-
+    //controls the replacement of a sought after html "keyword" in newly made test and key 
     public void getReplacement(String testFile, File newFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String answerHTML, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
         String replaceHTML = htmlString.substring(startIndex + sectLength, endIndex);  // inbetween section tags. need to be copied and appended to
 
+        //replaces html with whatever section was added
         String testHtmlString = htmlString.replace(replaceHTML, addHTML);
         PrintWriter testPrintWriter = new PrintWriter(newFile);
         testPrintWriter.println(testHtmlString);
@@ -159,6 +151,7 @@ public class QuestionHTMLHelper {
         int keyEndIndex = keyHtmlString.indexOf(endMCSect, keyStartIndex);
         String keyReplaceHTML = keyHtmlString.substring(keyStartIndex + sectLength, keyEndIndex);  // inbetween section tags. need to be copied and appended to
 
+        //addes data to the key and replaces variables in key html
         String thisKeyHtmlString = keyHtmlString.replace(keyReplaceHTML, answerHTML);
         PrintWriter keyPrintWriter = new PrintWriter(pathTo + "KEY_" + testFile);
         keyPrintWriter.println(thisKeyHtmlString);
@@ -167,6 +160,7 @@ public class QuestionHTMLHelper {
         testMakerController.refresh();
     }
 
+    //randomizes each sections contents
     public void Randomize(String[] arr) {
         //randomize array
         Random rand = new Random();
@@ -189,6 +183,8 @@ public class QuestionHTMLHelper {
      * @param keyFile
      * @throws IOException
      */
+    
+    //updates short answer section of html essentially all file editing operations
     public void updateShortAnswerHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
@@ -217,6 +213,7 @@ public class QuestionHTMLHelper {
             ShortAnswerQuestion shortAnswerQuestion = shortAnswerQService.findQuestionByID(id);
             String questionContent = shortAnswerQuestion.getQuestionContent();
             String correctAnswer = shortAnswerQuestion.getCorrectAnswer();
+            //html code to inject
             addHTML = addHTML + ("<p><strong>" + shortAnsCount + ". "
                     + questionContent + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
@@ -234,7 +231,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, shortAnswerSect, endMCSect, sectLength, answerHTML, keyHtmlString);
     }
 
-
+    //updates essay section of html essentially all file editing operations
     public void updateEssayHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
@@ -263,6 +260,7 @@ public class QuestionHTMLHelper {
             EssayQuestion essayQuestion = essayQuestionService.findQuestionByID(id);
             String questionContent = essayQuestion.getQuestionContent();
             String correctAnswer = essayQuestion.getCorrectAnswer();
+            //html code to inject
             addHTML = addHTML + ("<p><strong>" + essayCount + ". "
                     + questionContent + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
@@ -282,6 +280,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, EssaySect, endEssaySect, sectLength, answerHTML, keyHtmlString);
     }
 
+    //updates fib section of html essentially all file editing operations
     public void updateFIBHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
@@ -311,6 +310,7 @@ public class QuestionHTMLHelper {
             String questionContent = fillinBlankQuestion.getQuestionContent();
             questionContent= questionContent.replace("/?/", "______________________");
             String correctAnswer = fillinBlankQuestion.getCorrectAnswer();
+            //html code to inject
             addHTML = addHTML + ("<p><strong>" + fibCount + ". "
                     + questionContent + "</strong></p>" + "\n"
                     + "<p>&nbsp;</p>" + "\n"
@@ -330,6 +330,8 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, fibSect, endEssaySect, sectLength, answerHTML, keyHtmlString);
     }
 
+    
+    //updates true/false section of html essentially all file editing operations
     public void updateTrueFalseHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
@@ -359,6 +361,7 @@ public class QuestionHTMLHelper {
             TrueFalseQuestion trueFalseQuestion = trueFalseQService.findQuestionByID(id);
             String questionContent = trueFalseQuestion.getQuestionContent();
             String correctAnswer = trueFalseQuestion.getCorrectAnswer();
+            //html code to inject
             addHTML = addHTML + ("<p><strong>" + tfCount + ". "
                     + questionContent + "</strong></p>" + "\n"
                     + "<p> T: ____ </p>" + "\n"
@@ -376,7 +379,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, TrueFalseSect, endTFSect, sectLength, answerHTML, keyHtmlString);
     }
 
-
+    //updates matching section of html essentially all file editing operations
     public void updateMatchingHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
@@ -413,6 +416,7 @@ public class QuestionHTMLHelper {
         Map<String, String> shuffledTermAndDef = zipToMap(terms, termDefinitions); // Key-value pair for term and def. Use for answer key
         for (Map.Entry<String, String> keyVal : shuffledTermAndDef.entrySet()) {
             matchCount++;
+            //code to inject
             addHTML = addHTML + (
                     "<div class=\"row\">\n" +
                             "  <div class=\"column\">\n" +
@@ -445,6 +449,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, matchingSect, endTFSect, sectLength, answerHTML, keyHtmlString);
     }
 
+    //updates multichoice section of html essentially all file editing operations
     public void updateMultiChoiceHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
@@ -481,6 +486,7 @@ public class QuestionHTMLHelper {
                 possibleAnswers.add(answ);
             }
             Collections.shuffle(possibleAnswers);
+            //html to inject
             addHTML = addHTML + ("<p><strong>" + mcCount + ".  "
                     + questionContent + "</strong></p>" + "\n"
                     + "<p> a: " + possibleAnswers.get(0) + "</p>" + "\n"
@@ -502,7 +508,7 @@ public class QuestionHTMLHelper {
         getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, multiChoiceSect, endTFSect, sectLength, answerHTML, keyHtmlString);
     }
 
-
+    //updates reference section of html essentially all file editing operations
     public void updateReferenceHTML(Test thisTest, String file, String keyFile) throws IOException {
         File templateFile = new File(file);
         File newFile = new File(file);
@@ -593,16 +599,14 @@ public class QuestionHTMLHelper {
         if (thisTest.getFillBlankQ() != null) {
             updateFIBHTML(thisTest, file, keyFile);
         }
-        // if(checkRef.exists())
-        // {
-        // updateReferenceHTML(thisTest, file, keyFile);
+        
         if (checkRef.listFiles() != null) {
             updateReferenceHTML(thisTest, file, keyFile);
         }
-        //}
+      
     }
 
-
+    //generates image from pdf since webviewer doesnt like pdf format
     private void generateImageFromPDF(String filename, String extension) throws IOException {
     Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();

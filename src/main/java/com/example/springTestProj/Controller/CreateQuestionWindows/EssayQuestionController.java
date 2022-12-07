@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.example.springTestProj.Controller.CreateQuestionWindows;
 
 import com.example.springTestProj.Controller.QuestionHTMLHelper;
@@ -44,53 +40,35 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
-/**
- * FXML Controller class
- *
- * @author Orames
- */
+//This class controls the essay question screen and adds it to db
 @Component
 @FxmlView("/essayQuestion.fxml")
 public class EssayQuestionController implements ControlDialogBoxes {
-    private Parent root;
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final TestService testService;
     private final EssayQuestionService essayQuestionService;
     private final QuestionHTMLHelper questionHTMLHelper;
     private final TestMakerController testMakerController;
-
-    private final FxWeaver fxWeaver;
     private Stage stage;
 
     @FXML
-    private Button add;
-    @FXML
-    private Button answerGraphicButton;
-    @FXML
-    private Button questionGraphicButton;
+    private Button add,answerGraphicButton,questionGraphicButton;
     @FXML
     private VBox essayQuestionBox;
     @FXML
-    private TextField answerTextField;
-    @FXML
-    private TextField sectionsTextField;
-    @FXML
-    private TextField MaterialTextField;
-    @FXML
-    private TextField questionTextField;
-    @FXML
-    private TextField commentTextField;
-    @FXML
-    private TextField instructionTextField;
+    private TextField answerTextField,sectionsTextField,MaterialTextField,instructionTextField,commentTextField,questionTextField;
     @FXML
     private Label error,aG,qG;
-
-     public static String path = "src\\main\\resources\\";
+    private final FxWeaver fxWeaver;
+    public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
     public File ag=null;
     public File qg=null;
     String cSection="";
     String cClass="";
+    
+    //constructor
     public EssayQuestionController(UserService userService, TestService testService, EssayQuestionService essayQuestionService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, FxWeaver fxWeaver) {
         this.testService = testService;
         this.essayQuestionService = essayQuestionService;
@@ -100,6 +78,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
         this.userService = userService;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize () {
         
@@ -130,25 +109,25 @@ public class EssayQuestionController implements ControlDialogBoxes {
 			e.printStackTrace();
 		}
 	
-                
-                //Files.deleteIfExists(Paths.get("temp.txt"));
-        System.out.println(cClass+" "+cSection);
-        
+                      
         pathTo = path+cClass+"\\" +cSection+"\\";
         
-        
-        
+        //setup for window
         this.stage = new Stage();
         stage.setTitle("Add Essay Question");
         stage.setScene(new Scene(essayQuestionBox));
+        
+        //controls add button 
         this.add.setOnAction(actionEvent -> {
-            System.out.print("Add question button pressed");
+            
             try {
                 createQuestion();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+        
+        //controls add graphic button
         this.answerGraphicButton.setOnAction(actionEvent -> {
             try {
                 copyandFile();
@@ -164,6 +143,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
         });
       
     }
+    
+    //checks if attachment file exists
    public void checkAttachmentFile()
    {
        Path pathA=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest());
@@ -177,17 +158,20 @@ public class EssayQuestionController implements ControlDialogBoxes {
        }
 
    }
+   
+   //get files with popup file selection window
    public File getFiles()
    {
-       FileChooser file = new FileChooser();  
+        FileChooser file = new FileChooser();  
         file.setTitle("Open");  
-                //System.out.println(pic.getId());
-                Stage fStage = new Stage();
+        Stage fStage = new Stage();
         File file1 = file.showOpenDialog(fStage);  
         System.out.println(file1);  
         return file1;
        
    }
+   
+   //copy contents  of section and course to temp file
    public void copyandFile() throws FileNotFoundException, IOException
    {
        String cSection="";
@@ -219,10 +203,10 @@ public class EssayQuestionController implements ControlDialogBoxes {
 			e.printStackTrace();
 		}
 
-       //String src = getFiles().toString();
-       //String dest = path +"\\" +cClass + "\\" + cSection;
       
    }
+   
+   //checks duplication on attachment files
    public void getG(File ga, Label l) throws IOException
    {
       ga=getFiles();
@@ -241,31 +225,12 @@ public class EssayQuestionController implements ControlDialogBoxes {
        {
            l.setText(v);
            checkAttachmentFile();
-           Files.copy(src,dest);
-       }
-   }
-   public void getGA(File ga) throws IOException
-   {
-      ga=getFiles();
-      Path src=Paths.get(ga.toString());
-      File f = new File(ga.getName());
-      String v=f.getName();
-      
-      Path dest=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest()+"\\"+v);
-      
-     
-       if(Files.exists(dest))
-       {
-           error.setText("Error: Cant have a duplicate attachment on test");
-       }
-       else
-       {
-           aG.setText(v);
-           checkAttachmentFile();
+           //copy file and relocate
            Files.copy(src,dest);
        }
    }
    
+   // create question adn puts in HTML files. it grabs all textfield data to put in HTML
     public void createQuestion() throws IOException {
         if(!questionTextField.getText().isBlank() && !answerTextField.getText().isBlank()){
             String question = questionTextField.getText();
@@ -287,6 +252,8 @@ public class EssayQuestionController implements ControlDialogBoxes {
      *
      * @param essayQuestion
      */
+    
+    //grabs field items and adds to database
     public void checkFieldsAndAddQuestion(EssayQuestion essayQuestion){
 
         if(!MaterialTextField.getText().isBlank()){
@@ -322,14 +289,14 @@ public class EssayQuestionController implements ControlDialogBoxes {
         return currentTest;
     }
 
-
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
     }
 
-
+  //refreshes html
   public void addHTML( String file, String keyFile) throws IOException {
     questionHTMLHelper.updateSections(file, keyFile);
   }

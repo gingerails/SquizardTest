@@ -19,53 +19,45 @@ import org.springframework.stereotype.Component;
 @Component
 @FxmlView("/createAccount.fxml")
 public class CreateAccountController implements ControlSwitchScreen {
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final FxWeaver fxWeaver;
-
     private Stage stage;
-
     @FXML
-    public Label label;
-
+    public Label label,confirm,error;
     @FXML
     public Button button;
-
     @FXML
-    public TextField usrField;
-
-    @FXML
-    public TextField passField;
-
-    @FXML
-    public Label confirm;
-
+    public TextField usrField,passField;
     @FXML
     public Hyperlink existingAccountLink;
-
     @FXML
-    VBox createAccountVbox;  // fx:id !!!!!
+    VBox createAccountVbox;
 
-
+    //contructor
     public CreateAccountController(UserService userService, FxWeaver fxWeaver) {
         System.out.println("Create Account Controller");
         this.fxWeaver = fxWeaver;
         this.userService = userService;
     }
-
+    
+    //initialize is aautomatically called and this is where we store button action events
     @FXML
     public void initialize () {
+        
+        //button to goto login screen
         this.existingAccountLink.setOnAction(actionEvent -> {
-            System.out.print("Link clicked");
             loadLoginScreen();
         });
 
+        //button to create user
         this.button.setOnAction(actionEvent -> {
             System.out.println("CReating User");
             createUser();
         });
     }
 
-
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         this.stage = thisStage;
@@ -74,6 +66,7 @@ public class CreateAccountController implements ControlSwitchScreen {
         stage.show();
     }
 
+    //gets the current stage
     @Override
     public Stage getCurrentStage() {
         Node node = button.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
@@ -81,6 +74,7 @@ public class CreateAccountController implements ControlSwitchScreen {
         return currentStage;
     }
 
+    //loads login screen with FXWeaver
     public void loadLoginScreen() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<LoginController, VBox> loginControllerAndView =
@@ -88,24 +82,22 @@ public class CreateAccountController implements ControlSwitchScreen {
         loginControllerAndView.getController().show(getCurrentStage());
     }
 
-    /**
-     * saves new user.
-     */
+    //saves new user to database
     public void createUser(){
-
-        System.out.println("Verifying User...");
-
+        
+        //get text from textfields
         String username = usrField.getText();
         String password = passField.getText();
-        System.out.println(userService.returnUserByUsername(username));
+        
+        
         if(userService.returnUserByUsername(username) == null) // there mustn't be any users w that username on this device
         {
             // SAVE NEW USER TO REPOSITORY
             User newUser = userService.createUser(username, password);
             userService.saveUserToRepository(newUser);
         }
-        else{
-            System.out.println("Error: Username taken");
+        else{ //print error msg
+            error.setText(" ERROR: Username Taken");
         }
     }
 }

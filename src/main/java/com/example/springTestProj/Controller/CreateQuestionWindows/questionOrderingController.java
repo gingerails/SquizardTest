@@ -51,10 +51,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
+//creates a draggable interface for ordering
 @Component
 @FxmlView("/questionOrdering.fxml")
 public class questionOrderingController implements ControlDialogBoxes {
 
+    //initialize variables
     private final UserService userService;
     private final TestService testService;
     private final MultiChoiceQService multiChoiceQService;
@@ -84,7 +86,6 @@ public class questionOrderingController implements ControlDialogBoxes {
     @FXML
     private Button apply;
 
-    //private ObservableList<String> types;
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
@@ -94,11 +95,8 @@ public class questionOrderingController implements ControlDialogBoxes {
     public String path = "src\\main\\resources\\";
     
     public String types;
-    
-    
-    
-    
 
+    //constructor
     public questionOrderingController(MainController mainController,UserService userService,TestMakerController testMakerController,FillinBlankQService fillinBlankQService, FxWeaver fxWeaver,MatchingQService matchingQService,EssayQuestionService essayQuestionService,TrueFalseQService trueFalseQService, MultiChoiceQService multiChoiceQService,ShortAnswerQService shortAnswerQService, TestService testService,QuestionHTMLHelper questionHTMLHelper) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -114,28 +112,34 @@ public class questionOrderingController implements ControlDialogBoxes {
         this.mainController = mainController;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize() {
-        //repopulateData();
+        //makes window listen for drag and drops
         initializeListeners();
         
+        //resets window
         this.reset.setOnAction(actionEvent -> {
             types();
             repopulateData();
 
         });
+        
+        //applies ordering
         this.apply.setOnAction(actionEvent -> {
             
             List<String> numbers = list2.getItems();
             ordering = String.join(",", numbers);
             String[] order=ordering.split("[,]",0);
             
+            //counts for 6 variables in drag window
             int counter = 0;
             for (int i = 0; i < order.length; i++) {
                 if (order[i] != null) {
                     counter++;
                 }
             }
+            //checks for 6 variables in window and errors if not
             if(counter!=6)
                 {
                     error.setText(" ERROR: Not all elements dragged");
@@ -152,7 +156,7 @@ public class questionOrderingController implements ControlDialogBoxes {
                 Logger.getLogger(questionOrderingController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            
+            //holds data for existing imput 
             String Body= StringUtils.substringBetween(data,"<!body>", "</body>");
             String Match = StringUtils.substringBetween(data,"<section id=\"Matching\">", "</section>");
             String Tf= StringUtils.substringBetween(data,"<section id=\"TrueFalse\">", "</section>");
@@ -169,6 +173,8 @@ public class questionOrderingController implements ControlDialogBoxes {
             String end="</section>";
             
             String reorder="<!body>\n";
+            
+            //reorders data to specified ordering in html
             for (String myStr : order) {
                 
                 data=data.replace(Body, "");
@@ -220,6 +226,7 @@ public class questionOrderingController implements ControlDialogBoxes {
             System.out.print("Invalid Path");
         }
             
+        //refresh webview
         QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, testMakerController, mainController);
             try {
                 gH.updateSections(path + testName, path + "KEY_" + testName);
@@ -230,7 +237,11 @@ public class questionOrderingController implements ControlDialogBoxes {
             stage.close();
             }
         });
+        
+        //refresh/repopulate data to left listview
         repopulateData();
+        
+        //setup window
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
         stage.setScene(new Scene(questionOrderingBox));
@@ -242,6 +253,7 @@ public class questionOrderingController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
+    //controls what to do for each drag movement
     private void initializeListeners() {
     // drag from left to right
     list.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -257,14 +269,14 @@ public class questionOrderingController implements ControlDialogBoxes {
         dragBoard.setContent(content);
       }
     });
-
+    //drag over
     list2.setOnDragOver(new EventHandler<DragEvent>() {
       @Override
       public void handle(DragEvent dragEvent) {
         dragEvent.acceptTransferModes(TransferMode.MOVE);
       }
     });
-
+    //dropped by mouse
     list2.setOnDragDropped(new EventHandler<DragEvent>() {
       @Override
       public void handle(DragEvent dragEvent) {
@@ -277,14 +289,7 @@ public class questionOrderingController implements ControlDialogBoxes {
     });
     }
 
-    
-    private void populateData() {
-        leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-
-        list.setItems(leftList);
-        list2.setItems(rightList);
-    }
-     
+    //repopulates lists
     private void repopulateData()
     {
         list.getItems().clear();
@@ -295,11 +300,10 @@ public class questionOrderingController implements ControlDialogBoxes {
         list2.setItems(rightList);
     }
     
+    //changes items to string
     private void types()
     {
-        
         types=list2.getItems().toString();
-        System.out.println(types);
     }
 
    

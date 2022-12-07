@@ -11,7 +11,7 @@
 
 <!--  ADD LATER      stylesheets="@Style.css"-->
 
-<VBox fx:id="createAccountVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="276.0" style="-fx-background-color: aebd99;" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateAccountController">
+<VBox fx:id="createAccountVbox" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="208.0" prefWidth="345.0" style="-fx-background-color: aebd99;" styleClass="bodybg" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.springTestProj.Controller.CreateAccountController">
    <Separator orientation="VERTICAL" prefHeight="200.0" style="-fx-background-color: aebd99;" />
    <VBox>
       <children>
@@ -33,6 +33,7 @@
          <Hyperlink fx:id="existingAccountLink" prefHeight="23.0" prefWidth="274.0" text="Login to Existing Account" />
       </children>
    </HBox>
+   <Label fx:id="error" prefHeight="18.0" prefWidth="349.0" style="-fx-text-fill: #FF0000;" translateY="10.0" />
 <!--&lt;!&ndash;&ndash;&gt; onAction="#verify" -->
    <Label fx:id="confirm" accessibleText="confirm" prefHeight="18.0" prefWidth="314.0" translateY="10.0" />
 </VBox>

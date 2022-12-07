@@ -42,6 +42,7 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
 
+//controls adding essay window
 @Component
 @FxmlView("/addE.fxml")
 public class addEController implements ControlDialogBoxes {
@@ -58,25 +59,21 @@ public class addEController implements ControlDialogBoxes {
     private VBox EVBox;
     @FXML
     private ListView<String> list;
-    
-    
     @FXML
     private Button select;
     @FXML
     private Button apply;
     @FXML
     private Label selection;
-    
-
-    //private ObservableList<String> types;
-    private static final ObservableList<String> leftList = FXCollections
-            .observableArrayList();
+   
+    private static final ObservableList<String> leftList = FXCollections.observableArrayList();
 
     public String item;
     public String path = "src\\main\\resources\\";
     
     public String types;
 
+    //contstructor
     public addEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -85,22 +82,27 @@ public class addEController implements ControlDialogBoxes {
         this.essayQuestionService = essayQuestionService;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize() {
         //This keeps the selected question from being re-added to the box
         leftList.clear();
-       // repopulateData();
         initializeListeners();
         
+        //controls select button
         this.select.setOnAction(actionEvent -> {
             item=list.getSelectionModel().getSelectedItem();
             selection.setText("ADD: "+item);
             
         });
+        
+        //controls apply button
         this.apply.setOnAction(actionEvent -> {
             stage.close();
             
         });
+        
+        //populates data
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
@@ -129,9 +131,6 @@ public class addEController implements ControlDialogBoxes {
             //System.out.println("A:    " + questionAnswer);
             leftList.addAll(questionContent);
         } 
-
-        
-
         list.setItems(leftList);
         
     }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.example.springTestProj.Controller;
 
 import com.example.springTestProj.Entities.Section;
@@ -37,17 +33,12 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
-/**
- * FXML Controller class
- *
- * @author Orames
- */
+//This class controls the main screen and opens add tests and edit tests screens
 @Component
 @FxmlView("/Main.fxml")
 public class MainController implements ControlSwitchScreen {
-
+    //initializing Services, FX Weaver, and all interactive GUI items
     CourseRepository courseRepository;
-
     private final CourseService courseService;
     private final SectionService sectionService;
     private final UserService userService;
@@ -56,8 +47,6 @@ public class MainController implements ControlSwitchScreen {
     private final FxWeaver fxWeaver;
     private Stage stage;
     public static String path = "src\\main\\resources";
-
-    // idk abt this but w/e
     private Section selectedSection;
     private Courses selectedCourse;
     @FXML
@@ -87,6 +76,7 @@ public class MainController implements ControlSwitchScreen {
     public static boolean template2 = false;
     public static boolean template3 = false;
     
+    //contructor
     public MainController(UserService userService, FxWeaver fxWeaver, CourseService courseService, TestService testService, EssayQuestionService essayQuestionService,SectionService sectionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -96,16 +86,19 @@ public class MainController implements ControlSwitchScreen {
         this.sectionService=sectionService;
     }
 
+    //gets the courses and disply them to the dropdown
     public void getDatabaseCourses() {
+        //clear droopdown
         displayClass.getItems().clear();
         List<Courses> dropdownCourseList = courseService.readCourses();
+        //add courses to dropdown
         for (Courses course : dropdownCourseList) {
             String sectionsAsString = course.getSections();
             if (course.getSections() == null) {
                 sectionsAsString = "";
             }
             String[] sectionsList = sectionsAsString.split(",");
-            ArrayList<String> displayList = new ArrayList<>();
+            
             for (String currentSection : sectionsList) {
                 String statementString = course.getCoursesPrimaryKey().getCourseNum() + " " + currentSection;
                 System.out.println(currentSection);
@@ -116,64 +109,83 @@ public class MainController implements ControlSwitchScreen {
         }
 
     }
+    
+    //exits application
     public void exit()
     {
         
         stage.close();
     }
+    
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize() {
-        //Stage currentStage = getCurrentStage();
         template1 = false;
         template2 = false;
         template3 = false;
 
+        //sets preview windows to invisible
          ArrayList<Node> previewGroups = new ArrayList<>(Arrays.asList(this.test1group, this.test2group, this.test3group, this.test4group, this.test5group, this.test6group, this.test7group, this.test8group));
          for (Node node : previewGroups) {
             node.setVisible(false);
         }
 
+        //sets dropdown to display courses
         getDatabaseCourses();
 
+        //controls and sets values for course dropdown
         this.displayClass.setOnAction(actionEvent -> {
             setClassandSectionn();
-//            setFindTests();
             showExistingTests(userService.returnCurrentUserID());
             setSearch();
         });
+        
+        //controls the add test button
         this.addTest.setOnAction(actionEvent -> {
             loadAddTestScreen();
         });
+        
+        //controls the search bar 
         this.searchB.setOnAction(actionEvent -> {
             searchEdit();
         });
+        
+        //controls the template 1 button
         this.temp1.setOnAction(actionEvent -> {
             template1=true;
             loadAddTestScreen();
         });
+        
+        ///controls template 2 button
         this.temp2.setOnAction(actionEvent -> {
             template2=true;
             loadAddTestScreen();
         });
+        
+        //controls template 3 button
         this.temp3.setOnAction(actionEvent -> {
             template3=true;
             loadAddTestScreen();
         });
+        
+        //controls the add course button
         this.addCourseButton.setOnAction((ActionEvent actionEvent) -> {
             loadAddCourseScreen();
-            //getDatabaseCourses();
             initialize();
         });
 
 
     }
-
+    
+    //gets the current stage
     @Override
     public Stage getCurrentStage() {
         Node node = addTest.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
+    
+    //search for tests and show to searchbar
     public void setSearch()
     {
         bar.getItems().clear();
@@ -189,27 +201,12 @@ public class MainController implements ControlSwitchScreen {
                 bar.getItems().addAll(listOfFiles[i].getName().replaceAll(".html", ""));
                }
             } else if (listOfFiles[i].isDirectory()) {
-                System.out.println("Directory " + listOfFiles[i].getName());
+                //System.out.println("Directory " + listOfFiles[i].getName());
             }
         }
     }
-    // Because I am calling the tests by user and section
-    // instead this ends up not being used. I am keeping it in
-    // just in case the code needs to be reused otherwise
-//    public void setFindTests() {
-//        File folder = new File(path+"\\"+getC+"\\"+getS);
-//        File[] listOfFiles = folder.listFiles();
-//
-//        for (int i = 0; i < listOfFiles.length; i++) {
-//
-//            if (listOfFiles[i].isFile()) {
-//                System.out.println("File " + listOfFiles[i].getName());
-//                findTestCb.getItems().addAll(listOfFiles[i].getName());
-//            } else if (listOfFiles[i].isDirectory()) {
-//                System.out.println("Directory " + listOfFiles[i].getName());
-//            }
-//        }
-//    }
+    
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         this.stage = thisStage;
@@ -222,13 +219,9 @@ public class MainController implements ControlSwitchScreen {
         this.stage.centerOnScreen();
     }
 
-    /**
-     * gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
-     */
-
+    //sets the class and setcion for the dropdown bar
     public void setClassandSectionn() {
         int token = 0;
-//        System.out.println("Test stuff:"+displayClass.getValue().toString());
         if (displayClass.getValue().equals(null) || displayClass.getValue().toString().equals("") == false) {
             String getDis = (String) displayClass.getValue();
             String parts[] = getDis.split(" ");
@@ -244,9 +237,10 @@ public class MainController implements ControlSwitchScreen {
                 }
             }
         }
-        System.out.println("cc:" + getC + " " + getS);
+       
     }
 
+    //loads test add test screen
     public void loadAddTestScreen() {
         Stage currentStage = getCurrentStage();
         FxControllerAndView<CreateTestController, VBox> createTestControllerAndView =
@@ -254,17 +248,16 @@ public class MainController implements ControlSwitchScreen {
         createTestControllerAndView.getController().show(getCurrentStage());
     }
 
+    //loads previews and sets the previews to correct file andshows buttons asccociated with previews
     public void loadpreview(String name) {
         Stage nstage = new Stage();
 
         WebView browser = new WebView();
         WebEngine engine = browser.getEngine();
         File f = new File(name);
-//        URL url = this.getClass().getResource(name);
+
+        //loads file in webview window
         engine.load(f.toURI().toString());
-
-//        engine.load(url.toString());
-
 
         StackPane sp = new StackPane();
         sp.getChildren().add(browser);
@@ -275,16 +268,14 @@ public class MainController implements ControlSwitchScreen {
         nstage.show();
     }
 
+    //loads add course screen
     public void loadAddCourseScreen() {
         FxControllerAndView<AddCourseController, VBox> addCourseControllerAndView =
                 fxWeaver.load(AddCourseController.class);
         addCourseControllerAndView.getController().show(getCurrentStage());
     }
 
-    /**
-     * for the test preview - go through the existing tests
-     * get their htmls
-     */
+    //finds all tests and displayes to searchbar for each section and course
     public void searchEdit()
     {
          for (Test test : testService.findAllTestsByUser(userService.returnCurrentUserID())) {
@@ -306,6 +297,8 @@ public class MainController implements ControlSwitchScreen {
                 }
             }
     }
+    
+    //shows existing tests and sets the buttons of the preview and the files that should be linked ot buttons
     public void showExistingTests(String userID) {
 
         int token = 0;
@@ -315,7 +308,7 @@ public class MainController implements ControlSwitchScreen {
             node.setVisible(false);
 
         }
-      //  List<Test> allTestsByUser = testService.findAllTestsByUser(userID);
+      
         ArrayList<Test> allTestsBySection = new ArrayList<>();
         String testsBySectionStr = selectedSection.getTest();
         if(testsBySectionStr != null){

@@ -30,10 +30,11 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 
+//This class controls the matching question screen and adds it to db
 @Component
 @FxmlView("/matchingQ.fxml")
 public class MatchingQController implements ControlDialogBoxes {
-
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final TestService testService;
     private final MatchingQService matchingQService;
@@ -43,35 +44,23 @@ public class MatchingQController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private Button add;
-    @FXML
-    private Button addRow;
+    private Button add,addRow;
     @FXML
     private VBox mQuestionBox;
     @FXML
     private TableView<MatchingQuestion> table;
     @FXML
-    private TextField termF;
-    @FXML
-    private TextField answerF;
-
-    @FXML
-    private TextField referenceSection;
-    @FXML
-    private TextField referenceMaterial;
-    @FXML
-    private TextField instructorComment;
-    @FXML
-    private TextField gradingInstructions;
+    private TextField termF,answerF,referenceSection,gradingInstructions,referenceMaterial,instructorComment;
     @FXML
     private Label error;
     @FXML private TableColumn<MatchingQuestion, String> Term;
     @FXML private TableColumn<MatchingQuestion, String> correctAnswer;
 
-     public static String path = "src\\main\\resources\\";
+    public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
     private final ObservableList<MatchingQuestion> data=FXCollections.observableArrayList();
 
+    //constructor
     public MatchingQController(UserService userService, TestService testService, MatchingQService matchingQService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, FxWeaver fxWeaver) {
         this.userService = userService;
         this.testService = testService;
@@ -81,6 +70,7 @@ public class MatchingQController implements ControlDialogBoxes {
         this.fxWeaver = fxWeaver;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize () {
         String cSection="";
@@ -111,19 +101,21 @@ public class MatchingQController implements ControlDialogBoxes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-                //Files.deleteIfExists(Paths.get("temp.txt"));
-        System.out.println(cClass+" "+cSection);
         
         pathTo = path+cClass+"\\" +cSection+"\\";
 
+        //setup for window
         this.stage = new Stage();
         stage.setTitle("Add MatchingQuestion Question");
         stage.setScene(new Scene(mQuestionBox));
 
+        //initialize columns and clears them and refreshes them
         Term.setCellValueFactory(new PropertyValueFactory<>("Term"));
         correctAnswer.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
         data.clear();
         table.refresh();
+        
+        //controls the add row button
         this.addRow.setOnAction(actionEvent -> {
             if (termF.getText().isEmpty() || answerF.getText().isEmpty()) {
                 error.setText("ERROR: Term and/or Answer is blank");
@@ -134,20 +126,21 @@ public class MatchingQController implements ControlDialogBoxes {
             }
 
         });
+        
+        //controls the add button
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
 
             for (MatchingQuestion question : data){
                 createQuestion(question);
             }
+            
             // update HTML
             Test currentTest = getCurrentTestSectionInfo();
             String testFile = currentTest.getTestName();
             try {
                 addHTML(pathTo + testFile, pathTo + "KEY_" + testFile);
 
-
-                //         testMakerController.refresh();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -156,13 +149,15 @@ public class MatchingQController implements ControlDialogBoxes {
         });
     }
 
+   // create question adn puts in HTML files. it grabs all textfield data to put in HTML
     public void createQuestion(MatchingQuestion question){
         String termContent = question.getTerm();
         String correctAnswer = question.getCorrectAnswer();
         MatchingQuestion matchingQuestion = matchingQService.createMatchingQuestion(termContent, correctAnswer);
         checkFieldsAndAddQuestion(matchingQuestion);
     }
-
+    
+    //grabs field items and adds to database
     public void checkFieldsAndAddQuestion(MatchingQuestion matchingQuestion){
 
         if(!referenceMaterial.getText().isBlank()){
@@ -199,12 +194,14 @@ public class MatchingQController implements ControlDialogBoxes {
         return currentTest;
     }
 
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
     }
 
+    //refreshes html
     public void addHTML(String file, String keyFile) throws IOException {
         questionHTMLHelper.updateSections(file, keyFile);
     }
