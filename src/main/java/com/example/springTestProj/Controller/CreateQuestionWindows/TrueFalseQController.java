@@ -136,7 +136,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(trueFalseQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(path + testFile, path + "KEY_" + testFile);
+           addHTML(pathTo + testFile, pathTo + "KEY_" + testFile);
 
            testMakerController.refresh();
            stage.close();

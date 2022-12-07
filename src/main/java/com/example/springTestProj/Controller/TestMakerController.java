@@ -80,7 +80,7 @@ import javafx.stage.FileChooser;
 @Component
 @FxmlView("/testMaker.fxml")
 public class TestMakerController implements ControlSwitchScreen {
-
+    //initialize varaibles
     private final UserService userService;
     private final TestService testService;
     private final MultiChoiceQService multiChoiceQService;
@@ -170,6 +170,7 @@ public class TestMakerController implements ControlSwitchScreen {
 
     public void refresh() {
 
+        //refreshes everything in window and checks null values
         engine.reload(); //  reload html
 
         // This checks to see if the current test even has
@@ -199,6 +200,7 @@ public class TestMakerController implements ControlSwitchScreen {
 //        }
     }
 
+    //controls btns and asetup window
     @FXML
     public void initialize() throws IOException {
         Test currentTest = testService.returnThisTest();
@@ -207,6 +209,7 @@ public class TestMakerController implements ControlSwitchScreen {
         String cClass = "";
         int count = 0;
 
+        ///all these grouped btns with Rand at the end of name check if random is selsected and changes their ordering
         this.saRand.setOnAction(actionEvent -> {
 
             if (saRand.isSelected()) {
@@ -369,18 +372,19 @@ public class TestMakerController implements ControlSwitchScreen {
         File g = new File(path + testName);
         File f = QuestionHTMLHelper.createNewFile(testName);
 
-        //createTest(path + testName, testName);
-        //webviewer
-
+        //refreshes webview
         engine = viewer.getEngine();
         engine.load(f.toURI().toString());
 
+        //adds text if existing data for test
         addTFText();
         addSAText();
         addEText();
         addFIBText();
         addMText();
         addMCText();
+        
+        //adds selectable items to question type dropmenu
         questionType.getItems().addAll(
                 "Essay",
                 "Multiple Choice",
@@ -390,6 +394,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 "Short Answer"
         );
 
+        //controlls add btn 
         this.add.setOnAction(actionEvent -> {
             try {
                 pickQuestion();
@@ -397,6 +402,8 @@ public class TestMakerController implements ControlSwitchScreen {
                 Logger.getLogger(TestMakerController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        
+        //controls window to popup when press reference btn
         this.ref.setOnAction(actionEvent -> {
             File df=new File(path+"\\reference\\"+testName);
             deleteFolder(df);
@@ -409,6 +416,8 @@ public class TestMakerController implements ControlSwitchScreen {
             }
 
         });
+        
+        //controls add reference btn
         this.addRef.setOnAction(actionEvent -> {
             QuestionHTMLHelper gH = new QuestionHTMLHelper(testService, shortAnswerQService, essayQuestionService, multiChoiceQService, matchingQService, trueFalseQService, fillinBlankQService, this, mainController);
             try {
@@ -419,6 +428,8 @@ public class TestMakerController implements ControlSwitchScreen {
 
 
         });
+        
+        //controls publish btn
         this.publish.setOnAction(actionEvent -> {
 
             try {
@@ -430,6 +441,8 @@ public class TestMakerController implements ControlSwitchScreen {
 
         });
          
+        
+        //controls all edit add add buttons
         this.addMC.setOnAction(actionEvent -> {
             addMCScene();
         });
@@ -542,8 +555,14 @@ public class TestMakerController implements ControlSwitchScreen {
 
     public File getFiles() {
         FileChooser file = new FileChooser();
+        
+        //set extension filter
+        FileChooser.ExtensionFilter extFilter = 
+        new FileChooser.ExtensionFilter("PNG files (*.PNG), PDF files (*.PDF)", "*.png","*.pdf");
+        file.getExtensionFilters().add(extFilter);
+
         file.setTitle("Open");
-        //System.out.println(pic.getId());
+        //open filechooser
         Stage fStage = new Stage();
         File file1 = file.showOpenDialog(fStage);
         System.out.println(file1);
@@ -587,6 +606,7 @@ public class TestMakerController implements ControlSwitchScreen {
            //this.refresh();
        }
    
+     //addds reference material if doesnt already exist
     public void addReference()
     {
         Test currentTest = testService.returnThisTest();
@@ -599,6 +619,8 @@ public class TestMakerController implements ControlSwitchScreen {
         }
         
     }
+    
+    //add questions to html and points to html
     public void addHTML(String file, String divID, String points) throws IOException {
         File templateFile = new File(path + file);
         File newFile = new File(path + file);
@@ -612,7 +634,6 @@ public class TestMakerController implements ControlSwitchScreen {
             Files.copy(keyTemplateFile.toPath(), newKeyFile.toPath()); // copy current version of file
         }
 
-        // String addPointsSect
         String keyHtmlString = Files.readString(newKeyFile.toPath());
         String testHtmlString = Files.readString(newFile.toPath());
         String startSect = "<div id = \"" + divID + "\">";
@@ -622,6 +643,7 @@ public class TestMakerController implements ControlSwitchScreen {
         getReplacement(newFile, newKeyFile, addedHTML, testHtmlString, startSect, endSect, sectLength, keyHtmlString);
     }
 
+    //places question type in right space
     public void getReplacement(File newFile, File newKeyFile, String addHTML, String htmlString, String startSection, String endMCSect, int sectLength, String keyHtmlString) throws FileNotFoundException {
         int startIndex = htmlString.indexOf(startSection);
         int endIndex = htmlString.indexOf(endMCSect, startIndex);
@@ -644,17 +666,21 @@ public class TestMakerController implements ControlSwitchScreen {
         engine.reload(); //  reload html
     }
 
+    //goes to main screeen
     public void goToMainScreen() {
         FxControllerAndView<MainController, VBox> mainControllerAndView
                 = fxWeaver.load(MainController.class);
         mainControllerAndView.getController().show(getCurrentStage());
     }
+    
+    //exits application
     public void exit()
     {
         
         stage.close();
     }
 
+    //opens question ordering screen
     public void Qorder() {
         System.out.println("Qorder");
         FxControllerAndView<questionOrderingController, VBox> QuestionOrderingControllerAndView
@@ -662,6 +688,7 @@ public class TestMakerController implements ControlSwitchScreen {
         QuestionOrderingControllerAndView.getController().show(getCurrentStage());
     }
 
+    //determines the question type adding to
     public void pickQuestion() throws IOException {
         String qType = (String) questionType.getValue();
         System.out.println(qType);
@@ -705,7 +732,7 @@ public class TestMakerController implements ControlSwitchScreen {
     }
 
     /**
-     *
+     *adds question text to left window in respective listview
      */
     public void addMCText() {
         try {
@@ -730,7 +757,6 @@ public class TestMakerController implements ControlSwitchScreen {
                 //System.out.println("A:    " + questionAnswer);
                 mcListArray.addAll("Question: " + questionContent + "\n"
                         + "Correct Answer: " + questionCorrect + "\n"
-                        + "Wrong Answers: " + questionFalse + "\n"
                 );
             }
 
@@ -768,7 +794,7 @@ public class TestMakerController implements ControlSwitchScreen {
   
                 //System.out.println("A:    " + questionAnswer);
                 fibListArray.addAll("Question: "+questionContent+"\n"
-                +"Correct Answer: "+questionCorrect+"\n"
+                +"Answer(s): "+questionCorrect+"\n"
                 );
             }
 
@@ -838,9 +864,9 @@ public class TestMakerController implements ControlSwitchScreen {
                 String questionCorrect = eq.getCorrectAnswer();
 
                 //System.out.println("A:    " + questionAnswer);
-                eListArray.addAll(questionContent
+                eListArray.addAll("Question: "+questionContent+"\n"
                        
-
+                + "Answer: "+questionCorrect
                 );
             }
 
