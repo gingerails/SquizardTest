@@ -41,6 +41,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 //controls adding essay window
 @Component
@@ -122,19 +123,22 @@ public class addEController implements ControlDialogBoxes {
 
     
     private void populateData() {
-        //MultiChoiceQService mcService=new MultiChoiceQService();
+        
         List<EssayQuestion> eQuestions = essayQuestionService.readQuestions();
         for(EssayQuestion q : eQuestions){
             String questionContent = q.getQuestionContent();
+            String testN="Test1";
+            StringUtils.leftPad(testN,8," ");
             //String questionAnswer = q.getCorrectAnswer();
             System.out.println("Q:    " + questionContent);
             //System.out.println("A:    " + questionAnswer);
-            leftList.addAll(questionContent);
+            leftList.addAll("Question: "+questionContent + " Testname: " + testN );
         } 
         list.setItems(leftList);
         
     }
      
+  
    
    
    

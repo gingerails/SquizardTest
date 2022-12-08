@@ -52,6 +52,7 @@
                                           <CheckBox fx:id="matchingRand" layoutX="715.0" layoutY="506.0" mnemonicParsing="false" text="random" />
                                           <CheckBox fx:id="saRand" layoutX="715.0" layoutY="652.0" mnemonicParsing="false" text="random" />
                                           <CheckBox fx:id="essayRand" layoutX="715.0" layoutY="799.0" mnemonicParsing="false" text="random" />
+                                          <ListView fx:id="saList" layoutX="-142.0" layoutY="675.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-142.0" AnchorPane.rightAnchor="141.20000000000005" />
                                        </children></AnchorPane>
                                     <Label layoutY="5.0" text="Multiple Choice" />
                                     <ListView fx:id="mcList" layoutY="23.0" prefHeight="129.0" prefWidth="606.0" />
@@ -62,7 +63,6 @@
                                     <Label layoutY="449.0" text="Matching" />
                                     <ListView fx:id="mList" layoutY="467.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
                                     <Label layoutX="-1.0" layoutY="597.0" text="Short Answer" />
-                                    <ListView fx:id="saList" layoutX="-1.0" layoutY="615.0" prefHeight="129.0" prefWidth="606.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.20000000000004547" />
                                     <Label layoutY="745.0" text="Essay" />
                                     <ListView fx:id="eList" layoutY="763.0" prefHeight="129.0" prefWidth="606.0" />
                                     <Button fx:id="editFIB" layoutX="612.0" layoutY="171.0" mnemonicParsing="false" text="Edit" />
@@ -145,12 +145,12 @@
          <padding>
             <Insets left="5.0" />
          </padding></Label>
+      <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="100.0" />
       <Label layoutX="10.0" layoutY="781.0" text="Time Taken:" translateY="20.0">
          <padding>
             <Insets left="5.0" />
          </padding></Label>
-      <TextField prefHeight="26.0" prefWidth="699.0" scaleX="0.1" translateX="-475.0" translateY="-40.0" VBox.vgrow="NEVER" />
-      <TextField prefHeight="26.0" scaleX="0.1" translateX="-475.0" translateY="-25.0" VBox.vgrow="NEVER" />
       <Label fx:id="error" alignment="CENTER" prefHeight="18.0" prefWidth="730.0" style="-fx-text-fill: #FF0000;" />
+      <TextField maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="100.0" translateY="5.0" />
 </children>
 </VBox>

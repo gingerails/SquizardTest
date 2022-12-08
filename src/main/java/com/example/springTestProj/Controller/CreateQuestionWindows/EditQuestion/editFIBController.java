@@ -3,12 +3,14 @@ package com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion
 import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.EssayQuestion;
+import com.example.springTestProj.Entities.QuestionEntities.FillinBlankQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MatchingQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.TrueFalseQuestion;
 import com.example.springTestProj.Entities.Test;
 import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.QuestionService.FillinBlankQService;
 import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
@@ -44,6 +46,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
+import java.util.Arrays;
 import java.util.List;
 
 //SAME functions and functionality as editEController
@@ -58,7 +61,8 @@ public class editFIBController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
-    private final TrueFalseQService trueFalseQService;
+    private final FillinBlankQService fillinBlankQService;
+    
     
     private Stage stage;
 
@@ -68,7 +72,8 @@ public class editFIBController implements ControlDialogBoxes {
     private ListView<String> list;
     @FXML
     private ListView<String> list2;
-    
+    @FXML 
+    private Label error;
     @FXML
     private Button reset;
     @FXML
@@ -85,13 +90,13 @@ public class editFIBController implements ControlDialogBoxes {
     
     public String types;
 
-    public editFIBController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,TrueFalseQService trueFalseQService) {
+    public editFIBController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MatchingQService matchingQService,FillinBlankQService fillinBlankQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
         this.matchingQService = matchingQService;
-        this.trueFalseQService=trueFalseQService;
+        this.fillinBlankQService = fillinBlankQService;
     }
 
     @FXML
@@ -109,7 +114,7 @@ public class editFIBController implements ControlDialogBoxes {
             stage.close();
             
         });
-        populateData();
+        repopulateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
         stage.setScene(new Scene(fibVBox));
@@ -156,22 +161,40 @@ public class editFIBController implements ControlDialogBoxes {
     });
     }
 
-    
-    private void populateData() {
-      
-        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
-
-        list.setItems(leftList);
-        list2.setItems(rightList);
-    }
      
     private void repopulateData()
     {
+         try{
+        Test currentTest = testService.returnThisTest();
+        String mcQid = currentTest.getMultiChoiceQ();
+        
+        String[] arrStr = mcQid.split(",");
+        String[] arrStrM = Arrays.copyOfRange(arrStr, 1, arrStr.length);
+        
+        
         list.getItems().clear();
         list2.getItems().clear();
-               
+        List<FillinBlankQuestion> mQuestions = fillinBlankQService.readQuestions();
+        
+        
+            for (String id : arrStrM) {
+
+                FillinBlankQuestion eq = fillinBlankQService.findQuestionByID(id);
+                String questionContent = eq.getQuestionContent();
+                //System.out.println("A:    " + questionAnswer);
+                leftList.addAll(questionContent);
+            }
+        
+        //leftList.addAll("Multiple Choice","Fill in the Blank","Matching","True/False","Short Answer","Essay");
+        
         list.setItems(leftList);
         list2.setItems(rightList);
+        }
+        catch(NullPointerException e)
+        {
+            error.setText("ERROR: No Questions");
+        }
+    
     }
     
     private void types()

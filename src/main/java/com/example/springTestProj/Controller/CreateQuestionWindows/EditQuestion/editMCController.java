@@ -1,15 +1,21 @@
 package com.example.springTestProj.Controller.CreateQuestionWindows.EditQuestion;
 
 import com.example.springTestProj.Controller.CreateQuestionWindows.ControlDialogBoxes;
+import com.example.springTestProj.Controller.MainController;
+import com.example.springTestProj.Controller.QuestionHTMLHelper;
 import com.example.springTestProj.Controller.TestMakerController;
 import com.example.springTestProj.Entities.QuestionEntities.MultiChoiceQuestion;
 import com.example.springTestProj.Entities.QuestionEntities.ShortAnswerQuestion;
 import com.example.springTestProj.Entities.Test;
+import com.example.springTestProj.Service.QuestionService.EssayQuestionService;
+import com.example.springTestProj.Service.QuestionService.FillinBlankQService;
+import com.example.springTestProj.Service.QuestionService.MatchingQService;
 import com.example.springTestProj.Service.QuestionService.MultiChoiceQService;
 import com.example.springTestProj.Service.QuestionService.ShortAnswerQService;
+import com.example.springTestProj.Service.QuestionService.TrueFalseQService;
 import com.example.springTestProj.Service.TestService;
 import com.example.springTestProj.Service.UserService;
-
+import com.example.springTestProj.Service.CourseService;
 import javafx.scene.paint.Color;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -40,6 +46,8 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //SAME functions and functionality as editEController
 //look at other file for functionalit and comments for functions
@@ -53,7 +61,21 @@ public class editMCController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
     private final TestService testService;
+    private final CourseService courseService;
     private Stage stage;
+    private final TestMakerController testMakerController;
+    private final MatchingQService matchingQService;
+    private final EssayQuestionService essayQuestionService;
+    private final TrueFalseQService trueFalseQService;
+    private final FillinBlankQService fillinBlankQService;
+    
+    private final MainController mainController;
+    public static boolean setEQ = false;
+    public static boolean setTF = false;
+    public static boolean setMQ = false;
+    public static boolean setMCQ = false;
+    public static boolean setSAQ = false;
+    public static boolean setFIBQ = false;
 
     @FXML
     private VBox mcVBox;
@@ -75,16 +97,24 @@ public class editMCController implements ControlDialogBoxes {
     private static final ObservableList<String> rightList = FXCollections
             .observableArrayList();
 
+    public static String[] stringArray;
     public String path = "src\\main\\resources\\";
     
     public String types;
 
-    public editMCController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MultiChoiceQService multiChoiceQService) {
+    public editMCController(CourseService courseService,MainController mainController, TrueFalseQService trueFalseQService,FillinBlankQService fillinBlankQService,EssayQuestionService essayQuestionService,UserService userService,MatchingQService matchingQService, TestMakerController testMakerController,FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService,MultiChoiceQService multiChoiceQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
         this.shortAnswerQService = shortAnswerQService;
         this.testService = testService;
         this.multiChoiceQService = multiChoiceQService;
+        this.testMakerController = testMakerController;
+         this.matchingQService = matchingQService;
+        this.essayQuestionService = essayQuestionService;
+        this.trueFalseQService = trueFalseQService;
+        this.fillinBlankQService = fillinBlankQService;
+        this.mainController = mainController;
+        this.courseService = courseService;
     }
 
     @FXML
@@ -99,6 +129,8 @@ public class editMCController implements ControlDialogBoxes {
             
         });
         this.apply.setOnAction(actionEvent -> {
+         
+            
             stage.close();
             
         });

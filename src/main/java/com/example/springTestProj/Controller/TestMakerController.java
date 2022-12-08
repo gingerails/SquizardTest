@@ -757,6 +757,7 @@ public class TestMakerController implements ControlSwitchScreen {
                 //System.out.println("A:    " + questionAnswer);
                 mcListArray.addAll("Question: " + questionContent + "\n"
                         + "Correct Answer: " + questionCorrect + "\n"
+          
                 );
             }
 
