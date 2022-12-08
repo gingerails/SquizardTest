@@ -327,7 +327,7 @@ public class QuestionHTMLHelper {
         String fibSect = "<section id=\"FillInBlank\">";
         String endEssaySect = "</section>";
         int sectLength = fibSect.length();
-        getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, fibSect, endEssaySect, sectLength, answerHTML, keyHtmlString);
+        getReplacement(thisTest.getTestName(), newFile, addHTML, htmlString, fibSect, endEssaySect, sectLength, answerHTML, keyHtmlString); 
     }
 
     

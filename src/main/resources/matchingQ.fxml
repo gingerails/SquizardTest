@@ -39,7 +39,7 @@
                   <TableColumn fx:id="Term" prefWidth="75.0" text="Term" />
                   <TableColumn fx:id="correctAnswer" prefWidth="75.0" text="Answer" />
                </columns></TableView>
-            <Label fx:id="error" layoutX="5.0" layoutY="550.0" prefHeight="18.0" prefWidth="542.0" style="-fx-text-fill: #FF0000;" />
+            <Label fx:id="error" layoutX="6.0" layoutY="560.0" prefHeight="18.0" prefWidth="542.0" style="-fx-text-fill: #FF0000;" />
       </children>
    </AnchorPane>
    </children>

@@ -108,9 +108,7 @@ public class TestMakerController implements ControlSwitchScreen {
     @FXML
     private VBox mainVbox;
     @FXML
-    private Button add, randomizeQuestionsButton, addMC, editMC, editM, editFIB, editSA, editE, editTF;
-    @FXML
-    private Button addTF, addE, addM, addFIB, addSA;
+    private Button add;
     @FXML
     private Button publish, ref, addRef;
     @FXML
@@ -203,6 +201,7 @@ public class TestMakerController implements ControlSwitchScreen {
     //controls btns and asetup window
     @FXML
     public void initialize() throws IOException {
+        
         Test currentTest = testService.returnThisTest();
         String testName = currentTest.getTestName();
         String cSection = "";
@@ -441,45 +440,8 @@ public class TestMakerController implements ControlSwitchScreen {
 
         });
          
-        
-        //controls all edit add add buttons
-        this.addMC.setOnAction(actionEvent -> {
-            addMCScene();
-        });
-        this.editMC.setOnAction(actionEvent -> {
-            editMCScene();
-        });
-        this.editM.setOnAction(actionEvent -> {
-            editMScene();
-        });
-        this.editFIB.setOnAction(actionEvent -> {
-            editFIBScene();
-        });
-        this.editTF.setOnAction(actionEvent -> {
-            editTFScene();
-        });
-        this.editE.setOnAction(actionEvent -> {
-            editEScene();
-        });
-        this.editSA.setOnAction(actionEvent -> {
-            editSAScene();
-        });
-        this.addM.setOnAction(actionEvent -> {
-            addMScene();
-        });
-        this.addTF.setOnAction(actionEvent -> {
-            addTFScene();
-        });
-        this.addSA.setOnAction(actionEvent -> {
-            addSAScene();
-        });
-        this.addE.setOnAction(actionEvent -> {
-            addEScene();
-        });
-        this.addFIB.setOnAction(actionEvent -> {
-            addFIBScene();
-        });
-
+        refresh();
+      
 
     }
 
@@ -664,6 +626,7 @@ public class TestMakerController implements ControlSwitchScreen {
         keyPrintWriter.close();
 
         engine.reload(); //  reload html
+        
     }
 
     //goes to main screeen

@@ -47,7 +47,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private Button add,addAnswerGraphic,addQuestionGraphicButton,qG;
+    private Button add;
     @FXML
     private VBox mcQuestionBox;
     @FXML
@@ -122,21 +122,7 @@ public class MultiChoiceQController implements ControlDialogBoxes {
             }
         });
         
-        //controls add graphic button
-        this.qG.setOnAction(actionEvent -> {
-            System.out.print("Add graphic button pushed");
-             try {
-                copyandFile();
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                getG(ag,gL);
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        });
+       
                 
     }
 

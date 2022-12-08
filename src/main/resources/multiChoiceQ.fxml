@@ -19,7 +19,6 @@
          <Button fx:id="add" layoutX="555.0" layoutY="453.0" mnemonicParsing="false" text="Add" />
          <TextField fx:id="questionContent" layoutX="66.0" layoutY="30.0" prefHeight="26.0" prefWidth="529.0" />
          <Label layoutX="7.0" layoutY="34.0" text="Question:" AnchorPane.leftAnchor="7.0" />
-         <Button fx:id="qG" layoutX="66.0" layoutY="56.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
          <Label layoutX="174.0" layoutY="61.0" prefHeight="18.0" prefWidth="142.0" /> 
          <Label layoutX="15.0" layoutY="240.0" text="Answer:" AnchorPane.leftAnchor="7.0" />
          <TextField fx:id="answerTextField" layoutX="66.0" layoutY="236.0" prefHeight="26.0" prefWidth="529.0" />
@@ -40,7 +39,7 @@
          <TextField fx:id="choice3Field" layoutX="66.0" layoutY="161.0" prefHeight="26.0" prefWidth="529.0" />
          <Label layoutX="8.0" layoutY="202.0" text="Choice 4:" AnchorPane.leftAnchor="7.0" />
          <TextField fx:id="choice4Field" layoutX="66.0" layoutY="197.0" prefHeight="26.0" prefWidth="529.0" />
-         <Label fx:id="error" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="314.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" />
+         <Label fx:id="error" alignment="CENTER" layoutX="7.0" layoutY="456.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="314.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" />
             <Label fx:id="gL" layoutX="180.0" layoutY="62.0" prefHeight="18.0" prefWidth="414.0" />
       </children>
    </AnchorPane>

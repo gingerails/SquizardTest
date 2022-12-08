@@ -40,7 +40,7 @@ public class FillinBlankQController implements ControlDialogBoxes {
     private final FxWeaver fxWeaver;
     private Stage stage;
     @FXML
-    private Button add,addGraphicButton;
+    private Button add;
     @FXML
     private TextField referenceSection,questionContent,questionField,referenceMaterial,instructorComment,answerField,gradingInstructions;
     @FXML

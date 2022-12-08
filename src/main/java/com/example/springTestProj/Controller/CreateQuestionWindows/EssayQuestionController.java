@@ -53,7 +53,7 @@ public class EssayQuestionController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private Button add,answerGraphicButton,questionGraphicButton;
+    private Button add;
     @FXML
     private VBox essayQuestionBox;
     @FXML
@@ -125,22 +125,9 @@ public class EssayQuestionController implements ControlDialogBoxes {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            
         });
         
-        //controls add graphic button
-        this.answerGraphicButton.setOnAction(actionEvent -> {
-            try {
-                copyandFile();
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                getG(ag,aG);
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        });
       
     }
     

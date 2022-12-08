@@ -15,10 +15,8 @@
             <Button fx:id="add" layoutX="554.0" layoutY="302.0" mnemonicParsing="false" text="Add" />
             <TextField fx:id="questionContent" layoutX="65.0" layoutY="32.0" prefHeight="26.0" prefWidth="529.0" />
             <Label layoutX="6.0" layoutY="36.0" text="Question:" />
-            <Button fx:id="addQuestionGraphic" layoutX="65.0" layoutY="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
             <Label layoutX="173.0" layoutY="63.0" prefHeight="18.0" prefWidth="142.0" />
             <Label layoutX="14.0" layoutY="93.0" text="Answer:" />
-            <Button fx:id="addAnswerGraphic"  layoutX="65.0" layoutY="115.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
             <Label layoutX="8.0" layoutY="152.0" text="Sections:" />
             <TextField fx:id="referenceSection" layoutX="65.0" layoutY="148.0" prefHeight="26.0" prefWidth="529.0" />
             <Label layoutX="10.0" layoutY="190.0" text="Material:" />

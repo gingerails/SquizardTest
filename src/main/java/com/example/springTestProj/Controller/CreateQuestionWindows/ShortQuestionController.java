@@ -45,7 +45,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private Button add,addAnswerGraphic,addQuestionGraphic;
+    private Button add;
     @FXML
     private TextField questionField,answerField,gradingInstructions,instructorComment,referenceMaterial,questionContent,referenceSection;
     @FXML
@@ -119,19 +119,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
             }
         });
 
-        //controls add graphic button
-        this.addAnswerGraphic.setOnAction(actionEvent -> {
-             try {
-                copyandFile();
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                getG(ag,aL);
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
+       
     }
     
     //checks if attachment file exists

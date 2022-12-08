@@ -40,7 +40,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
     private Stage stage;
 
     @FXML
-    private Button add,addQuestionGraphic,addAnswerGraphic;
+    private Button add;
     @FXML
     private VBox tfQuestionBox;
     @FXML
@@ -111,10 +111,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
             }
         });
 
-        //controls add graphic
-        this.addAnswerGraphic.setOnAction(actionEvent -> {
-            System.out.print("Add graphic button pushed");
-        });
+      
 
     }
 

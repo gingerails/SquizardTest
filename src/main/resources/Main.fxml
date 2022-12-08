@@ -51,11 +51,6 @@
                               <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit Application" />
                           </items>
                       </Menu>
-                      <Menu mnemonicParsing="false" text="Help">
-                          <items>
-                              <MenuItem mnemonicParsing="false" text="Manual" />
-                          </items>
-                      </Menu>
                   </menus>
               </MenuBar>
             <Button fx:id="searchB" layoutX="1096.0" layoutY="36.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="52.0" style="-fx-background-color: #95a87b;" text="Edit" />

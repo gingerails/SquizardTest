@@ -17,7 +17,6 @@
          <Label layoutX="173.0" layoutY="63.0" prefHeight="18.0" prefWidth="142.0" />
          <Label layoutX="14.0" layoutY="79.0" text="Answer:" />
          <TextField fx:id="answerField" layoutX="65.0" layoutY="76.0" prefHeight="26.0" prefWidth="529.0" />
-         <Button fx:id="addAnswerGraphic" layoutX="65.0" layoutY="103.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add Graphic" />
          <Label layoutX="8.0" layoutY="152.0" text="Sections:" />
          <TextField fx:id="referenceSection" layoutX="65.0" layoutY="148.0" prefHeight="26.0" prefWidth="529.0" />
          <Label layoutX="10.0" layoutY="190.0" text="Material:" />
@@ -32,7 +31,7 @@
             </font>
          </Label>
          <Label fx:id="aL" layoutX="179.0" layoutY="107.0" prefHeight="18.0" prefWidth="412.0" />
-         <Label fx:id="error" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="314.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" />
+         <Label fx:id="error" alignment="CENTER" layoutX="3.0" layoutY="305.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="314.0" style="-fx-text-fill: #FF0000;" textAlignment="CENTER" />
       </children>
    </AnchorPane>
 </children>
