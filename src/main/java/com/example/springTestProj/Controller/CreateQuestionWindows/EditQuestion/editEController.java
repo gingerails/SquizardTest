@@ -50,10 +50,11 @@ import java.util.List;
 
 import org.yaml.snakeyaml.util.ArrayUtils;
 
+//manually edits ordering
 @Component
 @FxmlView("/EOrdering.fxml")
 public class editEController implements ControlDialogBoxes {
-
+//initialize variables
     private final UserService userService;
     private final MatchingQService matchingQService;
     private final FxWeaver fxWeaver;
@@ -76,7 +77,6 @@ public class editEController implements ControlDialogBoxes {
     @FXML
     private Button apply;
 
-    //private ObservableList<String> types;
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
@@ -87,6 +87,7 @@ public class editEController implements ControlDialogBoxes {
 
     public String types;
 
+    //constructor
     public editEController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService, EssayQuestionService essayQuestionService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -96,19 +97,25 @@ public class editEController implements ControlDialogBoxes {
         this.essayQuestionService = essayQuestionService;
     }
 
+    //controls btns and setup
     @FXML
     public void initialize() {
 
         //repopulateData();
         initializeListeners();
 
+        //controls reset btn
         this.reset.setOnAction(actionEvent -> {
             types();
             repopulateData();
         });
+        
+        //controls apply btn
         this.apply.setOnAction(actionEvent -> {
             stage.close();
         });
+        
+        //setup window
         repopulateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
@@ -121,6 +128,7 @@ public class editEController implements ControlDialogBoxes {
         this.stage.centerOnScreen();
     }
 
+    //controls drag and drops
     private void initializeListeners() {
         // drag from left to right
         list.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -156,6 +164,7 @@ public class editEController implements ControlDialogBoxes {
         });
     }
 
+    //populates data
     private void repopulateData() {
         try {
             Test currentTest = testService.returnThisTest();

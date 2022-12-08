@@ -42,10 +42,11 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
 
+//controls add from database to test for t/f questions
 @Component
 @FxmlView("/addTF.fxml")
 public class addTFController implements ControlDialogBoxes {
-
+    //initialize variables
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
@@ -66,9 +67,7 @@ public class addTFController implements ControlDialogBoxes {
     private Button apply;
     @FXML
     private Label selection;
-    
 
-    //private ObservableList<String> types;
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
@@ -77,6 +76,7 @@ public class addTFController implements ControlDialogBoxes {
     
     public String types;
 
+    //constructor
     public addTFController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, TrueFalseQService trueFalseQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -85,6 +85,7 @@ public class addTFController implements ControlDialogBoxes {
         this.trueFalseQService = trueFalseQService;
     }
 
+    //controls btns and setup
     @FXML
     public void initialize() {
         //This keeps the selected question from being re-added to the box
@@ -92,15 +93,20 @@ public class addTFController implements ControlDialogBoxes {
         // repopulateData();
         initializeListeners();
         
+        //controls select btn
         this.select.setOnAction(actionEvent -> {
             item=list.getSelectionModel().getSelectedItem();
             selection.setText("ADD: "+item);
             
         });
+        
+        //controls apply btn
         this.apply.setOnAction(actionEvent -> {
             stage.close();
             
         });
+        
+        //window setup
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
@@ -118,7 +124,7 @@ public class addTFController implements ControlDialogBoxes {
     
     }
 
-    
+    //populates data
     private void populateData() {
         //MultiChoiceQService mcService=new MultiChoiceQService();
         List<TrueFalseQuestion> tfQuestions = trueFalseQService.readQuestions();

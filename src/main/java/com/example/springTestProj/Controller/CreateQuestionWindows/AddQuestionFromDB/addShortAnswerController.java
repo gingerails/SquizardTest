@@ -40,10 +40,12 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
 
+//add short answer from db
 @Component
 @FxmlView("/addSA.fxml")
-public class addShortAnswerController implements ControlDialogBoxes {
 
+public class addShortAnswerController implements ControlDialogBoxes {
+    //initializes variables
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
@@ -64,9 +66,7 @@ public class addShortAnswerController implements ControlDialogBoxes {
     private Button apply;
     @FXML
     private Label selection;
-    
 
-    //private ObservableList<String> types;
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
@@ -75,6 +75,7 @@ public class addShortAnswerController implements ControlDialogBoxes {
     
     public String types;
 
+    //constructor
     public addShortAnswerController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MultiChoiceQService multiChoiceQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -83,6 +84,7 @@ public class addShortAnswerController implements ControlDialogBoxes {
         this.multiChoiceQService = multiChoiceQService;
     }
 
+    //controls btns and setup
     @FXML
     public void initialize() {
        //This keeps the selected question from being re-added to the box
@@ -90,15 +92,20 @@ public class addShortAnswerController implements ControlDialogBoxes {
        // repopulateData();
         initializeListeners();
         
+        //controls select btn
         this.select.setOnAction(actionEvent -> {
             item=list.getSelectionModel().getSelectedItem();
             selection.setText("ADD: "+item);
             
         });
+        
+        //controls apply btn
         this.apply.setOnAction(actionEvent -> {
             stage.close();
             
         });
+        
+        //window setup
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
@@ -116,7 +123,7 @@ public class addShortAnswerController implements ControlDialogBoxes {
     
     }
 
-    
+    //populates data
     private void populateData() {
         //MultiChoiceQService mcService=new MultiChoiceQService();
         List<ShortAnswerQuestion> saQuestions = shortAnswerQService.readQuestions();

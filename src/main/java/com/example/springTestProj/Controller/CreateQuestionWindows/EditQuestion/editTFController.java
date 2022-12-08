@@ -47,6 +47,9 @@ import java.awt.image.ColorModel;
 import java.util.Arrays;
 import java.util.List;
 
+//SAME functions and functionality as editEController
+//look at other file for functionalit and comments for functions
+
 @Component
 @FxmlView("/TFOrdering.fxml")
 public class editTFController implements ControlDialogBoxes {

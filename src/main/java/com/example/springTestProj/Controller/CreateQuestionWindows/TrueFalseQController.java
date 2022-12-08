@@ -26,10 +26,11 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+//This class controls the true/false question screen and adds it to db
 @Component
 @FxmlView("/trueFalseQ.fxml")
 public class TrueFalseQController implements ControlDialogBoxes {
-
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final TrueFalseQService trueFalseQService;
@@ -43,27 +44,13 @@ public class TrueFalseQController implements ControlDialogBoxes {
     @FXML
     private VBox tfQuestionBox;
     @FXML
-    private Button addQuestionGraphic;
+    private TextField referenceSection,gradingInstructions,questionContent,referenceMaterial,instructorComment;
     @FXML
-    private Button addAnswerGraphic;
-    @FXML
-    private TextField referenceSection;
-    @FXML
-    private TextField questionContent;
-    @FXML
-    private TextField referenceMaterial;
-    @FXML
-    private TextField instructorComment;
-    @FXML
-    private TextField gradingInstructions;
-    @FXML
-    private CheckBox isTrueCheckBox;
-    @FXML
-    private CheckBox isFalseCheckBox;
+    private CheckBox isTrueCheckBox,isFalseCheckBox;
     @FXML
     private Label error;
 
-     public static String path = "src\\main\\resources\\";
+    public static String path = "src\\main\\resources\\";
     public static String pathTo = "";
     public TrueFalseQController(UserService userService, FxWeaver fxWeaver, TrueFalseQService trueFalseQService, QuestionHTMLHelper questionHTMLHelper, TestService testService, TestMakerController testMakerController) {
         this.fxWeaver = fxWeaver;
@@ -74,6 +61,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
         this.testMakerController = testMakerController;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize () {
          String cSection="";
@@ -105,19 +93,15 @@ public class TrueFalseQController implements ControlDialogBoxes {
 			e.printStackTrace();
 		}
 	
-                
-                //Files.deleteIfExists(Paths.get("temp.txt"));
-        System.out.println(cClass+" "+cSection);
         
         pathTo = path+cClass+"\\" +cSection+"\\";
-        
-        
-        
-        
-        
+
+        //setup window
         this.stage = new Stage();
         stage.setTitle("Add T/F Question");
         stage.setScene(new Scene(tfQuestionBox));
+        
+        //controls add button
         this.add.setOnAction(actionEvent -> {
             System.out.print("Add question button pressed");
             try {
@@ -127,19 +111,18 @@ public class TrueFalseQController implements ControlDialogBoxes {
             }
         });
 
-        this.addAnswerGraphic.setOnAction(actionEvent -> {
-            System.out.print("Add graphic button pushed");
-        });
+      
 
     }
 
+    //shows and centers window
     @Override
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
     }
 
-
+   // create question adn puts in HTML files. it grabs all textfield data to put in HTML
     public void createQuestion() throws IOException {
 
         System.out.println("Add PRSSEDDDD");
@@ -150,7 +133,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
            checkFieldsAndAddQuestion(trueFalseQuestion);
            Test currentTest = getCurrentTestSectionInfo();
            String testFile = currentTest.getTestName();
-           addHTML(path + testFile, path + "KEY_" + testFile);
+           addHTML(pathTo + testFile, pathTo + "KEY_" + testFile);
 
            testMakerController.refresh();
            stage.close();
@@ -167,11 +150,12 @@ public class TrueFalseQController implements ControlDialogBoxes {
            stage.close();
        }
        else{
-           System.out.println("No button sELKECTEDDDD");
+
            error.setText("Error: Must select true or false!");
        }
     }
 
+    //grabs field items and adds to database
     public void checkFieldsAndAddQuestion(TrueFalseQuestion trueFalseQuestion){
 
         if(!referenceMaterial.getText().isBlank()){
@@ -208,7 +192,7 @@ public class TrueFalseQController implements ControlDialogBoxes {
         return currentTest;
     }
 
-
+    //refreshes html
     public void addHTML(String file, String keyFile) throws IOException {
         questionHTMLHelper.updateSections(file, keyFile);
     }

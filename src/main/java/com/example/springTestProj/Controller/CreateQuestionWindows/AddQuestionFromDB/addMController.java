@@ -42,10 +42,11 @@ import org.springframework.stereotype.Component;
 import java.awt.image.ColorModel;
 import java.util.List;
 
+//adds maching from db to test
 @Component
 @FxmlView("/addM.fxml")
 public class addMController implements ControlDialogBoxes {
-
+    //variable setup
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
@@ -66,9 +67,7 @@ public class addMController implements ControlDialogBoxes {
     private Button apply;
     @FXML
     private Label selection;
-    
-
-    //private ObservableList<String> types;
+ 
     private static final ObservableList<String> leftList = FXCollections
             .observableArrayList();
 
@@ -76,7 +75,8 @@ public class addMController implements ControlDialogBoxes {
     public String path = "src\\main\\resources\\";
     
     public String types;
-
+    
+    //contrsuctor
     public addMController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, TestService testService, MatchingQService matchingQService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -85,21 +85,27 @@ public class addMController implements ControlDialogBoxes {
         this.matchingQService = matchingQService;
     }
 
+    //controls btns and setup
     public void initialize() {
        //This keeps the selected question from being re-added to the box
         leftList.clear();
         // repopulateData();
         initializeListeners();
         
+        //controls select btn
         this.select.setOnAction(actionEvent -> {
             item=list.getSelectionModel().getSelectedItem();
             selection.setText("ADD: "+item);
             
         });
+        
+        //controls apply btn
         this.apply.setOnAction(actionEvent -> {
             stage.close();
             
         });
+        
+        //window setup
         populateData();
         this.stage = new Stage();
         stage.setTitle("Question Ordering");
@@ -117,7 +123,7 @@ public class addMController implements ControlDialogBoxes {
     
     }
 
-    
+    //populates data
     private void populateData() {
         List<MatchingQuestion> mQuestions = matchingQService.readQuestions();
         for(MatchingQuestion q : mQuestions){

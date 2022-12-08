@@ -18,51 +18,35 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+//This class controls the login screen and lets user create tests after user is verified
 @Component
 @FxmlView("/login.fxml")
 public class LoginController implements ControlSwitchScreen {
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private Stage stage;
-
     @FXML
-    public Label error;
-   
-    @FXML
-    public Label label;
-
+    public Label error,label,confirm;
     @FXML
     public Button button;
-
     @FXML
-    public TextField usrField;
-
-    @FXML
-    public TextField passField;
-
-    @FXML
-    public Label confirm;
-
+    public TextField usrField,passField;
     @FXML
     public Hyperlink createAccountLink;
-
     @FXML
-    VBox loginVbox;  // fx:id !!!!!
+    VBox loginVbox; 
 
-    public LoginController(UserService userService,
-                           FxWeaver fxWeaver) {//
+    //contructor
+    public LoginController(UserService userService,FxWeaver fxWeaver) {
         this.userService = userService;
-        this.fxWeaver = fxWeaver;
-        System.out.println("**********");
-        System.out.println("Login Controller");
+        this.fxWeaver = fxWeaver;    
     }
 
-    /**
-     * initialize
-     * automatically called
-     */
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize () {
+        //controls the create account link
         this.createAccountLink.setOnAction(actionEvent -> {
             // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
             Stage currentStage = getCurrentStage();
@@ -70,13 +54,13 @@ public class LoginController implements ControlSwitchScreen {
                     fxWeaver.load(CreateAccountController.class);
             createAccountControllerAndView.getController().show(getCurrentStage());
         });
-
+        //controls the login button and loads test maker
         this.button.setOnAction(actionEvent -> {
-            System.out.print("Login button pressed");
             verify();
         });
     }
 
+     //gets the current stage
     @Override
     public Stage getCurrentStage() {
         Node node = button.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
@@ -84,6 +68,7 @@ public class LoginController implements ControlSwitchScreen {
         return currentStage;
     }
 
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         this.stage = thisStage;
@@ -92,16 +77,12 @@ public class LoginController implements ControlSwitchScreen {
         stage.show();
     }
 
-
-    /**
-     *
-     * verify user exists. if so, switch scene to main menu.
-     * probably need to put the scene switching stuff in its own method for the sake of SRP?
-     */
+    //function to verify user with db and display errors if field requirements are not met
     public void verify() {
-        System.out.println("Verifying User...");
+        //get data from fields
         String username = usrField.getText();
         String password = passField.getText();
+        //checks if fields are not null and login  
         if(userService.returnUser(username, password) != null) //needs to talk to database and veify the username and passwords
         {
             System.out.println("Found User!");
@@ -112,12 +93,11 @@ public class LoginController implements ControlSwitchScreen {
                   fxWeaver.load(MainController.class);
             mainMenuControllerAndView.getController().show(currentStage);
         }
+        //if fields are null print errors
         else{
             System.out.println("Error: UserName/Password is incorrect! Try Again!");
             
             error.setText("Error: UserName/Password is incorrect! Try Again!");
-       
-
     }
     }
 

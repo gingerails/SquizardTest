@@ -31,10 +31,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 
+//This class controls the short answer question screen and adds it to db
 @Component
 @FxmlView("/shortAnswerQ.fxml")
 public class ShortQuestionController implements ControlDialogBoxes {
-
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final UserService userService;
     private final FxWeaver fxWeaver;
     private final ShortAnswerQService shortAnswerQService;
@@ -46,25 +47,9 @@ public class ShortQuestionController implements ControlDialogBoxes {
     @FXML
     private Button add;
     @FXML
-    private TextField questionField;
+    private TextField questionField,answerField,gradingInstructions,instructorComment,referenceMaterial,questionContent,referenceSection;
     @FXML
     private VBox shortQuestionBox;
-    @FXML
-    private Button addAnswerGraphic;
-    @FXML
-    private Button addQuestionGraphic;
-    @FXML
-    private TextField referenceSection;
-    @FXML
-    private TextField questionContent;
-    @FXML
-    private TextField referenceMaterial;
-    @FXML
-    private TextField instructorComment;
-    @FXML
-    private TextField gradingInstructions;
-    @FXML
-    private TextField answerField;
     @FXML
     private Label error,aL;
 
@@ -74,6 +59,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
     public File qg=null;
     String cSection="";
     String cClass="";
+    
+    //constructor
     public ShortQuestionController(UserService userService, FxWeaver fxWeaver, ShortAnswerQService shortAnswerQService, QuestionHTMLHelper questionHTMLHelper, TestMakerController testMakerController, TestService testService) {
         this.fxWeaver = fxWeaver;
         this.userService = userService;
@@ -83,6 +70,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
         this.testService = testService;
     }
 
+    //initialize is automatically called and this is where we store button action events
     @FXML
     public void initialize() {
          String cSection="";
@@ -114,21 +102,16 @@ public class ShortQuestionController implements ControlDialogBoxes {
 			e.printStackTrace();
 		}
 	
-                
-                //Files.deleteIfExists(Paths.get("temp.txt"));
-        System.out.println(cClass+" "+cSection);
-        
+                      
         pathTo = path+cClass+"\\" +cSection+"\\";
         
-        
-
-        
+        //setup window
         this.stage = new Stage();
         stage.setTitle("Add Short Answer Question");
         stage.setScene(new Scene(shortQuestionBox));
+        
+        //controls add button
         this.add.setOnAction(actionEvent -> {
-            System.out.print("Add question button pressed");
-            //stage.close();
             try {
                 createQuestion();
             } catch (IOException e) {
@@ -136,20 +119,10 @@ public class ShortQuestionController implements ControlDialogBoxes {
             }
         });
 
-        this.addAnswerGraphic.setOnAction(actionEvent -> {
-            System.out.print("Add graphic button pushed");
-             try {
-                copyandFile();
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                getG(ag,aL);
-            } catch (IOException ex) {
-                Logger.getLogger(EssayQuestionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
+       
     }
+    
+    //checks if attachment file exists
     public void checkAttachmentFile()
    {
        Path pathA=Paths.get(path +"\\" +cClass + "\\" + cSection+"\\"+testService.returnThisTest());
@@ -163,6 +136,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
        }
 
    }
+    
+   //get files with popup file selection window
    public File getFiles()
    {
        FileChooser file = new FileChooser();  
@@ -174,6 +149,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
         return file1;
        
    }
+   
+   //copy contents  of section and course to temp file
    public void copyandFile() throws FileNotFoundException, IOException
    {
       
@@ -203,11 +180,10 @@ public class ShortQuestionController implements ControlDialogBoxes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-       //String src = getFiles().toString();
-       //String dest = path +"\\" +cClass + "\\" + cSection;
       
    }
+   
+   //checks duplication on attachment files
    public void getG(File ga, Label l) throws IOException
    {
       ga=getFiles();
@@ -229,6 +205,8 @@ public class ShortQuestionController implements ControlDialogBoxes {
            Files.copy(src,dest);
        }
    }
+   
+    // create question adn puts in HTML files. it grabs all textfield data to put in HTML
     public void createQuestion() throws IOException {
         // gets the current stage, sets the scene w the create account control/view (fxweaver), then updates stage w that scene
         System.out.println("Add PRSSEDDDD");
@@ -248,6 +226,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
         }
     }
 
+    //grabs field items and adds to database
     public void checkFieldsAndAddQuestion(ShortAnswerQuestion shortAnswerQuestion) {
 
         if (!referenceMaterial.getText().isBlank()) {
@@ -273,6 +252,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
 
     }
 
+    //refreshes html
     public void addHTML(String file, String keyFile) throws IOException {
         questionHTMLHelper.updateSections(file, keyFile);
     }
@@ -288,6 +268,7 @@ public class ShortQuestionController implements ControlDialogBoxes {
         return currentTest;
     }
 
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         stage.show();

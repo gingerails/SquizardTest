@@ -36,21 +36,17 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 
-
+//This class controls the add course screen and adds courses to db
 @Component
 @FxmlView("/addCourse.fxml")
 public class AddCourseController implements ControlSwitchScreen {
+    //initializing Services, FX Weaver, and all interactive GUI items
     private final CourseService courseService;
     private final SectionService sectionService;
-    
     private final MainController mainController;
-
-    // for testing. delete later
     private final FeedbackService feedbackService;
     private final FxWeaver fxWeaver;
     private Stage stage;
-
-
 
     @FXML
     TextField courseNum;
@@ -58,53 +54,55 @@ public class AddCourseController implements ControlSwitchScreen {
     TextField courseSection;
     @FXML
     Label error;
-
     @FXML
     Button add;
-    
     @FXML
-    VBox addCourseVbox;  // fx:id !!!!!
+    VBox addCourseVbox;
 
-    public AddCourseController(CourseService courseService, SectionService sectionService, FeedbackService feedbackService, MainController mainController, FxWeaver fxWeaver)
-    {
+    //constructer
+    public AddCourseController(CourseService courseService, SectionService sectionService, FeedbackService feedbackService, MainController mainController, FxWeaver fxWeaver) {
         this.courseService = courseService;//
         this.sectionService = sectionService;
         this.feedbackService = feedbackService;
         this.mainController = mainController;
         this.fxWeaver = fxWeaver;
-        
-        
-    }
 
-    /**
-     * initialize
-     * automatically called
-     */
+    }
+    
+    //initialize is automatically called and this is where we store button action events
     @FXML
-    public void initialize () {
+    public void initialize() {
+        //initialize add course screen
         this.stage = new Stage();
         stage.setTitle("Add Course/Section");
         stage.setScene(new Scene(addCourseVbox));
 
+        //add Button
         this.add.setOnAction(actionEvent -> {
-            System.out.println("Course add button pressed");
-            if(courseNum.getText().isBlank()){
-                System.out.println("Error: Course left blank");
+            
+            //check if course number is blank error if blank
+            if (courseNum.getText().isBlank()) {
                 error.setText("Error: Course left blank");
+                
+            //check if course section is blank error if blank
             } else if (courseSection.getText().isBlank()) {
                 String courseNumText = courseNum.getText();
                 String course = courseNum.getText();
-                //  if(courseService.existsByCourseNum(courseNumText)
-                if (courseService.existsByCourseNum(String.valueOf(course))) // check if updating existing course
+               
+                // check if updating existing course
+                if (courseService.existsByCourseNum(String.valueOf(course))) 
                 {
-                    error.setText("Error: Duplicated Course!");  
+                    error.setText("Error: Duplicated Course!");
                 } else {
                     createCourse(courseNumText);
                     mainController.initialize();
                     stage.close();
                 }
+                
             } else {
                 createCourseAndSection();
+                
+                //call main
                 mainController.initialize();
                 stage.close();
             }
@@ -113,42 +111,45 @@ public class AddCourseController implements ControlSwitchScreen {
 
     }
 
+    //gets the current stage
     @Override
     public Stage getCurrentStage() {
-        Node node = add.getParent(); // cant set this in init bc it could cause a null pointer :-\ probably needs its own method
+        Node node = add.getParent(); 
         Stage currentStage = (Stage) node.getScene().getWindow();
         return currentStage;
     }
 
+    //shows stage and center window on screen
     @Override
     public void show(Stage thisStage) {
         stage.show();
         this.stage.centerOnScreen();
     }
 
-    public void createCourse(String courseNum){
+    //create and save course to database
+    public void createCourse(String courseNum) {
         Courses newCourse = courseService.createCourse(String.valueOf(courseNum));
         courseService.saveCourseToRepository(newCourse);
-
     }
-   
-    public void createCourseAndSection(){
-         String course = courseNum.getText();
-         String section = courseSection.getText();
-         String[] sectionsList = section.split(",");
+
+    //creates the course and section and adds to db and checks if they are already made
+    public void createCourseAndSection() {
+        String course = courseNum.getText();
+        String section = courseSection.getText();
+        String[] sectionsList = section.split(",");
         ArrayList<String> sectionsArrayList = new ArrayList<>(
                 Arrays.asList(sectionsList));
-        if(courseService.existsByCourseNum(String.valueOf(course))) // check if updating existing course
+        if (courseService.existsByCourseNum(String.valueOf(course))) // check if updating existing course
         {
-          updateExistingCourse(course, sectionsArrayList);
+            updateExistingCourse(course, sectionsArrayList);
         } // ********** Course does not exist in repository ******************
-        else{       // otherwise, we are creating an entirely new course with sections
+        else {       // otherwise, we are creating an entirely new course with sections
             Courses newCourse = courseService.createCourse(course); // returns new course w rand uuid
-            for (String s:sectionsList) {
-                if(sectionService.existsByCourseSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(), s)){         // checks for sections here just incase user adds a duplicate entry
+            for (String s : sectionsList) {
+                if (sectionService.existsByCourseSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(), s)) {         // checks for sections here just incase user adds a duplicate entry
                     System.out.println("Error: Section already exists. Did not add duplicate section.");
-                }else{
-                    Section newSection = sectionService.createNewSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(),s);
+                } else {
+                    Section newSection = sectionService.createNewSection(newCourse.getCoursesPrimaryKey().getCoursesUUID(), s);
                     sectionService.saveSectionToRepository(newSection);
                 }
             }
@@ -164,19 +165,19 @@ public class AddCourseController implements ControlSwitchScreen {
         }
 
     }
-
-    public void updateExistingCourse(String course, ArrayList<String> sectionsList){
+    //function to add sectiona to an already made course
+    public void updateExistingCourse(String course, ArrayList<String> sectionsList) {
         Courses existingCourse = courseService.returnCourseByCourseNum(course);
         String courseUUID = existingCourse.getCoursesPrimaryKey().getCoursesUUID();                // get existing course's id
-      //  ArrayList<String> addedSectionsList = new ArrayList<String>(); // after each section is added to the repo, save it here. This will be added to the 'sections' column of the course table entry
-        for (String s:sectionsList) {
-            if(sectionService.existsByCourseSection(courseUUID,s)){         // for each section in list, check if that course id + section exists
+        
+        for (String s : sectionsList) {
+            if (sectionService.existsByCourseSection(courseUUID, s)) {         // for each section in list, check if that course id + section exists
                 System.out.println("Error: Section already exists. Did not add duplicate section.");
-             //   addedSectionsList.add(s);
-            }else{
-                Section newSection = sectionService.createNewSection(courseUUID,s);     // if that courseID + section combo doesnt exits, make it
+                
+            } else {
+                Section newSection = sectionService.createNewSection(courseUUID, s);     // if that courseID + section combo doesnt exits, make it
                 sectionService.saveSectionToRepository(newSection);
-              //  addedSectionsList.add(s);
+                
             }
         }
         // now sections repo has all the new sections, we just need to update the stored course repo.
@@ -185,11 +186,9 @@ public class AddCourseController implements ControlSwitchScreen {
         courseService.addSectionsToExistingCourseAndSave(existingCourse);
     }
 
-    public void addSection(){
+    public void addSection() {
         String course = courseNum.getText();
         String section = courseSection.getText();
     }
-
-   
 
 }
